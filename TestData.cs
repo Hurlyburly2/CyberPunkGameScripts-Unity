@@ -9,7 +9,7 @@ public class TestData : MonoBehaviour
         // Full Health, Full Energy
 
         CharacterData newCharacter = ScriptableObject.CreateInstance<CharacterData>();
-        newCharacter.SetupCharacter("FullHealth/Energy", 100, 100);
+        newCharacter.SetupCharacter("FullHealth/Energy", 100, 100, 50, 50, 3);
 
         return newCharacter;
     }

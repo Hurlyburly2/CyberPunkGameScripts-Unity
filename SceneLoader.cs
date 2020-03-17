@@ -5,9 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    // State
     int currentScene;
+    BattleData currentBattle;
 
+    // config
     [SerializeField] BattleData battleData;
+
+    // Scene names
+    [SerializeField] string battleSceneName = "Battle";
 
     private void Awake()
     {
@@ -27,10 +33,22 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadBattle(CharacterData character)
     {
-        BattleData currentBattle = Instantiate(battleData);
+        currentBattle = Instantiate(battleData);
         currentBattle.SetCharacterData(character);
         currentBattle.GetCharacter().LogCharacterData();
-        SceneManager.LoadScene("Battle");
+
+        SceneManager.LoadScene(battleSceneName);
+
+        StartCoroutine(WaitForSceneLoad(battleSceneName));
+    }
+
+    private IEnumerator WaitForSceneLoad(string sceneName)
+    {
+        while (SceneManager.GetActiveScene().name != battleSceneName)
+        {
+            yield return null;
+        }
+        currentBattle.SetUpBattle();
     }
 
     public void LoadBattleTestOne()

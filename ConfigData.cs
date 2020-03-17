@@ -15,6 +15,17 @@ public class ConfigData : MonoBehaviour
     float cardSizeMultiplier = 1;
     float cardWidth;
 
+    // Health/Energy Zone Config
+    [SerializeField] int totalHealthPips = 28;
+    [SerializeField] int totalEnergyPips = 28;
+    [SerializeField] float distanceBetweenPips = 18f;
+    [SerializeField] float healthPipStartX = -308f;
+    [SerializeField] float healthPipStartY = 25.4f;
+    [SerializeField] string healthPipManagerName = "HealthPipManager";
+    [SerializeField] string energyPipManagerName = "EnergyPipManager";
+    PipManager healthPipManager;
+    PipManager energyPipManager;
+
     // Cards are played when dragged above this y axis
     float cardPlayLine;
 
@@ -23,6 +34,8 @@ public class ConfigData : MonoBehaviour
     [SerializeField] float handAdjustSpeed = 5f;
     [SerializeField] float maxCardInHandAngle = 20f;
     [SerializeField] float curvedHandMaxVerticalOffset = .75f;
+    [SerializeField] string healthTextFieldName = "HealthText";
+    [SerializeField] string energyTextFieldName = "EnergyText";
 
     AllCards allCards;
 
@@ -55,6 +68,25 @@ public class ConfigData : MonoBehaviour
             handStartPos = Camera.main.transform.position.x - halfWidth * .55f;
             handEndPos = Camera.main.transform.position.x + halfWidth * .55f;
         }
+    }
+
+    public void SetupPipManagers(CharacterData character)
+    {
+        PipManager[] pipManagers = FindObjectsOfType<PipManager>();
+
+        foreach (PipManager pipManager in pipManagers)
+        {
+            if (pipManager.name == healthPipManagerName)
+            {
+                healthPipManager = pipManager;
+            } else if (pipManager.name == energyPipManagerName)
+            {
+                energyPipManager = pipManager;
+            }
+        }
+
+        healthPipManager.Setup(this, character);
+        energyPipManager.Setup(this, character);
     }
 
     public float GetCardWidth()
@@ -115,5 +147,40 @@ public class ConfigData : MonoBehaviour
     public float GetCardPlayedLine()
     {
         return cardPlayLine;
+    }
+
+    public GameObject GetHealthTextField()
+    {
+        return GameObject.Find(healthTextFieldName);
+    }
+
+    public GameObject GetEnergyTextField()
+    {
+        return GameObject.Find(energyTextFieldName);
+    }
+
+    public int GetTotalHealthPips()
+    {
+        return totalHealthPips;
+    }
+
+    public int GetTotalEnergyPips()
+    {
+        return totalEnergyPips;
+    }
+
+    public float GetDistanceBetweenPips()
+    {
+        return distanceBetweenPips;
+    }
+
+    public float GetHealthPipStartX()
+    {
+        return healthPipStartX;
+    }
+
+    public float GetHealthPipStartY()
+    {
+        return healthPipStartY;
     }
 }
