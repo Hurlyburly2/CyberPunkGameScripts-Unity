@@ -16,11 +16,8 @@ public class ConfigData : MonoBehaviour
     float cardWidth;
 
     // Health/Energy Zone Config
-    [SerializeField] int totalHealthPips = 28;
-    [SerializeField] int totalEnergyPips = 28;
+    [SerializeField] int maximumNumberOfPips = 28;
     [SerializeField] float distanceBetweenPips = 18f;
-    [SerializeField] float healthPipStartX = -308f;
-    [SerializeField] float healthPipStartY = 25.4f;
     [SerializeField] string healthPipManagerName = "HealthPipManager";
     [SerializeField] string energyPipManagerName = "EnergyPipManager";
     PipManager healthPipManager;
@@ -85,8 +82,8 @@ public class ConfigData : MonoBehaviour
             }
         }
 
-        healthPipManager.Setup(this, character);
-        energyPipManager.Setup(this, character);
+        healthPipManager.Setup(this, character.GetMaximumHealth(), character.GetCurrentHealth());
+        energyPipManager.Setup(this, character.GetMaximumEnergy(), character.GetCurrentEnergy());
     }
 
     public float GetCardWidth()
@@ -159,28 +156,13 @@ public class ConfigData : MonoBehaviour
         return GameObject.Find(energyTextFieldName);
     }
 
-    public int GetTotalHealthPips()
-    {
-        return totalHealthPips;
-    }
-
-    public int GetTotalEnergyPips()
-    {
-        return totalEnergyPips;
-    }
-
     public float GetDistanceBetweenPips()
     {
         return distanceBetweenPips;
     }
 
-    public float GetHealthPipStartX()
+    public int GetMaximumNumberOfPips()
     {
-        return healthPipStartX;
-    }
-
-    public float GetHealthPipStartY()
-    {
-        return healthPipStartY;
+        return maximumNumberOfPips;
     }
 }

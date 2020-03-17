@@ -88,6 +88,16 @@ public class CharacterData : ScriptableObject
         return currentHealth;
     }
 
+    public int GetMaximumEnergy()
+    {
+        return maximumEnergy;
+    }
+
+    public int GetCurrentEnergy()
+    {
+        return currentEnergy;
+    }
+
     public int GetStartingHandSize()
     {
         return startingHandSize;

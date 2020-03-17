@@ -8,35 +8,35 @@ public class PipManager : MonoBehaviour
     List<GameObject> pipList = new List<GameObject>();
 
     ConfigData configData;
-    float pipStartX;
-    float pipStartY;
     float distanceBetweenPips;
+
+    int maximumNumberOfPips;
+    int currentNumberOfPips;
+
+    int maximumValue;
+    int currentValue;
 
     float pipValue;
 
-    CharacterData character;
-
-    public void Setup(ConfigData newConfigData, CharacterData newCharacter)
+    public void Setup(ConfigData newConfigData, int newMaximumValue, int newCurrentValue)
     {
         configData = newConfigData;
-        pipStartX = configData.GetHealthPipStartX();
-        pipStartY = configData.GetHealthPipStartY();
+        maximumValue = newMaximumValue;
+        currentValue = newCurrentValue;
+        maximumNumberOfPips = configData.GetMaximumNumberOfPips();
         distanceBetweenPips = configData.GetDistanceBetweenPips();
 
-        character = newCharacter;
         float setupTimeInSeconds = FindObjectOfType<BattleData>().GetSetupTimeInSeconds();
         StartCoroutine(SetupPips(setupTimeInSeconds));
     }
 
     private IEnumerator SetupPips(float setupTimeInSeconds)
     {
-        pipValue = (float)character.GetMaximumHealth() / configData.GetTotalHealthPips();
-        int numberOfPips = Mathf.CeilToInt(character.GetMaximumHealth() / pipValue);
-        float timePerPip = setupTimeInSeconds / numberOfPips;
-        float distanceBetweenPip = configData.GetDistanceBetweenPips();
+        pipValue = (float)maximumValue / maximumNumberOfPips;
+        int currentNumberOfPips = Mathf.CeilToInt(currentValue / pipValue);
+        float timePerPip = setupTimeInSeconds / currentNumberOfPips;
 
         yield return new WaitForSeconds(2);
-        Debug.Log("test");
         Vector2 pipLocation = new Vector2(transform.position.x, transform.position.y);
         GameObject newPip = Instantiate(pip, pipLocation, Quaternion.identity);
         newPip.transform.parent = gameObject.transform;
