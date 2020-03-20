@@ -23,22 +23,57 @@ public class PipManager : MonoBehaviour
         configData = newConfigData;
         maximumValue = newMaximumValue;
         currentValue = newCurrentValue;
+
         maximumNumberOfPips = configData.GetMaximumNumberOfPips();
         distanceBetweenPips = configData.GetDistanceBetweenPips();
 
+        pipValue = (float)maximumValue / maximumNumberOfPips;
+
         float setupTimeInSeconds = FindObjectOfType<BattleData>().GetSetupTimeInSeconds();
-        StartCoroutine(SetupPips(setupTimeInSeconds));
+        StartCoroutine(ChangeNumberOfPips(setupTimeInSeconds));
     }
 
-    private IEnumerator SetupPips(float setupTimeInSeconds)
+    private IEnumerator ChangeNumberOfPips(float transitionTime)
     {
-        pipValue = (float)maximumValue / maximumNumberOfPips;
-        int currentNumberOfPips = Mathf.CeilToInt(currentValue / pipValue);
-        float timePerPip = setupTimeInSeconds / currentNumberOfPips;
+        int targetNumberOfPips = Mathf.CeilToInt(currentValue / pipValue);
 
-        yield return new WaitForSeconds(2);
-        Vector2 pipLocation = new Vector2(transform.position.x, transform.position.y);
-        GameObject newPip = Instantiate(pip, pipLocation, Quaternion.identity);
-        newPip.transform.parent = gameObject.transform;
+        float timePerPip = transitionTime / targetNumberOfPips;
+        while (pipList.Count != targetNumberOfPips)
+        {
+            Debug.Log("PipList.Count: " + pipList.Count + ", Current Number of Pips: " + targetNumberOfPips);
+            if (pipList.Count > targetNumberOfPips)
+            {
+                RemovePip();
+            } else
+            {
+                AddPip();
+            }
+            yield return new WaitForSeconds(timePerPip);
+        }
+    }
+
+    private void RemovePip()
+    {
+        GameObject previousLastPip = pipList[pipList.Count - 1];
+        Destroy(previousLastPip);
+    }
+
+    private void AddPip()
+    {
+        Vector2 pipLocation;
+        if (pipList.Count > 0)
+        {
+            Debug.Log("Greater Than Zero");
+            GameObject previousLastPip = pipList[pipList.Count - 1];
+
+            pipLocation = new Vector2(previousLastPip.transform.position.x + distanceBetweenPips, transform.position.y);
+        } else
+        {
+            Debug.Log("Less than Zero");
+            pipLocation = new Vector2(transform.position.x, transform.position.y);
+        }
+        GameObject newLastPip = Instantiate(pip, pipLocation, Quaternion.identity);
+        newLastPip.transform.parent = gameObject.transform;
+        pipList.Add(newLastPip);
     }
 }

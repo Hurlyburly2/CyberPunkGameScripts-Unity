@@ -7,6 +7,9 @@ public class CharacterData : ScriptableObject
 {
     // character info
     string characterName;
+    int characterId;
+        // 1 = First fighter
+        // 2 = First h@cker
     int maximumHealth;
     int currentHealth;
     int maximumEnergy;
@@ -34,9 +37,10 @@ public class CharacterData : ScriptableObject
     }
 
     // Setup Character for Test
-    public void SetupCharacter(string newName, int newMaxHealth, int newCurrentHealth, int newMaxEnergy, int newCurrentEnergy, int newStartingHandSize)
+    public void SetupCharacter(string newName, int newCharacterId, int newMaxHealth, int newCurrentHealth, int newMaxEnergy, int newCurrentEnergy, int newStartingHandSize)
     {
         characterName = newName;
+        characterId = newCharacterId;
 
         maximumHealth = newMaxHealth;
         currentHealth = newCurrentHealth;
@@ -49,6 +53,9 @@ public class CharacterData : ScriptableObject
     public void BattleSetup(float setupTimeInSeconds)
     {
         configData = FindObjectOfType<ConfigData>();
+
+        FindObjectOfType<PlayerPortrait>().SetPortrait(characterId);
+
         configData.SetupPipManagers(this);
         SetupHealthAndEnergyText();
     }
@@ -76,6 +83,11 @@ public class CharacterData : ScriptableObject
     public string GetCharacterName()
     {
         return characterName;
+    }
+
+    public int GetCharacterId()
+    {
+        return characterId;
     }
 
     public int GetMaximumHealth()

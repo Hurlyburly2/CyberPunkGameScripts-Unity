@@ -56,4 +56,10 @@ public class SceneLoader : MonoBehaviour
         CharacterData currentCharacter = TestData.SetTestCharacterOne();
         LoadBattle(currentCharacter);
     }
+
+    public void LoadBattleTestTwo()
+    {
+        CharacterData currentCharacter = TestData.SetTestCharacterTwo();
+        LoadBattle(currentCharacter);
+    }
 }
