@@ -49,8 +49,8 @@ public class ConfigData : MonoBehaviour
 
         halfHeight = Camera.main.orthographicSize;
         halfWidth = Camera.main.aspect * halfHeight;
+
         cardPlayLine = halfHeight + halfHeight / 9;
-        Debug.Log("halfWidth: " + halfWidth);
         cardSizeMultiplier = halfWidth * 0.19f;
         handMiddlePos = halfHeight / 1.48f;
 
