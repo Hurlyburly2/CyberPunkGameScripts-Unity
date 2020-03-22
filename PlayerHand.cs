@@ -11,6 +11,7 @@ public class PlayerHand : MonoBehaviour
     float cardGap = 0;
     [SerializeField] float maxCardGap;
     bool centered = false;
+    BattleData battleData;
 
     // config
     AllCards allCards;
@@ -21,6 +22,7 @@ public class PlayerHand : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        battleData = FindObjectOfType<BattleData>();
         ConfigHand();
     }
 

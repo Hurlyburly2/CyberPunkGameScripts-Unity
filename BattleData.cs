@@ -5,7 +5,7 @@ using UnityEngine;
 public class BattleData : MonoBehaviour
 {
     // config
-    [SerializeField] float setupTimeInSeconds = 5f;
+    [SerializeField] float setupTimeInSeconds = 1f;
     PlayerHand playerHand;
 
     // data
@@ -43,7 +43,6 @@ public class BattleData : MonoBehaviour
 
     public bool AreActionsDisabled()
     {
-        // MAKE THIS ACTUALLY DO SOMETHING
         return actionDisabled;
     }
 
