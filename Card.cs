@@ -5,6 +5,7 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     ConfigData configData;
+    BattleData battleData;
 
     float xPos;
     float yPos;
@@ -28,6 +29,7 @@ public class Card : MonoBehaviour
         xPos = transform.position.x;
         yPos = transform.position.y;
         configData = FindObjectOfType<ConfigData>();
+        battleData = FindObjectOfType<BattleData>();
     }
 
     // Update is called once per frame
@@ -51,22 +53,29 @@ public class Card : MonoBehaviour
 
     private void OnMouseDown()
     {
-        SetState("dragging");
+        if (!battleData.AreActionsDisabled())
+        {
+            SetState("dragging");
+        }
     }
 
     private void OnMouseUp()
     {
-        rotation = rememberRotation;
-        SetSortingOrder(rememberSortingOrder);
-        float mouseY = Input.mousePosition.y / Screen.height * configData.GetHalfHeight() * 2;
-        if (mouseY > configData.GetCardPlayedLine())
+        if (state == "dragging")
         {
-            SetState("played");
-            FindObjectOfType<PlayerHand>().RemoveCard(GetComponent<Card>());
-            Destroy(gameObject);
-        } else
-        {
-            SetState("draw");
+            rotation = rememberRotation;
+            SetSortingOrder(rememberSortingOrder);
+            float mouseY = Input.mousePosition.y / Screen.height * configData.GetHalfHeight() * 2;
+            if (mouseY > configData.GetCardPlayedLine())
+            {
+                SetState("played");
+                FindObjectOfType<PlayerHand>().RemoveCard(GetComponent<Card>());
+                Destroy(gameObject);
+            }
+            else
+            {
+                SetState("draw");
+            }
         }
     }
 

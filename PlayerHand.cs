@@ -11,6 +11,7 @@ public class PlayerHand : MonoBehaviour
     float cardGap = 0;
     [SerializeField] float maxCardGap;
     bool centered = false;
+    BattleData battleData;
 
     // config
     AllCards allCards;
@@ -21,7 +22,24 @@ public class PlayerHand : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        battleData = FindObjectOfType<BattleData>();
         ConfigHand();
+    }
+
+    public void DrawStartingHand(int startingHandSize, float setupTimeInSeconds)
+    {
+        float timePerCardDraw = setupTimeInSeconds / startingHandSize;
+
+        StartCoroutine(DrawStartingHandCoroutine(startingHandSize, timePerCardDraw));
+    }
+
+    private IEnumerator DrawStartingHandCoroutine(int startingHandSize, float timePerCardDraw)
+    {
+        for (int i = 0; i < startingHandSize; i++)
+        {
+            DrawCard();
+            yield return new WaitForSeconds(timePerCardDraw);
+        }
     }
 
     public void DrawCard()

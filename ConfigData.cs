@@ -15,6 +15,15 @@ public class ConfigData : MonoBehaviour
     float cardSizeMultiplier = 1;
     float cardWidth;
 
+    // Health/Energy Zone Config
+    [SerializeField] int maximumNumberOfPips = 28;
+    [SerializeField] float distanceBetweenPips = 18f;
+    [SerializeField] float pipScale;
+    [SerializeField] string healthPipManagerName = "HealthPipManager";
+    [SerializeField] string energyPipManagerName = "EnergyPipManager";
+    PipManager healthPipManager;
+    PipManager energyPipManager;
+
     // Cards are played when dragged above this y axis
     float cardPlayLine;
 
@@ -23,6 +32,8 @@ public class ConfigData : MonoBehaviour
     [SerializeField] float handAdjustSpeed = 5f;
     [SerializeField] float maxCardInHandAngle = 20f;
     [SerializeField] float curvedHandMaxVerticalOffset = .75f;
+    [SerializeField] string healthTextFieldName = "HealthText";
+    [SerializeField] string energyTextFieldName = "EnergyText";
 
     AllCards allCards;
 
@@ -55,6 +66,30 @@ public class ConfigData : MonoBehaviour
             handStartPos = Camera.main.transform.position.x - halfWidth * .55f;
             handEndPos = Camera.main.transform.position.x + halfWidth * .55f;
         }
+    }
+
+    public void SetupPipManagers(CharacterData character)
+    {
+        PipManager[] pipManagers = FindObjectsOfType<PipManager>();
+
+        float maxX = GameObject.Find(healthTextFieldName).transform.position.x;
+        float maxWidth = maxX - pipManagers[0].transform.position.x;
+
+        //maximumNumberOfPips = Mathf.FloorToInt(maxWidth / 20);
+
+        foreach (PipManager pipManager in pipManagers)
+        {
+            if (pipManager.name == healthPipManagerName)
+            {
+                healthPipManager = pipManager;
+            } else if (pipManager.name == energyPipManagerName)
+            {
+                energyPipManager = pipManager;
+            }
+        }
+
+        healthPipManager.Setup(this, character.GetMaximumHealth(), character.GetCurrentHealth());
+        energyPipManager.Setup(this, character.GetMaximumEnergy(), character.GetCurrentEnergy());
     }
 
     public float GetCardWidth()
@@ -115,5 +150,25 @@ public class ConfigData : MonoBehaviour
     public float GetCardPlayedLine()
     {
         return cardPlayLine;
+    }
+
+    public GameObject GetHealthTextField()
+    {
+        return GameObject.Find(healthTextFieldName);
+    }
+
+    public GameObject GetEnergyTextField()
+    {
+        return GameObject.Find(energyTextFieldName);
+    }
+
+    public float GetDistanceBetweenPips()
+    {
+        return distanceBetweenPips;
+    }
+
+    public int GetMaximumNumberOfPips()
+    {
+        return maximumNumberOfPips;
     }
 }
