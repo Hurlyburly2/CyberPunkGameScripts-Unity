@@ -46,6 +46,8 @@ public class Card : MonoBehaviour
             float mouseY = Input.mousePosition.y / Screen.height * configData.GetHalfHeight() * 2;
 
             MoveTowardTarget(mouseX, mouseY);
+            //Debug.Log("mousex: " + mouseX + " mousey: " + mouseY);
+            //Debug.Log("cardx: " + gameObject.transform.position.x + " cardy: " + gameObject.transform.position.y);
             AdjustRotation();
             DoesDrawnCardReachHand();
         }

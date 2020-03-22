@@ -77,7 +77,6 @@ public class PipManager : MonoBehaviour
         float nudge = distanceBetweenPips - distanceBetweenPips * scaleMultiplier;
         newLastPip.transform.position = new Vector2(newLastPip.transform.position.x - nudge, newLastPip.transform.position.y);
 
-        Debug.Log(scaleMultiplier);
         newLastPip.transform.localScale = new Vector3(1, 1, 1);
         pipList.Add(newLastPip);
     }
