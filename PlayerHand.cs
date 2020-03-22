@@ -48,7 +48,7 @@ public class PlayerHand : MonoBehaviour
         
         Card newCard = Instantiate(allCards.GetRandomCard(), new Vector2(configData.GetHalfWidth() * 2.2f, 0 - (configData.GetCardWidth() / 2)), Quaternion.identity);
         newCard.SetState("draw");
-        newCard.GetComponentInChildren<CardImage>().transform.localScale = new Vector3(cardSizeMultiplier, cardSizeMultiplier, cardSizeMultiplier);
+        newCard.transform.localScale = new Vector3(cardSizeMultiplier, cardSizeMultiplier, cardSizeMultiplier);
         cardsInHand.Add(newCard);
 
         CalculateHandPositions();

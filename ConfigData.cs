@@ -49,8 +49,9 @@ public class ConfigData : MonoBehaviour
 
         halfHeight = Camera.main.orthographicSize;
         halfWidth = Camera.main.aspect * halfHeight;
+
         cardPlayLine = halfHeight + halfHeight / 9;
-        cardSizeMultiplier = halfWidth / 8.1775f;
+        cardSizeMultiplier = halfWidth * 0.19f;
         handMiddlePos = halfHeight / 1.48f;
 
         cardWidth = allCards.GetRandomCard().GetComponentInChildren<SpriteRenderer>().bounds.size.x * cardSizeMultiplier;

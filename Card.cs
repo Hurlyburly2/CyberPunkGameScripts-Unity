@@ -42,7 +42,7 @@ public class Card : MonoBehaviour
             DoesDrawnCardReachHand();
         } else if (state == "dragging")
         {
-            float mouseX = Input.mousePosition.x / Screen.width * configData.GetHalfWidth() * 2;
+            float mouseX = Input.mousePosition.x / Screen.width * configData.GetHalfWidth() * 2 / configData.GetCardSizeMultiplier();
             float mouseY = Input.mousePosition.y / Screen.height * configData.GetHalfHeight() * 2;
 
             MoveTowardTarget(mouseX, mouseY);
