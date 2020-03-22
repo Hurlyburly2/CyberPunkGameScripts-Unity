@@ -40,7 +40,6 @@ public class PipManager : MonoBehaviour
         float timePerPip = transitionTime / targetNumberOfPips;
         while (pipList.Count != targetNumberOfPips)
         {
-            Debug.Log("PipList.Count: " + pipList.Count + ", Current Number of Pips: " + targetNumberOfPips);
             if (pipList.Count > targetNumberOfPips)
             {
                 RemovePip();
@@ -63,17 +62,23 @@ public class PipManager : MonoBehaviour
         Vector2 pipLocation;
         if (pipList.Count > 0)
         {
-            Debug.Log("Greater Than Zero");
             GameObject previousLastPip = pipList[pipList.Count - 1];
 
             pipLocation = new Vector2(previousLastPip.transform.position.x + distanceBetweenPips, transform.position.y);
         } else
         {
-            Debug.Log("Less than Zero");
             pipLocation = new Vector2(transform.position.x, transform.position.y);
         }
         GameObject newLastPip = Instantiate(pip, pipLocation, Quaternion.identity);
-        newLastPip.transform.parent = gameObject.transform;
+        newLastPip.transform.SetParent(gameObject.transform);
+
+        float currentPipScale = newLastPip.transform.localScale.x;
+        float scaleMultiplier = 1 / currentPipScale;
+        float nudge = distanceBetweenPips - distanceBetweenPips * scaleMultiplier;
+        newLastPip.transform.position = new Vector2(newLastPip.transform.position.x - nudge, newLastPip.transform.position.y);
+
+        Debug.Log(scaleMultiplier);
+        newLastPip.transform.localScale = new Vector3(1, 1, 1);
         pipList.Add(newLastPip);
     }
 }

@@ -18,6 +18,7 @@ public class ConfigData : MonoBehaviour
     // Health/Energy Zone Config
     [SerializeField] int maximumNumberOfPips = 28;
     [SerializeField] float distanceBetweenPips = 18f;
+    [SerializeField] float pipScale;
     [SerializeField] string healthPipManagerName = "HealthPipManager";
     [SerializeField] string energyPipManagerName = "EnergyPipManager";
     PipManager healthPipManager;
@@ -70,6 +71,11 @@ public class ConfigData : MonoBehaviour
     public void SetupPipManagers(CharacterData character)
     {
         PipManager[] pipManagers = FindObjectsOfType<PipManager>();
+
+        float maxX = GameObject.Find(healthTextFieldName).transform.position.x;
+        float maxWidth = maxX - pipManagers[0].transform.position.x;
+
+        //maximumNumberOfPips = Mathf.FloorToInt(maxWidth / 20);
 
         foreach (PipManager pipManager in pipManagers)
         {
