@@ -103,9 +103,14 @@ public class Card : MonoBehaviour
 
     public void SetSortingOrder(int newSortingOrder)
     {
-        SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        rememberSortingOrder = spriteRenderer.sortingOrder;
-        spriteRenderer.sortingOrder = newSortingOrder;
+        SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        rememberSortingOrder = spriteRenderers[0].sortingOrder;
+        int currentSortingOrder = newSortingOrder;
+        foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+        {
+            spriteRenderer.sortingOrder = currentSortingOrder;
+            currentSortingOrder++;
+        }
     }
 
     public void SetState(string state)

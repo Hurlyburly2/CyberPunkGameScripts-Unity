@@ -6,15 +6,17 @@ using TMPro;
 public class CharacterData : ScriptableObject
 {
     // character info
-    string characterName;
-    int characterId;
-        // 1 = First fighter
-        // 2 = First h@cker
+    string runnerName;
+    string hackerName;
+        // "Runner" = First fighter
+        // "Hacker" = First h@cker
     int maximumHealth;
     int currentHealth;
     int maximumEnergy;
     int currentEnergy;
     int startingHandSize;
+
+    Loadout loadout;
 
     // each health/energy pip is worth this much. Use as breakpoints when adding/subtracting
     float healthPipValue;
@@ -30,17 +32,18 @@ public class CharacterData : ScriptableObject
     // Start is called before the first frame update
     void Start()
     {
-        characterName = "";
+        runnerName = "";
+        hackerName = "";
         maximumHealth = 0;
         currentHealth = 0;
         startingHandSize = 0;
     }
 
     // Setup Character for Test
-    public void SetupCharacter(string newName, int newCharacterId, int newMaxHealth, int newCurrentHealth, int newMaxEnergy, int newCurrentEnergy, int newStartingHandSize)
+    public void SetupCharacter(string newRunnerName, string newHackerName, int newMaxHealth, int newCurrentHealth, int newMaxEnergy, int newCurrentEnergy, int newStartingHandSize)
     {
-        characterName = newName;
-        characterId = newCharacterId;
+        runnerName = newRunnerName;
+        hackerName = newHackerName;
 
         maximumHealth = newMaxHealth;
         currentHealth = newCurrentHealth;
@@ -48,13 +51,26 @@ public class CharacterData : ScriptableObject
         currentEnergy = newCurrentEnergy;
 
         startingHandSize = newStartingHandSize;
+
+        loadout = new Loadout();
+        loadout.SetupInitialLoadout(runnerName, hackerName);
+
+        string debugTest = "";
+        List<int> cardIds = loadout.GetAllCardIds();
+
+        foreach (int id in cardIds)
+        {
+            debugTest += " " + id;
+        }
+
+        Debug.Log(debugTest);
     }
 
     public void BattleSetup(float setupTimeInSeconds)
     {
         configData = FindObjectOfType<ConfigData>();
 
-        FindObjectOfType<PlayerPortrait>().SetPortrait(characterId);
+        FindObjectOfType<PlayerPortrait>().SetPortrait(runnerName);
 
         configData.SetupPipManagers(this);
         SetupHealthAndEnergyText();
@@ -80,14 +96,14 @@ public class CharacterData : ScriptableObject
     }
 
     // Getters
-    public string GetCharacterName()
+    public string GetRunnerName()
     {
-        return characterName;
+        return runnerName;
     }
 
-    public int GetCharacterId()
+    public string GetHackerName()
     {
-        return characterId;
+        return hackerName;
     }
 
     public int GetMaximumHealth()
@@ -118,7 +134,7 @@ public class CharacterData : ScriptableObject
     // Debug Logging
     public void LogCharacterData()
     {
-        Debug.Log("Name: " + characterName + ".\n Max Health: " + maximumHealth + ".\n Current Health: " + currentHealth);
+        Debug.Log("Name: " + runnerName + ".\n Max Health: " + maximumHealth + ".\n Current Health: " + currentHealth);
     }
 }
 
