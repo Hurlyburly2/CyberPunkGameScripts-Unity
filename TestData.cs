@@ -7,7 +7,11 @@ public class TestData : MonoBehaviour
     public static CharacterData SetTestCharacterOne()
     {
         CharacterData newCharacter = ScriptableObject.CreateInstance<CharacterData>();
-        newCharacter.SetupCharacter("FullHealth/Energy", 1, 100, 100, 50, 50, 3);
+
+        string runnerName = "Runner";
+        string hackerName = "Hacker";
+
+        newCharacter.SetupCharacter(runnerName, hackerName, 100, 100, 50, 50, 3);
 
         return newCharacter;
     }
@@ -15,7 +19,12 @@ public class TestData : MonoBehaviour
     public static CharacterData SetTestCharacterTwo()
     {
         CharacterData newCharacter = ScriptableObject.CreateInstance<CharacterData>();
-        newCharacter.SetupCharacter("FullHealth/Energy", 2, 200, 50, 100, 75, 4);
+
+        string runnerName = "Runner";
+        string hackerName = "Hacker";
+
+        // hacker and runner names are swapped for sake of portrait testing for now..
+        newCharacter.SetupCharacter(hackerName, runnerName, 200, 50, 100, 75, 4);
 
         return newCharacter;
     }

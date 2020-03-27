@@ -115,7 +115,8 @@ public class PlayerHand : MonoBehaviour
 
             card.SetCardPosition(startPosition + distanceBetweenCards * cardsPlaced, configData.GetHandMiddlePos() + currentVerticalOffset, currentRotation);
             card.SetZPos(cardsPlaced * -1);
-            card.SetSortingOrder(cardsPlaced);
+            // Multiply this by 10 so each card can have 10 image sort layers
+            card.SetSortingOrder(cardsPlaced * 10);
             cardsPlaced++;
         }
     }

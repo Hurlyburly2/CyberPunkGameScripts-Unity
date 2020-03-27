@@ -23,4 +23,9 @@ public class AllCards : MonoBehaviour
         int randomIndex = Mathf.FloorToInt(Random.Range(0, cards.Length - 1));
         return cards[randomIndex];
     }
+
+    public Card GetCardById(int cardId)
+    {
+        return cards[cardId];
+    }
 }
