@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
+    [SerializeField] int cardId;
     ConfigData configData;
     BattleData battleData;
 
@@ -157,5 +158,10 @@ public class Card : MonoBehaviour
     public void SetZPos(float zPos)
     {
         this.zPos = zPos;
+    }
+
+    public int GetCardId()
+    {
+        return cardId;
     }
 }

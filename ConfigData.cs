@@ -35,6 +35,9 @@ public class ConfigData : MonoBehaviour
     [SerializeField] string healthTextFieldName = "HealthText";
     [SerializeField] string energyTextFieldName = "EnergyText";
 
+    // Deck Fields
+    [SerializeField] string cardsInDeckTextFieldName = "CardsInDeck";
+
     AllCards allCards;
 
     // Start is called before the first frame update
@@ -171,5 +174,10 @@ public class ConfigData : MonoBehaviour
     public int GetMaximumNumberOfPips()
     {
         return maximumNumberOfPips;
+    }
+
+    public GameObject GetCardsInDeckTextField()
+    {
+        return GameObject.Find(cardsInDeckTextFieldName);
     }
 }

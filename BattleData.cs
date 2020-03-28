@@ -7,6 +7,8 @@ public class BattleData : MonoBehaviour
     // config
     [SerializeField] float setupTimeInSeconds = 1f;
     PlayerHand playerHand;
+    Deck deck;
+    Discard discard;
 
     // data
     CharacterData character;
@@ -28,9 +30,13 @@ public class BattleData : MonoBehaviour
     public void SetUpBattle()
     {
         playerHand = FindObjectOfType<PlayerHand>();
+        deck = FindObjectOfType<Deck>();
+        discard = FindObjectOfType<Discard>();
+        
 
         playerHand.DrawStartingHand(character.GetStartingHandSize(), setupTimeInSeconds);
         character.BattleSetup(setupTimeInSeconds);
+        deck.SetupDeck(character.GetLoadout().GetAllCardIds());
 
         StartCoroutine(EnablePlayAfterSetup());
     }
