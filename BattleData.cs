@@ -34,9 +34,9 @@ public class BattleData : MonoBehaviour
         discard = FindObjectOfType<Discard>();
         
 
-        playerHand.DrawStartingHand(character.GetStartingHandSize(), setupTimeInSeconds);
         character.BattleSetup(setupTimeInSeconds);
         deck.SetupDeck(character.GetLoadout().GetAllCardIds());
+        playerHand.DrawStartingHand(character.GetStartingHandSize(), setupTimeInSeconds);
 
         StartCoroutine(EnablePlayAfterSetup());
     }

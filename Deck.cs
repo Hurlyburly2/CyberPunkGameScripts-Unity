@@ -29,6 +29,27 @@ public class Deck : MonoBehaviour
        cardsInDeckText.GetComponent<TextMeshProUGUI>().text = cards.Count.ToString();
     }
 
+    public Card DrawCardFromTop()
+    {
+        Card cardToDraw = cards[0];
+        cards.Remove(cardToDraw);
+        SetCardsInDeckTextField();
+
+        return cardToDraw;
+    }
+
+    public void AddToDeck(Card newCard)
+    {
+        cards.Add(newCard);
+        SetCardsInDeckTextField();
+    }
+
+    public void AddToDeck(List<Card> newCards)
+    {
+        cards.AddRange(newCards);
+        SetCardsInDeckTextField();
+    }
+
     public void ShuffleDeck()
     {
         System.Random _random = new System.Random();
@@ -59,5 +80,10 @@ public class Deck : MonoBehaviour
         }
 
         Debug.Log("Deck Order Randomized: " + cardOrder);
+    }
+
+    public int GetCardCount()
+    {
+        return cards.Count;
     }
 }

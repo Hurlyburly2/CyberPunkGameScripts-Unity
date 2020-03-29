@@ -7,6 +7,8 @@ public class Card : MonoBehaviour
     [SerializeField] int cardId;
     ConfigData configData;
     BattleData battleData;
+    PlayerHand playerHand;
+    Discard discard;
 
     float xPos;
     float yPos;
@@ -31,6 +33,8 @@ public class Card : MonoBehaviour
         yPos = transform.position.y;
         configData = FindObjectOfType<ConfigData>();
         battleData = FindObjectOfType<BattleData>();
+        playerHand = FindObjectOfType<PlayerHand>();
+        discard = FindObjectOfType<Discard>();
     }
 
     // Update is called once per frame
@@ -70,14 +74,35 @@ public class Card : MonoBehaviour
             if (mouseY > configData.GetCardPlayedLine())
             {
                 SetState("played");
-                FindObjectOfType<PlayerHand>().RemoveCard(GetComponent<Card>());
-                Destroy(gameObject);
+                playerHand.RemoveCard(GetComponent<Card>());
+                PlayCard();
             }
             else
             {
                 SetState("draw");
             }
         }
+    }
+
+    public void PlayCard()
+    {
+        switch(cardId)
+        {
+            case 0:
+                Debug.Log("This is not a real card");
+                break;
+            default:
+                Debug.Log("This card has not been implemented or does not exist");
+                break;
+        }
+
+        DiscardCard();
+        Destroy(gameObject);
+    }
+
+    private void DiscardCard()
+    {
+        discard.AddCardToDiscard(this);
     }
 
     private void DoesDrawnCardReachHand()
@@ -91,9 +116,29 @@ public class Card : MonoBehaviour
     private void MoveTowardTarget(float targetX, float targetY)
     {
         float step = handAdjustSpeed * Time.deltaTime;
+
+        // we make the card movement faster as the hand size increases to fight the slowdown
+        step = ScaleStepByPlayerHandSize(step);
         Vector3 newPosition = new Vector3(targetX, targetY, zPos);
 
         transform.position = Vector3.MoveTowards(transform.position, newPosition, step);
+    }
+
+    private float ScaleStepByPlayerHandSize(float step)
+    {
+        float cardsInHandCount = playerHand.GetCardsInHandCount();
+
+        if (cardsInHandCount < 6)
+        {
+            return step;
+        }
+
+        float modifier = 1;
+        cardsInHandCount -= 5;
+        cardsInHandCount *= Mathf.Clamp(cardsInHandCount * 0.05f, 1, 1.15f);
+        modifier *= cardsInHandCount;
+
+        return step * modifier;
     }
 
     private void AdjustRotation()
