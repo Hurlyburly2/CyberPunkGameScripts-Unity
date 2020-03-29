@@ -11,18 +11,23 @@ public class PlayerHand : MonoBehaviour
     float cardGap = 0;
     [SerializeField] float maxCardGap;
     bool centered = false;
-    BattleData battleData;
 
     // config
     AllCards allCards;
     ConfigData configData;
     float maxWidth;
     [SerializeField] float cardWidthBuffer;
+    BattleData battleData;
+    Deck deck;
+    Discard discard;
 
     // Start is called before the first frame update
     void Start()
     {
         battleData = FindObjectOfType<BattleData>();
+        deck = FindObjectOfType<Deck>();
+        discard = FindObjectOfType<Discard>();
+
         ConfigHand();
     }
 
@@ -45,13 +50,17 @@ public class PlayerHand : MonoBehaviour
     public void DrawCard()
     {
         float cardSizeMultiplier = configData.GetCardSizeMultiplier();
-        
-        Card newCard = Instantiate(allCards.GetRandomCard(), new Vector2(configData.GetHalfWidth() * 2.2f, 0 - (configData.GetCardWidth() / 2)), Quaternion.identity);
-        newCard.SetState("draw");
-        newCard.transform.localScale = new Vector3(cardSizeMultiplier, cardSizeMultiplier, cardSizeMultiplier);
-        cardsInHand.Add(newCard);
 
-        CalculateHandPositions();
+        if (deck.GetCardCount() > 0)
+        {
+            deck.DrawCardFromTop();
+            Card newCard = Instantiate(allCards.GetRandomCard(), new Vector2(configData.GetHalfWidth() * 2.2f, 0 - (configData.GetCardWidth() / 2)), Quaternion.identity);
+            newCard.SetState("draw");
+            newCard.transform.localScale = new Vector3(cardSizeMultiplier, cardSizeMultiplier, cardSizeMultiplier);
+            cardsInHand.Add(newCard);
+
+            CalculateHandPositions();
+        }
     }
 
     private void CalculateHandPositions()
@@ -163,5 +172,10 @@ public class PlayerHand : MonoBehaviour
     {
         cardsInHand.Remove(card);
         CalculateHandPositions();
+    }
+
+    public int GetCardsInHandCount()
+    {
+        return cardsInHand.Count;
     }
 }

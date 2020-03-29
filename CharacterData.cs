@@ -54,16 +54,6 @@ public class CharacterData : ScriptableObject
 
         loadout = new Loadout();
         loadout.SetupInitialLoadout(runnerName, hackerName);
-
-        string debugTest = "";
-        List<int> cardIds = loadout.GetAllCardIds();
-
-        foreach (int id in cardIds)
-        {
-            debugTest += " " + id;
-        }
-
-        Debug.Log(debugTest);
     }
 
     public void BattleSetup(float setupTimeInSeconds)
@@ -129,6 +119,11 @@ public class CharacterData : ScriptableObject
     public int GetStartingHandSize()
     {
         return startingHandSize;
+    }
+
+    public Loadout GetLoadout()
+    {
+        return loadout;
     }
 
     // Debug Logging

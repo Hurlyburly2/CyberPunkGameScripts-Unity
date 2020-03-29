@@ -20,7 +20,7 @@ public class AllCards : MonoBehaviour
 
     public Card GetRandomCard()
     {
-        int randomIndex = Mathf.FloorToInt(Random.Range(0, cards.Length - 1));
+        int randomIndex = Mathf.FloorToInt(Random.Range(1, cards.Length));
         return cards[randomIndex];
     }
 
