@@ -24,6 +24,9 @@ public class ConfigData : MonoBehaviour
     PipManager healthPipManager;
     PipManager energyPipManager;
 
+    // Enemy Health/Energy Zone Config
+    string enemyHealthPipManagerName = "EnemyHealthPipManager";
+
     // Cards are played when dragged above this y axis
     float cardPlayLine;
 
