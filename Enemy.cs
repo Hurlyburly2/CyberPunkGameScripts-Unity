@@ -7,15 +7,19 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] int id;
     [SerializeField] string enemyName;
+    [SerializeField] int maxHealth;
+    [SerializeField] int currentHealth;
+    [SerializeField] int maxEnergy;
+    [SerializeField] int currentEnergy;
 
-    public void SetEnemyData()
-    {
-
-    }
+    ConfigData configData;
 
     public void BattleSetup(float setupTimeInSeconds)
     {
+        configData = FindObjectOfType<ConfigData>();
 
+        configData.SetupPipManagers(this);
+        //SetupHealthAndEnergyText();
     }
 
     public int GetEnemyId()
@@ -26,5 +30,25 @@ public class Enemy : MonoBehaviour
     public string GetEnemyName()
     {
         return enemyName;
+    }
+
+    public int GetMaximumHealth()
+    {
+        return maxHealth;
+    }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public int GetMaximumEnergy()
+    {
+        return maxEnergy;
+    }
+
+    public int GetCurrentEnergy()
+    {
+        return currentEnergy;
     }
 }

@@ -26,6 +26,9 @@ public class ConfigData : MonoBehaviour
 
     // Enemy Health/Energy Zone Config
     string enemyHealthPipManagerName = "EnemyHealthPipManager";
+    string enemyEnergyPipManagerName = "EnemyEnergyPipManager";
+    PipManagerEnemy enemyHealthPipManager;
+    PipManagerEnemy enemyEnergyPipManager;
 
     // Cards are played when dragged above this y axis
     float cardPlayLine;
@@ -82,8 +85,6 @@ public class ConfigData : MonoBehaviour
         float maxX = GameObject.Find(healthTextFieldName).transform.position.x;
         float maxWidth = maxX - pipManagers[0].transform.position.x;
 
-        //maximumNumberOfPips = Mathf.FloorToInt(maxWidth / 20);
-
         foreach (PipManager pipManager in pipManagers)
         {
             if (pipManager.name == healthPipManagerName)
@@ -97,6 +98,31 @@ public class ConfigData : MonoBehaviour
 
         healthPipManager.Setup(this, character.GetMaximumHealth(), character.GetCurrentHealth());
         energyPipManager.Setup(this, character.GetMaximumEnergy(), character.GetCurrentEnergy());
+    }
+
+    public void SetupPipManagers(Enemy enemy)
+    {
+        PipManagerEnemy[] pipManagers = FindObjectsOfType<PipManagerEnemy>();
+
+        Debug.Log("Setup Enemy Pip Managers");
+
+        float maxX = GameObject.Find(enemyHealthPipManagerName).transform.position.x;
+        float maxWidth = maxX - pipManagers[0].transform.position.x;
+
+        foreach (PipManagerEnemy pipManager in pipManagers)
+        {
+            if (pipManager.name == enemyHealthPipManagerName)
+            {
+                enemyHealthPipManager = pipManager;
+            }
+            else if (pipManager.name == enemyEnergyPipManagerName)
+            {
+                enemyEnergyPipManager = pipManager;
+            }
+        }
+
+        enemyHealthPipManager.Setup(this, enemy.GetMaximumHealth(), enemy.GetCurrentHealth());
+        enemyEnergyPipManager.Setup(this, enemy.GetMaximumEnergy(), enemy.GetCurrentEnergy());
     }
 
     public float GetCardWidth()

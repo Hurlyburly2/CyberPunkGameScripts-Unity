@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PipManager : MonoBehaviour
+public class PipManagerEnemy : MonoBehaviour
 {
     [SerializeField] GameObject pip;
     List<GameObject> pipList = new List<GameObject>();

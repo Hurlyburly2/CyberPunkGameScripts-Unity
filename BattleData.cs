@@ -36,6 +36,7 @@ public class BattleData : MonoBehaviour
 
         // TODO: pass a value here, sets the current enemy to the test enemy and instantiates them
         SetUpEnemy(0);
+        enemy.BattleSetup(setupTimeInSeconds);
 
         character.BattleSetup(setupTimeInSeconds);
         deck.SetupDeck(character.GetLoadout().GetAllCardIds());
