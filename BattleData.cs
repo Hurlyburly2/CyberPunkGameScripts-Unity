@@ -51,7 +51,7 @@ public class BattleData : MonoBehaviour
 
         // TODO: This will need to be built out as enemies and areas are added to the game
         Enemy[] allEnemies = FindObjectOfType<EnemyCollection>().GetEnemyArray();
-        float enemyXPos = configData.GetHalfWidth();
+        float enemyXPos = Camera.main.transform.position.x;
         float enemyYPos = configData.GetHalfHeight() + configData.GetHalfHeight() * .66f;
         enemy = Instantiate(allEnemies[enemyId], new Vector2(enemyXPos, enemyYPos), Quaternion.identity);
     }
@@ -80,5 +80,10 @@ public class BattleData : MonoBehaviour
     public float GetSetupTimeInSeconds()
     {
         return setupTimeInSeconds;
+    }
+
+    public Enemy GetEnemy()
+    {
+        return enemy;
     }
 }

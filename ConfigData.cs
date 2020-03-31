@@ -106,8 +106,6 @@ public class ConfigData : MonoBehaviour
     {
         PipManagerEnemy[] pipManagers = FindObjectsOfType<PipManagerEnemy>();
 
-        Debug.Log("Setup Enemy Pip Managers");
-
         float maxX = GameObject.Find(enemyHealthPipManagerName).transform.position.x;
         float maxWidth = maxX - pipManagers[0].transform.position.x;
 
@@ -220,5 +218,25 @@ public class ConfigData : MonoBehaviour
     public GameObject GetCardsInDeckTextField()
     {
         return GameObject.Find(cardsInDeckTextFieldName);
+    }
+
+    public PipManagerEnemy GetEnemyHealthPipManager()
+    {
+        return enemyHealthPipManager;
+    }
+
+    public PipManagerEnemy GetEnemyEnergyPipManager()
+    {
+        return enemyEnergyPipManager;
+    }
+
+    public PipManager GetPlayerHealthPipManager()
+    {
+        return healthPipManager;
+    }
+
+    public PipManager GetPlayerEnergyPipManager()
+    {
+        return energyPipManager;
     }
 }

@@ -28,6 +28,8 @@ public class CharacterData : ScriptableObject
     GameObject currentEnergyText;
     CoroutinesForScripts coroutineObject;
     ConfigData configData;
+    PipManager healthPipManager;
+    PipManager energyPipManager;
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +63,8 @@ public class CharacterData : ScriptableObject
         configData = FindObjectOfType<ConfigData>();
 
         FindObjectOfType<PlayerPortrait>().SetPortrait(runnerName);
+        healthPipManager = configData.GetPlayerHealthPipManager();
+        energyPipManager = configData.GetPlayerEnergyPipManager();
 
         configData.SetupPipManagers(this);
         SetupHealthAndEnergyText();

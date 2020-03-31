@@ -32,7 +32,7 @@ public class Deck : MonoBehaviour
     public Card DrawCardFromTop()
     {
         Card cardToDraw = cards[0];
-        cards.Remove(cardToDraw);
+        cards.RemoveAt(0);
         SetCardsInDeckTextField();
 
         return cardToDraw;
@@ -79,7 +79,7 @@ public class Deck : MonoBehaviour
             cardOrder += card.GetCardId() + " ";
         }
 
-        Debug.Log("Deck Order Randomized: " + cardOrder);
+        Debug.Log("Card Order: " + cardOrder);
     }
 
     public int GetCardCount()

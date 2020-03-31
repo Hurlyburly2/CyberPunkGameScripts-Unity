@@ -18,12 +18,32 @@ public class Enemy : MonoBehaviour
     GameObject currentHealthText;
     GameObject currentEnergyText;
     ConfigData configData;
+    PipManagerEnemy healthPipManager;
+    PipManagerEnemy energyPipManager;
 
     public void BattleSetup(float setupTimeInSeconds)
     {
         configData = FindObjectOfType<ConfigData>();
         configData.SetupPipManagers(this);
+        healthPipManager = configData.GetEnemyHealthPipManager();
+        energyPipManager = configData.GetEnemyEnergyPipManager();
         SetupHealthAndEnergyText();
+    }
+
+    public void TakeDamage(int damageInflicted)
+    {
+        // TODO: CALCULATE ALL MODIFIERS FOR DAMAGE TAKEN
+        if (currentHealth - damageInflicted < 1)
+        {
+            currentHealth = 0;
+            healthPipManager.ChangeValue(currentHealth);
+            // TODO: LOGIC FOR KILLING ENEMY HERE
+        } else
+        {
+            currentHealth -= damageInflicted;
+            UpdateHealthText();
+            healthPipManager.ChangeValue(currentHealth);
+        }
     }
 
     private void SetupHealthAndEnergyText()
