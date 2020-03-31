@@ -53,8 +53,8 @@ public class PlayerHand : MonoBehaviour
 
         if (deck.GetCardCount() > 0)
         {
-            deck.DrawCardFromTop();
-            Card newCard = Instantiate(allCards.GetRandomCard(), new Vector2(configData.GetHalfWidth() * 2.2f, 0 - (configData.GetCardWidth() / 2)), Quaternion.identity);
+            Card cardToDraw = deck.DrawCardFromTop();
+            Card newCard = Instantiate(cardToDraw, new Vector2(configData.GetHalfWidth() * 2.2f, 0 - (configData.GetCardWidth() / 2)), Quaternion.identity);
             newCard.SetState("draw");
             newCard.transform.localScale = new Vector3(cardSizeMultiplier, cardSizeMultiplier, cardSizeMultiplier);
             cardsInHand.Add(newCard);

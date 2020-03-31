@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PipManager : MonoBehaviour
+public class PipManagerEnemy : MonoBehaviour
 {
     [SerializeField] GameObject pip;
     List<GameObject> pipList = new List<GameObject>();
@@ -17,6 +17,7 @@ public class PipManager : MonoBehaviour
     int currentValue;
 
     float pipValue;
+    float weirdScale = 0.006f;
 
     public void Setup(ConfigData newConfigData, int newMaximumValue, int newCurrentValue)
     {
@@ -25,7 +26,7 @@ public class PipManager : MonoBehaviour
         currentValue = newCurrentValue;
 
         maximumNumberOfPips = configData.GetMaximumNumberOfPips();
-        distanceBetweenPips = configData.GetDistanceBetweenPips();
+        distanceBetweenPips = configData.GetDistanceBetweenPips() * (weirdScale + 0.001f);
 
         pipValue = (float)maximumValue / maximumNumberOfPips;
 
@@ -33,9 +34,17 @@ public class PipManager : MonoBehaviour
         StartCoroutine(ChangeNumberOfPips(setupTimeInSeconds));
     }
 
+    public void ChangeValue(int newValue)
+    {
+        currentValue = newValue;
+        StartCoroutine(ChangeNumberOfPips(.05f));
+    }
+
     private IEnumerator ChangeNumberOfPips(float transitionTime)
     {
         int targetNumberOfPips = Mathf.CeilToInt(currentValue / pipValue);
+
+        Debug.Log(targetNumberOfPips);
 
         float timePerPip = transitionTime / targetNumberOfPips;
         while (pipList.Count != targetNumberOfPips)
@@ -54,6 +63,7 @@ public class PipManager : MonoBehaviour
     private void RemovePip()
     {
         GameObject previousLastPip = pipList[pipList.Count - 1];
+        pipList.RemoveAt(pipList.Count - 1);
         Destroy(previousLastPip);
     }
 
@@ -64,29 +74,22 @@ public class PipManager : MonoBehaviour
         {
             GameObject previousLastPip = pipList[pipList.Count - 1];
 
-            pipLocation = new Vector2(previousLastPip.transform.position.x + distanceBetweenPips, transform.position.y);
+            pipLocation = new Vector2(transform.position.x, previousLastPip.transform.position.y + distanceBetweenPips);
         } else
         {
-            if (this.name == "EnemyHealthPipManager")
-            {
-                pipLocation = new Vector2(0, 0);
-            } else
-            {
                 pipLocation = new Vector2(transform.position.x, transform.position.y);
-            }
-            
         }
 
-        GameObject newLastPip = Instantiate(pip, pipLocation, Quaternion.identity);
+        GameObject newLastPip = Instantiate(pip, pipLocation, Quaternion.Euler(new Vector3(0, 0, 90)));
         newLastPip.transform.SetParent(gameObject.transform);
 
-        float currentPipScale = newLastPip.transform.localScale.x;
+        float currentPipScale = newLastPip.transform.localScale.y;
         float scaleMultiplier = 1 / currentPipScale;
 
         float nudge = distanceBetweenPips - distanceBetweenPips * scaleMultiplier;
-        newLastPip.transform.position = new Vector2(newLastPip.transform.position.x - nudge, newLastPip.transform.position.y);
+        newLastPip.transform.position = new Vector2(newLastPip.transform.position.x, newLastPip.transform.position.y + nudge);
 
-        newLastPip.transform.localScale = new Vector3(1, 1, 1);
+        newLastPip.transform.localScale = new Vector3(weirdScale, weirdScale, weirdScale);
         pipList.Add(newLastPip);
     }
 }

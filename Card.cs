@@ -86,16 +86,7 @@ public class Card : MonoBehaviour
 
     public void PlayCard()
     {
-        switch(cardId)
-        {
-            case 0:
-                Debug.Log("This is not a real card");
-                break;
-            default:
-                Debug.Log("This card has not been implemented or does not exist");
-                break;
-        }
-
+        PlayCardActions();
         DiscardCard();
         Destroy(gameObject);
     }
@@ -208,5 +199,71 @@ public class Card : MonoBehaviour
     public int GetCardId()
     {
         return cardId;
+    }
+
+    private void DealDamage(int damageAmount)
+    {
+        // TODO: CALCULATE DAMAGE MODIFIERS
+        battleData.GetEnemy().TakeDamage(damageAmount);
+    }
+
+    private void PlayCardActions()
+    {
+        switch (cardId)
+        {
+            case 0: // DUMMY CARD
+                Debug.Log("This is a dummy card, it doesn't actually do anything");
+                break;
+            case 1: // AWARENESS
+                Debug.Log("Awareness is not yet implemented");
+                // GAIN DODGE
+                break;
+            case 2: // OBSERVE
+                // Pick and draw one of the top three cards of your deck, discard the other two
+                break;
+            case 3: // DEEP BREATH
+                // DRAW 5
+                // GAIN VULNERABLE
+                // END YOUR TURN AND SKIP YOUR DISCARD
+                break;
+            case 4: // WEAK SPOT
+                // The next damage you take is doubled
+                break;
+            case 5: // SHAKE OFF
+                // Heal 2
+                // Remove a status effect
+                break;
+            case 6: // BRACE
+                // Gain 1 damage resist for 2 turns
+                break;
+            case 7: // PUNCH
+                DealDamage(2);
+                // 10% CHANCE TO DRAW TWO CARDS
+                break;
+            case 8: // QUICKDRAW
+                // Draw a random weapon card from your deck
+                break;
+            case 9: // KICK
+                // Deal 1 damage
+                // Gain 1 momentum
+                break;
+            case 10: // SPRINT
+                // Draw 2 cards
+                break;
+            case 11: // WHACK
+                // Deal 3 damage
+                // 10% chance: critical hit
+                break;
+            case 12: // KNEECAP
+                // Deal 4 damage
+                break;
+            case 13: // BRUISE
+                // Deal 1 damage
+                // Inflict vulnerable x2
+                break;
+            default:
+                Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
+                break;
+        }
     }
 }
