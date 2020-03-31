@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using TMPro;
 
 public class Enemy : MonoBehaviour
 {
+    // stats
     [SerializeField] int id;
     [SerializeField] string enemyName;
     [SerializeField] int maxHealth;
@@ -12,14 +14,34 @@ public class Enemy : MonoBehaviour
     [SerializeField] int maxEnergy;
     [SerializeField] int currentEnergy;
 
+    // config
+    GameObject currentHealthText;
+    GameObject currentEnergyText;
     ConfigData configData;
 
     public void BattleSetup(float setupTimeInSeconds)
     {
         configData = FindObjectOfType<ConfigData>();
-
         configData.SetupPipManagers(this);
-        //SetupHealthAndEnergyText();
+        SetupHealthAndEnergyText();
+    }
+
+    private void SetupHealthAndEnergyText()
+    {
+        currentHealthText = configData.GetEnemyHealthTextField();
+        currentEnergyText = configData.GetEnemyEnergyTextField();
+        UpdateHealthText();
+        UpdateEnergyText();
+    }
+
+    private void UpdateHealthText()
+    {
+        currentHealthText.GetComponent<TextMeshProUGUI>().text = currentHealth.ToString();
+    }
+
+    private void UpdateEnergyText()
+    {
+        currentEnergyText.GetComponent<TextMeshProUGUI>().text = currentEnergy.ToString();
     }
 
     public int GetEnemyId()

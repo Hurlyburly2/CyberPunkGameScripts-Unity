@@ -27,6 +27,8 @@ public class ConfigData : MonoBehaviour
     // Enemy Health/Energy Zone Config
     string enemyHealthPipManagerName = "EnemyHealthPipManager";
     string enemyEnergyPipManagerName = "EnemyEnergyPipManager";
+    string enemyHealthText = "EnemyHealthText";
+    string enemyEnergyText = "EnemyEnergyText";
     PipManagerEnemy enemyHealthPipManager;
     PipManagerEnemy enemyEnergyPipManager;
 
@@ -193,6 +195,16 @@ public class ConfigData : MonoBehaviour
     public GameObject GetEnergyTextField()
     {
         return GameObject.Find(energyTextFieldName);
+    }
+
+    public GameObject GetEnemyHealthTextField()
+    {
+        return GameObject.Find(enemyHealthText);
+    }
+
+    public GameObject GetEnemyEnergyTextField()
+    {
+        return GameObject.Find(enemyEnergyText);
     }
 
     public float GetDistanceBetweenPips()
