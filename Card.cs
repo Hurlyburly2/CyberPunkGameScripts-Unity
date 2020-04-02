@@ -5,9 +5,11 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     [SerializeField] int cardId;
+    [SerializeField] string[] keywords;
     ConfigData configData;
     BattleData battleData;
     PlayerHand playerHand;
+    Deck deck;
     Discard discard;
 
     float xPos;
@@ -35,6 +37,7 @@ public class Card : MonoBehaviour
         battleData = FindObjectOfType<BattleData>();
         playerHand = FindObjectOfType<PlayerHand>();
         discard = FindObjectOfType<Discard>();
+        deck = FindObjectOfType<Deck>();
     }
 
     // Update is called once per frame
@@ -88,6 +91,7 @@ public class Card : MonoBehaviour
     {
         PlayCardActions();
         DiscardCard();
+        playerHand.RemoveFromHand(this);
         Destroy(gameObject);
     }
 
@@ -201,11 +205,12 @@ public class Card : MonoBehaviour
         return cardId;
     }
 
-    private void DealDamage(int damageAmount)
+    public string[] GetKeywords()
     {
-        // TODO: CALCULATE DAMAGE MODIFIERS
-        battleData.GetEnemy().TakeDamage(damageAmount);
+        return keywords;
     }
+
+    // PLAY CARD ACTIONS
 
     private void PlayCardActions()
     {
@@ -215,7 +220,6 @@ public class Card : MonoBehaviour
                 Debug.Log("This is a dummy card, it doesn't actually do anything");
                 break;
             case 1: // AWARENESS
-                Debug.Log("Awareness is not yet implemented");
                 // GAIN DODGE
                 break;
             case 2: // OBSERVE
@@ -238,10 +242,12 @@ public class Card : MonoBehaviour
                 break;
             case 7: // PUNCH
                 DealDamage(2);
-                // 10% CHANCE TO DRAW TWO CARDS
+                if (PercentChance(10)) {
+                    DrawXCards(1);
+                }
                 break;
             case 8: // QUICKDRAW
-                // Draw a random weapon card from your deck
+                DrawRandomCardFromDeck("Weapon");
                 break;
             case 9: // KICK
                 // Deal 1 damage
@@ -265,5 +271,43 @@ public class Card : MonoBehaviour
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
         }
+    }
+
+    private void DealDamage(int damageAmount)
+    {
+        int modifiedDamage = ApplyDamageModifiers(damageAmount);
+        battleData.GetEnemy().TakeDamage(modifiedDamage);
+    }
+
+    private int ApplyDamageModifiers(int damageAmount)
+    {
+        // TODO: CALCULATE DAMAGE MODIFIERS
+        return damageAmount;
+    }
+
+    private void DrawXCards(int amountToDraw)
+    {
+        playerHand.DrawXCards(amountToDraw);
+    }
+
+    private bool PercentChance(int percentChance)
+    {
+        int randomNumber = Mathf.CeilToInt(Random.Range(0, 100));
+        Debug.Log(randomNumber);
+        if (randomNumber <= percentChance)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private void DrawRandomCardFromDeck(string keyword)
+    {
+        Card cardToDraw = deck.DrawRandomCardFromDeck(keyword);
+        if (cardToDraw.GetCardId() == 0)
+        {
+            return;
+        }
+        playerHand.DrawCard(cardToDraw);
     }
 }
