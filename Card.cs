@@ -9,6 +9,7 @@ public class Card : MonoBehaviour
     ConfigData configData;
     BattleData battleData;
     PlayerHand playerHand;
+    StatusEffectHolder playerCurrentStatusEffects;
     Deck deck;
     Discard discard;
 
@@ -39,6 +40,7 @@ public class Card : MonoBehaviour
         playerHand = FindObjectOfType<PlayerHand>();
         discard = FindObjectOfType<Discard>();
         deck = FindObjectOfType<Deck>();
+        playerCurrentStatusEffects = configData.GetPlayerStatusEffects();
     }
 
     // Update is called once per frame
@@ -221,7 +223,7 @@ public class Card : MonoBehaviour
                 Debug.Log("This is a dummy card, it doesn't actually do anything");
                 break;
             case 1: // AWARENESS
-                // GAIN DODGE
+                GainStatus("Dodge", 1);
                 break;
             case 2: // OBSERVE
                 // Pick and draw one of the top three cards of your deck, discard the other two
@@ -236,7 +238,7 @@ public class Card : MonoBehaviour
                 break;
             case 5: // SHAKE OFF
                 // Heal 2
-                // Remove a status effect
+                // Remove a debuff effect
                 break;
             case 6: // BRACE
                 // Gain 1 damage resist for 2 turns
@@ -251,8 +253,8 @@ public class Card : MonoBehaviour
                 DrawRandomCardFromDeck("Weapon");
                 break;
             case 9: // KICK
-                // Deal 1 damage
-                // Gain 1 momentum
+                DealDamage(1, 0);
+                GainStatus("Momentum", 1);
                 break;
             case 10: // SPRINT
                 DrawXCards(2);
@@ -273,8 +275,14 @@ public class Card : MonoBehaviour
         }
     }
 
+    private void GainStatus(string statusType, int stacks)
+    {
+        playerCurrentStatusEffects.InflictStatus(statusType, stacks);
+    }
+
     private void DealDamage(int damageAmount, int critChance = 0)
     {
+        damageAmount += playerCurrentStatusEffects.GetMomentumStacks();
         bool criticalHit = false;
         if (PercentChance(critChance))
         {

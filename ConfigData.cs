@@ -46,6 +46,9 @@ public class ConfigData : MonoBehaviour
     // Deck Fields
     [SerializeField] string cardsInDeckTextFieldName = "CardsInDeck";
 
+    // Objects
+    StatusEffectHolder playerStatusEffects;
+
     AllCards allCards;
 
     // Start is called before the first frame update
@@ -57,6 +60,7 @@ public class ConfigData : MonoBehaviour
     private void SetupConfig()
     {
         allCards = FindObjectOfType<AllCards>();
+        playerStatusEffects = FindObjectOfType<StatusEffectHolder>();
 
         halfHeight = Camera.main.orthographicSize;
         halfWidth = Camera.main.aspect * halfHeight;
@@ -238,5 +242,10 @@ public class ConfigData : MonoBehaviour
     public PipManager GetPlayerEnergyPipManager()
     {
         return energyPipManager;
+    }
+
+    public StatusEffectHolder GetPlayerStatusEffects()
+    {
+        return playerStatusEffects;
     }
 }
