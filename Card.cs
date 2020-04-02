@@ -20,6 +20,7 @@ public class Card : MonoBehaviour
 
     int rememberSortingOrder = 0;
     float rememberRotation = 0;
+    float critModifier = 2;
 
     // where is the card, and how is it behaving?
         // draw = when card is initially drawn
@@ -254,14 +255,13 @@ public class Card : MonoBehaviour
                 // Gain 1 momentum
                 break;
             case 10: // SPRINT
-                // Draw 2 cards
+                DrawXCards(2);
                 break;
             case 11: // WHACK
-                // Deal 3 damage
-                // 10% chance: critical hit
+                DealDamage(3, 10);
                 break;
             case 12: // KNEECAP
-                // Deal 4 damage
+                DealDamage(4);
                 break;
             case 13: // BRUISE
                 // Deal 1 damage
@@ -273,16 +273,26 @@ public class Card : MonoBehaviour
         }
     }
 
-    private void DealDamage(int damageAmount)
+    private void DealDamage(int damageAmount, int critChance = 0)
     {
-        int modifiedDamage = ApplyDamageModifiers(damageAmount);
+        bool criticalHit = false;
+        if (PercentChance(critChance))
+        {
+            criticalHit = true;
+        }
+        int modifiedDamage = ApplyDamageModifiers(damageAmount, criticalHit);
         battleData.GetEnemy().TakeDamage(modifiedDamage);
     }
 
-    private int ApplyDamageModifiers(int damageAmount)
+    private int ApplyDamageModifiers(int damageAmount, bool criticalHit)
     {
         // TODO: CALCULATE DAMAGE MODIFIERS
-        return damageAmount;
+        int calculatedDamage = damageAmount;
+        if (criticalHit)
+        {
+            calculatedDamage = Mathf.FloorToInt(critModifier * calculatedDamage);
+        }
+        return calculatedDamage;
     }
 
     private void DrawXCards(int amountToDraw)
@@ -293,7 +303,6 @@ public class Card : MonoBehaviour
     private bool PercentChance(int percentChance)
     {
         int randomNumber = Mathf.CeilToInt(Random.Range(0, 100));
-        Debug.Log(randomNumber);
         if (randomNumber <= percentChance)
         {
             return true;
