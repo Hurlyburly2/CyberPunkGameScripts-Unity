@@ -255,7 +255,7 @@ public class Card : MonoBehaviour
                 DrawRandomCardFromDeck("Weapon");
                 break;
             case 9: // KICK
-                DealDamage(1, 0);
+                DealDamage(1);
                 GainStatus("Momentum", 1);
                 break;
             case 10: // SPRINT
@@ -268,8 +268,8 @@ public class Card : MonoBehaviour
                 DealDamage(4);
                 break;
             case 13: // BRUISE
-                // Deal 1 damage
-                // Inflict vulnerable x2
+                DealDamage(1);
+                InflictStatus("Vulnerable", 2);
                 break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
@@ -294,22 +294,29 @@ public class Card : MonoBehaviour
 
     private void DealDamage(int damageAmount, int critChance = 0)
     {
+        // Modify Damage
         damageAmount += playerCurrentStatusEffects.GetMomentumStacks();
+        damageAmount += enemyCurrentStatusEffects.GetVulnerableStacks();
+
+        int modifiedDamage = CheckAndApplyCritical(damageAmount, critChance);
+        battleData.GetEnemy().TakeDamage(modifiedDamage);
+    }
+
+    private int CheckAndApplyCritical(int damageAmount, int critChance)
+    {
+        // Check for crit
         bool criticalHit = false;
         if (PercentChance(critChance))
         {
             criticalHit = true;
-        } else if (playerCurrentStatusEffects.GetCritUpStacks() > 0) {
+        }
+        else if (playerCurrentStatusEffects.GetCritUpStacks() > 0)
+        {
             criticalHit = true;
             playerCurrentStatusEffects.InflictStatus("CritUp", -1);
         }
-        int modifiedDamage = ApplyDamageModifiers(damageAmount, criticalHit);
-        battleData.GetEnemy().TakeDamage(modifiedDamage);
-    }
 
-    private int ApplyDamageModifiers(int damageAmount, bool criticalHit)
-    {
-        // TODO: CALCULATE DAMAGE MODIFIERS
+        // Apply crit
         int calculatedDamage = damageAmount;
         if (criticalHit)
         {

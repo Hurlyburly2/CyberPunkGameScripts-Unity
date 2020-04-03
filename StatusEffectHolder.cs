@@ -46,6 +46,19 @@ public class StatusEffectHolder : MonoBehaviour
         }
     }
 
+    public int GetVulnerableStacks()
+    {
+        int vulnerableIndex = GetStatusIndex("Vulnerable");
+        if (vulnerableIndex == -1)
+        {
+            return 0;
+        }
+        else
+        {
+            return statusEffects[vulnerableIndex].GetStacks();
+        }
+    }
+
     private void CheckDestroyStatus(StatusEffect currentStatus)
     {
         // Check if the status has zero stacks
@@ -86,6 +99,8 @@ public class StatusEffectHolder : MonoBehaviour
                 return images[3];
             case "CritUp":
                 return images[4];
+            case "Vulnerable":
+                return images[5];
             default:
                 // default empty status
                 return images[0];
@@ -117,6 +132,8 @@ public class StatusEffectHolder : MonoBehaviour
             case "Damage Resist":
                 return 1;
             case "CritUp":
+                return 1;
+            case "Vulnerable":
                 return 1;
             default:
                 return 1;

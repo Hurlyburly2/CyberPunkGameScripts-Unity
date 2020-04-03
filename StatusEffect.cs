@@ -12,10 +12,11 @@ public class StatusEffect : MonoBehaviour
     int stacks;
     string statusType = "";
     // Options:
-        // Dodge
-        // Momentum
-        // Damage Resist
-        // CritUp
+        // Dodge: +X% chance dodge for each stack
+        // Momentum: +1 damage per stack
+        // Damage: Resist -1 damage taken per stack
+        // CritUp: Next hit automatically crits, then stacks -1
+        // Vulnerable: +1 damage taken per stack
 
     private void Start()
     {
@@ -77,6 +78,8 @@ public class StatusEffect : MonoBehaviour
     {
         switch (statusType)
         {
+            case "Vulnerable":
+                return true;
             default:
                 return false;
         }
