@@ -7,15 +7,15 @@ public class StatusEffectHolder : MonoBehaviour
     [SerializeField] StatusEffect[] statusEffects;
     [SerializeField] Sprite[] images;
 
-    public void InflictStatus(string statusType, int stacks)
+    public void InflictStatus(string statusType, int stacks, int duration = 0)
     {
         int indexOfStatus = GetStatusIndex(statusType);
         if (indexOfStatus == -1)
         {
-            NewStatus(statusType, stacks);
+            NewStatus(statusType, stacks, duration);
         } else
         {
-            statusEffects[indexOfStatus].ModifyStatus(stacks);
+            statusEffects[indexOfStatus].ModifyStatus(stacks, duration);
         }
     }
 
@@ -31,9 +31,16 @@ public class StatusEffectHolder : MonoBehaviour
         }
     }
 
-    private void NewStatus(string statusType, int stacks)
+    private void NewStatus(string statusType, int stacks, int duration)
     {
-        int statusDuration = GetDefaultStatusDuration(statusType);
+        int statusDuration = 0;
+        if (duration == 0)
+        {
+             statusDuration = GetDefaultStatusDuration(statusType);
+        } else
+        {
+            statusDuration = duration;
+        }
         int firstAvailableStatusSlot = FindFirstAvailableStatusSlot();
         Sprite statusIcon = GetStatusIcon(statusType);
         statusEffects[firstAvailableStatusSlot].SetupStatus(statusType, stacks, statusDuration, statusIcon);
@@ -47,6 +54,8 @@ public class StatusEffectHolder : MonoBehaviour
                 return images[1];
             case "Momentum":
                 return images[2];
+            case "Damage Resist":
+                return images[3];
             default:
                 // default empty status
                 return images[0];
@@ -74,6 +83,8 @@ public class StatusEffectHolder : MonoBehaviour
             case "Dodge":
                 return 1;
             case "Momentum":
+                return 1;
+            case "Damage Resist":
                 return 1;
             default:
                 return 1;

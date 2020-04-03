@@ -241,7 +241,7 @@ public class Card : MonoBehaviour
                 // Remove a debuff effect
                 break;
             case 6: // BRACE
-                // Gain 1 damage resist for 2 turns
+                GainStatus("Damage Resist", 1, 2);
                 break;
             case 7: // PUNCH
                 DealDamage(2);
@@ -278,6 +278,11 @@ public class Card : MonoBehaviour
     private void GainStatus(string statusType, int stacks)
     {
         playerCurrentStatusEffects.InflictStatus(statusType, stacks);
+    }
+
+    private void GainStatus(string statusType, int stacks, int duration)
+    {
+        playerCurrentStatusEffects.InflictStatus(statusType, stacks, duration);
     }
 
     private void DealDamage(int damageAmount, int critChance = 0)

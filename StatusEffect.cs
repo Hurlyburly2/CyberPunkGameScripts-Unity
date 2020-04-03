@@ -30,9 +30,10 @@ public class StatusEffect : MonoBehaviour
         UpdateStackText();
     }
 
-    public void ModifyStatus(int newStacks)
+    public void ModifyStatus(int newStacks, int duration = 0)
     {
         stacks += newStacks;
+        remainingDuration += duration;
         UpdateStackText();
     }
 
