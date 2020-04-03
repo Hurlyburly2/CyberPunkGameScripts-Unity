@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StatusEffectHolder : MonoBehaviour
 {
+    [SerializeField] string playerOrEnemy;
     [SerializeField] StatusEffect[] statusEffects;
     [SerializeField] Sprite[] images;
 
@@ -15,7 +16,9 @@ public class StatusEffectHolder : MonoBehaviour
             NewStatus(statusType, stacks, duration);
         } else
         {
-            statusEffects[indexOfStatus].ModifyStatus(stacks, duration);
+            StatusEffect currentStatus = statusEffects[indexOfStatus];
+            currentStatus.ModifyStatus(stacks, duration);
+            CheckDestroyStatus(currentStatus);
         }
     }
 
@@ -29,6 +32,31 @@ public class StatusEffectHolder : MonoBehaviour
         {
             return statusEffects[momentumIndex].GetStacks();
         }
+    }
+
+    public int GetCritUpStacks()
+    {
+        int critUpIndex = GetStatusIndex("CritUp");
+        if (critUpIndex == -1)
+        {
+            return 0;
+        } else
+        {
+            return 1;
+        }
+    }
+
+    private void CheckDestroyStatus(StatusEffect currentStatus)
+    {
+        // Check if the status has zero stacks
+        // If yes, DestroyStatus()
+        // If no, no effect
+    }
+
+    private void DestroyStatus(StatusEffect currentStatus)
+    {
+        // currentStatus.destroyStatus();
+        // Rejigger the rest so there are no empty spaces
     }
 
     private void NewStatus(string statusType, int stacks, int duration)
@@ -56,6 +84,8 @@ public class StatusEffectHolder : MonoBehaviour
                 return images[2];
             case "Damage Resist":
                 return images[3];
+            case "CritUp":
+                return images[4];
             default:
                 // default empty status
                 return images[0];
@@ -86,6 +116,8 @@ public class StatusEffectHolder : MonoBehaviour
                 return 1;
             case "Damage Resist":
                 return 1;
+            case "CritUp":
+                return 1;
             default:
                 return 1;
         }
@@ -110,5 +142,10 @@ public class StatusEffectHolder : MonoBehaviour
     public StatusEffect[] GetAllStatusEffects()
     {
         return statusEffects;
+    }
+
+    public string IsPlayerOrEnemy()
+    {
+        return playerOrEnemy;
     }
 }

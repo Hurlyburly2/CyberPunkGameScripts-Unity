@@ -10,6 +10,7 @@ public class Card : MonoBehaviour
     BattleData battleData;
     PlayerHand playerHand;
     StatusEffectHolder playerCurrentStatusEffects;
+    StatusEffectHolder enemyCurrentStatusEffects;
     Deck deck;
     Discard discard;
 
@@ -41,6 +42,7 @@ public class Card : MonoBehaviour
         discard = FindObjectOfType<Discard>();
         deck = FindObjectOfType<Deck>();
         playerCurrentStatusEffects = configData.GetPlayerStatusEffects();
+        enemyCurrentStatusEffects = configData.GetEnemyStatusEffects();
     }
 
     // Update is called once per frame
@@ -234,7 +236,7 @@ public class Card : MonoBehaviour
                 // END YOUR TURN AND SKIP YOUR DISCARD
                 break;
             case 4: // WEAK SPOT
-                // The next damage you take is doubled
+                InflictStatus("CritUp", 1);
                 break;
             case 5: // SHAKE OFF
                 // Heal 2
@@ -285,6 +287,11 @@ public class Card : MonoBehaviour
         playerCurrentStatusEffects.InflictStatus(statusType, stacks, duration);
     }
 
+    private void InflictStatus(string statusType, int stacks)
+    {
+        enemyCurrentStatusEffects.InflictStatus(statusType, stacks);
+    }
+
     private void DealDamage(int damageAmount, int critChance = 0)
     {
         damageAmount += playerCurrentStatusEffects.GetMomentumStacks();
@@ -292,6 +299,9 @@ public class Card : MonoBehaviour
         if (PercentChance(critChance))
         {
             criticalHit = true;
+        } else if (playerCurrentStatusEffects.GetCritUpStacks() > 0) {
+            criticalHit = true;
+            playerCurrentStatusEffects.InflictStatus("CritUp", -1);
         }
         int modifiedDamage = ApplyDamageModifiers(damageAmount, criticalHit);
         battleData.GetEnemy().TakeDamage(modifiedDamage);

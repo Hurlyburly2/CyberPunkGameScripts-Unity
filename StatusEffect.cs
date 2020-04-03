@@ -12,7 +12,10 @@ public class StatusEffect : MonoBehaviour
     int stacks;
     string statusType = "";
     // Options:
-    // Dodge
+        // Dodge
+        // Momentum
+        // Damage Resist
+        // CritUp
 
     private void Start()
     {
@@ -58,6 +61,12 @@ public class StatusEffect : MonoBehaviour
         switch (statusType)
         {
             case "Dodge":
+                return true;
+            case "Momentum":
+                return true;
+            case "Damage Resist":
+                return true;
+            case "CritUp":
                 return true;
             default:
                 return false;

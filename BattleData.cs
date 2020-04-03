@@ -9,6 +9,7 @@ public class BattleData : MonoBehaviour
     PlayerHand playerHand;
     Deck deck;
     Discard discard;
+    ConfigData configData;
 
     // data
     CharacterData character;
@@ -37,6 +38,9 @@ public class BattleData : MonoBehaviour
         // TODO: pass a value here, sets the current enemy to the test enemy and instantiates them
         SetUpEnemy(0);
         enemy.BattleSetup(setupTimeInSeconds);
+
+        configData = FindObjectOfType<ConfigData>();
+        configData.SetupStatusEffectHolders();
 
         character.BattleSetup(setupTimeInSeconds);
         deck.SetupDeck(character.GetLoadout().GetAllCardIds());

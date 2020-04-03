@@ -48,6 +48,7 @@ public class ConfigData : MonoBehaviour
 
     // Objects
     StatusEffectHolder playerStatusEffects;
+    StatusEffectHolder enemyStatusEffects;
 
     AllCards allCards;
 
@@ -60,7 +61,6 @@ public class ConfigData : MonoBehaviour
     private void SetupConfig()
     {
         allCards = FindObjectOfType<AllCards>();
-        playerStatusEffects = FindObjectOfType<StatusEffectHolder>();
 
         halfHeight = Camera.main.orthographicSize;
         halfWidth = Camera.main.aspect * halfHeight;
@@ -81,6 +81,23 @@ public class ConfigData : MonoBehaviour
         {
             handStartPos = Camera.main.transform.position.x - halfWidth * .55f;
             handEndPos = Camera.main.transform.position.x + halfWidth * .55f;
+        }
+    }
+
+    public void SetupStatusEffectHolders()
+    {
+        StatusEffectHolder[] statusEffectHolders = FindObjectsOfType<StatusEffectHolder>();
+        foreach(StatusEffectHolder statusEffectHolder in statusEffectHolders)
+        {
+            if (statusEffectHolder.IsPlayerOrEnemy() == "Player")
+            {
+                Debug.Log("Found player status effect holder");
+                playerStatusEffects = statusEffectHolder;
+            } else if (statusEffectHolder.IsPlayerOrEnemy() == "Enemy")
+            {
+                Debug.Log("Found enemy status effect holder");
+                enemyStatusEffects = statusEffectHolder;
+            }
         }
     }
 
@@ -247,5 +264,10 @@ public class ConfigData : MonoBehaviour
     public StatusEffectHolder GetPlayerStatusEffects()
     {
         return playerStatusEffects;
+    }
+
+    public StatusEffectHolder GetEnemyStatusEffects()
+    {
+        return enemyStatusEffects;
     }
 }
