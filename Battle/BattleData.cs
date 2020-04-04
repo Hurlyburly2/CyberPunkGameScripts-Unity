@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleData : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class BattleData : MonoBehaviour
 
     // state
     bool actionDisabled = true;
+    string whoseTurn = "player";
+        // possible values: player, enemy
+        //  playerDiscard = player discarding at end of their turn
 
     private void Awake()
     {
@@ -60,9 +64,49 @@ public class BattleData : MonoBehaviour
         enemy = Instantiate(allEnemies[enemyId], new Vector2(enemyXPos, enemyYPos), Quaternion.identity);
     }
 
+    public void EndTurn()
+    {
+        if (whoseTurn == "player" || whoseTurn == "playerDiscard")
+        {
+            bool finishedDiscarding = DiscardDownToMaxHandSize();
+            if (finishedDiscarding)
+            {
+                // TODO tick down enemy effect durations
+                // TODO Switch to enemy's turn and disable player actions
+            }
+        } else if (whoseTurn == "enemy") {
+            // TODO Player draws to max hand size
+            // TODO Tick down player effect durations
+            // TODO Switch back to player's turn and enable player actions
+        }
+    }
+
+    private bool DiscardDownToMaxHandSize()
+    {
+        int extraCardsInHand = playerHand.GetCardsInHandCount() - character.GetStartingHandSize();
+        PopupHolder popupHolder = FindObjectOfType<PopupHolder>();
+        if (extraCardsInHand > 0)
+        {
+            popupHolder.SpawnDiscardPopup(extraCardsInHand);
+            whoseTurn = "playerDiscard";
+            return false;
+        } else
+        {
+            popupHolder.DestroyAllPopups();
+            whoseTurn = "player";
+            return true;
+        }
+    }
+
+    public string WhoseTurnIsIt()
+    {
+        return whoseTurn;
+    }
+
     private IEnumerator EnablePlayAfterSetup()
     {
         yield return new WaitForSeconds(setupTimeInSeconds);
+        FindObjectOfType<EndTurnButton>().GetComponent<Button>().interactable = true;
         actionDisabled = false;
     }
 

@@ -79,11 +79,17 @@ public class Card : MonoBehaviour
             rotation = rememberRotation;
             SetSortingOrder(rememberSortingOrder);
             float mouseY = Input.mousePosition.y / Screen.height * configData.GetHalfHeight() * 2;
-            if (mouseY > configData.GetCardPlayedLine())
+            if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player")
             {
                 SetState("played");
                 playerHand.RemoveCard(GetComponent<Card>());
                 PlayCard();
+            } else if (battleData.WhoseTurnIsIt() == "playerDiscard")
+            {
+                DiscardCard();
+                playerHand.RemoveCard(GetComponent<Card>());
+                battleData.EndTurn();
+                Destroy(gameObject);
             }
             else
             {

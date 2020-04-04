@@ -49,6 +49,7 @@ public class ConfigData : MonoBehaviour
     // Objects
     StatusEffectHolder playerStatusEffects;
     StatusEffectHolder enemyStatusEffects;
+    BattleData battleData;
 
     AllCards allCards;
 
@@ -142,6 +143,20 @@ public class ConfigData : MonoBehaviour
 
         enemyHealthPipManager.Setup(this, enemy.GetMaximumHealth(), enemy.GetCurrentHealth());
         enemyEnergyPipManager.Setup(this, enemy.GetMaximumEnergy(), enemy.GetCurrentEnergy());
+    }
+
+    public void EndTurn()
+    {
+        BattleData battleData = FindObjectOfType<BattleData>();
+        if (battleData)
+        {
+            battleData.EndTurn();
+        } else
+        {
+            Debug.Log("Did not find battledata");
+        }
+        // Get battle data EndTurn here
+        // Disable and discolor this button if not player's turn
     }
 
     public float GetCardWidth()
