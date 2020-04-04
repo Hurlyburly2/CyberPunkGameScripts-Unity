@@ -91,11 +91,9 @@ public class ConfigData : MonoBehaviour
         {
             if (statusEffectHolder.IsPlayerOrEnemy() == "Player")
             {
-                Debug.Log("Found player status effect holder");
                 playerStatusEffects = statusEffectHolder;
             } else if (statusEffectHolder.IsPlayerOrEnemy() == "Enemy")
             {
-                Debug.Log("Found enemy status effect holder");
                 enemyStatusEffects = statusEffectHolder;
             }
         }

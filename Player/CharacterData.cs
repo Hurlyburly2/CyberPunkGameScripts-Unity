@@ -54,7 +54,7 @@ public class CharacterData : ScriptableObject
 
         startingHandSize = newStartingHandSize;
 
-        loadout = new Loadout();
+        loadout = CreateInstance<Loadout>();
         loadout.SetupInitialLoadout(runnerName, hackerName);
     }
 
