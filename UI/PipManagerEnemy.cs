@@ -44,8 +44,6 @@ public class PipManagerEnemy : MonoBehaviour
     {
         int targetNumberOfPips = Mathf.CeilToInt(currentValue / pipValue);
 
-        Debug.Log(targetNumberOfPips);
-
         float timePerPip = transitionTime / targetNumberOfPips;
         while (pipList.Count != targetNumberOfPips)
         {

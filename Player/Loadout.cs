@@ -21,28 +21,28 @@ public class Loadout : ScriptableObject
         runnerName = newRunnerName;
         hackerName = newHackerName;
 
-        headMod = new RunnerMod();
+        headMod = CreateInstance<RunnerMod>();
         headMod.SetupMod("Human Eyes");
 
-        torsoMod = new RunnerMod();
+        torsoMod = CreateInstance<RunnerMod>();
         torsoMod.SetupMod("Unmodded Torso");
 
-        exoskeletonMod = new RunnerMod();
+        exoskeletonMod = CreateInstance<RunnerMod>();
         exoskeletonMod.SetupMod("Human Skin");
 
-        leftArm = new RunnerMod();
+        leftArm = CreateInstance<RunnerMod>();
         leftArm.SetupMod("Unmodded Arm");
 
-        rightArm = new RunnerMod();
+        rightArm = CreateInstance<RunnerMod>();
         rightArm.SetupMod("Unmodded Arm");
 
-        leftLeg = new RunnerMod();
+        leftLeg = CreateInstance<RunnerMod>();
         leftLeg.SetupMod("Unmodded Leg");
 
-        rightLeg = new RunnerMod();
+        rightLeg = CreateInstance<RunnerMod>();
         rightLeg.SetupMod("Unmodded Leg");
 
-        weapon = new RunnerMod();
+        weapon = CreateInstance<RunnerMod>();
         weapon.SetupMod("Spanner");
     }
 

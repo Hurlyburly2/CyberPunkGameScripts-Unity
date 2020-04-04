@@ -46,6 +46,10 @@ public class ConfigData : MonoBehaviour
     // Deck Fields
     [SerializeField] string cardsInDeckTextFieldName = "CardsInDeck";
 
+    // Objects
+    StatusEffectHolder playerStatusEffects;
+    StatusEffectHolder enemyStatusEffects;
+
     AllCards allCards;
 
     // Start is called before the first frame update
@@ -77,6 +81,21 @@ public class ConfigData : MonoBehaviour
         {
             handStartPos = Camera.main.transform.position.x - halfWidth * .55f;
             handEndPos = Camera.main.transform.position.x + halfWidth * .55f;
+        }
+    }
+
+    public void SetupStatusEffectHolders()
+    {
+        StatusEffectHolder[] statusEffectHolders = FindObjectsOfType<StatusEffectHolder>();
+        foreach(StatusEffectHolder statusEffectHolder in statusEffectHolders)
+        {
+            if (statusEffectHolder.IsPlayerOrEnemy() == "Player")
+            {
+                playerStatusEffects = statusEffectHolder;
+            } else if (statusEffectHolder.IsPlayerOrEnemy() == "Enemy")
+            {
+                enemyStatusEffects = statusEffectHolder;
+            }
         }
     }
 
@@ -238,5 +257,15 @@ public class ConfigData : MonoBehaviour
     public PipManager GetPlayerEnergyPipManager()
     {
         return energyPipManager;
+    }
+
+    public StatusEffectHolder GetPlayerStatusEffects()
+    {
+        return playerStatusEffects;
+    }
+
+    public StatusEffectHolder GetEnemyStatusEffects()
+    {
+        return enemyStatusEffects;
     }
 }

@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] int currentHealth;
     [SerializeField] int maxEnergy;
     [SerializeField] int currentEnergy;
+    [SerializeField] int handSize;
 
     // config
     GameObject currentHealthText;
@@ -20,6 +21,7 @@ public class Enemy : MonoBehaviour
     ConfigData configData;
     PipManagerEnemy healthPipManager;
     PipManagerEnemy energyPipManager;
+    EnemyDeck enemyDeck;
 
     public void BattleSetup(float setupTimeInSeconds)
     {
@@ -28,6 +30,9 @@ public class Enemy : MonoBehaviour
         healthPipManager = configData.GetEnemyHealthPipManager();
         energyPipManager = configData.GetEnemyEnergyPipManager();
         SetupHealthAndEnergyText();
+
+        enemyDeck = FindObjectOfType<EnemyDeck>();
+        enemyDeck.SetupDeck();
     }
 
     public void TakeDamage(int damageInflicted)

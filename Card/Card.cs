@@ -5,9 +5,13 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     [SerializeField] int cardId;
+    [SerializeField] string[] keywords;
     ConfigData configData;
     BattleData battleData;
     PlayerHand playerHand;
+    StatusEffectHolder playerCurrentStatusEffects;
+    StatusEffectHolder enemyCurrentStatusEffects;
+    Deck deck;
     Discard discard;
 
     float xPos;
@@ -18,6 +22,7 @@ public class Card : MonoBehaviour
 
     int rememberSortingOrder = 0;
     float rememberRotation = 0;
+    float critModifier = 2;
 
     // where is the card, and how is it behaving?
         // draw = when card is initially drawn
@@ -35,6 +40,9 @@ public class Card : MonoBehaviour
         battleData = FindObjectOfType<BattleData>();
         playerHand = FindObjectOfType<PlayerHand>();
         discard = FindObjectOfType<Discard>();
+        deck = FindObjectOfType<Deck>();
+        playerCurrentStatusEffects = configData.GetPlayerStatusEffects();
+        enemyCurrentStatusEffects = configData.GetEnemyStatusEffects();
     }
 
     // Update is called once per frame
@@ -88,6 +96,7 @@ public class Card : MonoBehaviour
     {
         PlayCardActions();
         DiscardCard();
+        playerHand.RemoveFromHand(this);
         Destroy(gameObject);
     }
 
@@ -201,11 +210,12 @@ public class Card : MonoBehaviour
         return cardId;
     }
 
-    private void DealDamage(int damageAmount)
+    public string[] GetKeywords()
     {
-        // TODO: CALCULATE DAMAGE MODIFIERS
-        battleData.GetEnemy().TakeDamage(damageAmount);
+        return keywords;
     }
+
+    // PLAY CARD ACTIONS
 
     private void PlayCardActions()
     {
@@ -215,8 +225,7 @@ public class Card : MonoBehaviour
                 Debug.Log("This is a dummy card, it doesn't actually do anything");
                 break;
             case 1: // AWARENESS
-                Debug.Log("Awareness is not yet implemented");
-                // GAIN DODGE
+                GainStatus("Dodge", 1);
                 break;
             case 2: // OBSERVE
                 // Pick and draw one of the top three cards of your deck, discard the other two
@@ -227,43 +236,117 @@ public class Card : MonoBehaviour
                 // END YOUR TURN AND SKIP YOUR DISCARD
                 break;
             case 4: // WEAK SPOT
-                // The next damage you take is doubled
+                InflictStatus("CritUp", 1);
                 break;
             case 5: // SHAKE OFF
                 // Heal 2
-                // Remove a status effect
+                // Remove a debuff effect
                 break;
             case 6: // BRACE
-                // Gain 1 damage resist for 2 turns
+                GainStatus("Damage Resist", 1, 2);
                 break;
             case 7: // PUNCH
                 DealDamage(2);
-                // 10% CHANCE TO DRAW TWO CARDS
+                if (PercentChance(10)) {
+                    DrawXCards(1);
+                }
                 break;
             case 8: // QUICKDRAW
-                // Draw a random weapon card from your deck
+                DrawRandomCardFromDeck("Weapon");
                 break;
             case 9: // KICK
-                // Deal 1 damage
-                // Gain 1 momentum
+                DealDamage(1);
+                GainStatus("Momentum", 1);
                 break;
             case 10: // SPRINT
-                // Draw 2 cards
+                DrawXCards(2);
                 break;
             case 11: // WHACK
-                // Deal 3 damage
-                // 10% chance: critical hit
+                DealDamage(3, 10);
                 break;
             case 12: // KNEECAP
-                // Deal 4 damage
+                DealDamage(4);
                 break;
             case 13: // BRUISE
-                // Deal 1 damage
-                // Inflict vulnerable x2
+                DealDamage(1);
+                InflictStatus("Vulnerable", 2);
                 break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
         }
+    }
+
+    private void GainStatus(string statusType, int stacks)
+    {
+        playerCurrentStatusEffects.InflictStatus(statusType, stacks);
+    }
+
+    private void GainStatus(string statusType, int stacks, int duration)
+    {
+        playerCurrentStatusEffects.InflictStatus(statusType, stacks, duration);
+    }
+
+    private void InflictStatus(string statusType, int stacks)
+    {
+        enemyCurrentStatusEffects.InflictStatus(statusType, stacks);
+    }
+
+    private void DealDamage(int damageAmount, int critChance = 0)
+    {
+        // Modify Damage
+        damageAmount += playerCurrentStatusEffects.GetMomentumStacks();
+        damageAmount += enemyCurrentStatusEffects.GetVulnerableStacks();
+
+        int modifiedDamage = CheckAndApplyCritical(damageAmount, critChance);
+        battleData.GetEnemy().TakeDamage(modifiedDamage);
+    }
+
+    private int CheckAndApplyCritical(int damageAmount, int critChance)
+    {
+        // Check for crit
+        bool criticalHit = false;
+        if (PercentChance(critChance))
+        {
+            criticalHit = true;
+        }
+        else if (playerCurrentStatusEffects.GetCritUpStacks() > 0)
+        {
+            criticalHit = true;
+            playerCurrentStatusEffects.InflictStatus("CritUp", -1);
+        }
+
+        // Apply crit
+        int calculatedDamage = damageAmount;
+        if (criticalHit)
+        {
+            calculatedDamage = Mathf.FloorToInt(critModifier * calculatedDamage);
+        }
+        return calculatedDamage;
+    }
+
+    private void DrawXCards(int amountToDraw)
+    {
+        playerHand.DrawXCards(amountToDraw);
+    }
+
+    private bool PercentChance(int percentChance)
+    {
+        int randomNumber = Mathf.CeilToInt(Random.Range(0, 100));
+        if (randomNumber <= percentChance)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private void DrawRandomCardFromDeck(string keyword)
+    {
+        Card cardToDraw = deck.DrawRandomCardFromDeck(keyword);
+        if (cardToDraw.GetCardId() == 0)
+        {
+            return;
+        }
+        playerHand.DrawCard(cardToDraw);
     }
 }

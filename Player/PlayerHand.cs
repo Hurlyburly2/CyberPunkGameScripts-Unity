@@ -31,6 +31,11 @@ public class PlayerHand : MonoBehaviour
         ConfigHand();
     }
 
+    public void RemoveFromHand(Card cardToRemove)
+    {
+        cardsInHand.Remove(cardToRemove);
+    }
+
     public void DrawStartingHand(int startingHandSize, float setupTimeInSeconds)
     {
         float timePerCardDraw = setupTimeInSeconds / startingHandSize;
@@ -44,6 +49,20 @@ public class PlayerHand : MonoBehaviour
         {
             DrawCard();
             yield return new WaitForSeconds(timePerCardDraw);
+        }
+    }
+
+    public void DrawXCards(int amountOfCards)
+    {
+        StartCoroutine(DrawXCardsCoroutine(amountOfCards));
+    }
+
+    private IEnumerator DrawXCardsCoroutine(int amountOfCards)
+    {
+        for (int i = 0; i < amountOfCards; i++)
+        {
+            DrawCard();
+            yield return new WaitForSeconds(.05f);
         }
     }
 
@@ -61,6 +80,17 @@ public class PlayerHand : MonoBehaviour
 
             CalculateHandPositions();
         }
+    }
+
+    public void DrawCard(Card cardToDraw)
+    {
+        float cardSizeMultiplier = configData.GetCardSizeMultiplier();
+        Card newCard = Instantiate(cardToDraw, new Vector2(configData.GetHalfWidth() * 2.2f, 0 - (configData.GetCardWidth() / 2)), Quaternion.identity);
+        newCard.SetState("draw");
+        newCard.transform.localScale = new Vector3(cardSizeMultiplier, cardSizeMultiplier, cardSizeMultiplier);
+        cardsInHand.Add(newCard);
+
+        CalculateHandPositions();
     }
 
     private void CalculateHandPositions()
