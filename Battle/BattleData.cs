@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleData : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class BattleData : MonoBehaviour
 
     // state
     bool actionDisabled = true;
+    string whoseTurn = "player";
+        // possible values: player, enemy
+        //  playerDiscard = player discarding at end of their turn
 
     private void Awake()
     {
@@ -60,9 +64,59 @@ public class BattleData : MonoBehaviour
         enemy = Instantiate(allEnemies[enemyId], new Vector2(enemyXPos, enemyYPos), Quaternion.identity);
     }
 
+    public void EndTurn()
+    {
+        if (whoseTurn == "player" || whoseTurn == "playerDiscard")
+        {
+            bool finishedDiscarding = DiscardDownToMaxHandSize();
+            if (finishedDiscarding)
+            {
+                TickDownStatusEffectDurations("enemy");
+                whoseTurn = "enemy";
+                actionDisabled = true;
+            }
+        } else if (whoseTurn == "enemy") {
+            playerHand.DrawToMaxHandSize();
+            TickDownStatusEffectDurations("player");
+            whoseTurn = "player";
+            actionDisabled = false;
+        }
+    }
+
+    private void TickDownStatusEffectDurations(string whoseEffectsToTick)
+    {
+        StatusEffectHolder[] statusEffectHolders = FindObjectsOfType<StatusEffectHolder>();
+        foreach(StatusEffectHolder statusEffectHolder in statusEffectHolders)
+        {
+            statusEffectHolder.TickDownStatusEffects(whoseEffectsToTick);
+        }
+    }
+
+    private bool DiscardDownToMaxHandSize()
+    {
+        int extraCardsInHand = playerHand.GetCardsInHandCount() - character.GetStartingHandSize();
+        PopupHolder popupHolder = FindObjectOfType<PopupHolder>();
+        if (extraCardsInHand > 0)
+        {
+            popupHolder.SpawnDiscardPopup(extraCardsInHand);
+            whoseTurn = "playerDiscard";
+            return false;
+        } else
+        {
+            popupHolder.DestroyAllPopups();
+            return true;
+        }
+    }
+
+    public string WhoseTurnIsIt()
+    {
+        return whoseTurn;
+    }
+
     private IEnumerator EnablePlayAfterSetup()
     {
         yield return new WaitForSeconds(setupTimeInSeconds);
+        FindObjectOfType<EndTurnButton>().GetComponent<Button>().interactable = true;
         actionDisabled = false;
     }
 

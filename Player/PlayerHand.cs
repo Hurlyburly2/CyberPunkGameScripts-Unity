@@ -20,6 +20,7 @@ public class PlayerHand : MonoBehaviour
     BattleData battleData;
     Deck deck;
     Discard discard;
+    CharacterData character;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,9 @@ public class PlayerHand : MonoBehaviour
         battleData = FindObjectOfType<BattleData>();
         deck = FindObjectOfType<Deck>();
         discard = FindObjectOfType<Discard>();
+        character = FindObjectOfType<CharacterData>();
+
+        initialHandSize = character.GetStartingHandSize();
 
         ConfigHand();
     }
@@ -57,6 +61,14 @@ public class PlayerHand : MonoBehaviour
         StartCoroutine(DrawXCardsCoroutine(amountOfCards));
     }
 
+    public void DrawToMaxHandSize()
+    {
+        if (cardsInHand.Count < initialHandSize)
+        {
+            DrawXCards(initialHandSize - cardsInHand.Count);
+        }
+    }
+
     private IEnumerator DrawXCardsCoroutine(int amountOfCards)
     {
         for (int i = 0; i < amountOfCards; i++)
@@ -74,6 +86,7 @@ public class PlayerHand : MonoBehaviour
         {
             Card cardToDraw = deck.DrawCardFromTop();
             Card newCard = Instantiate(cardToDraw, new Vector2(configData.GetHalfWidth() * 2.2f, 0 - (configData.GetCardWidth() / 2)), Quaternion.identity);
+            newCard.SetPlayerOrEnemy("player");
             newCard.SetState("draw");
             newCard.transform.localScale = new Vector3(cardSizeMultiplier, cardSizeMultiplier, cardSizeMultiplier);
             cardsInHand.Add(newCard);
@@ -86,6 +99,7 @@ public class PlayerHand : MonoBehaviour
     {
         float cardSizeMultiplier = configData.GetCardSizeMultiplier();
         Card newCard = Instantiate(cardToDraw, new Vector2(configData.GetHalfWidth() * 2.2f, 0 - (configData.GetCardWidth() / 2)), Quaternion.identity);
+        newCard.SetPlayerOrEnemy("player");
         newCard.SetState("draw");
         newCard.transform.localScale = new Vector3(cardSizeMultiplier, cardSizeMultiplier, cardSizeMultiplier);
         cardsInHand.Add(newCard);

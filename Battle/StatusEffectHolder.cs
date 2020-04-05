@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StatusEffectHolder : MonoBehaviour
 {
@@ -8,17 +9,18 @@ public class StatusEffectHolder : MonoBehaviour
     [SerializeField] StatusEffect[] statusEffects;
     [SerializeField] Sprite[] images;
 
-    public void InflictStatus(string statusType, int stacks, int duration = 0)
+    public void InflictStatus(string statusType, int stacks, string inflictedBy, int duration = 0)
     {
         int indexOfStatus = GetStatusIndex(statusType);
         if (indexOfStatus == -1)
         {
-            NewStatus(statusType, stacks, duration);
+            NewStatus(statusType, stacks, duration, inflictedBy);
         } else
         {
             StatusEffect currentStatus = statusEffects[indexOfStatus];
             currentStatus.ModifyStatus(stacks, duration);
             CheckDestroyStatus(currentStatus);
+            RejiggerStatusIcons();
         }
     }
 
@@ -59,20 +61,34 @@ public class StatusEffectHolder : MonoBehaviour
         }
     }
 
-    private void CheckDestroyStatus(StatusEffect currentStatus)
+    public void TickDownStatusEffects(string whoseEffectsToTick)
     {
-        // Check if the status has zero stacks
-        // If yes, DestroyStatus()
-        // If no, no effect
+        foreach(StatusEffect statusEffect in statusEffects)
+        {
+            if (statusEffect.GetPlayerOrEnemy() == whoseEffectsToTick)
+            {
+                statusEffect.TickDownDuration();
+            }
+            CheckDestroyStatus(statusEffect);
+        }
+
+        RejiggerStatusIcons();
     }
 
-    private void DestroyStatus(StatusEffect currentStatus)
+    private void CheckDestroyStatus(StatusEffect statusEffect)
     {
-        // currentStatus.destroyStatus();
-        // Rejigger the rest so there are no empty spaces
+        if (statusEffect.GetRemainingDuration() < 1)
+        {
+            DestroyStatus(statusEffect);
+        }
     }
 
-    private void NewStatus(string statusType, int stacks, int duration)
+    private void DestroyStatus(StatusEffect statusToDestroy)
+    {
+        statusToDestroy.DestroyStatus(GetStatusIcon("default"));
+    }
+
+    private void NewStatus(string statusType, int stacks, int duration, string inflictedBy)
     {
         int statusDuration = 0;
         if (duration == 0)
@@ -84,7 +100,7 @@ public class StatusEffectHolder : MonoBehaviour
         }
         int firstAvailableStatusSlot = FindFirstAvailableStatusSlot();
         Sprite statusIcon = GetStatusIcon(statusType);
-        statusEffects[firstAvailableStatusSlot].SetupStatus(statusType, stacks, statusDuration, statusIcon);
+        statusEffects[firstAvailableStatusSlot].SetupStatus(statusType, stacks, statusDuration, statusIcon, inflictedBy);
     }
 
     private Sprite GetStatusIcon(string statusType)
@@ -128,13 +144,13 @@ public class StatusEffectHolder : MonoBehaviour
             case "Dodge":
                 return 1;
             case "Momentum":
-                return 1;
+                return 3;
             case "Damage Resist":
-                return 1;
+                return 2;
             case "CritUp":
-                return 1;
+                return 4;
             case "Vulnerable":
-                return 1;
+                return 5;
             default:
                 return 1;
         }
@@ -154,6 +170,60 @@ public class StatusEffectHolder : MonoBehaviour
             currentIndex++;
         }
         return -1;
+    }
+
+    private void RejiggerStatusIcons()
+    {
+        while (!IsCorrectOrder())
+        {
+            StatusEffect previousEffect;
+            StatusEffect currentEffect = statusEffects[statusEffects.Length - 1];
+            for (int i = statusEffects.Length - 1; i >= 0; i--)
+            {
+                if (i == statusEffects.Length - 1)
+                {
+                    // On the first loop, we just store the current effect
+                    currentEffect = statusEffects[i];
+                }
+                else
+                {
+                    previousEffect = statusEffects[i + 1];
+                    currentEffect = statusEffects[i];
+                    CopyEffect(previousEffect, currentEffect);
+                }
+            }
+        } 
+    }
+
+    private void CopyEffect(StatusEffect previousEffect, StatusEffect currentEffect)
+    {
+        if (currentEffect.GetStatusType() == "")
+        {
+            int remainingDuration = previousEffect.GetRemainingDuration();
+            int stacks = previousEffect.GetStacks();
+            string statusType = previousEffect.GetStatusType();
+            string inflictedBy = previousEffect.GetPlayerOrEnemy();
+            Sprite statusIcon = GetStatusIcon(statusType);
+
+            previousEffect.DestroyStatus(GetStatusIcon("default"));
+            currentEffect.SetupStatus(statusType, stacks, remainingDuration, statusIcon, inflictedBy);
+        }
+    }
+
+    private bool IsCorrectOrder()
+    {
+        bool foundEmpty = false;
+        foreach(StatusEffect statusEffect in statusEffects)
+        {
+            if (statusEffect.GetStatusType() != "" && foundEmpty == true)
+            {
+                return false;
+            } else if (statusEffect.GetStatusType() == "")
+            {
+                foundEmpty = true;
+            }
+        }
+        return true;
     }
 
     public StatusEffect[] GetAllStatusEffects()
