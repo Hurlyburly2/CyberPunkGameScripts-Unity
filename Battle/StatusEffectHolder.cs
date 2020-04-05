@@ -8,12 +8,12 @@ public class StatusEffectHolder : MonoBehaviour
     [SerializeField] StatusEffect[] statusEffects;
     [SerializeField] Sprite[] images;
 
-    public void InflictStatus(string statusType, int stacks, int duration = 0)
+    public void InflictStatus(string statusType, int stacks, string inflictedBy, int duration = 0)
     {
         int indexOfStatus = GetStatusIndex(statusType);
         if (indexOfStatus == -1)
         {
-            NewStatus(statusType, stacks, duration);
+            NewStatus(statusType, stacks, duration, inflictedBy);
         } else
         {
             StatusEffect currentStatus = statusEffects[indexOfStatus];
@@ -59,20 +59,38 @@ public class StatusEffectHolder : MonoBehaviour
         }
     }
 
-    private void CheckDestroyStatus(StatusEffect currentStatus)
+    public void TickDownStatusEffects(string whoseEffectsToTick)
     {
-        // Check if the status has zero stacks
-        // If yes, DestroyStatus()
-        // If no, no effect
+        List<int> destroyedStatusIndices = new List<int>();
+
+        int currentIndex = 0;
+        foreach(StatusEffect statusEffect in statusEffects)
+        {
+            if (statusEffect.GetPlayerOrEnemy() == whoseEffectsToTick)
+            {
+                statusEffect.TickDownDuration();
+            }
+            CheckDestroyStatus(statusEffect);
+            currentIndex++;
+        }
+
+        // Rejigger the rest so there are no empty spaces visually
     }
 
-    private void DestroyStatus(StatusEffect currentStatus)
+    private void CheckDestroyStatus(StatusEffect statusEffect)
     {
-        // currentStatus.destroyStatus();
-        // Rejigger the rest so there are no empty spaces
+        if (statusEffect.GetRemainingDuration() < 1)
+        {
+            DestroyStatus(statusEffect);
+        }
     }
 
-    private void NewStatus(string statusType, int stacks, int duration)
+    private void DestroyStatus(StatusEffect statusToDestroy)
+    {
+        statusToDestroy.DestroyStatus(GetStatusIcon("default"));
+    }
+
+    private void NewStatus(string statusType, int stacks, int duration, string inflictedBy)
     {
         int statusDuration = 0;
         if (duration == 0)
@@ -84,7 +102,7 @@ public class StatusEffectHolder : MonoBehaviour
         }
         int firstAvailableStatusSlot = FindFirstAvailableStatusSlot();
         Sprite statusIcon = GetStatusIcon(statusType);
-        statusEffects[firstAvailableStatusSlot].SetupStatus(statusType, stacks, statusDuration, statusIcon);
+        statusEffects[firstAvailableStatusSlot].SetupStatus(statusType, stacks, statusDuration, statusIcon, inflictedBy);
     }
 
     private Sprite GetStatusIcon(string statusType)

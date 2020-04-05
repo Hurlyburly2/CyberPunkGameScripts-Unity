@@ -30,6 +30,8 @@ public class Card : MonoBehaviour
         // dragging = mouse down, can move it from hand
         // played = card dragged to play zone (above a certain y axis)
     string state;
+    string playerOrEnemy;
+        // tracks if the player or enemy is using the card, used for status effects
 
     // Start is called before the first frame update
     void Awake()
@@ -285,17 +287,17 @@ public class Card : MonoBehaviour
 
     private void GainStatus(string statusType, int stacks)
     {
-        playerCurrentStatusEffects.InflictStatus(statusType, stacks);
+        playerCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy);
     }
 
     private void GainStatus(string statusType, int stacks, int duration)
     {
-        playerCurrentStatusEffects.InflictStatus(statusType, stacks, duration);
+        playerCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy, duration);
     }
 
     private void InflictStatus(string statusType, int stacks)
     {
-        enemyCurrentStatusEffects.InflictStatus(statusType, stacks);
+        enemyCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy);
     }
 
     private void DealDamage(int damageAmount, int critChance = 0)
@@ -319,7 +321,7 @@ public class Card : MonoBehaviour
         else if (playerCurrentStatusEffects.GetCritUpStacks() > 0)
         {
             criticalHit = true;
-            playerCurrentStatusEffects.InflictStatus("CritUp", -1);
+            GainStatus("CritUp", -1);
         }
 
         // Apply crit
@@ -354,5 +356,15 @@ public class Card : MonoBehaviour
             return;
         }
         playerHand.DrawCard(cardToDraw);
+    }
+
+    public string GetPlayerOrEnemy()
+    {
+        return playerOrEnemy;
+    }
+
+    public void SetPlayerOrEnemy(string newPlayerOrEnemy)
+    {
+        playerOrEnemy = newPlayerOrEnemy;
     }
 }

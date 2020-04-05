@@ -71,13 +71,25 @@ public class BattleData : MonoBehaviour
             bool finishedDiscarding = DiscardDownToMaxHandSize();
             if (finishedDiscarding)
             {
-                // TODO tick down enemy effect durations
-                // TODO Switch to enemy's turn and disable player actions
+                TickDownStatusEffectDurations("enemy");
+                whoseTurn = "enemy";
+                actionDisabled = true;
             }
         } else if (whoseTurn == "enemy") {
             // TODO Player draws to max hand size
-            // TODO Tick down player effect durations
             // TODO Switch back to player's turn and enable player actions
+            TickDownStatusEffectDurations("player");
+            whoseTurn = "player";
+            actionDisabled = false;
+        }
+    }
+
+    private void TickDownStatusEffectDurations(string whoseEffectsToTick)
+    {
+        StatusEffectHolder[] statusEffectHolders = FindObjectsOfType<StatusEffectHolder>();
+        foreach(StatusEffectHolder statusEffectHolder in statusEffectHolders)
+        {
+            statusEffectHolder.TickDownStatusEffects(whoseEffectsToTick);
         }
     }
 
@@ -93,7 +105,6 @@ public class BattleData : MonoBehaviour
         } else
         {
             popupHolder.DestroyAllPopups();
-            whoseTurn = "player";
             return true;
         }
     }

@@ -17,19 +17,30 @@ public class StatusEffect : MonoBehaviour
         // Damage: Resist -1 damage taken per stack
         // CritUp: Next hit automatically crits, then stacks -1
         // Vulnerable: +1 damage taken per stack
+    string inflictedBy;
+    // Player or Enemy -
+        // Tracks when duration ticks down
+            // Player ticks down at beginning of player turn, enemy at enemy turn
 
     private void Start()
     {
         statusType = "";
+        numberOfStacksTextField = GetComponentInChildren<TextMeshProUGUI>();
     }
 
-    public void SetupStatus(string newStatusType, int incomingStacks, int duration, Sprite statusIcon)
+    public void TickDownDuration()
+    {
+        remainingDuration--;
+        UpdateStackText();
+    }
+
+    public void SetupStatus(string newStatusType, int incomingStacks, int duration, Sprite statusIcon, string newInflictedBy)
     {
         statusType = newStatusType;
         stacks = incomingStacks;
         remainingDuration = duration;
+        inflictedBy = newInflictedBy;
 
-        numberOfStacksTextField = GetComponentInChildren<TextMeshProUGUI>();
         GetComponentInChildren<Image>().sprite = statusIcon;
         UpdateStackText();
     }
@@ -41,6 +52,17 @@ public class StatusEffect : MonoBehaviour
         UpdateStackText();
     }
 
+    public void DestroyStatus(Sprite defaultImage)
+    {
+        // RESET IT ALL
+        ClearStackText();
+        remainingDuration = 0;
+        stacks = 0;
+        statusType = "";
+        inflictedBy = "";
+        GetComponentInChildren<Image>().sprite = defaultImage;
+    }
+
     public int GetStacks()
     {
         return stacks;
@@ -49,6 +71,11 @@ public class StatusEffect : MonoBehaviour
     private void UpdateStackText()
     {
         numberOfStacksTextField.text = stacks.ToString();
+    }
+
+    private void ClearStackText()
+    {
+        numberOfStacksTextField.text = "";
     }
 
 
@@ -83,5 +110,15 @@ public class StatusEffect : MonoBehaviour
             default:
                 return false;
         }
+    }
+
+    public string GetPlayerOrEnemy()
+    {
+        return inflictedBy;
+    }
+
+    public int GetRemainingDuration()
+    {
+        return remainingDuration;
     }
 }

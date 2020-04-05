@@ -30,6 +30,7 @@ public class CharacterData : ScriptableObject
     ConfigData configData;
     PipManager healthPipManager;
     PipManager energyPipManager;
+    StatusEffectHolder statusEffectHolder;
 
     // Start is called before the first frame update
     void Start()

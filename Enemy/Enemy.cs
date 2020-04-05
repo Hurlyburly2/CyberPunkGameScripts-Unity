@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
     PipManagerEnemy healthPipManager;
     PipManagerEnemy energyPipManager;
     EnemyDeck enemyDeck;
+    StatusEffectHolder statusEffectHolder;
 
     public void BattleSetup(float setupTimeInSeconds)
     {
