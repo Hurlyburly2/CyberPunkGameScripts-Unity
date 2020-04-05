@@ -77,7 +77,6 @@ public class BattleData : MonoBehaviour
             }
         } else if (whoseTurn == "enemy") {
             // TODO Player draws to max hand size
-            // TODO Switch back to player's turn and enable player actions
             TickDownStatusEffectDurations("player");
             whoseTurn = "player";
             actionDisabled = false;

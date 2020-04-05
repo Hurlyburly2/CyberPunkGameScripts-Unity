@@ -42,7 +42,10 @@ public class StatusEffect : MonoBehaviour
         inflictedBy = newInflictedBy;
 
         GetComponentInChildren<Image>().sprite = statusIcon;
-        UpdateStackText();
+        if (stacks > 0)
+        {
+            UpdateStackText();
+        }
     }
 
     public void ModifyStatus(int newStacks, int duration = 0)
@@ -55,12 +58,12 @@ public class StatusEffect : MonoBehaviour
     public void DestroyStatus(Sprite defaultImage)
     {
         // RESET IT ALL
-        ClearStackText();
         remainingDuration = 0;
         stacks = 0;
         statusType = "";
         inflictedBy = "";
         GetComponentInChildren<Image>().sprite = defaultImage;
+        ClearStackText();
     }
 
     public int GetStacks()
