@@ -76,7 +76,7 @@ public class BattleData : MonoBehaviour
                 actionDisabled = true;
             }
         } else if (whoseTurn == "enemy") {
-            // TODO Player draws to max hand size
+            playerHand.DrawToMaxHandSize();
             TickDownStatusEffectDurations("player");
             whoseTurn = "player";
             actionDisabled = false;

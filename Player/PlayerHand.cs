@@ -20,6 +20,7 @@ public class PlayerHand : MonoBehaviour
     BattleData battleData;
     Deck deck;
     Discard discard;
+    CharacterData character;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,9 @@ public class PlayerHand : MonoBehaviour
         battleData = FindObjectOfType<BattleData>();
         deck = FindObjectOfType<Deck>();
         discard = FindObjectOfType<Discard>();
+        character = FindObjectOfType<CharacterData>();
+
+        initialHandSize = character.GetStartingHandSize();
 
         ConfigHand();
     }
@@ -55,6 +59,14 @@ public class PlayerHand : MonoBehaviour
     public void DrawXCards(int amountOfCards)
     {
         StartCoroutine(DrawXCardsCoroutine(amountOfCards));
+    }
+
+    public void DrawToMaxHandSize()
+    {
+        if (cardsInHand.Count < initialHandSize)
+        {
+            DrawXCards(initialHandSize - cardsInHand.Count);
+        }
     }
 
     private IEnumerator DrawXCardsCoroutine(int amountOfCards)
