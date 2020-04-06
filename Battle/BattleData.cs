@@ -68,12 +68,16 @@ public class BattleData : MonoBehaviour
     {
         if (whoseTurn == "player" || whoseTurn == "playerDiscard")
         {
-            bool finishedDiscarding = DiscardDownToMaxHandSize();
-            if (finishedDiscarding)
+            bool foundWeaknesses = AreThereWeaknesses();
+            if (!foundWeaknesses)
             {
-                TickDownStatusEffectDurations("enemy");
-                whoseTurn = "enemy";
-                actionDisabled = true;
+                bool finishedDiscarding = DiscardDownToMaxHandSize();
+                if (finishedDiscarding)
+                {
+                    TickDownStatusEffectDurations("enemy");
+                    whoseTurn = "enemy";
+                    actionDisabled = true;
+                }
             }
         } else if (whoseTurn == "enemy") {
             playerHand.DrawToMaxHandSize();
@@ -89,6 +93,21 @@ public class BattleData : MonoBehaviour
         foreach(StatusEffectHolder statusEffectHolder in statusEffectHolders)
         {
             statusEffectHolder.TickDownStatusEffects(whoseEffectsToTick);
+        }
+    }
+
+    private bool AreThereWeaknesses()
+    {
+        bool areThereWeaknesses = playerHand.AreThereWeaknesses();
+        PopupHolder popupHolder = FindObjectOfType<PopupHolder>();
+        if (areThereWeaknesses)
+        {
+            popupHolder.SpawnWeaknessesInHandPopup();
+            return true;
+        } else
+        {
+            popupHolder.DestroyAllPopups();
+            return false;
         }
     }
 
