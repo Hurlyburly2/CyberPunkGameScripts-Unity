@@ -303,16 +303,17 @@ public class Card : MonoBehaviour
                 // Pick and draw one of the top three cards of your deck, discard the other two
                 break;
             case 3: // DEEP BREATH
-                // DRAW 5
-                // GAIN VULNERABLE
-                // END YOUR TURN AND SKIP YOUR DISCARD
+                DrawXCards(5);
+                GainStatus("Vulnerable", 1);
+                SkipEndTurnDiscard(true);
+                EndTurn();
                 break;
             case 4: // WEAK SPOT
                 InflictStatus("CritUp", 1);
                 break;
             case 5: // SHAKE OFF
-                // Heal 2
-                // Remove a debuff effect
+                GainHealth(2);
+                HealDebuff(1);
                 break;
             case 6: // BRACE
                 GainStatus("Damage Resist", 1, 2);
@@ -347,6 +348,16 @@ public class Card : MonoBehaviour
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
         }
+    }
+
+    private void GainHealth(int amountToGain)
+    {
+        FindObjectOfType<CharacterData>().GainHealth(amountToGain);
+    }
+
+    private void HealDebuff(int amountOfDebuffsToHeal)
+    {
+        playerCurrentStatusEffects.HealDebuffs(amountOfDebuffsToHeal);
     }
 
     private void GainStatus(string statusType, int stacks)
@@ -420,6 +431,16 @@ public class Card : MonoBehaviour
             return;
         }
         playerHand.DrawCard(cardToDraw);
+    }
+
+    private void SkipEndTurnDiscard(bool newSkipDiscard)
+    {
+        battleData.SkipEndTurnDiscard(newSkipDiscard);
+    }
+
+    private void EndTurn()
+    {
+        battleData.EndTurn();
     }
 
     public string GetPlayerOrEnemy()

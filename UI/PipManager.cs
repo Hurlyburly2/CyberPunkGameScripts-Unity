@@ -51,6 +51,12 @@ public class PipManager : MonoBehaviour
         }
     }
 
+    public void ChangeValue(int newValue)
+    {
+        currentValue = newValue;
+        StartCoroutine(ChangeNumberOfPips(.05f));
+    }
+
     private void RemovePip()
     {
         GameObject previousLastPip = pipList[pipList.Count - 1];
