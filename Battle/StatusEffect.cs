@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public class StatusEffect : MonoBehaviour
@@ -26,6 +27,19 @@ public class StatusEffect : MonoBehaviour
     {
         statusType = "";
         numberOfStacksTextField = GetComponentInChildren<TextMeshProUGUI>();
+    }
+
+    private void OnMouseDown()
+    {
+        DisplayHelperText();
+    }
+
+    public void DisplayHelperText()
+    {
+        if (statusType != "")
+        {
+            Debug.Log(statusType);
+        }
     }
 
     public void TickDownDuration()
