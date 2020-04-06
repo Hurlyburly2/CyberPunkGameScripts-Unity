@@ -112,7 +112,8 @@ public class Card : MonoBehaviour
 
     private void DiscardCard()
     {
-        discard.AddCardToDiscard(this);
+        Card cardPrefab = configData.GetCardPrefabById(cardId);
+        discard.AddCardToDiscard(cardPrefab);
     }
 
     private void DoesDrawnCardReachHand()
