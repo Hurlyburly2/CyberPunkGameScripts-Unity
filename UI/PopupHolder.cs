@@ -13,10 +13,21 @@ public class PopupHolder : MonoBehaviour
 
     public void SpawnDiscardPopup(int amountOfCardsToDiscard)
     {
+        string message = "Discard " + amountOfCardsToDiscard + " cards";
+        SpawnPopup(message);
+    }
+
+    public void SpawnStatusPopup(string message)
+    {
+        SpawnPopup(message);
+    }
+
+    private void SpawnPopup(string message)
+    {
         DestroyAllPopups();
         Popup newPopup = Instantiate(popups[0], new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
         newPopup.transform.SetParent(this.transform);
-        newPopup.SetText("Discard " + amountOfCardsToDiscard + " cards");
+        newPopup.SetText(message);
         currentPopups.Add(newPopup);
     }
 

@@ -283,4 +283,9 @@ public class ConfigData : MonoBehaviour
     {
         return enemyStatusEffects;
     }
+
+    public Card GetCardPrefabById(int cardId)
+    {
+        return allCards.GetCardById(cardId);
+    }
 }

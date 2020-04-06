@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public class StatusEffect : MonoBehaviour
@@ -26,6 +27,51 @@ public class StatusEffect : MonoBehaviour
     {
         statusType = "";
         numberOfStacksTextField = GetComponentInChildren<TextMeshProUGUI>();
+    }
+
+    private void OnMouseDown()
+    {
+        DisplayHelperText();
+    }
+
+    private void OnMouseUp()
+    {
+        HideHelperText();
+    }
+
+    public void DisplayHelperText()
+    {
+        if (statusType != "")
+        {
+            FindObjectOfType<PopupHolder>().SpawnStatusPopup(GetMessageText());
+        }
+    }
+
+    private string GetMessageText()
+    {
+        switch (statusType)
+        {
+            case "Dodge":
+                return "WE HAVEN'T DONE THE MATH HERE, BUT IT'LL BE AT LEAST 35%!";
+            case "Momentum":
+                return "Deal +" + stacks + " damage";
+            case "Damage Resist":
+                return "Take -" + stacks + " damage";
+            case "CritUp":
+                return "Your next " + stacks + " attacks will be critical hits";
+            case "Vulnerable":
+                return "Take +" + stacks + " damage";
+            default:
+                return "THIS AIN'T IT, CHIEF";
+        }
+    }
+
+    public void HideHelperText()
+    {
+        if (statusType != "")
+        {
+            FindObjectOfType<PopupHolder>().DestroyAllPopups();
+        }
     }
 
     public void TickDownDuration()

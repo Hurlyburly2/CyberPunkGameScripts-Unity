@@ -6,6 +6,7 @@ public class Card : MonoBehaviour
 {
     [SerializeField] int cardId;
     [SerializeField] string[] keywords;
+    [SerializeField] CardHelperText[] cardHelperTexts;
     ConfigData configData;
     BattleData battleData;
     PlayerHand playerHand;
@@ -78,6 +79,7 @@ public class Card : MonoBehaviour
     {
         if (state == "dragging")
         {
+            RemoveHelperText();
             rotation = rememberRotation;
             SetSortingOrder(rememberSortingOrder);
             float mouseY = Input.mousePosition.y / Screen.height * configData.GetHalfHeight() * 2;
@@ -92,9 +94,9 @@ public class Card : MonoBehaviour
                 playerHand.RemoveCard(GetComponent<Card>());
                 battleData.EndTurn();
                 Destroy(gameObject);
-            }
-            else
+            } else
             {
+                transform.localScale = new Vector3(1, 1, 1);
                 SetState("draw");
             }
         }
@@ -110,7 +112,8 @@ public class Card : MonoBehaviour
 
     private void DiscardCard()
     {
-        discard.AddCardToDiscard(this);
+        Card cardPrefab = configData.GetCardPrefabById(cardId);
+        discard.AddCardToDiscard(cardPrefab);
     }
 
     private void DoesDrawnCardReachHand()
@@ -178,11 +181,72 @@ public class Card : MonoBehaviour
             handAdjustSpeed = configData.GetHandAdjustSpeed();
         } else if (state == "dragging")
         {
+            transform.localScale = new Vector3(2, 2, 2);
             rememberRotation = rotation;
             rotation = 0;
             SetSortingOrder(1000);
             handAdjustSpeed = 1000f;
+            StartCoroutine(DisplayHelperText());
         }
+    }
+
+    private IEnumerator DisplayHelperText()
+    {
+        yield return new WaitForSeconds(1);
+        if (state == "dragging")
+        {
+            List<string> keywordsToDefine = GetKeywordsToDefine();
+            for(int i = 0; i < cardHelperTexts.Length; i++)
+            {
+                if (i < keywordsToDefine.Count)
+                {
+                    cardHelperTexts[i].Activate(keywordsToDefine[i]);
+                }
+            }
+        } else
+        {
+            Debug.Log("Do not display helper text");
+        }
+    }
+
+    private void RemoveHelperText()
+    {
+        foreach(CardHelperText cardHelperText in cardHelperTexts)
+        {
+            cardHelperText.Deactivate();
+        }
+    }
+
+    private List<string> GetKeywordsToDefine()
+    {
+        List<string> keywordsToDefine = new List<string>();
+        foreach(string keyword in keywords)
+        {
+            bool needsDefinition = false;
+            switch(keyword)
+            {
+                case "Damage Resist":
+                    needsDefinition = true;
+                    break;
+                case "Dodge":
+                    needsDefinition = true;
+                    break;
+                case "Momentum":
+                    needsDefinition = true;
+                    break;
+                case "Vulnerable":
+                    needsDefinition = true;
+                    break;
+                case "Weakness":
+                    needsDefinition = true;
+                    break;
+            }
+            if (needsDefinition)
+            {
+                keywordsToDefine.Add(keyword);
+            }
+        }
+        return keywordsToDefine;
     }
 
     public void SetCardPosition(float xPos)
