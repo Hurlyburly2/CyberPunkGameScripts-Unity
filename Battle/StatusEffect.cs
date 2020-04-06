@@ -34,11 +34,43 @@ public class StatusEffect : MonoBehaviour
         DisplayHelperText();
     }
 
+    private void OnMouseUp()
+    {
+        HideHelperText();
+    }
+
     public void DisplayHelperText()
     {
         if (statusType != "")
         {
-            Debug.Log(statusType);
+            FindObjectOfType<PopupHolder>().SpawnStatusPopup(GetMessageText());
+        }
+    }
+
+    private string GetMessageText()
+    {
+        switch (statusType)
+        {
+            case "Dodge":
+                return "WE HAVEN'T DONE THE MATH HERE, BUT IT'LL BE AT LEAST 35%!";
+            case "Momentum":
+                return "Deal +" + stacks + " damage";
+            case "Damage Resist":
+                return "Take -" + stacks + " damage";
+            case "CritUp":
+                return "Your next " + stacks + " attacks will be critical hits";
+            case "Vulnerable":
+                return "Take +" + stacks + " damage";
+            default:
+                return "THIS AIN'T IT, CHIEF";
+        }
+    }
+
+    public void HideHelperText()
+    {
+        if (statusType != "")
+        {
+            FindObjectOfType<PopupHolder>().DestroyAllPopups();
         }
     }
 
