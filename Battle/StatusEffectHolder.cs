@@ -75,6 +75,35 @@ public class StatusEffectHolder : MonoBehaviour
         RejiggerStatusIcons();
     }
 
+    public void HealDebuffs(int amountOfDebuffsToHeal)
+    {
+        List<StatusEffect> debuffs = FindDebuffs();
+        if (debuffs.Count < 1)
+        {
+            return;
+        }
+
+        int randomIndex = Mathf.FloorToInt(Random.Range(0, debuffs.Count));
+
+        StatusEffect statusToHeal = debuffs[randomIndex];
+        DestroyStatus(statusToHeal);
+        RejiggerStatusIcons();
+    }
+
+    private List<StatusEffect> FindDebuffs()
+    {
+        List<StatusEffect> debuffs = new List<StatusEffect>();
+        foreach(StatusEffect statusEffect in statusEffects)
+        {
+            if (statusEffect.IsDebuff())
+            {
+                debuffs.Add(statusEffect);
+            }
+        }
+
+        return debuffs;
+    }
+
     private void CheckDestroyStatus(StatusEffect statusEffect)
     {
         if (statusEffect.GetRemainingDuration() < 1)
@@ -144,13 +173,13 @@ public class StatusEffectHolder : MonoBehaviour
             case "Dodge":
                 return 1;
             case "Momentum":
-                return 3;
+                return 1;
             case "Damage Resist":
-                return 2;
+                return 1;
             case "CritUp":
-                return 4;
+                return 100;
             case "Vulnerable":
-                return 5;
+                return 1;
             default:
                 return 1;
         }

@@ -64,8 +64,6 @@ public class CharacterData : ScriptableObject
         configData = FindObjectOfType<ConfigData>();
 
         FindObjectOfType<PlayerPortrait>().SetPortrait(runnerName);
-        healthPipManager = configData.GetPlayerHealthPipManager();
-        energyPipManager = configData.GetPlayerEnergyPipManager();
 
         configData.SetupPipManagers(this);
         SetupHealthAndEnergyText();
@@ -88,6 +86,21 @@ public class CharacterData : ScriptableObject
     private void SetEnergyText()
     {
         currentEnergyText.GetComponent<TextMeshProUGUI>().text = currentEnergy.ToString();
+    }
+
+    public void GainHealth(int amountToGain)
+    {
+        if (currentHealth + amountToGain > maximumHealth)
+        {
+            currentHealth = maximumHealth;
+        } else
+        {
+            currentHealth += amountToGain;
+        }
+
+        SetHealthText();
+        healthPipManager = configData.GetPlayerHealthPipManager();
+        healthPipManager.ChangeValue(currentHealth);
     }
 
     // Getters

@@ -212,6 +212,21 @@ public class PlayerHand : MonoBehaviour
         return currentRotation;
     }
 
+    public bool AreThereWeaknesses()
+    {
+        foreach(Card card in cardsInHand)
+        {
+            foreach(string keyword in card.GetKeywords())
+            {
+                if (keyword == "Weakness")
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void RemoveCard(Card card)
     {
         cardsInHand.Remove(card);

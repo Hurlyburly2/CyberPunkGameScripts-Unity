@@ -21,6 +21,8 @@ public class BattleData : MonoBehaviour
     string whoseTurn = "player";
         // possible values: player, enemy
         //  playerDiscard = player discarding at end of their turn
+    bool skipEndTurnDiscard;
+        // if true, skip discard and set to false
 
     private void Awake()
     {
@@ -68,12 +70,22 @@ public class BattleData : MonoBehaviour
     {
         if (whoseTurn == "player" || whoseTurn == "playerDiscard")
         {
-            bool finishedDiscarding = DiscardDownToMaxHandSize();
-            if (finishedDiscarding)
+            bool foundWeaknesses = false;
+            if (!skipEndTurnDiscard)
             {
-                TickDownStatusEffectDurations("enemy");
-                whoseTurn = "enemy";
-                actionDisabled = true;
+                // If we're skipping end turn discards, we also let the player skip weakness playing
+                foundWeaknesses = AreThereWeaknesses();
+            }
+            
+            if (!foundWeaknesses)
+            {
+                bool finishedDiscarding = DiscardDownToMaxHandSize();
+                if (finishedDiscarding)
+                {
+                    TickDownStatusEffectDurations("enemy");
+                    whoseTurn = "enemy";
+                    actionDisabled = true;
+                }
             }
         } else if (whoseTurn == "enemy") {
             playerHand.DrawToMaxHandSize();
@@ -92,10 +104,33 @@ public class BattleData : MonoBehaviour
         }
     }
 
+    private bool AreThereWeaknesses()
+    {
+        bool areThereWeaknesses = playerHand.AreThereWeaknesses();
+        PopupHolder popupHolder = FindObjectOfType<PopupHolder>();
+        if (areThereWeaknesses)
+        {
+            popupHolder.SpawnWeaknessesInHandPopup();
+            return true;
+        } else
+        {
+            popupHolder.DestroyAllPopups();
+            return false;
+        }
+    }
+
     private bool DiscardDownToMaxHandSize()
     {
         int extraCardsInHand = playerHand.GetCardsInHandCount() - character.GetStartingHandSize();
         PopupHolder popupHolder = FindObjectOfType<PopupHolder>();
+
+        if (skipEndTurnDiscard)
+        {
+            popupHolder.DestroyAllPopups();
+            skipEndTurnDiscard = false;
+            return true;
+        }
+
         if (extraCardsInHand > 0)
         {
             popupHolder.SpawnDiscardPopup(extraCardsInHand);
@@ -118,6 +153,11 @@ public class BattleData : MonoBehaviour
         yield return new WaitForSeconds(setupTimeInSeconds);
         FindObjectOfType<EndTurnButton>().GetComponent<Button>().interactable = true;
         actionDisabled = false;
+    }
+
+    public void SkipEndTurnDiscard(bool newSkipDiscard)
+    {
+        skipEndTurnDiscard = newSkipDiscard;
     }
 
     public bool AreActionsDisabled()
