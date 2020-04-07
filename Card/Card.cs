@@ -300,7 +300,7 @@ public class Card : MonoBehaviour
                 GainStatus("Dodge", 1);
                 break;
             case 2: // OBSERVE
-                LoadCardPicker(deck.GetTopXCardsWithoutDraw(3));
+                LoadCardPicker(deck.GetTopXCardsWithoutDraw(3), 1);
                 break;
             case 3: // DEEP BREATH
                 DrawXCards(5);
@@ -350,12 +350,12 @@ public class Card : MonoBehaviour
         }
     }
 
-    private void LoadCardPicker(List<Card> cards)
+    private void LoadCardPicker(List<Card> cards, int amountToPick)
     {
         if (cards.Count > 0)
         {
             Debug.Log("Cards to Load into Picker: " + cards.Count);
-            configData.GetCardPicker().Initialize();
+            configData.GetCardPicker().Initialize(cards, amountToPick);
         }
     }
 
