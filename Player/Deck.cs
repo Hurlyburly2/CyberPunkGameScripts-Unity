@@ -122,4 +122,26 @@ public class Deck : MonoBehaviour
 
         return foundCards;
     }
+
+    public List<Card> GetTopXCardsWithoutDraw(int amount)
+    {
+        List<Card> foundCards = new List<Card>();
+        if (cards.Count >= 3)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                if (cards[i])
+                {
+                    foundCards.Add(cards[i]);
+                }
+            }
+        } else
+        {
+            foreach (Card card in cards)
+            {
+                foundCards.Add(card);
+            }
+        }
+        return foundCards;
+    }
 }

@@ -300,7 +300,7 @@ public class Card : MonoBehaviour
                 GainStatus("Dodge", 1);
                 break;
             case 2: // OBSERVE
-                // Pick and draw one of the top three cards of your deck, discard the other two
+                LoadCardPicker(deck.GetTopXCardsWithoutDraw(3));
                 break;
             case 3: // DEEP BREATH
                 DrawXCards(5);
@@ -347,6 +347,15 @@ public class Card : MonoBehaviour
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
+        }
+    }
+
+    private void LoadCardPicker(List<Card> cards)
+    {
+        if (cards.Count > 0)
+        {
+            Debug.Log("Cards to Load into Picker: " + cards.Count);
+            configData.GetCardPicker().Initialize();
         }
     }
 

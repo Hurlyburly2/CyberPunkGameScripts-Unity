@@ -49,6 +49,7 @@ public class ConfigData : MonoBehaviour
     // Objects
     StatusEffectHolder playerStatusEffects;
     StatusEffectHolder enemyStatusEffects;
+    [SerializeField] CardPicker cardPicker;
     BattleData battleData;
 
     AllCards allCards;
@@ -287,5 +288,10 @@ public class ConfigData : MonoBehaviour
     public Card GetCardPrefabById(int cardId)
     {
         return allCards.GetCardById(cardId);
+    }
+
+    public CardPicker GetCardPicker()
+    {
+        return cardPicker;
     }
 }
