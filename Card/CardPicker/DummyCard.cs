@@ -5,14 +5,26 @@ using UnityEngine.UI;
 
 public class DummyCard : MonoBehaviour
 {
+    // config
     int id;
     Sprite circuitImage;
     Sprite cardImage;
+    Image selectedImage;
+
+    // state
+    bool selected = false;
 
     public void SetupDummyCard(Card card)
     {
         id = card.GetCardId();
         SetupImages(card);
+    }
+
+    public void ToggleSelect()
+    {
+        selected = true;
+        Debug.Log("Clicked");
+        gameObject.SetActive(selectedImage);
     }
 
     private void SetupImages(Card card)
@@ -30,6 +42,9 @@ public class DummyCard : MonoBehaviour
                 case "FrontImage":
                     cardImage = card.GetImageByGameobjectName("Image");
                     image.sprite = cardImage;
+                    break;
+                case "Selected":
+                    selectedImage = image;
                     break;
             }
         }
