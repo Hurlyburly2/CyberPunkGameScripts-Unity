@@ -46,6 +46,7 @@ public class CardPicker : MonoBehaviour
         imageOffset *= counter;
         DummyCard newDummyCard = Instantiate(dummycard, new Vector2(transform.position.x + imageOffset, transform.position.y), Quaternion.identity);
         newDummyCard.transform.SetParent(cardHolder.transform);
+        newDummyCard.SetupDummyCard(card);
 
         cardOptions.Add(newDummyCard);
     }

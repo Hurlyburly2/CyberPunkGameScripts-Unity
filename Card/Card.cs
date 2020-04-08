@@ -461,4 +461,18 @@ public class Card : MonoBehaviour
     {
         playerOrEnemy = newPlayerOrEnemy;
     }
+
+    public Sprite GetImageByGameobjectName(string gameobjectName)
+    {
+        SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        foreach(SpriteRenderer spriteRenderer in spriteRenderers)
+        {
+            if (spriteRenderer.name == gameobjectName)
+            {
+                return spriteRenderer.sprite;
+            }
+        }
+
+        return FindObjectOfType<AllCards>().GetCardById(0).GetComponentInChildren<SpriteRenderer>().sprite;
+    }
 }
