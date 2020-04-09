@@ -5,25 +5,36 @@ using UnityEngine.UI;
 
 public class DummyCard : MonoBehaviour
 {
+    Image selectedImage;
+    [SerializeField] Sprite selectedImageSprite;
+    [SerializeField] Sprite emptyImageSprite;
+
     // config
     int id;
     Sprite circuitImage;
     Sprite cardImage;
-    Image selectedImage;
 
     // state
     bool selected = false;
 
     public void SetupDummyCard(Card card)
     {
+        selected = false;
         id = card.GetCardId();
         SetupImages(card);
     }
 
     public void ToggleSelect()
     {
-        selected = true;
-        gameObject.SetActive(selectedImage);
+        if (selected)
+        {
+            selected = false;
+            selectedImage.sprite = emptyImageSprite;
+        } else
+        {
+            selected = true;
+            selectedImage.sprite = selectedImageSprite;
+        }
     }
 
     private void SetupImages(Card card)
@@ -31,7 +42,6 @@ public class DummyCard : MonoBehaviour
         Image[] images = GetComponentsInChildren<Image>();
         foreach (Image image in images)
         {
-            Debug.Log("Image.name " + image.name);
             switch (image.name)
             {
                 case "CircuitImage":
