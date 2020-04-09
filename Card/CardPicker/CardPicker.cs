@@ -28,10 +28,11 @@ public class CardPicker : MonoBehaviour
             CreateCardOption(card, counter);
             counter++;
         }
-        // compensate for extra space added with last card:
-        contentWidth -= cardWidth;
 
-        CenterCards();
+        HorizontalLayoutGroup horizontalLayoutGroup = cardHolder.GetComponent<HorizontalLayoutGroup>();
+        horizontalLayoutGroup.spacing = cardWidth * 1.5f;
+        horizontalLayoutGroup.padding.left += Mathf.CeilToInt(cardWidth);
+        horizontalLayoutGroup.padding.right += Mathf.CeilToInt(cardWidth);
     }
 
     private void CreateCardOption(Card card, int counter)
@@ -49,11 +50,6 @@ public class CardPicker : MonoBehaviour
         newDummyCard.SetupDummyCard(card);
 
         cardOptions.Add(newDummyCard);
-    }
-
-    private void CenterCards()
-    {
-        cardHolder.transform.position = new Vector2(transform.position.x - contentWidth / 2, transform.position.y);
     }
 
     private void SetCardSize()

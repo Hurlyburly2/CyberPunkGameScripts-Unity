@@ -23,7 +23,6 @@ public class DummyCard : MonoBehaviour
     public void ToggleSelect()
     {
         selected = true;
-        Debug.Log("Clicked");
         gameObject.SetActive(selectedImage);
     }
 
