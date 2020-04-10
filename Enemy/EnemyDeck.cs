@@ -61,4 +61,9 @@ public class EnemyDeck : MonoBehaviour
 
         Debug.Log("Card Order: " + cardOrder);
     }
+
+    public int GetCardsInDeckCount()
+    {
+        return cards.Count;
+    }
 }

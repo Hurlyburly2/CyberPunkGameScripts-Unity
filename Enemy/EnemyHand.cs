@@ -22,14 +22,26 @@ public class EnemyHand : MonoBehaviour
         for (int i = 0; i < amountToDraw; i++)
         {
             yield return new WaitForSeconds(timeBetweenDraws);
-            DrawCardFromTopOfDeck(i);
+            if (enemyDeck.GetCardsInDeckCount() > 0 || enemyDiscard.GetDiscardCount() > 0)
+            {
+                // Only draw a card if there are cards in the deck or discard
+                DrawCardFromTopOfDeck(i);
+            }
         }
     }
 
     private void DrawCardFromTopOfDeck(int count)
     {
+        // Shrink the card when its in enemy hand and redraw it later
+        // Rejigger the cards so they're offset and centered
         EnemyCard cardToDraw = enemyDeck.DrawTopCard();
         cards.Add(cardToDraw);
+        EnemyCard instantiatedCard = Instantiate(cardToDraw, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+        instantiatedCard.transform.SetParent(this.transform);
+        instantiatedCard.SetupCard();
+
+
+        // Logging
         Debug.Log("Drawn card id: " + cardToDraw.GetCardId());
         Debug.Log("Cards in hand: " + cards.Count);
     }

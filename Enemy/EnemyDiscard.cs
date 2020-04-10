@@ -14,4 +14,9 @@ public class EnemyDiscard : MonoBehaviour
         enemyDeck.ShuffleDeck();
         cards.Clear();
     }
+
+    public int GetDiscardCount()
+    {
+        return cards.Count;
+    }
 }
