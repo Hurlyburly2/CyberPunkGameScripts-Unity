@@ -20,7 +20,6 @@ public class BattleData : MonoBehaviour
     bool actionDisabled = true;
     string whoseTurn = "player";
         // possible values: player, enemy
-        //  playerDiscard = player discarding at end of their turn
     bool skipEndTurnDiscard;
         // if true, skip discard and set to false
 
@@ -68,7 +67,7 @@ public class BattleData : MonoBehaviour
 
     public void EndTurn()
     {
-        if (whoseTurn == "player" || whoseTurn == "playerDiscard")
+        if (whoseTurn == "player")
         {
             bool foundWeaknesses = false;
             if (!skipEndTurnDiscard)
@@ -126,19 +125,17 @@ public class BattleData : MonoBehaviour
 
         if (skipEndTurnDiscard)
         {
-            popupHolder.DestroyAllPopups();
             skipEndTurnDiscard = false;
             return true;
         }
 
         if (extraCardsInHand > 0)
         {
-            popupHolder.SpawnDiscardPopup(extraCardsInHand);
-            whoseTurn = "playerDiscard";
+            List<Card> cardsInHand = playerHand.GetCardsInHand();
+            configData.GetCardPicker().Initialize(cardsInHand, extraCardsInHand, "DiscardCardsFromHand");
             return false;
         } else
         {
-            popupHolder.DestroyAllPopups();
             return true;
         }
     }

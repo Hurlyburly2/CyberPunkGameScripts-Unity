@@ -21,7 +21,7 @@ public class CardPicker : MonoBehaviour
     List<Card> actualCardObjects;
 
     string type;
-    // SelectToHand, discard
+    // SelectToHand, DiscardCardsFromHand
     int amountToPick;
     int amountPicked;
 
@@ -102,6 +102,9 @@ public class CardPicker : MonoBehaviour
             case "SelectToHandFromDeckAndDiscardOthers":
                 textFieldText = "Select " + (amountToPick - amountPicked) + " cards to add to your hand:";
                 break;
+            case "DiscardCardsFromHand":
+                textFieldText = "Discard " + (amountToPick - amountPicked) + " cards from your hand:";
+                break;
         }
         selectTextField.text = textFieldText;
     }
@@ -133,7 +136,23 @@ public class CardPicker : MonoBehaviour
             case "SelectToHandFromDeckAndDiscardOthers":
                 SelectToHandFromDeckAndDiscardOthers();
                 break;
+            case "DiscardCardsFromHand":
+                DiscardCardsFromHand();
+                break;
         }
+    }
+
+    private void DiscardCardsFromHand()
+    {
+        List<int> selectedCardIds = GetSelectedCards();
+        List<Card> selectedCardObjects = GetCardsListById(selectedCardIds);
+
+        foreach(Card card in selectedCardObjects)
+        {
+            card.DiscardFromHand();
+        }
+        FindObjectOfType<BattleData>().EndTurn();
+        ShutOff();
     }
 
     private void SelectToHandFromDeckAndDiscardOthers()
