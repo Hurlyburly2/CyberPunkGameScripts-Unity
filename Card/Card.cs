@@ -354,8 +354,7 @@ public class Card : MonoBehaviour
     {
         if (cards.Count > 0)
         {
-            Debug.Log("Cards to Load into Picker: " + cards.Count);
-            configData.GetCardPicker().Initialize(cards, amountToPick);
+            configData.GetCardPicker().Initialize(cards, amountToPick, "SelectToHandFromDeckAndDiscardOthers");
         }
     }
 

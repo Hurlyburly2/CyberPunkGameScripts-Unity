@@ -38,6 +38,26 @@ public class Deck : MonoBehaviour
         return cardToDraw;
     }
 
+    public Card DrawSpecificCardFromDeck(Card card)
+    {
+        int cardIndex = cards.IndexOf(card);
+        Card cardToDraw = cards[cardIndex];
+        cards.RemoveAt(cardIndex);
+        SetCardsInDeckTextField();
+        return cardToDraw;
+    }
+
+    public void DiscardSpecificCard(Card card)
+    {
+        int cardIndex = cards.IndexOf(card);
+        Card cardToDiscard = cards[cardIndex];
+        cards.RemoveAt(cardIndex);
+
+        Discard discard = FindObjectOfType<Discard>();
+        discard.AddCardToDiscard(card);
+        SetCardsInDeckTextField();
+    }
+
     public void AddToDeck(Card newCard)
     {
         cards.Add(newCard);

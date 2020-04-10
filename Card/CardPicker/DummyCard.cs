@@ -26,14 +26,20 @@ public class DummyCard : MonoBehaviour
 
     public void ToggleSelect()
     {
+        CardPicker cardPicker = FindObjectOfType<CardPicker>();
         if (selected)
         {
             selected = false;
             selectedImage.sprite = emptyImageSprite;
+            cardPicker.UnSelectOne();
         } else
         {
-            selected = true;
-            selectedImage.sprite = selectedImageSprite;
+            if (cardPicker.CanSelectMore())
+            {
+                selected = true;
+                selectedImage.sprite = selectedImageSprite;
+                cardPicker.SelectOne();
+            }
         }
     }
 
@@ -57,5 +63,15 @@ public class DummyCard : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public bool IsSelected()
+    {
+        return selected;
+    }
+
+    public int GetCardId()
+    {
+        return id;
     }
 }
