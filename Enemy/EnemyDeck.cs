@@ -4,18 +4,37 @@ using UnityEngine;
 
 public class EnemyDeck : MonoBehaviour
 {
-    [SerializeField] List<Card> cards = new List<Card>();
+    [SerializeField] List<EnemyCard> cards = new List<EnemyCard>();
+    EnemyDiscard enemyDiscard;
 
     public void SetupDeck()
     {
+        enemyDiscard = FindObjectOfType<EnemyDiscard>();
         ShuffleDeck();
+    }
+
+    public EnemyCard DrawTopCard()
+    {
+        DebugLogDeck();
+        if (cards.Count <= 0)
+        {
+            enemyDiscard.ShuffleDiscardIntoDeck();
+        }
+        EnemyCard cardToDraw = cards[0];
+        cards.RemoveAt(0);
+        return cardToDraw;
+    }
+
+    public void AddCardToDeck(List<EnemyCard> cardsToAdd)
+    {
+        cards.AddRange(cardsToAdd);
     }
 
     public void ShuffleDeck()
     {
         System.Random _random = new System.Random();
 
-        Card myGO;
+        EnemyCard myGO;
 
         int n = cards.Count;
         for (int i = 0; i < n; i++)
@@ -35,7 +54,7 @@ public class EnemyDeck : MonoBehaviour
 
         string cardOrder = "";
 
-        foreach (Card card in cards)
+        foreach (EnemyCard card in cards)
         {
             cardOrder += card.GetCardId() + " ";
         }

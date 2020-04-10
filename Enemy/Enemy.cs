@@ -21,8 +21,11 @@ public class Enemy : MonoBehaviour
     ConfigData configData;
     PipManagerEnemy healthPipManager;
     PipManagerEnemy energyPipManager;
-    EnemyDeck enemyDeck;
     StatusEffectHolder statusEffectHolder;
+
+    EnemyDeck enemyDeck;
+    EnemyHand enemyHand;
+    EnemyDiscard enemyDiscard;
 
     public void BattleSetup(float setupTimeInSeconds)
     {
@@ -34,16 +37,22 @@ public class Enemy : MonoBehaviour
 
         enemyDeck = FindObjectOfType<EnemyDeck>();
         enemyDeck.SetupDeck();
+
+        enemyDiscard = FindObjectOfType<EnemyDiscard>();
+        enemyHand = FindObjectOfType<EnemyHand>();
+    }
+
+    public void StartTurn()
+    {
+        enemyHand.DrawInitialHand(handSize);
     }
 
     public void TakeDamage(int damageInflicted)
     {
-        // TODO: CALCULATE ALL MODIFIERS FOR DAMAGE TAKEN
         if (currentHealth - damageInflicted < 1)
         {
             currentHealth = 0;
             healthPipManager.ChangeValue(currentHealth);
-            // TODO: LOGIC FOR KILLING ENEMY HERE
         } else
         {
             currentHealth -= damageInflicted;

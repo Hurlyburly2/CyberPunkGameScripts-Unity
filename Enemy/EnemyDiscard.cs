@@ -4,5 +4,14 @@ using UnityEngine;
 
 public class EnemyDiscard : MonoBehaviour
 {
-    List<Card> cards = new List<Card>();
+    List<EnemyCard> cards = new List<EnemyCard>();
+    EnemyDeck enemyDeck;
+
+    public void ShuffleDiscardIntoDeck()
+    {
+        enemyDeck = FindObjectOfType<EnemyDeck>();
+        enemyDeck.AddCardToDeck(cards);
+        enemyDeck.ShuffleDeck();
+        cards.Clear();
+    }
 }

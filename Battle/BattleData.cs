@@ -84,6 +84,7 @@ public class BattleData : MonoBehaviour
                     TickDownStatusEffectDurations("enemy");
                     whoseTurn = "enemy";
                     actionDisabled = true;
+                    enemy.StartTurn();
                 }
             }
         } else if (whoseTurn == "enemy") {
