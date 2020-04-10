@@ -300,7 +300,7 @@ public class Card : MonoBehaviour
                 GainStatus("Dodge", 1);
                 break;
             case 2: // OBSERVE
-                // Pick and draw one of the top three cards of your deck, discard the other two
+                LoadCardPicker(deck.GetTopXCardsWithoutDraw(3), 1);
                 break;
             case 3: // DEEP BREATH
                 DrawXCards(5);
@@ -347,6 +347,14 @@ public class Card : MonoBehaviour
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
+        }
+    }
+
+    private void LoadCardPicker(List<Card> cards, int amountToPick)
+    {
+        if (cards.Count > 0)
+        {
+            configData.GetCardPicker().Initialize(cards, amountToPick, "SelectToHandFromDeckAndDiscardOthers");
         }
     }
 
@@ -451,5 +459,19 @@ public class Card : MonoBehaviour
     public void SetPlayerOrEnemy(string newPlayerOrEnemy)
     {
         playerOrEnemy = newPlayerOrEnemy;
+    }
+
+    public Sprite GetImageByGameobjectName(string gameobjectName)
+    {
+        SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        foreach(SpriteRenderer spriteRenderer in spriteRenderers)
+        {
+            if (spriteRenderer.name == gameobjectName)
+            {
+                return spriteRenderer.sprite;
+            }
+        }
+
+        return FindObjectOfType<AllCards>().GetCardById(0).GetComponentInChildren<SpriteRenderer>().sprite;
     }
 }

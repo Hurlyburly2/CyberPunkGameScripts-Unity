@@ -80,19 +80,30 @@ public class PlayerHand : MonoBehaviour
 
     public void DrawCard()
     {
-        float cardSizeMultiplier = configData.GetCardSizeMultiplier();
-
         if (deck.GetCardCount() > 0)
         {
             Card cardToDraw = deck.DrawCardFromTop();
-            Card newCard = Instantiate(cardToDraw, new Vector2(configData.GetHalfWidth() * 2.2f, 0 - (configData.GetCardWidth() / 2)), Quaternion.identity);
-            newCard.SetPlayerOrEnemy("player");
-            newCard.SetState("draw");
-            newCard.transform.localScale = new Vector3(cardSizeMultiplier, cardSizeMultiplier, cardSizeMultiplier);
-            cardsInHand.Add(newCard);
-
-            CalculateHandPositions();
+            CardInstantiation(cardToDraw);
         }
+    }
+
+    public void DrawSpecificCard(Card card)
+    {
+        deck.DrawSpecificCardFromDeck(card);
+        CardInstantiation(card);
+    }
+
+    private void CardInstantiation(Card cardToDraw)
+    {
+        float cardSizeMultiplier = configData.GetCardSizeMultiplier();
+
+        Card newCard = Instantiate(cardToDraw, new Vector2(configData.GetHalfWidth() * 2.2f, 0 - (configData.GetCardWidth() / 2)), Quaternion.identity);
+        newCard.SetPlayerOrEnemy("player");
+        newCard.SetState("draw");
+        newCard.transform.localScale = new Vector3(cardSizeMultiplier, cardSizeMultiplier, cardSizeMultiplier);
+        cardsInHand.Add(newCard);
+
+        CalculateHandPositions();
     }
 
     public void DrawCard(Card cardToDraw)

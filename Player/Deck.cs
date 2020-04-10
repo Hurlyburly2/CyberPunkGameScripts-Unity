@@ -38,6 +38,26 @@ public class Deck : MonoBehaviour
         return cardToDraw;
     }
 
+    public Card DrawSpecificCardFromDeck(Card card)
+    {
+        int cardIndex = cards.IndexOf(card);
+        Card cardToDraw = cards[cardIndex];
+        cards.RemoveAt(cardIndex);
+        SetCardsInDeckTextField();
+        return cardToDraw;
+    }
+
+    public void DiscardSpecificCard(Card card)
+    {
+        int cardIndex = cards.IndexOf(card);
+        Card cardToDiscard = cards[cardIndex];
+        cards.RemoveAt(cardIndex);
+
+        Discard discard = FindObjectOfType<Discard>();
+        discard.AddCardToDiscard(card);
+        SetCardsInDeckTextField();
+    }
+
     public void AddToDeck(Card newCard)
     {
         cards.Add(newCard);
@@ -120,6 +140,28 @@ public class Deck : MonoBehaviour
             }
         }
 
+        return foundCards;
+    }
+
+    public List<Card> GetTopXCardsWithoutDraw(int amount)
+    {
+        List<Card> foundCards = new List<Card>();
+        if (cards.Count >= 3)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                if (cards[i])
+                {
+                    foundCards.Add(cards[i]);
+                }
+            }
+        } else
+        {
+            foreach (Card card in cards)
+            {
+                foundCards.Add(card);
+            }
+        }
         return foundCards;
     }
 }
