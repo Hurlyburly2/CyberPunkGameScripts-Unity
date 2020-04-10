@@ -88,12 +88,6 @@ public class Card : MonoBehaviour
                 SetState("played");
                 playerHand.RemoveCard(GetComponent<Card>());
                 PlayCard();
-            } else if (battleData.WhoseTurnIsIt() == "playerDiscard")
-            {
-                DiscardCard();
-                playerHand.RemoveCard(GetComponent<Card>());
-                battleData.EndTurn();
-                Destroy(gameObject);
             } else
             {
                 transform.localScale = new Vector3(1, 1, 1);
@@ -105,6 +99,13 @@ public class Card : MonoBehaviour
     public void PlayCard()
     {
         PlayCardActions();
+        DiscardCard();
+        playerHand.RemoveFromHand(this);
+        Destroy(gameObject);
+    }
+
+    public void DiscardFromHand()
+    {
         DiscardCard();
         playerHand.RemoveFromHand(this);
         Destroy(gameObject);

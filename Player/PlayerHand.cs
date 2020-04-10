@@ -38,6 +38,7 @@ public class PlayerHand : MonoBehaviour
     public void RemoveFromHand(Card cardToRemove)
     {
         cardsInHand.Remove(cardToRemove);
+        CalculateHandPositions();
     }
 
     public void DrawStartingHand(int startingHandSize, float setupTimeInSeconds)
@@ -247,5 +248,10 @@ public class PlayerHand : MonoBehaviour
     public int GetCardsInHandCount()
     {
         return cardsInHand.Count;
+    }
+
+    public List<Card> GetCardsInHand()
+    {
+        return cardsInHand;
     }
 }
