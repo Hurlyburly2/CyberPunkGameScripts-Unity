@@ -15,7 +15,6 @@ public class EnemyDeck : MonoBehaviour
 
     public EnemyCard DrawTopCard()
     {
-        DebugLogDeck();
         if (cards.Count <= 0)
         {
             enemyDiscard.ShuffleDiscardIntoDeck();

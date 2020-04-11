@@ -5,11 +5,13 @@ using UnityEngine;
 public class EnemyHand : MonoBehaviour
 {
     List<EnemyCard> cards = new List<EnemyCard>();
-    [SerializeField] float timeBetweenDraws = 0.5f;
+    float timeBetweenDraws = 0.2f;
 
     EnemyDeck enemyDeck;
     EnemyDiscard enemyDiscard;
     float cardInHandScale = 0.5f;
+
+    float cardWidth;
 
     public void DrawInitialHand(int handSize)
     {
@@ -29,6 +31,7 @@ public class EnemyHand : MonoBehaviour
                 DrawCardFromTopOfDeck(i);
             }
         }
+        CenterHand();
     }
 
     private void DrawCardFromTopOfDeck(int count)
@@ -36,19 +39,31 @@ public class EnemyHand : MonoBehaviour
         // Shrink the card when its in enemy hand and redraw it later
         // Rejigger the cards so they're offset and centered
         EnemyCard cardToDraw = enemyDeck.DrawTopCard();
-        cards.Add(cardToDraw);
         EnemyCard instantiatedCard = Instantiate(cardToDraw, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
         instantiatedCard.transform.SetParent(this.transform);
         instantiatedCard.transform.localScale = new Vector3(cardInHandScale, cardInHandScale, cardInHandScale);
 
         instantiatedCard.SetupCard(count);
 
-        float offset = instantiatedCard.GetWidth(cardInHandScale) * count;
+        cardWidth = instantiatedCard.GetWidth(cardInHandScale);
+        float offset = cardWidth * count / 2;
         instantiatedCard.transform.position = new Vector2(instantiatedCard.transform.position.x + offset, instantiatedCard.transform.position.y);
+        instantiatedCard.SetPos(instantiatedCard.transform.position.x + offset, transform.position.y, count * -1);
+        cards.Add(instantiatedCard);
 
+        CenterHand();
+    }
 
-        // Logging
-        Debug.Log("Drawn card id: " + cardToDraw.GetCardId());
-        Debug.Log("Cards in hand: " + cards.Count);
+    private void CenterHand()
+    {
+        float totalWidth = ((cards.Count - 1) * cardWidth / 2) + cardWidth;
+        float startPosition = transform.position.x - totalWidth / 2;
+
+        int count = 1;
+        foreach (EnemyCard card in cards)
+        {
+            card.SetPos(startPosition + (cardWidth * count / 2));
+            count++;
+        }
     }
 }

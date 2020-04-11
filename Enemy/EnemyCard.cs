@@ -12,10 +12,16 @@ public class EnemyCard : MonoBehaviour
     Sprite cardImage;
     SpriteRenderer cardBackImage;
 
+    float xPos;
+    float yPos;
+    float zPos;
+    float handAdjustSpeed = 5f;
+
     public void SetupCard(int count)
     {
         // do something with sprite layers (over everything including player hand)
         // save the card image and replace it with nothing (back of card)
+        GetComponent<Animator>().Play("CardSpin");
         SpriteRenderer imageComponent = GetImageComponentByName("CardImage");
         cardImage = imageComponent.sprite;
         imageComponent.sprite = null;
@@ -23,6 +29,20 @@ public class EnemyCard : MonoBehaviour
 
         enemyDeck = FindObjectOfType<EnemyDeck>();
         enemyDiscard = FindObjectOfType<EnemyDiscard>();
+        xPos = transform.position.x;
+        yPos = transform.position.y;
+    }
+
+    public void SetPos(float newXPos)
+    {
+        xPos = newXPos;
+    }
+
+    public void SetPos(float newXPos, float newYPos, float newZPos)
+    {
+        xPos = newXPos;
+        yPos = newYPos;
+        zPos = newZPos;
     }
 
     public SpriteRenderer GetImageComponentByName(string name)
@@ -72,5 +92,28 @@ public class EnemyCard : MonoBehaviour
     public int GetCardId()
     {
         return cardId;
+    }
+
+    public void MoveTowardTarget()
+    {
+        float step = handAdjustSpeed * Time.deltaTime;
+
+        Vector3 newPosition = new Vector3(xPos, yPos, transform.position.z);
+
+        transform.position = Vector3.MoveTowards(transform.position, newPosition, step);
+    }
+
+    private void DoesCardReachTarget()
+    {
+    }
+
+    private void Update()
+    {
+        MoveTowardTarget();
+    }
+
+    public float GetXTarget()
+    {
+        return xPos;
     }
 }
