@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyHand : MonoBehaviour
 {
+    [SerializeField] GameObject playPosition;
+
     List<EnemyCard> cards = new List<EnemyCard>();
     float timeBetweenDraws = 0.2f;
 
@@ -32,6 +34,21 @@ public class EnemyHand : MonoBehaviour
             }
         }
         CenterHand();
+        StartCoroutine(WaitForASec("DrawToPlay"));
+    }
+
+    private IEnumerator WaitForASec(string state)
+    {
+        switch(state)
+        {
+            case "DrawToPlay":
+                yield return new WaitForSeconds(0.75f);
+                FindObjectOfType<Enemy>().PlayCards();
+                break;
+            default:
+                Debug.LogError("State doesn't exist");
+                break;
+        }
     }
 
     private void DrawCardFromTopOfDeck(int count)
@@ -65,5 +82,42 @@ public class EnemyHand : MonoBehaviour
             card.SetPos(startPosition + (cardWidth * count / 2));
             count++;
         }
+    }
+
+    public void PlayAllCards()
+    {
+        cardWidth = cards[0].GetWidth(1);
+        StartCoroutine(PlayCardsTimer(1));
+    }
+
+    private IEnumerator PlayCardsTimer(float timeBetweenPlays)
+    {
+        int count = 0;
+        int row = 0;
+        int column = 0;
+        foreach(EnemyCard card in cards)
+        {
+            SetPlayPosition(card, count, row, column);
+            card.PlayCard(count);
+            yield return new WaitForSeconds(timeBetweenPlays);
+            count++;
+            column++;
+            if (count > 0 && count % 3 == 0)
+            {
+                row++;
+            }
+            if (column > 2)
+            {
+                column = 0;
+            }
+        }
+    }
+
+    private void SetPlayPosition(EnemyCard card, int count, int row, int column)
+    {
+        card.SetState("playing");
+        float xOffset = cardWidth / 2 * column;
+        float yOffset = cardWidth / 8 * count;
+        card.SetPos(playPosition.transform.position.x + xOffset, playPosition.transform.position.y - yOffset);
     }
 }

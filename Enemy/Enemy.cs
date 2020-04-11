@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] int maxEnergy;
     [SerializeField] int currentEnergy;
     [SerializeField] int handSize;
+    [SerializeField] GameObject playCardZone;
 
     // config
     GameObject currentHealthText;
@@ -45,6 +46,12 @@ public class Enemy : MonoBehaviour
     public void StartTurn()
     {
         enemyHand.DrawInitialHand(handSize);
+    }
+
+    public void PlayCards()
+    {
+        Debug.Log("Play all cards in hand");
+        enemyHand.PlayAllCards();
     }
 
     public void TakeDamage(int damageInflicted)

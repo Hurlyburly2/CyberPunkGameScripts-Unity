@@ -12,6 +12,9 @@ public class EnemyCard : MonoBehaviour
     Sprite cardImage;
     SpriteRenderer cardBackImage;
 
+    string state = "hand";
+        // hand, playing, played
+
     float xPos;
     float yPos;
     float zPos;
@@ -36,6 +39,12 @@ public class EnemyCard : MonoBehaviour
     public void SetPos(float newXPos)
     {
         xPos = newXPos;
+    }
+
+    public void SetPos(float newXPos, float newYPos)
+    {
+        xPos = newXPos;
+        yPos = newYPos;
     }
 
     public void SetPos(float newXPos, float newYPos, float newZPos)
@@ -65,9 +74,16 @@ public class EnemyCard : MonoBehaviour
     {
         SpriteRenderer[] imageComponents = GetComponentsInChildren<SpriteRenderer>();
         int layerCount = 0;
+
+        int sortType = 2000;
+        if (state == "playing")
+        {
+            sortType = 3000;
+        }
+
         foreach(SpriteRenderer spriteRenderer in imageComponents)
         {
-            spriteRenderer.sortingOrder = 2000 + (cardCount * 10) + layerCount;
+            spriteRenderer.sortingOrder = sortType + (cardCount * 10) + layerCount;
             layerCount++;
         }
     }
@@ -78,15 +94,10 @@ public class EnemyCard : MonoBehaviour
         return boxCollider2D.size.x * cardInHandScale;
     }
 
-    public void PlayCard()
+    public void PlayCard(int count)
     {
-        // 'flip' the card over to show the card image
-        switch (cardId)
-        {
-            default:
-                Debug.Log("Card not implemented");
-                break;
-        }
+        SetSpriteLayers(count);
+        GetComponent<Animator>().Play("PlayEnemyCard");
     }
 
     public int GetCardId()
@@ -101,10 +112,22 @@ public class EnemyCard : MonoBehaviour
         Vector3 newPosition = new Vector3(xPos, yPos, transform.position.z);
 
         transform.position = Vector3.MoveTowards(transform.position, newPosition, step);
+
+        if (state == "playing")
+        {
+            Vector3 newScale = new Vector3(1, 1, 1);
+            transform.localScale = Vector3.MoveTowards(transform.localScale, newScale, step);
+            DoesCardReachTarget();
+        }
     }
 
     private void DoesCardReachTarget()
     {
+        if (transform.position.x == xPos && transform.position.y == yPos && state == "playing")
+        {
+            state = "played";
+            PlayCardEffect();
+        }
     }
 
     private void Update()
@@ -115,5 +138,45 @@ public class EnemyCard : MonoBehaviour
     public float GetXTarget()
     {
         return xPos;
+    }
+
+    public void SetState(string newState)
+    {
+        if (newState == "playing")
+        {
+            handAdjustSpeed = 10f;
+        }
+        state = newState;
+    }
+
+    public void FlipOver()
+    {
+        GetImageComponentByName("CardImage").sprite = cardImage;
+    }
+
+    private void PlayCardEffect()
+    {
+        switch (cardId)
+        {
+            case 0:
+                Debug.LogError("This is not a real card");
+                break;
+            case 1: // Ambush
+                DealDamage(5);
+                // Destroy this card
+                break;
+            case 2: // Stab
+                DealDamage(2);
+                break;
+            default:
+                Debug.Log("Card not implemented");
+                break;
+        }
+    }
+
+    private void DealDamage(int damageAmount)
+    {
+        CharacterData character = FindObjectOfType<BattleData>().GetCharacter();
+        character.TakeDamage(damageAmount);
     }
 }

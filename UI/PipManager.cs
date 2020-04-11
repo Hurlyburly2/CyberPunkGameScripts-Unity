@@ -60,6 +60,7 @@ public class PipManager : MonoBehaviour
     private void RemovePip()
     {
         GameObject previousLastPip = pipList[pipList.Count - 1];
+        pipList.RemoveAt(pipList.Count - 1);
         Destroy(previousLastPip);
     }
 

@@ -103,6 +103,22 @@ public class CharacterData : ScriptableObject
         healthPipManager.ChangeValue(currentHealth);
     }
 
+    public void TakeDamage(int amountToTake)
+    {
+        if (currentHealth - amountToTake > 0)
+        {
+            currentHealth -= amountToTake;
+        } else
+        {
+            // Game over state here
+            currentHealth = 0;
+        }
+
+        SetHealthText();
+        healthPipManager = configData.GetPlayerHealthPipManager();
+        healthPipManager.ChangeValue(currentHealth);
+    }
+
     // Getters
     public string GetRunnerName()
     {
