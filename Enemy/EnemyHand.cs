@@ -111,6 +111,7 @@ public class EnemyHand : MonoBehaviour
                 column = 0;
             }
         }
+        FindObjectOfType<Enemy>().FinishTurn();
     }
 
     private void SetPlayPosition(EnemyCard card, int count, int row, int column)
@@ -119,5 +120,27 @@ public class EnemyHand : MonoBehaviour
         float xOffset = cardWidth / 2 * column;
         float yOffset = cardWidth / 8 * count;
         card.SetPos(playPosition.transform.position.x + xOffset, playPosition.transform.position.y - yOffset);
+    }
+
+    public void ClearPlayedCards()
+    {
+        StartCoroutine(ClearPlayedCardsTimer());
+    }
+
+    private IEnumerator ClearPlayedCardsTimer()
+    {
+        foreach (EnemyCard card in cards)
+        {
+            card.GetComponent<Animator>().Play("CardSpinAway");
+            yield return new WaitForSeconds(0.3f);
+        }
+        cards.Clear();
+        FindObjectOfType<BattleData>().EndTurn();
+    }
+
+    public void RemoveCard(EnemyCard card)
+    {
+        cards.Remove(card);
+        Debug.Log("Hand Size: " + cards.Count);
     }
 }

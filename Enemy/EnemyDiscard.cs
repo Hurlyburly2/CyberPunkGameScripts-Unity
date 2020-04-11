@@ -19,4 +19,9 @@ public class EnemyDiscard : MonoBehaviour
     {
         return cards.Count;
     }
+
+    public void AddCardToDiscard(EnemyCard card)
+    {
+        cards.Add(card);
+    }
 }

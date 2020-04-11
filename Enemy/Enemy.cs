@@ -54,6 +54,11 @@ public class Enemy : MonoBehaviour
         enemyHand.PlayAllCards();
     }
 
+    public void FinishTurn()
+    {
+        enemyHand.ClearPlayedCards();
+    }
+
     public void TakeDamage(int damageInflicted)
     {
         if (currentHealth - damageInflicted < 1)

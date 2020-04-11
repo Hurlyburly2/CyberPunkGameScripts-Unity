@@ -13,7 +13,8 @@ public class EnemyCard : MonoBehaviour
     SpriteRenderer cardBackImage;
 
     string state = "hand";
-        // hand, playing, played
+    // hand, playing, played
+    bool destroyOnPlay = false;
 
     float xPos;
     float yPos;
@@ -163,7 +164,7 @@ public class EnemyCard : MonoBehaviour
                 break;
             case 1: // Ambush
                 DealDamage(5);
-                // Destroy this card
+                destroyOnPlay = true;
                 break;
             case 2: // Stab
                 DealDamage(2);
@@ -178,5 +179,17 @@ public class EnemyCard : MonoBehaviour
     {
         CharacterData character = FindObjectOfType<BattleData>().GetCharacter();
         character.TakeDamage(damageAmount);
+    }
+
+    public void DiscardCard()
+    {
+        // USE THE PREFAB INSTEAD OF INSTANCE
+        if (!destroyOnPlay)
+        {
+            EnemyCard cardPrefab = FindObjectOfType<AllEnemyCards>().GetEnemyCardById(cardId);
+            EnemyDiscard enemyDiscard = FindObjectOfType<EnemyDiscard>();
+            enemyDiscard.AddCardToDiscard(cardPrefab);
+        }
+        Destroy(gameObject);
     }
 }
