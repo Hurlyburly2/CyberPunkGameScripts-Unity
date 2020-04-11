@@ -192,8 +192,17 @@ public class EnemyCard : MonoBehaviour
         playerCurrentStatusEffects = configData.GetPlayerStatusEffects();
         enemyCurrentStatusEffects = configData.GetEnemyStatusEffects();
 
+        int dodgeChance = playerCurrentStatusEffects.GetDodgeChance();
+        if (PercentChance(dodgeChance))
+        {
+            Debug.Log("Dodged!");
+            return 0;
+        }
+
         damageAmount += enemyCurrentStatusEffects.GetMomentumStacks();
         damageAmount += playerCurrentStatusEffects.GetVulnerableStacks();
+        damageAmount -= playerCurrentStatusEffects.GetDamageResistStacks();
+
         damageAmount = CheckAndApplyCritical(damageAmount, critChance);
 
         return damageAmount;
