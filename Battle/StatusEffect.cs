@@ -52,7 +52,8 @@ public class StatusEffect : MonoBehaviour
         switch (statusType)
         {
             case "Dodge":
-                return "WE HAVEN'T DONE THE MATH HERE, BUT IT'LL BE AT LEAST 35%!";
+                int dodgeChance = GetComponentInParent<StatusEffectHolder>().GetDodgeChance();
+                return dodgeChance + "% Chance to Dodge Attacks";
             case "Momentum":
                 return "Deal +" + stacks + " damage";
             case "Damage Resist":

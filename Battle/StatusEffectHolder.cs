@@ -19,6 +19,9 @@ public class StatusEffectHolder : MonoBehaviour
         {
             StatusEffect currentStatus = statusEffects[indexOfStatus];
             currentStatus.ModifyStatus(stacks, duration);
+
+            Debug.Log("Stacks: " + currentStatus.GetStacks());
+
             CheckDestroyStatus(currentStatus);
             RejiggerStatusIcons();
         }
@@ -58,6 +61,39 @@ public class StatusEffectHolder : MonoBehaviour
         else
         {
             return statusEffects[vulnerableIndex].GetStacks();
+        }
+    }
+
+    public int GetDamageResistStacks()
+    {
+        int damageResistIndex = GetStatusIndex("Damage Resist");
+        if (damageResistIndex == -1)
+        {
+            return 0;
+        } else
+        {
+            return statusEffects[damageResistIndex].GetStacks();
+        }
+    }
+
+    public int GetDodgeChance()
+    {
+        int dodgeIndex = GetStatusIndex("Dodge");
+        if (dodgeIndex == -1)
+        {
+            return 0;
+        } else
+        {
+            int dodgeChanceStacks = statusEffects[dodgeIndex].GetStacks();
+            float modifier = 1;
+            int dodgeChance = 0;
+
+            for (int i = 0; i < dodgeChanceStacks; i++)
+            {
+                dodgeChance += Mathf.CeilToInt(30 * modifier);
+                modifier /= 2;
+            }
+            return dodgeChance;
         }
     }
 
@@ -106,7 +142,7 @@ public class StatusEffectHolder : MonoBehaviour
 
     private void CheckDestroyStatus(StatusEffect statusEffect)
     {
-        if (statusEffect.GetRemainingDuration() < 1)
+        if (statusEffect.GetRemainingDuration() < 1 || statusEffect.GetStacks() < 1)
         {
             DestroyStatus(statusEffect);
         }
