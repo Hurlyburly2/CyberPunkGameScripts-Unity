@@ -11,7 +11,7 @@ public class TestData : MonoBehaviour
         string runnerName = "Runner";
         string hackerName = "Hacker";
 
-        newCharacter.SetupCharacter(runnerName, hackerName, 20, 20, 10, 10, 3);
+        newCharacter.SetupCharacter(runnerName, hackerName, 30, 30, 10, 10, 3);
 
         return newCharacter;
     }

@@ -182,7 +182,7 @@ public class Card : MonoBehaviour
             handAdjustSpeed = configData.GetHandAdjustSpeed();
         } else if (state == "dragging")
         {
-            transform.localScale = new Vector3(2, 2, 2);
+            transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
             rememberRotation = rotation;
             rotation = 0;
             SetSortingOrder(1000);

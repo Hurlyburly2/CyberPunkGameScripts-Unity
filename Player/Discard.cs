@@ -25,4 +25,9 @@ public class Discard : MonoBehaviour
         deck.ShuffleDeck();
         cardsInDiscard.Clear();
     }
+
+    public int GetCardCount()
+    {
+        return cardsInDiscard.Count;
+    }
 }

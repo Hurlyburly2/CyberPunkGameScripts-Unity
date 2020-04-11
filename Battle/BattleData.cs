@@ -88,7 +88,14 @@ public class BattleData : MonoBehaviour
                 }
             }
         } else if (whoseTurn == "enemy") {
-            playerHand.DrawToMaxHandSize();
+            if (deck.GetCardCount() > 0 || discard.GetCardCount() > 0)
+            {
+                if (deck.GetCardCount() <= character.GetStartingHandSize() - playerHand.GetCardsInHandCount())
+                {
+                    discard.ShuffleDiscardIntoDeck();
+                }
+                playerHand.DrawToMaxHandSize();
+            }
             TickDownStatusEffectDurations("player");
             whoseTurn = "player";
             actionDisabled = false;
