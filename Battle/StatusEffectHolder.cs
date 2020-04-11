@@ -19,6 +19,9 @@ public class StatusEffectHolder : MonoBehaviour
         {
             StatusEffect currentStatus = statusEffects[indexOfStatus];
             currentStatus.ModifyStatus(stacks, duration);
+
+            Debug.Log("Stacks: " + currentStatus.GetStacks());
+
             CheckDestroyStatus(currentStatus);
             RejiggerStatusIcons();
         }
@@ -106,7 +109,7 @@ public class StatusEffectHolder : MonoBehaviour
 
     private void CheckDestroyStatus(StatusEffect statusEffect)
     {
-        if (statusEffect.GetRemainingDuration() < 1)
+        if (statusEffect.GetRemainingDuration() < 1 || statusEffect.GetStacks() < 1)
         {
             DestroyStatus(statusEffect);
         }

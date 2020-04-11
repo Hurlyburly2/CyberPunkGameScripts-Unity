@@ -11,6 +11,8 @@ public class EnemyCard : MonoBehaviour
 
     Sprite cardImage;
     SpriteRenderer cardBackImage;
+    StatusEffectHolder playerCurrentStatusEffects;
+    StatusEffectHolder enemyCurrentStatusEffects;
 
     string state = "hand";
     // hand, playing, played
@@ -20,6 +22,8 @@ public class EnemyCard : MonoBehaviour
     float yPos;
     float zPos;
     float handAdjustSpeed = 5f;
+    string playerOrEnemy = "Enemy";
+    float critModifier = 2;
 
     public void SetupCard(int count)
     {
@@ -175,10 +179,62 @@ public class EnemyCard : MonoBehaviour
         }
     }
 
-    private void DealDamage(int damageAmount)
+    private void DealDamage(int damageAmount, int critChance = 0)
     {
+        int modifiedDamage = CalculateModifiedDamage(damageAmount, critChance);
         CharacterData character = FindObjectOfType<BattleData>().GetCharacter();
-        character.TakeDamage(damageAmount);
+        character.TakeDamage(modifiedDamage);
+    }
+
+    private int CalculateModifiedDamage(int damageAmount, int critChance)
+    {
+        ConfigData configData = FindObjectOfType<ConfigData>();
+        playerCurrentStatusEffects = configData.GetPlayerStatusEffects();
+        enemyCurrentStatusEffects = configData.GetEnemyStatusEffects();
+
+        damageAmount += enemyCurrentStatusEffects.GetMomentumStacks();
+        damageAmount += playerCurrentStatusEffects.GetVulnerableStacks();
+        damageAmount = CheckAndApplyCritical(damageAmount, critChance);
+
+        return damageAmount;
+    }
+
+    private int CheckAndApplyCritical(int damageAmount, int critChance)
+    {
+        // Check for crit
+        bool criticalHit = false;
+        if (PercentChance(critChance))
+        {
+            criticalHit = true;
+        }
+        else if (enemyCurrentStatusEffects.GetCritUpStacks() > 0)
+        {
+            criticalHit = true;
+            GainStatus("CritUp", -1);
+        }
+
+        // Apply crit
+        int calculatedDamage = damageAmount;
+        if (criticalHit)
+        {
+            calculatedDamage = Mathf.FloorToInt(critModifier * calculatedDamage);
+        }
+        return calculatedDamage;
+    }
+
+    private void GainStatus(string statusType, int stacks)
+    {
+        enemyCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy);
+    }
+
+    private bool PercentChance(int percentChance)
+    {
+        int randomNumber = Mathf.CeilToInt(Random.Range(0, 100));
+        if (randomNumber <= percentChance)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void DiscardCard()
