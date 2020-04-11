@@ -9,6 +9,7 @@ public class EnemyHand : MonoBehaviour
 
     EnemyDeck enemyDeck;
     EnemyDiscard enemyDiscard;
+    float cardInHandScale = 0.5f;
 
     public void DrawInitialHand(int handSize)
     {
@@ -38,7 +39,12 @@ public class EnemyHand : MonoBehaviour
         cards.Add(cardToDraw);
         EnemyCard instantiatedCard = Instantiate(cardToDraw, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
         instantiatedCard.transform.SetParent(this.transform);
-        instantiatedCard.SetupCard();
+        instantiatedCard.transform.localScale = new Vector3(cardInHandScale, cardInHandScale, cardInHandScale);
+
+        instantiatedCard.SetupCard(count);
+
+        float offset = instantiatedCard.GetWidth(cardInHandScale) * count;
+        instantiatedCard.transform.position = new Vector2(instantiatedCard.transform.position.x + offset, instantiatedCard.transform.position.y);
 
 
         // Logging
