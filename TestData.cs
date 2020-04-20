@@ -23,9 +23,17 @@ public class TestData : MonoBehaviour
         string runnerName = "Runner";
         string hackerName = "Hacker";
 
-        // hacker and runner names are swapped for sake of portrait testing for now..
         newCharacter.SetupCharacter(hackerName, runnerName, 200, 50, 100, 75, 4);
 
         return newCharacter;
+    }
+
+    public static HackerData SetTestHackerOne()
+    {
+        HackerData newHacker = ScriptableObject.CreateInstance<HackerData>();
+
+        newHacker.SetupHacker("TestHacker");
+
+        return newHacker;
     }
 }

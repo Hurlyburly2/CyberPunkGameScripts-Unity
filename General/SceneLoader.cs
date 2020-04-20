@@ -14,6 +14,7 @@ public class SceneLoader : MonoBehaviour
 
     // Scene names
     [SerializeField] string battleSceneName = "Battle";
+    [SerializeField] string hackSceneName = "Hack";
 
     private void Awake()
     {
@@ -39,10 +40,10 @@ public class SceneLoader : MonoBehaviour
 
         SceneManager.LoadScene(battleSceneName);
 
-        StartCoroutine(WaitForSceneLoad(battleSceneName));
+        StartCoroutine(WaitForBattleLoad(battleSceneName));
     }
 
-    private IEnumerator WaitForSceneLoad(string sceneName)
+    private IEnumerator WaitForBattleLoad(string sceneName)
     {
         while (SceneManager.GetActiveScene().name != battleSceneName)
         {
@@ -61,5 +62,26 @@ public class SceneLoader : MonoBehaviour
     {
         CharacterData currentCharacter = TestData.SetTestCharacterTwo();
         LoadBattle(currentCharacter);
+    }
+
+    public void LoadHackTestOne()
+    {
+        HackerData currentHacker = TestData.SetTestHackerOne();
+        LoadHack(currentHacker);
+    }
+
+    public void LoadHack(HackerData hacker)
+    {
+        SceneManager.LoadScene(hackSceneName);
+        StartCoroutine(WaitForHackLoad());
+    }
+
+    private IEnumerator WaitForHackLoad()
+    {
+        while (SceneManager.GetActiveScene().name != hackSceneName)
+        {
+            yield return null;
+        }
+        Debug.Log("Hack scene loaded");
     }
 }
