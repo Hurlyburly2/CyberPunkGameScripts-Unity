@@ -46,20 +46,20 @@ public class RunnerMod : ScriptableObject
                 newCardList.Add(6); // Brace
                 break;
             case "Unmodded Arm":
-                newCardList.Add(7);
-                newCardList.Add(7);
-                newCardList.Add(8);
+                newCardList.Add(7); // Punch
+                newCardList.Add(7); // Punch
+                newCardList.Add(8); // Quickdraw
                 break;
             case "Unmodded Leg":
-                newCardList.Add(9);
-                newCardList.Add(9);
-                newCardList.Add(10);
+                newCardList.Add(9); // Kick
+                newCardList.Add(9); // Kick
+                newCardList.Add(10);    // Sprint
                 break;
             case "Spanner":
-                newCardList.Add(11);
-                newCardList.Add(11);
-                newCardList.Add(12);
-                newCardList.Add(13);
+                newCardList.Add(11);    // Whack
+                newCardList.Add(11);    // Whack
+                newCardList.Add(12);    // Kneecap
+                newCardList.Add(13);    // Bruise
                 break;
             default:
                 break;

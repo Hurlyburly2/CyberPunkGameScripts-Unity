@@ -6,11 +6,14 @@ public class HackerData : ScriptableObject
 {
     string hackerName;
 
-    HackerLoadout hackoutLoadout;
+    HackerLoadout hackerLoadout;
 
     public void SetupHacker(string newHackerName)
     {
         hackerName = newHackerName;
+
+        hackerLoadout = CreateInstance<HackerLoadout>();
+        hackerLoadout.SetupInitialLoadout(hackerName);
     }
 
     public string GetName()
