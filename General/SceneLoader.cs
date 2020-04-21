@@ -8,9 +8,11 @@ public class SceneLoader : MonoBehaviour
     // State
     int currentScene;
     BattleData currentBattle;
+    HackBattleData currentHack;
 
     // config
     [SerializeField] BattleData battleData;
+    [SerializeField] HackBattleData hackBattleData;
 
     // Scene names
     [SerializeField] string battleSceneName = "Battle";
@@ -20,6 +22,13 @@ public class SceneLoader : MonoBehaviour
     {
         int count = FindObjectsOfType<BattleData>().Length;
         if (count > 1)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+
+        int hackCount = FindObjectsOfType<HackBattleData>().Length;
+        if (hackCount > 1)
         {
             Destroy(gameObject);
         }
@@ -36,7 +45,6 @@ public class SceneLoader : MonoBehaviour
     {
         currentBattle = Instantiate(battleData);
         currentBattle.SetCharacterData(character);
-        currentBattle.GetCharacter().LogCharacterData();
 
         SceneManager.LoadScene(battleSceneName);
 
@@ -72,6 +80,9 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadHack(HackerData hacker)
     {
+        currentHack = Instantiate(hackBattleData);
+        currentHack.SetHackerData(hacker);
+
         SceneManager.LoadScene(hackSceneName);
         StartCoroutine(WaitForHackLoad());
     }
@@ -82,6 +93,7 @@ public class SceneLoader : MonoBehaviour
         {
             yield return null;
         }
-        Debug.Log("Hack scene loaded");
+        currentHack.GetHacker().LogHackerData();
+        currentHack.SetupHack();
     }
 }

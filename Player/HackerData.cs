@@ -15,4 +15,9 @@ public class HackerData : ScriptableObject
     {
         return hackerName;
     }
+
+    public void LogHackerData()
+    {
+        Debug.Log("Hacker Name: " + hackerName);
+    }
 }
