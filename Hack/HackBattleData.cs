@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class HackBattleData : MonoBehaviour
 {
+    CharacterData runner;
     HackerData hacker;
 
-    public void SetHackerData(HackerData newHacker)
+    public void SetCharacterData(CharacterData newRunner, HackerData newHacker)
     {
+        runner = newRunner;
         hacker = newHacker;
     }
 

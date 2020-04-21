@@ -14,6 +14,7 @@ public class BattleData : MonoBehaviour
 
     // data
     CharacterData character;
+    HackerData hacker;
     Enemy enemy;
 
     // state
@@ -170,9 +171,10 @@ public class BattleData : MonoBehaviour
         return actionDisabled;
     }
 
-    public void SetCharacterData(CharacterData characterToSet)
+    public void SetCharacterData(CharacterData characterToSet, HackerData hackerToSet)
     {
         character = characterToSet;
+        hacker = hackerToSet;
     }
 
     public CharacterData GetCharacter()

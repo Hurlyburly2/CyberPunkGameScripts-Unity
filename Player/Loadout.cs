@@ -5,7 +5,6 @@ using UnityEngine;
 public class Loadout : ScriptableObject
 {
     string runnerName;
-    string hackerName;
 
     RunnerMod headMod;
     RunnerMod torsoMod;
@@ -16,10 +15,9 @@ public class Loadout : ScriptableObject
     RunnerMod rightLeg;
     RunnerMod weapon;
 
-    public void SetupInitialLoadout(string newRunnerName, string newHackerName)
+    public void SetupInitialLoadout(string newRunnerName)
     {
         runnerName = newRunnerName;
-        hackerName = newHackerName;
 
         headMod = CreateInstance<RunnerMod>();
         headMod.SetupMod("Human Eyes");

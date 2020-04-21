@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class HackerData : ScriptableObject
 {
-    public string hackerName;
+    string hackerName;
+
+    HackerLoadout hackoutLoadout;
 
     public void SetupHacker(string newHackerName)
     {
