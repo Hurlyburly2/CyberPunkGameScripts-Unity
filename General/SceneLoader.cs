@@ -8,17 +8,27 @@ public class SceneLoader : MonoBehaviour
     // State
     int currentScene;
     BattleData currentBattle;
+    HackBattleData currentHack;
 
     // config
     [SerializeField] BattleData battleData;
+    [SerializeField] HackBattleData hackBattleData;
 
     // Scene names
     [SerializeField] string battleSceneName = "Battle";
+    [SerializeField] string hackSceneName = "Hack";
 
     private void Awake()
     {
         int count = FindObjectsOfType<BattleData>().Length;
         if (count > 1)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+
+        int hackCount = FindObjectsOfType<HackBattleData>().Length;
+        if (hackCount > 1)
         {
             Destroy(gameObject);
         }
@@ -35,14 +45,13 @@ public class SceneLoader : MonoBehaviour
     {
         currentBattle = Instantiate(battleData);
         currentBattle.SetCharacterData(character);
-        currentBattle.GetCharacter().LogCharacterData();
 
         SceneManager.LoadScene(battleSceneName);
 
-        StartCoroutine(WaitForSceneLoad(battleSceneName));
+        StartCoroutine(WaitForBattleLoad(battleSceneName));
     }
 
-    private IEnumerator WaitForSceneLoad(string sceneName)
+    private IEnumerator WaitForBattleLoad(string sceneName)
     {
         while (SceneManager.GetActiveScene().name != battleSceneName)
         {
@@ -61,5 +70,30 @@ public class SceneLoader : MonoBehaviour
     {
         CharacterData currentCharacter = TestData.SetTestCharacterTwo();
         LoadBattle(currentCharacter);
+    }
+
+    public void LoadHackTestOne()
+    {
+        HackerData currentHacker = TestData.SetTestHackerOne();
+        LoadHack(currentHacker);
+    }
+
+    public void LoadHack(HackerData hacker)
+    {
+        currentHack = Instantiate(hackBattleData);
+        currentHack.SetHackerData(hacker);
+
+        SceneManager.LoadScene(hackSceneName);
+        StartCoroutine(WaitForHackLoad());
+    }
+
+    private IEnumerator WaitForHackLoad()
+    {
+        while (SceneManager.GetActiveScene().name != hackSceneName)
+        {
+            yield return null;
+        }
+        currentHack.GetHacker().LogHackerData();
+        currentHack.SetupHack();
     }
 }
