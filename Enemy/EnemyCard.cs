@@ -173,6 +173,11 @@ public class EnemyCard : MonoBehaviour
             case 2: // Stab
                 DealDamage(2);
                 break;
+            case 3: // MINOR TRAP
+                // TODO: GAIN VULNERABLE
+                // TODO: TAKE 1 DAMAGE
+                // TODO: DRAW A CARD
+                break;
             default:
                 Debug.Log("Card not implemented");
                 break;

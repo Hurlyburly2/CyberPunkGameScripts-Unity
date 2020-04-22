@@ -345,6 +345,23 @@ public class Card : MonoBehaviour
                 DealDamage(1);
                 InflictStatus("Vulnerable", 2);
                 break;
+            case 14: // HIDDEN TRIGGER
+                // TODO: Shuffle a Minor Trap into the enemy deck
+                Debug.Log("HIDDEN TRIGGER NOT YET IMPLEMENTED");
+                break;
+            case 15: // TOO OBVIOUS
+                // TODO: Remove all Traps from the enemy deck and take 1 damage for each
+                Debug.Log("TOO OBVIOUS NOT YET IMPLEMENTED");
+                break;
+            case 16: // QWIKTHINK
+                // TODO: DRAW ONE CARD
+                Debug.Log("QwikThink has not yet been implemented");
+                break;
+            case 17: // AD-HOC UPGRADE
+                // TODO: DRAW A CARD
+                // TODO: TAKE 2 DAMAGE
+                // TODO: GAIN 2 ENERGY
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
