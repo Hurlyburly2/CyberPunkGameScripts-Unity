@@ -361,6 +361,17 @@ public class Card : MonoBehaviour
                 // TODO: DRAW A CARD
                 // TODO: TAKE 2 DAMAGE
                 // TODO: GAIN 2 ENERGY
+                Debug.Log("Ad-hoc upgrade has not been implemented");
+                break;
+            case 18: // FAILED CONNECTION
+                // TODO: Hand size -1 next turn.
+                // TODO: Gain 2 energy.
+                Debug.Log("Failed Connection has not been implemented");
+                break;
+            case 19: // CRACKED
+                // TODO: Add +2 to all current buffs
+                // TODO increase their duration by one turn
+                Debug.Log("Cracked has not been implemented");
                 break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
