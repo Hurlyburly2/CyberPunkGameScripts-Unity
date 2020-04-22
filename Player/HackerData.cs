@@ -25,4 +25,9 @@ public class HackerData : ScriptableObject
     {
         Debug.Log("Hacker Name: " + hackerName);
     }
+
+    public HackerLoadout GetHackerLoadout()
+    {
+        return hackerLoadout;
+    }
 }

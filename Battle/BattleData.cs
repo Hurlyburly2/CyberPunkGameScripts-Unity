@@ -49,7 +49,11 @@ public class BattleData : MonoBehaviour
         configData.SetupStatusEffectHolders();
 
         character.BattleSetup(setupTimeInSeconds);
-        deck.SetupDeck(character.GetLoadout().GetAllCardIds());
+
+        List<int> deckCardIds = character.GetLoadout().GetAllCardIds();
+        deckCardIds.AddRange(hacker.GetHackerLoadout().GetCardIds());
+        deck.SetupDeck(deckCardIds);
+
         playerHand.DrawStartingHand(character.GetStartingHandSize(), setupTimeInSeconds);
 
         StartCoroutine(EnablePlayAfterSetup());
