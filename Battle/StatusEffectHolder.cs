@@ -20,10 +20,24 @@ public class StatusEffectHolder : MonoBehaviour
             StatusEffect currentStatus = statusEffects[indexOfStatus];
             currentStatus.ModifyStatus(stacks, duration);
 
-            Debug.Log("Stacks: " + currentStatus.GetStacks());
-
             CheckDestroyStatus(currentStatus);
             RejiggerStatusIcons();
+        }
+    }
+
+    public void PowerupStatus(string typeToBuff, int addToStacks, int addToDuration)
+    {
+        foreach (StatusEffect statusEffect in statusEffects)
+        {
+            switch(typeToBuff)
+            {
+                case "buffs":
+                    if (statusEffect.IsBuff())
+                    {
+                        statusEffect.ModifyStatus(addToStacks, addToDuration);
+                    }
+                    break;
+            }
         }
     }
 

@@ -367,9 +367,7 @@ public class Card : MonoBehaviour
                 Debug.Log("Failed Connection has not been implemented");
                 break;
             case 19: // CRACKED
-                // TODO: Add +2 to all current buffs
-                // TODO increase their duration by one turn
-                Debug.Log("Cracked has not been implemented");
+                PowerupStatus("buffs", 2, 1);
                 break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
@@ -408,6 +406,11 @@ public class Card : MonoBehaviour
     private void GainStatus(string statusType, int stacks, int duration)
     {
         playerCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy, duration);
+    }
+
+    private void PowerupStatus(string type, int buffAmount, int durationBuffAmount)
+    {
+        playerCurrentStatusEffects.PowerupStatus(type, buffAmount, durationBuffAmount);
     }
 
     private void InflictStatus(string statusType, int stacks)
