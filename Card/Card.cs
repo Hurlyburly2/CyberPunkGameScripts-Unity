@@ -362,9 +362,8 @@ public class Card : MonoBehaviour
                 GainEnergy(2);
                 break;
             case 18: // FAILED CONNECTION
-                // TODO: Hand size -1 next turn.
-                // TODO: Gain 2 energy.
-                Debug.Log("Failed Connection has not been implemented");
+                GainHandDebuff(1);
+                GainEnergy(2);
                 break;
             case 19: // CRACKED
                 PowerupStatus("buffs", 2, 1);
@@ -373,6 +372,12 @@ public class Card : MonoBehaviour
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
         }
+    }
+
+    private void GainHandDebuff(int amount)
+    {
+        PlayerHand playerHand = FindObjectOfType<PlayerHand>();
+        playerHand.InflictHandDebuff(amount);
     }
 
     private void LoadCardPicker(List<Card> cards, int amountToPick)

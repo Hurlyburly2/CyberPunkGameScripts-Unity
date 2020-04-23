@@ -8,6 +8,7 @@ public class PlayerHand : MonoBehaviour
     List<Card> cardsInHand = new List<Card>();
     int currentHandSize = 0;
     int initialHandSize = 0;
+    int playerHandDebuff = 0;
     float cardGap = 0;
     [SerializeField] float maxCardGap;
     bool centered = false;
@@ -25,6 +26,7 @@ public class PlayerHand : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerHandDebuff = 0;
         battleData = FindObjectOfType<BattleData>();
         deck = FindObjectOfType<Deck>();
         discard = FindObjectOfType<Discard>();
@@ -64,9 +66,26 @@ public class PlayerHand : MonoBehaviour
 
     public void DrawToMaxHandSize()
     {
-        if (cardsInHand.Count < initialHandSize)
+        int cardTarget = initialHandSize - playerHandDebuff;
+        if (cardsInHand.Count < cardTarget)
         {
-            DrawXCards(initialHandSize - cardsInHand.Count);
+            DrawXCards(cardTarget - cardsInHand.Count);
+        }
+
+        // THIS RESETS THE PLAYER DEBUFF BECAUSE WE ASSUME THAT WE'RE ONLY DRAWING TO MAX HAND SIZE
+        // AT THE BEGINNING OF THE PLAYER TURN. IF WE END UP USING THIS METHOD IN OTHER CASES WE'LL
+        // NEED TO PASS SOMETHING HERE TO PRESERVE THE DEBUFF AND ONLY RESET ON TURN END
+        playerHandDebuff = 0;
+    }
+
+    public void InflictHandDebuff(int amount)
+    {
+        if (initialHandSize - amount < 0)
+        {
+            playerHandDebuff = initialHandSize;
+        } else
+        {
+            playerHandDebuff += amount;
         }
     }
 
