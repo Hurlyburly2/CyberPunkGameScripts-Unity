@@ -81,6 +81,7 @@ public class CharacterData : ScriptableObject
 
     private void SetEnergyText()
     {
+        Debug.Log(currentEnergy);
         currentEnergyText.GetComponent<TextMeshProUGUI>().text = currentEnergy.ToString();
     }
 
@@ -97,6 +98,21 @@ public class CharacterData : ScriptableObject
         SetHealthText();
         healthPipManager = configData.GetPlayerHealthPipManager();
         healthPipManager.ChangeValue(currentHealth);
+    }
+
+    public void GainEnergy(int amountToGain)
+    {
+        if (currentEnergy + amountToGain > maximumEnergy)
+        {
+            currentEnergy = maximumEnergy;
+        } else
+        {
+            currentEnergy += amountToGain;
+        }
+
+        SetEnergyText();
+        energyPipManager = configData.GetPlayerEnergyPipManager();
+        energyPipManager.ChangeValue(currentEnergy);
     }
 
     public void TakeDamage(int amountToTake)

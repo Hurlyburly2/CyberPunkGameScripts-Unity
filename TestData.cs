@@ -10,7 +10,7 @@ public class TestData : MonoBehaviour
 
         string runnerName = "Runner";
 
-        newCharacter.SetupCharacter(runnerName, 30, 30, 10, 10, 3);
+        newCharacter.SetupCharacter(runnerName, 30, 30, 10, 0, 3);
 
         return newCharacter;
     }

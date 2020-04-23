@@ -354,14 +354,12 @@ public class Card : MonoBehaviour
                 Debug.Log("TOO OBVIOUS NOT YET IMPLEMENTED");
                 break;
             case 16: // QWIKTHINK
-                // TODO: DRAW ONE CARD
-                Debug.Log("QwikThink has not yet been implemented");
+                DrawXCards(1);
                 break;
             case 17: // AD-HOC UPGRADE
-                // TODO: DRAW A CARD
-                // TODO: TAKE 2 DAMAGE
-                // TODO: GAIN 2 ENERGY
-                Debug.Log("Ad-hoc upgrade has not been implemented");
+                DrawXCards(1);
+                SelfDamage(2);
+                GainEnergy(2);
                 break;
             case 18: // FAILED CONNECTION
                 // TODO: Hand size -1 next turn.
@@ -392,6 +390,11 @@ public class Card : MonoBehaviour
         FindObjectOfType<CharacterData>().GainHealth(amountToGain);
     }
 
+    private void GainEnergy(int amountToGain)
+    {
+        FindObjectOfType<CharacterData>().GainEnergy(amountToGain);
+    }
+
     private void HealDebuff(int amountOfDebuffsToHeal)
     {
         playerCurrentStatusEffects.HealDebuffs(amountOfDebuffsToHeal);
@@ -410,6 +413,11 @@ public class Card : MonoBehaviour
     private void InflictStatus(string statusType, int stacks)
     {
         enemyCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy);
+    }
+
+    private void SelfDamage(int damageAmount)
+    {
+        FindObjectOfType<CharacterData>().TakeDamage(damageAmount);
     }
 
     private void DealDamage(int damageAmount, int critChance = 0)
