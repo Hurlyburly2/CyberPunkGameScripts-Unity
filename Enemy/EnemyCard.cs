@@ -137,6 +137,7 @@ public class EnemyCard : MonoBehaviour
 
     private void Update()
     {
+        EnemyHand enemyHand = FindObjectOfType<EnemyHand>();
         MoveTowardTarget();
     }
 
@@ -174,14 +175,25 @@ public class EnemyCard : MonoBehaviour
                 DealDamage(2);
                 break;
             case 3: // MINOR TRAP
-                // TODO: GAIN VULNERABLE
-                // TODO: TAKE 1 DAMAGE
-                // TODO: DRAW A CARD
+                GainStatus("Vulnerable", 1);
+                SelfDamage(1);
+                BuffHandSize(1);
+                destroyOnPlay = true;
                 break;
             default:
                 Debug.Log("Card not implemented");
                 break;
         }
+    }
+
+    private void SelfDamage(int amount)
+    {
+        FindObjectOfType<Enemy>().TakeDamage(amount);
+    }
+
+    private void BuffHandSize(int buffAmount)
+    {
+        FindObjectOfType<EnemyHand>().BuffHandSize(buffAmount);
     }
 
     private void DealDamage(int damageAmount, int critChance = 0)
@@ -238,6 +250,8 @@ public class EnemyCard : MonoBehaviour
 
     private void GainStatus(string statusType, int stacks)
     {
+        ConfigData configData = FindObjectOfType<ConfigData>();
+        enemyCurrentStatusEffects = configData.GetEnemyStatusEffects();
         enemyCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy);
     }
 

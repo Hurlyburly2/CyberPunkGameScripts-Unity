@@ -346,8 +346,9 @@ public class Card : MonoBehaviour
                 InflictStatus("Vulnerable", 2);
                 break;
             case 14: // HIDDEN TRIGGER
-                // TODO: Shuffle a Minor Trap into the enemy deck
-                Debug.Log("HIDDEN TRIGGER NOT YET IMPLEMENTED");
+                List<int> cardsToAddIds = new List<int>();
+                cardsToAddIds.Add(3);
+                ShuffleCardsIntoEnemyDeck(cardsToAddIds);
                 break;
             case 15: // TOO OBVIOUS
                 // TODO: Remove all Traps from the enemy deck and take 1 damage for each
@@ -372,6 +373,11 @@ public class Card : MonoBehaviour
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
         }
+    }
+
+    private void ShuffleCardsIntoEnemyDeck(List<int> cardsToAddIds)
+    {
+        FindObjectOfType<EnemyDeck>().ShuffleGeneratedCardsIntoDeck(cardsToAddIds);
     }
 
     private void GainHandDebuff(int amount)

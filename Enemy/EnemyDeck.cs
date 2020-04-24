@@ -24,6 +24,19 @@ public class EnemyDeck : MonoBehaviour
         return cardToDraw;
     }
 
+    public void ShuffleGeneratedCardsIntoDeck(List<int> cardsToAddIds)
+    {
+        AllEnemyCards allEnemyCards = FindObjectOfType<AllEnemyCards>();
+        List<EnemyCard> cardsToAdd = new List<EnemyCard>();
+
+        foreach(int cardId in cardsToAddIds)
+        {
+            cardsToAdd.Add(allEnemyCards.GetEnemyCardById(cardId));
+        }
+        AddCardToDeck(cardsToAdd);
+        ShuffleDeck();
+    }
+
     public void AddCardToDeck(List<EnemyCard> cardsToAdd)
     {
         cards.AddRange(cardsToAdd);
