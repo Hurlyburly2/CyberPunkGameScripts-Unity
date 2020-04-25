@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class EnemyCard : MonoBehaviour
 {
     [SerializeField] int cardId;
+    [SerializeField] bool isTrap = false;
     EnemyDeck enemyDeck;
     EnemyDiscard enemyDiscard;
 
@@ -275,5 +276,10 @@ public class EnemyCard : MonoBehaviour
             enemyDiscard.AddCardToDiscard(cardPrefab);
         }
         Destroy(gameObject);
+    }
+
+    public bool IsTrap()
+    {
+        return isTrap;
     }
 }

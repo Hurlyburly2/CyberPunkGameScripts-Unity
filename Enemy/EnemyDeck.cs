@@ -78,4 +78,31 @@ public class EnemyDeck : MonoBehaviour
     {
         return cards.Count;
     }
+
+    public int RemoveAllTrapCards()
+    {
+        int trapCardCount = 0;
+        bool trapsExist = true;
+        while (trapsExist)
+        {
+            int cardToRemove = -1;
+            for(int i = 0; i < cards.Count; i++)
+            {
+                if (cards[i].IsTrap())
+                {
+                    cardToRemove = i;
+                    trapCardCount++;
+                    break;
+                }
+            }
+            if (cardToRemove != -1)
+            {
+                cards.RemoveAt(cardToRemove);
+            } else
+            {
+                trapsExist = false;
+            }
+        }
+        return trapCardCount;
+    }
 }

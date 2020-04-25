@@ -351,8 +351,8 @@ public class Card : MonoBehaviour
                 ShuffleCardsIntoEnemyDeck(cardsToAddIds);
                 break;
             case 15: // TOO OBVIOUS
-                // TODO: Remove all Traps from the enemy deck and take 1 damage for each
-                Debug.Log("TOO OBVIOUS NOT YET IMPLEMENTED");
+                int removedTraps = FindObjectOfType<EnemyDeck>().RemoveAllTrapCards();
+                SelfDamage(removedTraps);
                 break;
             case 16: // QWIKTHINK
                 DrawXCards(1);
