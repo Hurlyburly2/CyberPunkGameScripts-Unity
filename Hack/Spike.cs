@@ -6,19 +6,13 @@ public class Spike : MonoBehaviour
 {
     [SerializeField] string color = "none";
     [SerializeField] string state = "none";
-    // Spike Colors
-        // red, blue, green
-    // Spike States
-        // none
-        // closed
-        // left
-        // top
-        // right
-        // bottom
-        // topAndLeft
-        // topAndRight
-        // bottomAndLeft
-        // bottomAndRight
+    [SerializeField] string position = "none";
+        // topleft, topright, bottomleft, bottomright
+
+    [SerializeField] bool topConnection = false;
+    [SerializeField] bool rightConnection = false;
+    [SerializeField] bool leftConnection = false;
+    [SerializeField] bool bottomConnection = false;
 
     public void SetupSpike()
     {

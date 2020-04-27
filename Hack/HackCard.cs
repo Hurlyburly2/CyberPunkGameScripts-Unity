@@ -11,6 +11,10 @@ public class HackCard : MonoBehaviour
     [SerializeField] Spike bottomLeftSpike;
     [SerializeField] Spike bottomRightSpike;
 
+    int orientation = 0;
+        // 0 = 0, 1 = 90, 2 = 180, 3 = 270
+        // needed for figuring out connections
+
     private void Start()
     {
         SetupCard();
@@ -18,6 +22,6 @@ public class HackCard : MonoBehaviour
 
     public void SetupCard()
     {
-
+        
     }
 }
