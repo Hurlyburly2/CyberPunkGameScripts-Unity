@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class HackDeck : MonoBehaviour
 {
     List<HackCard> cards = new List<HackCard>();
+
+    public void OnPointerDown (PointerEventData eventData)
+    {
+        Debug.Log("clicked");
+    }
 
     public void SetTopCard()
     {
