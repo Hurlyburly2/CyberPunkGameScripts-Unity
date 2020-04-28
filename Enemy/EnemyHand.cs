@@ -14,9 +14,16 @@ public class EnemyHand : MonoBehaviour
     float cardInHandScale = 0.5f;
 
     float cardWidth;
+    bool playingCards = false;
+
+    int handBuff = 0;
 
     public void DrawInitialHand(int handSize)
     {
+        handSize += handBuff;
+        handBuff = 0;
+
+        playingCards = false;
         enemyDeck = FindObjectOfType<EnemyDeck>();
         enemyDiscard = FindObjectOfType<EnemyDiscard>();
         StartCoroutine(DrawHandTimer(handSize));
@@ -51,6 +58,11 @@ public class EnemyHand : MonoBehaviour
         }
     }
 
+    public void BuffHandSize(int amountToBuff)
+    {
+        handBuff += amountToBuff;
+    }
+
     private void DrawCardFromTopOfDeck(int count)
     {
         // Shrink the card when its in enemy hand and redraw it later
@@ -68,7 +80,10 @@ public class EnemyHand : MonoBehaviour
         instantiatedCard.SetPos(instantiatedCard.transform.position.x + offset, transform.position.y, count * -1);
         cards.Add(instantiatedCard);
 
-        CenterHand();
+        if (!playingCards)
+        {
+            CenterHand();
+        }
     }
 
     private void CenterHand()
@@ -95,10 +110,11 @@ public class EnemyHand : MonoBehaviour
         int count = 0;
         int row = 0;
         int column = 0;
-        foreach(EnemyCard card in cards)
+        playingCards = true;
+        for (int i = 0; i < cards.Count; i++)
         {
-            SetPlayPosition(card, count, row, column);
-            card.PlayCard(count);
+            SetPlayPosition(cards[i], count, row, column);
+            cards[i].PlayCard(count);
             yield return new WaitForSeconds(timeBetweenPlays);
             count++;
             column++;
@@ -111,6 +127,7 @@ public class EnemyHand : MonoBehaviour
                 column = 0;
             }
         }
+        playingCards = false;
         FindObjectOfType<Enemy>().FinishTurn();
     }
 
@@ -142,5 +159,10 @@ public class EnemyHand : MonoBehaviour
     {
         cards.Remove(card);
         Debug.Log("Hand Size: " + cards.Count);
+    }
+
+    public bool GetIsPlaying()
+    {
+        return playingCards;
     }
 }

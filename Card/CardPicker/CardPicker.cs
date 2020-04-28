@@ -30,6 +30,7 @@ public class CardPicker : MonoBehaviour
         actualCardObjects = cards;
         contentWidth = 0;
         gameObject.SetActive(true);
+        ClearDummyCards();
         SetCardSize();
 
         type = newTypeOfPicker;
@@ -48,6 +49,16 @@ public class CardPicker : MonoBehaviour
         horizontalLayoutGroup.spacing = cardWidth * 1.5f;
         horizontalLayoutGroup.padding.left += Mathf.CeilToInt(cardWidth);
         horizontalLayoutGroup.padding.right += Mathf.CeilToInt(cardWidth);
+    }
+
+    private void ClearDummyCards()
+    {
+        DummyCard[] dummyCards = FindObjectsOfType<DummyCard>();
+        for (int i = 0; i < dummyCards.Length; i++)
+        {
+            dummyCards[i].DestroyDummyCard();
+        }
+        cardOptions = new List<DummyCard>();
     }
 
     private void CreateCardOption(Card card, int counter)

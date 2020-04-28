@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class EnemyCard : MonoBehaviour
 {
     [SerializeField] int cardId;
+    [SerializeField] bool isTrap = false;
     EnemyDeck enemyDeck;
     EnemyDiscard enemyDiscard;
 
@@ -137,6 +138,7 @@ public class EnemyCard : MonoBehaviour
 
     private void Update()
     {
+        EnemyHand enemyHand = FindObjectOfType<EnemyHand>();
         MoveTowardTarget();
     }
 
@@ -173,10 +175,26 @@ public class EnemyCard : MonoBehaviour
             case 2: // Stab
                 DealDamage(2);
                 break;
+            case 3: // MINOR TRAP
+                GainStatus("Vulnerable", 1);
+                SelfDamage(1);
+                BuffHandSize(1);
+                destroyOnPlay = true;
+                break;
             default:
                 Debug.Log("Card not implemented");
                 break;
         }
+    }
+
+    private void SelfDamage(int amount)
+    {
+        FindObjectOfType<Enemy>().TakeDamage(amount);
+    }
+
+    private void BuffHandSize(int buffAmount)
+    {
+        FindObjectOfType<EnemyHand>().BuffHandSize(buffAmount);
     }
 
     private void DealDamage(int damageAmount, int critChance = 0)
@@ -233,6 +251,8 @@ public class EnemyCard : MonoBehaviour
 
     private void GainStatus(string statusType, int stacks)
     {
+        ConfigData configData = FindObjectOfType<ConfigData>();
+        enemyCurrentStatusEffects = configData.GetEnemyStatusEffects();
         enemyCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy);
     }
 
@@ -256,5 +276,10 @@ public class EnemyCard : MonoBehaviour
             enemyDiscard.AddCardToDiscard(cardPrefab);
         }
         Destroy(gameObject);
+    }
+
+    public bool IsTrap()
+    {
+        return isTrap;
     }
 }

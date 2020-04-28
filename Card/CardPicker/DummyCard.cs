@@ -74,4 +74,9 @@ public class DummyCard : MonoBehaviour
     {
         return id;
     }
+
+    public void DestroyDummyCard()
+    {
+        Destroy(gameObject);
+    }
 }

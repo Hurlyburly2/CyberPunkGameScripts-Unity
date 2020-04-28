@@ -345,10 +345,45 @@ public class Card : MonoBehaviour
                 DealDamage(1);
                 InflictStatus("Vulnerable", 2);
                 break;
+            case 14: // HIDDEN TRIGGER
+                List<int> cardsToAddIds = new List<int>();
+                cardsToAddIds.Add(3);
+                ShuffleCardsIntoEnemyDeck(cardsToAddIds);
+                break;
+            case 15: // TOO OBVIOUS
+                int removedTraps = FindObjectOfType<EnemyDeck>().RemoveAllTrapCards();
+                SelfDamage(removedTraps);
+                break;
+            case 16: // QWIKTHINK
+                DrawXCards(1);
+                break;
+            case 17: // AD-HOC UPGRADE
+                DrawXCards(1);
+                SelfDamage(2);
+                GainEnergy(2);
+                break;
+            case 18: // FAILED CONNECTION
+                GainHandDebuff(1);
+                GainEnergy(2);
+                break;
+            case 19: // CRACKED
+                PowerupStatus("buffs", 2, 1);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
         }
+    }
+
+    private void ShuffleCardsIntoEnemyDeck(List<int> cardsToAddIds)
+    {
+        FindObjectOfType<EnemyDeck>().ShuffleGeneratedCardsIntoDeck(cardsToAddIds);
+    }
+
+    private void GainHandDebuff(int amount)
+    {
+        PlayerHand playerHand = FindObjectOfType<PlayerHand>();
+        playerHand.InflictHandDebuff(amount);
     }
 
     private void LoadCardPicker(List<Card> cards, int amountToPick)
@@ -362,6 +397,11 @@ public class Card : MonoBehaviour
     private void GainHealth(int amountToGain)
     {
         FindObjectOfType<CharacterData>().GainHealth(amountToGain);
+    }
+
+    private void GainEnergy(int amountToGain)
+    {
+        FindObjectOfType<CharacterData>().GainEnergy(amountToGain);
     }
 
     private void HealDebuff(int amountOfDebuffsToHeal)
@@ -379,9 +419,19 @@ public class Card : MonoBehaviour
         playerCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy, duration);
     }
 
+    private void PowerupStatus(string type, int buffAmount, int durationBuffAmount)
+    {
+        playerCurrentStatusEffects.PowerupStatus(type, buffAmount, durationBuffAmount);
+    }
+
     private void InflictStatus(string statusType, int stacks)
     {
         enemyCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy);
+    }
+
+    private void SelfDamage(int damageAmount)
+    {
+        FindObjectOfType<CharacterData>().TakeDamage(damageAmount);
     }
 
     private void DealDamage(int damageAmount, int critChance = 0)

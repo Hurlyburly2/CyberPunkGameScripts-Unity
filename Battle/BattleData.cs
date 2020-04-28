@@ -14,6 +14,7 @@ public class BattleData : MonoBehaviour
 
     // data
     CharacterData character;
+    HackerData hacker;
     Enemy enemy;
 
     // state
@@ -48,7 +49,11 @@ public class BattleData : MonoBehaviour
         configData.SetupStatusEffectHolders();
 
         character.BattleSetup(setupTimeInSeconds);
-        deck.SetupDeck(character.GetLoadout().GetAllCardIds());
+
+        List<int> deckCardIds = character.GetLoadout().GetAllCardIds();
+        deckCardIds.AddRange(hacker.GetHackerLoadout().GetCardIds());
+        deck.SetupDeck(deckCardIds);
+
         playerHand.DrawStartingHand(character.GetStartingHandSize(), setupTimeInSeconds);
 
         StartCoroutine(EnablePlayAfterSetup());
@@ -170,9 +175,10 @@ public class BattleData : MonoBehaviour
         return actionDisabled;
     }
 
-    public void SetCharacterData(CharacterData characterToSet)
+    public void SetCharacterData(CharacterData characterToSet, HackerData hackerToSet)
     {
         character = characterToSet;
+        hacker = hackerToSet;
     }
 
     public CharacterData GetCharacter()

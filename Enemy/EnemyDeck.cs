@@ -24,6 +24,19 @@ public class EnemyDeck : MonoBehaviour
         return cardToDraw;
     }
 
+    public void ShuffleGeneratedCardsIntoDeck(List<int> cardsToAddIds)
+    {
+        AllEnemyCards allEnemyCards = FindObjectOfType<AllEnemyCards>();
+        List<EnemyCard> cardsToAdd = new List<EnemyCard>();
+
+        foreach(int cardId in cardsToAddIds)
+        {
+            cardsToAdd.Add(allEnemyCards.GetEnemyCardById(cardId));
+        }
+        AddCardToDeck(cardsToAdd);
+        ShuffleDeck();
+    }
+
     public void AddCardToDeck(List<EnemyCard> cardsToAdd)
     {
         cards.AddRange(cardsToAdd);
@@ -64,5 +77,32 @@ public class EnemyDeck : MonoBehaviour
     public int GetCardsInDeckCount()
     {
         return cards.Count;
+    }
+
+    public int RemoveAllTrapCards()
+    {
+        int trapCardCount = 0;
+        bool trapsExist = true;
+        while (trapsExist)
+        {
+            int cardToRemove = -1;
+            for(int i = 0; i < cards.Count; i++)
+            {
+                if (cards[i].IsTrap())
+                {
+                    cardToRemove = i;
+                    trapCardCount++;
+                    break;
+                }
+            }
+            if (cardToRemove != -1)
+            {
+                cards.RemoveAt(cardToRemove);
+            } else
+            {
+                trapsExist = false;
+            }
+        }
+        return trapCardCount;
     }
 }

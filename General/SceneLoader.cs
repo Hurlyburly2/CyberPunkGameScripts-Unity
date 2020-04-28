@@ -18,6 +18,10 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] string battleSceneName = "Battle";
     [SerializeField] string hackSceneName = "Hack";
 
+    // Character/h@cker
+    CharacterData currentRunner;
+    HackerData currentHacker;
+
     private void Awake()
     {
         int count = FindObjectsOfType<BattleData>().Length;
@@ -41,10 +45,10 @@ public class SceneLoader : MonoBehaviour
         currentScene = SceneManager.GetActiveScene().buildIndex;
     }
 
-    public void LoadBattle(CharacterData character)
+    public void LoadBattle()
     {
         currentBattle = Instantiate(battleData);
-        currentBattle.SetCharacterData(character);
+        currentBattle.SetCharacterData(currentRunner, currentHacker);
 
         SceneManager.LoadScene(battleSceneName);
 
@@ -62,26 +66,22 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadBattleTestOne()
     {
-        CharacterData currentCharacter = TestData.SetTestCharacterOne();
-        LoadBattle(currentCharacter);
-    }
-
-    public void LoadBattleTestTwo()
-    {
-        CharacterData currentCharacter = TestData.SetTestCharacterTwo();
-        LoadBattle(currentCharacter);
+        currentRunner = TestData.SetTestCharacterOne();
+        currentHacker = TestData.SetTestHackerOne();
+        LoadBattle();
     }
 
     public void LoadHackTestOne()
     {
-        HackerData currentHacker = TestData.SetTestHackerOne();
-        LoadHack(currentHacker);
+        currentRunner = TestData.SetTestCharacterOne();
+        currentHacker = TestData.SetTestHackerOne();
+        LoadHack();
     }
 
-    public void LoadHack(HackerData hacker)
+    public void LoadHack()
     {
         currentHack = Instantiate(hackBattleData);
-        currentHack.SetHackerData(hacker);
+        currentHack.SetCharacterData(currentRunner, currentHacker);
 
         SceneManager.LoadScene(hackSceneName);
         StartCoroutine(WaitForHackLoad());
@@ -95,5 +95,11 @@ public class SceneLoader : MonoBehaviour
         }
         currentHack.GetHacker().LogHackerData();
         currentHack.SetupHack();
+    }
+
+    private void SetupRunnerAndHacker()
+    {
+        // TODO THIS METHOD IS FOR USE ONLY UNTIL SOME OUT OF BATTLE SETUP IS READY
+
     }
 }

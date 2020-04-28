@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class HackerData : ScriptableObject
 {
-    public string hackerName;
+    string hackerName;
+
+    HackerLoadout hackerLoadout;
 
     public void SetupHacker(string newHackerName)
     {
         hackerName = newHackerName;
+
+        hackerLoadout = CreateInstance<HackerLoadout>();
+        hackerLoadout.SetupInitialLoadout(hackerName);
     }
 
     public string GetName()
@@ -19,5 +24,10 @@ public class HackerData : ScriptableObject
     public void LogHackerData()
     {
         Debug.Log("Hacker Name: " + hackerName);
+    }
+
+    public HackerLoadout GetHackerLoadout()
+    {
+        return hackerLoadout;
     }
 }

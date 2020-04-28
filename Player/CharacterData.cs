@@ -7,9 +7,7 @@ public class CharacterData : ScriptableObject
 {
     // character info
     string runnerName;
-    string hackerName;
         // "Runner" = First fighter
-        // "Hacker" = First h@cker
     int maximumHealth;
     int currentHealth;
     int maximumEnergy;
@@ -36,17 +34,15 @@ public class CharacterData : ScriptableObject
     void Start()
     {
         runnerName = "";
-        hackerName = "";
         maximumHealth = 0;
         currentHealth = 0;
         startingHandSize = 0;
     }
 
     // Setup Character for Test
-    public void SetupCharacter(string newRunnerName, string newHackerName, int newMaxHealth, int newCurrentHealth, int newMaxEnergy, int newCurrentEnergy, int newStartingHandSize)
+    public void SetupCharacter(string newRunnerName, int newMaxHealth, int newCurrentHealth, int newMaxEnergy, int newCurrentEnergy, int newStartingHandSize)
     {
         runnerName = newRunnerName;
-        hackerName = newHackerName;
 
         maximumHealth = newMaxHealth;
         currentHealth = newCurrentHealth;
@@ -56,7 +52,7 @@ public class CharacterData : ScriptableObject
         startingHandSize = newStartingHandSize;
 
         loadout = CreateInstance<Loadout>();
-        loadout.SetupInitialLoadout(runnerName, hackerName);
+        loadout.SetupInitialLoadout(runnerName);
     }
 
     public void BattleSetup(float setupTimeInSeconds)
@@ -85,6 +81,7 @@ public class CharacterData : ScriptableObject
 
     private void SetEnergyText()
     {
+        Debug.Log(currentEnergy);
         currentEnergyText.GetComponent<TextMeshProUGUI>().text = currentEnergy.ToString();
     }
 
@@ -101,6 +98,21 @@ public class CharacterData : ScriptableObject
         SetHealthText();
         healthPipManager = configData.GetPlayerHealthPipManager();
         healthPipManager.ChangeValue(currentHealth);
+    }
+
+    public void GainEnergy(int amountToGain)
+    {
+        if (currentEnergy + amountToGain > maximumEnergy)
+        {
+            currentEnergy = maximumEnergy;
+        } else
+        {
+            currentEnergy += amountToGain;
+        }
+
+        SetEnergyText();
+        energyPipManager = configData.GetPlayerEnergyPipManager();
+        energyPipManager.ChangeValue(currentEnergy);
     }
 
     public void TakeDamage(int amountToTake)
@@ -123,11 +135,6 @@ public class CharacterData : ScriptableObject
     public string GetRunnerName()
     {
         return runnerName;
-    }
-
-    public string GetHackerName()
-    {
-        return hackerName;
     }
 
     public int GetMaximumHealth()
