@@ -75,4 +75,77 @@ public class AllSpikeImages : MonoBehaviour
             // 45: Two Connections
             // 46: Up Connection
             // 47: No Connections
+
+
+    [SerializeField] Sprite[] allCircuitImages;
+
+    public Sprite GetCircuitImageByIndex(int index)
+    {
+        return allCircuitImages[index];
+    }
+
+    public Sprite GetCircuitImageByColorAndDirection(string color, string direction)
+    {
+        switch (color)
+        {
+            case "blue":
+                switch(direction)
+                {
+                    case "left":
+                        return allCircuitImages[0];
+                    case "top":
+                        return allCircuitImages[1];
+                    case "right":
+                        return allCircuitImages[2];
+                    case "bottom":
+                        return allCircuitImages[3];
+                }
+                break;
+            case "green":
+                switch(direction)
+                {
+                    case "left":
+                        return allCircuitImages[4];
+                    case "top":
+                        return allCircuitImages[5];
+                    case "right":
+                        return allCircuitImages[6];
+                    case "bottom":
+                        return allCircuitImages[7];
+                }
+                break;
+            case "red":
+                switch(direction)
+                {
+                    case "left":
+                        return allCircuitImages[8];
+                    case "top":
+                        return allCircuitImages[9];
+                    case "right":
+                        return allCircuitImages[10];
+                    case "bottom":
+                        return allCircuitImages[11];
+                }
+                break;
+        }
+        return allCircuitImages[12];
+    }
+
+    // Circuit Indexes:
+        // 0-3: blue
+            // 0: left
+            // 1: top
+            // 2: right
+            // 3: bottom
+        // 4-7: green
+            // 4: left
+            // 5: top
+            // 6: right
+            // 7: bottom
+        // 8-11: red
+            // 8: left
+            // 9: top
+            // 10: right
+            // 11: bottom
+        // 12: none
 }

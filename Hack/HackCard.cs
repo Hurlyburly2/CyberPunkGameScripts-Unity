@@ -6,6 +6,11 @@ public class HackCard : MonoBehaviour
 {
     [SerializeField] int cardId;
 
+    [SerializeField] string leftConnection = "none";
+    [SerializeField] string topConnection = "none";
+    [SerializeField] string rightConnection = "none";
+    [SerializeField] string bottomConnection = "none";
+
     [SerializeField] Spike topLeftSpike;
     [SerializeField] Spike topRightSpike;
     [SerializeField] Spike bottomLeftSpike;
@@ -23,5 +28,25 @@ public class HackCard : MonoBehaviour
     public void SetupCard()
     {
         
+    }
+
+    public string GetLeftCircuit()
+    {
+        return leftConnection;
+    }
+
+    public string GetTopCircuit()
+    {
+        return topConnection;
+    }
+
+    public string GetRightCircuit()
+    {
+        return rightConnection;
+    }
+
+    public string GetBottomCircuit()
+    {
+        return bottomConnection;
     }
 }

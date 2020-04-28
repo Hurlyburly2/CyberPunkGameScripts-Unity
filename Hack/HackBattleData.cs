@@ -9,6 +9,7 @@ public class HackBattleData : MonoBehaviour
     HackerData hacker;
     HackDeck hackDeck;
     HackDiscard hackDiscard;
+    AllHackCards allHackCards;
 
     public void SetCharacterData(CharacterData newRunner, HackerData newHacker)
     {
@@ -20,10 +21,33 @@ public class HackBattleData : MonoBehaviour
     {
         hackDeck = FindObjectOfType<HackDeck>();
         hackDiscard = FindObjectOfType<HackDiscard>();
+        allHackCards = FindObjectOfType<AllHackCards>();
 
         List<int> cardIds = runner.GetLoadout().GetAllCardIds();
         cardIds.AddRange(hacker.GetHackerLoadout().GetCardIds());
+
+        // Create a deck from here, but for now we use nonsense cards
         LogAllCardIds(cardIds);
+
+        // FOR THE SAKE OF TESTING WE OVERWRITE THE CARDS LIST
+        cardIds = new List<int>();
+        cardIds.Add(1);
+        // END TESTING
+
+
+        List<HackCard> cards = GetCardsByIds(cardIds);
+        hackDeck.SetDeckPrefabs(cards);
+        hackDeck.SetTopCard();
+    }
+
+    private List<HackCard> GetCardsByIds(List<int> cardIds)
+    {
+        List<HackCard> foundCards = new List<HackCard>();
+        foreach(int cardId in cardIds)
+        {
+            foundCards.Add(allHackCards.GetCardById(cardId));
+        }
+        return foundCards;
     }
 
     public HackerData GetHacker()
