@@ -40,14 +40,39 @@ public class HackDeck : MonoBehaviour
                     image.sprite = currentImage;
                     break;
                 case "TopLeftSpike":
+                    Spike currentspike = topCard.GetTopLeftSpike();
+                    string position = currentspike.GetSpikePosition();
+                    string state = currentspike.GetSpikeState();
+                    color = currentspike.GetSpikeColor();
+                    currentImage = allSpikeImages.GetSpikebyColorCornerAndState(color, position, state);
+                    image.sprite = currentImage;
                     break;
                 case "TopRightSpike":
+                    currentspike = topCard.GetTopRightSpike();
+                    position = currentspike.GetSpikePosition();
+                    state = currentspike.GetSpikeState();
+                    color = currentspike.GetSpikeColor();
+                    currentImage = allSpikeImages.GetSpikebyColorCornerAndState(color, position, state);
+                    image.sprite = currentImage;
                     break;
                 case "BottomLeftSpike":
+                    currentspike = topCard.GetBottomLeftSpike();
+                    position = currentspike.GetSpikePosition();
+                    state = currentspike.GetSpikeState();
+                    color = currentspike.GetSpikeColor();
+                    currentImage = allSpikeImages.GetSpikebyColorCornerAndState(color, position, state);
+                    image.sprite = currentImage;
                     break;
                 case "BottomRightSpike":
+                    currentspike = topCard.GetbottomRightSpike();
+                    position = currentspike.GetSpikePosition();
+                    state = currentspike.GetSpikeState();
+                    color = currentspike.GetSpikeColor();
+                    currentImage = allSpikeImages.GetSpikebyColorCornerAndState(color, position, state);
+                    image.sprite = currentImage;
                     break;
                 case "CardImage":
+                    image.sprite = topCard.GetCardImage();
                     break;
             }
         }

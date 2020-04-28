@@ -6,6 +6,7 @@ public class Spike : MonoBehaviour
 {
     [SerializeField] string color = "none";
     [SerializeField] string state = "none";
+        // none, closed, down, left, right, up, two
     [SerializeField] string position = "none";
         // topleft, topright, bottomleft, bottomright
 
@@ -17,6 +18,21 @@ public class Spike : MonoBehaviour
     public void SetupSpike()
     {
 
+    }
+
+    public string GetSpikeColor()
+    {
+        return color;
+    }
+
+    public string GetSpikeState()
+    {
+        return state;
+    }
+
+    public string GetSpikePosition()
+    {
+        return position;
     }
 
     // spike image reference:

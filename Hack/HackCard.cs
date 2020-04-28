@@ -30,6 +30,41 @@ public class HackCard : MonoBehaviour
         
     }
 
+    public Sprite GetCardImage()
+    {
+        SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        foreach(SpriteRenderer spriteRenderer in spriteRenderers)
+        {
+            if (spriteRenderer.name == "Image")
+            {
+                return spriteRenderer.sprite;
+            }
+        }
+
+        // THIS COULD RETURN THE WRONG IMAGE IF NAMES ARE CHANGED ON THE GAMEOBJECT IN UNITY
+        return spriteRenderers[0].sprite;
+    }
+
+    public Spike GetTopLeftSpike()
+    {
+        return topLeftSpike;
+    }
+
+    public Spike GetTopRightSpike()
+    {
+        return topRightSpike;
+    }
+
+    public Spike GetBottomLeftSpike()
+    {
+        return bottomLeftSpike;
+    }
+
+    public Spike GetbottomRightSpike()
+    {
+        return bottomRightSpike;
+    }
+
     public string GetLeftCircuit()
     {
         return leftConnection;

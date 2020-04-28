@@ -5,10 +5,189 @@ using UnityEngine;
 public class AllSpikeImages : MonoBehaviour
 {
     [SerializeField] Sprite[] allSpikeImages;
+    [SerializeField] Sprite[] allCircuitImages;
 
     public Sprite GetSpikeImageByIndex(int index)
     {
         return allSpikeImages[index];
+    }
+
+    public Sprite GetSpikebyColorCornerAndState(string color, string position, string state)
+    {
+        switch (color)
+        {
+            case "blue":
+                switch(position)
+                {
+                    case "bottomleft":
+                        switch (state)
+                        {
+                            case "closed":
+                                return allSpikeImages[3];
+                            case "down":
+                                return allSpikeImages[0];
+                            case "left":
+                                return allSpikeImages[1];
+                            case "two":
+                                return allSpikeImages[2];
+                        }
+                        break;
+                    case "bottomright":
+                        switch (state)
+                        {
+                            case "closed":
+                                return allSpikeImages[7];
+                            case "down":
+                                return allSpikeImages[4];
+                            case "right":
+                                return allSpikeImages[5];
+                            case "two":
+                                return allSpikeImages[6];
+                        }
+                        break;
+                    case "topleft":
+                        switch (state)
+                        {
+                            case "closed":
+                                return allSpikeImages[11];
+                            case "up":
+                                return allSpikeImages[9];
+                            case "left":
+                                return allSpikeImages[8];
+                            case "two":
+                                return allSpikeImages[10];
+                        }
+                        break;
+                    case "topright":
+                        switch (state)
+                        {
+                            case "closed":
+                                return allSpikeImages[15];
+                            case "up":
+                                return allSpikeImages[13];
+                            case "right":
+                                return allSpikeImages[12];
+                            case "two":
+                                return allSpikeImages[14];                        }
+                        break;
+                }
+                break;
+            case "green":
+                switch (position)
+                {
+                    case "bottomleft":
+                        switch(state)
+                        {
+                            case "closed":
+                                return allSpikeImages[19];
+                            case "down":
+                                return allSpikeImages[16];
+                            case "left":
+                                return allSpikeImages[17];
+                            case "two":
+                                return allSpikeImages[18];
+                        }
+                        break;
+                    case "bottomright":
+                        switch(state)
+                        {
+                            case "closed":
+                                return allSpikeImages[23];
+                            case "down":
+                                return allSpikeImages[20];
+                            case "right":
+                                return allSpikeImages[21];
+                            case "two":
+                                return allSpikeImages[22];
+                        }
+                        break;
+                    case "topleft":
+                        switch (state)
+                        {
+                            case "closed":
+                                return allSpikeImages[31];
+                            case "up":
+                                return allSpikeImages[29];
+                            case "left":
+                                return allSpikeImages[28];
+                            case "two":
+                                return allSpikeImages[30];
+                        }
+                        break;
+                    case "topright":
+                        switch (state)
+                        {
+                            case "closed":
+                                return allSpikeImages[27];
+                            case "up":
+                                return allSpikeImages[25];
+                            case "right":
+                                return allSpikeImages[24];
+                            case "two":
+                                return allSpikeImages[26];
+                        }
+                        break;
+                }
+                break;
+            case "red":
+                switch (position)
+                {
+                    case "bottomleft":
+                        switch (state)
+                        {
+                            case "closed":
+                                return allSpikeImages[35];
+                            case "down":
+                                return allSpikeImages[32];
+                            case "left":
+                                return allSpikeImages[33];
+                            case "two":
+                                return allSpikeImages[34];
+                        }
+                        break;
+                    case "bottomright":
+                        switch (state)
+                        {
+                            case "closed":
+                                return allSpikeImages[39];
+                            case "down":
+                                return allSpikeImages[36];
+                            case "right":
+                                return allSpikeImages[37];
+                            case "two":
+                                return allSpikeImages[38];
+                        }
+                        break;
+                    case "topleft":
+                        switch (state)
+                        {
+                            case "closed":
+                                return allSpikeImages[43];
+                            case "up":
+                                return allSpikeImages[41];
+                            case "left":
+                                return allSpikeImages[40];
+                            case "two":
+                                return allSpikeImages[42];
+                        }
+                        break;
+                    case "topright":
+                        switch (state)
+                        {
+                            case "closed":
+                                return allSpikeImages[47];
+                            case "up":
+                                return allSpikeImages[46];
+                            case "right":
+                                return allSpikeImages[44];
+                            case "two":
+                                return allSpikeImages[45];
+                        }
+                        break;
+                }
+                break;
+        }
+        return allSpikeImages[48];
     }
 
     // spike image reference:
@@ -75,9 +254,6 @@ public class AllSpikeImages : MonoBehaviour
             // 45: Two Connections
             // 46: Up Connection
             // 47: No Connections
-
-
-    [SerializeField] Sprite[] allCircuitImages;
 
     public Sprite GetCircuitImageByIndex(int index)
     {
