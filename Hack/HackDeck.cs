@@ -40,6 +40,11 @@ public class HackDeck : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, newPosition, step);
     }
 
+    public HackCard GetTopCard()
+    {
+        return cards[0];
+    }
+
     public void SetTopCard()
     {
         Image[] imageHolders = GetComponentsInChildren<Image>();
