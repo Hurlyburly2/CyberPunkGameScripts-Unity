@@ -27,6 +27,5 @@ public class HackGridSquare : MonoBehaviour
     public void LogId()
     {
         active = false;
-        Debug.Log(squareNumber);
     }
 }

@@ -7,10 +7,37 @@ using UnityEngine.EventSystems;
 public class HackDeck : MonoBehaviour
 {
     List<HackCard> cards = new List<HackCard>();
+    [SerializeField] CheckClicks clickChecker;
+    float movementSpeed = 10000f;
+    int zPos = 1;
+    Vector3 startPostion;
 
-    public void OnPointerDown (PointerEventData eventData)
+    private void Start()
     {
-        Debug.Log("clicked");
+        movementSpeed = 10000f;
+        startPostion = transform.position;
+    }
+
+    private void Update()
+    {
+        if (clickChecker.GetClickState() == "dragging")
+        {
+            MoveTowardTarget(Input.mousePosition.x, Input.mousePosition.y);
+        } else if (clickChecker.GetClickState() == "goingback")
+        {
+            MoveTowardTarget(startPostion.x, startPostion.y);
+            if (transform.position == new Vector3(startPostion.x, startPostion.y, zPos))
+            {
+                clickChecker.SetNormalState();
+            }
+        }
+    }
+
+    private void MoveTowardTarget(float targetX, float targetY)
+    {
+        float step = movementSpeed * Time.deltaTime;
+        Vector3 newPosition = new Vector3(targetX, targetY, zPos);
+        transform.position = Vector3.MoveTowards(transform.position, newPosition, step);
     }
 
     public void SetTopCard()
