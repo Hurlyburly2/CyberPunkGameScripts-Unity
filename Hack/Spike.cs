@@ -7,17 +7,17 @@ public class Spike : MonoBehaviour
     [SerializeField] string color = "none";
     [SerializeField] string state = "none";
         // none, closed, down, left, right, up, two
-    [SerializeField] string position = "none";
-        // topleft, topright, bottomleft, bottomright
 
     [SerializeField] bool topConnection = false;
     [SerializeField] bool rightConnection = false;
     [SerializeField] bool leftConnection = false;
     [SerializeField] bool bottomConnection = false;
 
-    public void SetupSpike()
-    {
+    string position;
 
+    private void Awake()
+    {
+        // FIND PARENT AND GET POSITION FROM THERE
     }
 
     public string GetSpikeColor()
