@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class CheckClicks : MonoBehaviour
 {
     [SerializeField] HackDeck hackDeck;
+    [SerializeField] string clickItemName;
 
     // Normal raycasts do not work on UI elements, they require a special kind
     GraphicRaycaster raycaster;
@@ -33,7 +34,10 @@ public class CheckClicks : MonoBehaviour
                 pointerData.position = Input.mousePosition;
                 this.raycaster.Raycast(pointerData, results);
 
-                state = "dragging";
+                if (AreWeClickingOnCard(results))
+                {
+                    state = "dragging";
+                }
             }
         } else if (state == "dragging")
         {
@@ -47,11 +51,6 @@ public class CheckClicks : MonoBehaviour
                 pointerData.position = Input.mousePosition;
                 this.raycaster.Raycast(pointerData, results);
 
-                //For every result returned, output the name of the GameObject on the Canvas hit by the Ray
-                //foreach (RaycastResult result in results)
-                //{
-                //    Debug.Log("Hit " + result.gameObject.name);
-                //}
                 state = "goingback";
                 FindMouseOver();
             }
@@ -66,6 +65,18 @@ public class CheckClicks : MonoBehaviour
     public void SetNormalState()
     {
         state = "normal";
+    }
+
+    private bool AreWeClickingOnCard(List<RaycastResult> raycastResults)
+    {
+        foreach (RaycastResult result in raycastResults)
+        {
+            if (result.gameObject.name == "HackDeckCardBack")
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void FindMouseOver()
