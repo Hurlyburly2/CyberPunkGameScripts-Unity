@@ -34,7 +34,7 @@ public class CheckClicks : MonoBehaviour
                 pointerData.position = Input.mousePosition;
                 this.raycaster.Raycast(pointerData, results);
 
-                if (AreWeClickingOnCard(results))
+                if (AreWeClickingOnCard(results) && !hackDeck.IsDeckEmpty())
                 {
                     state = "dragging";
                 }
@@ -52,7 +52,7 @@ public class CheckClicks : MonoBehaviour
                 this.raycaster.Raycast(pointerData, results);
 
                 state = "goingback";
-                FindMouseOver();
+                AttachCardToSquare();
             }
         }
     }
@@ -79,7 +79,7 @@ public class CheckClicks : MonoBehaviour
         return false;
     }
 
-    private void FindMouseOver()
+    private void AttachCardToSquare()
     {
         HackGridSquare[] allSquares = FindObjectsOfType<HackGridSquare>();
         foreach (HackGridSquare square in allSquares)
@@ -87,6 +87,7 @@ public class CheckClicks : MonoBehaviour
             if (square.IsActive())
             {
                 square.AttachCardToSquare(hackDeck.GetTopCard());
+                hackDeck.RemoveTopCardFromDeck();
                 return;
             }
         }

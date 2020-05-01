@@ -29,14 +29,9 @@ public class HackBattleData : MonoBehaviour
         // Create a deck from here, but for now we use nonsense cards
         LogAllCardIds(cardIds);
 
-        // FOR THE SAKE OF TESTING WE OVERWRITE THE CARDS LIST
-        cardIds = new List<int>();
-        cardIds.Add(1);
-        // END TESTING
-
-
         List<HackCard> cards = GetCardsByIds(cardIds);
         hackDeck.SetDeckPrefabs(cards);
+        hackDeck.ShuffleDeck();
         hackDeck.SetTopCard();
     }
 

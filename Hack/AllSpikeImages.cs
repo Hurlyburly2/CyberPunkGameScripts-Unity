@@ -307,6 +307,11 @@ public class AllSpikeImages : MonoBehaviour
         return allCircuitImages[12];
     }
 
+    public Sprite GetEmptyImage()
+    {
+        return allCircuitImages[12];
+    }
+
     // Circuit Indexes:
         // 0-3: blue
             // 0: left
