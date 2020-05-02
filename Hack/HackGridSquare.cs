@@ -8,7 +8,42 @@ public class HackGridSquare : MonoBehaviour
     [SerializeField] Sprite[] imageOptions;
     [SerializeField] GameObject hackholder;
 
+    GridRow parentRow;
+    GridRowHolder gridRowHolder;
     bool active = false;
+
+    HackGridSquare leftSquare = null;
+    HackGridSquare aboveSquare = null;
+    HackGridSquare rightSquare = null;
+    HackGridSquare belowSquare = null;
+
+    private void Start()
+    {
+        GameObject parentRowObject = transform.parent.gameObject;
+        parentRow = parentRowObject.GetComponent<GridRow>();
+        gridRowHolder = FindObjectOfType<GridRowHolder>();
+    }
+
+    private void FindAndStoreAdjacentSquares()
+    {
+        if (squareNumber != 0)
+            leftSquare = parentRow.GetSquareByNumber(squareNumber - 1);
+        if (parentRow.GetRowNumber() != 0)
+            aboveSquare = gridRowHolder.GetRowByNumber(parentRow.GetRowNumber() - 1).GetSquareByNumber(squareNumber);
+        if (squareNumber != 12)
+            rightSquare = parentRow.GetSquareByNumber(squareNumber + 1);
+        if (parentRow.GetRowNumber() != 16)
+            belowSquare = gridRowHolder.GetRowByNumber(parentRow.GetRowNumber() + 1).GetSquareByNumber(squareNumber);
+
+        if (leftSquare != null)
+            Debug.Log("left square: " + leftSquare.SquareGridLocation());
+        if (aboveSquare != null)
+            Debug.Log("top square: " + aboveSquare.SquareGridLocation());
+        if (rightSquare != null)
+            Debug.Log("right square: " + rightSquare.SquareGridLocation());
+        if (belowSquare != null)
+            Debug.Log("below square: " + belowSquare.SquareGridLocation());
+    }
 
     private void OnMouseOver()
     {
@@ -32,14 +67,9 @@ public class HackGridSquare : MonoBehaviour
     private bool IsPlacementLegal(HackCard hackcard)
     {
         string[] connections = hackcard.GetConnectionsArray();
-        // Check it against the things next to it...
-        // Get the left square
-        // Get the right square
-        // Get the top square
-        // Get the bottom square
-        GameObject parentRowObject = transform.parent.gameObject;
-        GridRow parentRow = parentRowObject.GetComponent<GridRow>();
-        parentRow.LogRowNumber();
+
+        FindAndStoreAdjacentSquares();
+
         return true;
     }
 
@@ -56,5 +86,10 @@ public class HackGridSquare : MonoBehaviour
     public void LogId()
     {
         active = false;
+    }
+
+    public string SquareGridLocation()
+    {
+        return "x: " + squareNumber + " y: " + parentRow.GetRowNumber().ToString();
     }
 }
