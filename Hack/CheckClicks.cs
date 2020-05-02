@@ -21,39 +21,14 @@ public class CheckClicks : MonoBehaviour
 
     void Update()
     {
-        if (state == "normal")
+        switch(clickItemName)
         {
-            //Check if the left Mouse button is clicked
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                //Set up the new Pointer Event
-                PointerEventData pointerData = new PointerEventData(EventSystem.current);
-                List<RaycastResult> results = new List<RaycastResult>();
-
-                //Raycast using the Graphics Raycaster and mouse click position
-                pointerData.position = Input.mousePosition;
-                this.raycaster.Raycast(pointerData, results);
-
-                if (AreWeClickingOnCard(results) && !hackDeck.IsDeckEmpty())
-                {
-                    state = "dragging";
-                }
-            }
-        } else if (state == "dragging")
-        {
-            if (Input.GetKeyUp(KeyCode.Mouse0))
-            {
-                //Set up the new Pointer Event
-                PointerEventData pointerData = new PointerEventData(EventSystem.current);
-                List<RaycastResult> results = new List<RaycastResult>();
-
-                //Raycast using the Graphics Raycaster and mouse click position
-                pointerData.position = Input.mousePosition;
-                this.raycaster.Raycast(pointerData, results);
-
-                state = "goingback";
-                AttachCardToSquare();
-            }
+            case "HackDeck":
+                CaseHackDeckUpdate();
+                break;
+            case "DiscardZone":
+                CaseDiscardZoneUpdate();
+                break;
         }
     }
 
@@ -92,6 +67,68 @@ public class CheckClicks : MonoBehaviour
                     hackDeck.RemoveTopCardFromDeck();
                 }
                 return;
+            }
+        }
+    }
+
+    private void CaseDiscardZoneUpdate()
+    {
+        if (state == "normal")
+        {
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                Debug.Log("Discardzone keyup");
+                //Set up the new Pointer Event
+                PointerEventData pointerData = new PointerEventData(EventSystem.current);
+                List<RaycastResult> results = new List<RaycastResult>();
+
+                //Raycast using the Graphics Raycaster and mouse click position
+                pointerData.position = Input.mousePosition;
+                this.raycaster.Raycast(pointerData, results);
+
+                foreach (RaycastResult result in results)
+                {
+                    Debug.Log(result.gameObject.name);
+                }
+            }
+        }
+    }
+
+    private void CaseHackDeckUpdate()
+    {
+        if (state == "normal")
+        {
+            //Check if the left Mouse button is clicked
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                //Set up the new Pointer Event
+                PointerEventData pointerData = new PointerEventData(EventSystem.current);
+                List<RaycastResult> results = new List<RaycastResult>();
+
+                //Raycast using the Graphics Raycaster and mouse click position
+                pointerData.position = Input.mousePosition;
+                this.raycaster.Raycast(pointerData, results);
+
+                if (AreWeClickingOnCard(results) && !hackDeck.IsDeckEmpty())
+                {
+                    state = "dragging";
+                }
+            }
+        }
+        else if (state == "dragging")
+        {
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                //Set up the new Pointer Event
+                PointerEventData pointerData = new PointerEventData(EventSystem.current);
+                List<RaycastResult> results = new List<RaycastResult>();
+
+                //Raycast using the Graphics Raycaster and mouse click position
+                pointerData.position = Input.mousePosition;
+                this.raycaster.Raycast(pointerData, results);
+
+                state = "goingback";
+                AttachCardToSquare();
             }
         }
     }
