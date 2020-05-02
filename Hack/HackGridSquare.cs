@@ -15,12 +15,32 @@ public class HackGridSquare : MonoBehaviour
         active = true;
     }
 
-    public void AttachCardToSquare(HackCard hackCard)
+    public bool AttachCardToSquare(HackCard hackCard)
     {
-        AllHackCards allHackCards = FindObjectOfType<AllHackCards>();
-        HackCard newHackCard = Instantiate(hackCard, new Vector2(hackholder.transform.position.x, hackholder.transform.position.y), Quaternion.identity);
-        newHackCard.transform.SetParent(hackholder.transform);
-        newHackCard.transform.localScale = new Vector3(1, 1, 1);
+        if (IsPlacementLegal(hackCard))
+        {
+            HackCard newHackCard = Instantiate(hackCard, new Vector2(hackholder.transform.position.x, hackholder.transform.position.y), Quaternion.identity);
+            newHackCard.transform.SetParent(hackholder.transform);
+            newHackCard.transform.localScale = new Vector3(1, 1, 1);
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    private bool IsPlacementLegal(HackCard hackcard)
+    {
+        string[] connections = hackcard.GetConnectionsArray();
+        // Check it against the things next to it...
+        // Get the left square
+        // Get the right square
+        // Get the top square
+        // Get the bottom square
+        GameObject parentRowObject = transform.parent.gameObject;
+        GridRow parentRow = parentRowObject.GetComponent<GridRow>();
+        parentRow.LogRowNumber();
+        return true;
     }
 
     private void OnMouseExit()
