@@ -10,4 +10,9 @@ public class GridRowHolder : MonoBehaviour
     {
         
     }
+
+    public GridRow GetRowByNumber(int rowNumber)
+    {
+        return rows[rowNumber];
+    }
 }

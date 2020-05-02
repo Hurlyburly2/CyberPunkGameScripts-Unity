@@ -86,8 +86,11 @@ public class CheckClicks : MonoBehaviour
         {
             if (square.IsActive())
             {
-                square.AttachCardToSquare(hackDeck.GetTopCard());
-                hackDeck.RemoveTopCardFromDeck();
+                bool wasAttachmentSuccessful = square.AttachCardToSquare(hackDeck.GetTopCard());
+                if (wasAttachmentSuccessful)
+                {
+                    hackDeck.RemoveTopCardFromDeck();
+                }
                 return;
             }
         }

@@ -84,4 +84,10 @@ public class HackCard : MonoBehaviour
     {
         return bottomConnection;
     }
+
+    public string[] GetConnectionsArray()
+    {
+        string[] allConnections = new string[] { leftConnection, topConnection, rightConnection, bottomConnection };
+        return allConnections;
+    }
 }
