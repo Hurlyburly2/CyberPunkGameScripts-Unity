@@ -34,11 +34,13 @@ public class CheckClickController : MonoBehaviour
 
     public void SetDeckClickResult(string result)
     {
+        // possible results: attemptPlaceCard
         deckClickResult = result;
     }
 
     public void SetDiscardClickResult(string result)
     {
+        // possible results: overDiscardZone, notOverDiscardZone
         discardClickResult = result;
     }
 

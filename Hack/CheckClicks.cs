@@ -107,7 +107,6 @@ public class CheckClicks : MonoBehaviour
                 if (AreWeClickingOnCard(results) && !hackDeck.IsDeckEmpty())
                 {
                     checkClickController.SetDraggingDeckState();
-                    checkClickController.SetDeckClickResult("clickOnCard");
                     state = "dragging";
                 }
             }
