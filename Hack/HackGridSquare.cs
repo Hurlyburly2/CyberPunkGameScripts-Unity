@@ -34,15 +34,6 @@ public class HackGridSquare : MonoBehaviour
             rightSquare = parentRow.GetSquareByNumber(squareNumber + 1);
         if (parentRow.GetRowNumber() != 16)
             belowSquare = gridRowHolder.GetRowByNumber(parentRow.GetRowNumber() + 1).GetSquareByNumber(squareNumber);
-
-        if (leftSquare != null)
-            Debug.Log("left square: " + leftSquare.SquareGridLocation());
-        if (aboveSquare != null)
-            Debug.Log("top square: " + aboveSquare.SquareGridLocation());
-        if (rightSquare != null)
-            Debug.Log("right square: " + rightSquare.SquareGridLocation());
-        if (belowSquare != null)
-            Debug.Log("below square: " + belowSquare.SquareGridLocation());
     }
 
     private void OnMouseOver()
@@ -66,9 +57,47 @@ public class HackGridSquare : MonoBehaviour
 
     private bool IsPlacementLegal(HackCard hackcard)
     {
-        string[] connections = hackcard.GetConnectionsArray();
+        FindAndStoreAdjacentSquares();
 
-        // First, do it without rotation
+        string leftConnectionCheck;
+        if (leftSquare && leftSquare.DoesSquareHaveCard())
+        {
+            leftConnectionCheck = IsConnectionOk(hackcard.GetLeftCircuit(), leftSquare.GetAttachedCard().GetRightCircuit());
+        } else
+        {
+            leftConnectionCheck = "ok";
+        }
+        Debug.Log("Left connection check: " + leftConnectionCheck);
+
+        string aboveConnectionCheck;
+        if (aboveSquare && aboveSquare.DoesSquareHaveCard())
+        {
+            aboveConnectionCheck = IsConnectionOk(hackcard.GetTopCircuit(), aboveSquare.GetAttachedCard().GetBottomCircuit());
+        } else
+        {
+            aboveConnectionCheck = "ok";
+        }
+        Debug.Log("Above connection check: " + aboveConnectionCheck);
+
+        string rightConnectionCheck;
+        if (rightSquare && rightSquare.DoesSquareHaveCard())
+        {
+            rightConnectionCheck = IsConnectionOk(hackcard.GetRightCircuit(), rightSquare.GetAttachedCard().GetLeftCircuit());
+        } else
+        {
+            rightConnectionCheck = "ok";
+        }
+        Debug.Log("Right connection check: " + rightConnectionCheck);
+
+        string belowConnectionCheck;
+        if (belowSquare && belowSquare.DoesSquareHaveCard())
+        {
+            belowConnectionCheck = IsConnectionOk(hackcard.GetBottomCircuit(), belowSquare.GetAttachedCard().GetTopCircuit());
+        } else
+        {
+            belowConnectionCheck = "ok";
+        }
+        Debug.Log("Below connection check: " + belowConnectionCheck);
 
         // Check all four directions, at minimum all connections must be "ok" with one "connected"
             // More than one "connected" is possible
@@ -79,40 +108,20 @@ public class HackGridSquare : MonoBehaviour
         // If the card can only be placed in a rotated configuration, then rotate it and
             // update all spike/circuit values
 
+        if (leftConnectionCheck == "mismatch" || aboveConnectionCheck == "mismatch" || rightConnectionCheck == "mismatch" || belowConnectionCheck == "mismatch")
+        {
+            return false;
+        }
         return true;
     }
 
-    private string IsLeftConnectionOk()
+    private string IsConnectionOk(string currentLeftCircuit, string leftCardRightCircuit)
     {
-        // Pass values here, don't use class variables, so we can
-            // reuse these checks with the temporary rotations
-        // For each direction, we check for a connection
-            // Match against a card with the same color
-                // return "connected"
-            // Match against a grid square with no card
-                // return "ok"
-        // AND we check for no conflicting connections
-        // Conflicting connections include:
-            // match against a card with a different color
-            // match against a card with no color in that direction
-                // return "mismatch"
-
-        return "ok";
-    }
-
-    private string IsAboveConnectionOk()
-    {
-        return "ok";
-    }
-
-    private string IsBelowConnectionOk()
-    {
-        return "ok";
-    }
-
-    private string IsRightConnectionOk()
-    {
-        return "ok";
+        if (currentLeftCircuit == leftCardRightCircuit)
+        {
+            return "connected";
+        }
+        return "mismatch";
     }
 
     private void RotateCardNinetyDegrees(int times = 1)
@@ -127,6 +136,21 @@ public class HackGridSquare : MonoBehaviour
         // Store the variables for a card rotation and pass them into the connection ok
             // methods
         // This is done so we can test rotations without mutating the cards actual values
+    }
+
+    public HackCard GetAttachedCard()
+    {
+        return GetComponentInChildren<HackCard>();
+    }
+
+    public bool DoesSquareHaveCard()
+    {
+        HackCard attachedCard = GetComponentInChildren<HackCard>();
+        if (attachedCard)
+        {
+            return true;
+        }
+        return false;
     }
 
     private void OnMouseExit()
