@@ -12,11 +12,13 @@ public class CheckClicks : MonoBehaviour
     // Normal raycasts do not work on UI elements, they require a special kind
     GraphicRaycaster raycaster;
     string state = "normal";
+    CheckClickController checkClickController;
 
     void Awake()
     {
         // Get both of the components we need to do this
         this.raycaster = GetComponent<GraphicRaycaster>();
+        checkClickController = FindObjectOfType<CheckClickController>();
     }
 
     void Update()
@@ -54,30 +56,12 @@ public class CheckClicks : MonoBehaviour
         return false;
     }
 
-    private void AttachCardToSquare()
-    {
-        HackGridSquare[] allSquares = FindObjectsOfType<HackGridSquare>();
-        foreach (HackGridSquare square in allSquares)
-        {
-            if (square.IsActive())
-            {
-                bool wasAttachmentSuccessful = square.AttachCardToSquare(hackDeck.GetTopCard());
-                if (wasAttachmentSuccessful)
-                {
-                    hackDeck.RemoveTopCardFromDeck();
-                }
-                return;
-            }
-        }
-    }
-
     private void CaseDiscardZoneUpdate()
     {
         if (state == "normal")
         {
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
-                Debug.Log("Discardzone keyup");
                 //Set up the new Pointer Event
                 PointerEventData pointerData = new PointerEventData(EventSystem.current);
                 List<RaycastResult> results = new List<RaycastResult>();
@@ -86,9 +70,20 @@ public class CheckClicks : MonoBehaviour
                 pointerData.position = Input.mousePosition;
                 this.raycaster.Raycast(pointerData, results);
 
+                bool areWeOverDiscardZone = false;
                 foreach (RaycastResult result in results)
                 {
-                    Debug.Log(result.gameObject.name);
+                    if (result.gameObject.name == "DiscardZone")
+                    {
+                        areWeOverDiscardZone = true;
+                    }
+                }
+                if (areWeOverDiscardZone)
+                {
+                    checkClickController.SetDiscardClickResult("overDiscardZone");
+                } else
+                {
+                    checkClickController.SetDiscardClickResult("notOverDiscardZone");
                 }
             }
         }
@@ -111,6 +106,8 @@ public class CheckClicks : MonoBehaviour
 
                 if (AreWeClickingOnCard(results) && !hackDeck.IsDeckEmpty())
                 {
+                    checkClickController.SetDraggingDeckState();
+                    checkClickController.SetDeckClickResult("clickOnCard");
                     state = "dragging";
                 }
             }
@@ -127,8 +124,9 @@ public class CheckClicks : MonoBehaviour
                 pointerData.position = Input.mousePosition;
                 this.raycaster.Raycast(pointerData, results);
 
+                checkClickController.SetDeckClickResult("attemptPlaceCard");
+                checkClickController.ListenForClickResults();
                 state = "goingback";
-                AttachCardToSquare();
             }
         }
     }
