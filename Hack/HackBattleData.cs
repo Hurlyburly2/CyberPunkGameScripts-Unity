@@ -11,6 +11,17 @@ public class HackBattleData : MonoBehaviour
     HackDiscard hackDiscard;
     AllHackCards allHackCards;
 
+    private void Awake()
+    {
+        int count = FindObjectsOfType<BattleData>().Length;
+
+        if (count > 1)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
     public void SetCharacterData(CharacterData newRunner, HackerData newHacker)
     {
         runner = newRunner;

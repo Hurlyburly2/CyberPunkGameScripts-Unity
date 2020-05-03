@@ -67,7 +67,7 @@ public class HackGridSquare : MonoBehaviour
         {
             leftConnectionCheck = "ok";
         }
-        Debug.Log("Left connection check: " + leftConnectionCheck);
+        //Debug.Log("Left connection check: " + leftConnectionCheck);
 
         string aboveConnectionCheck;
         if (aboveSquare && aboveSquare.DoesSquareHaveCard())
@@ -77,7 +77,7 @@ public class HackGridSquare : MonoBehaviour
         {
             aboveConnectionCheck = "ok";
         }
-        Debug.Log("Above connection check: " + aboveConnectionCheck);
+        //Debug.Log("Above connection check: " + aboveConnectionCheck);
 
         string rightConnectionCheck;
         if (rightSquare && rightSquare.DoesSquareHaveCard())
@@ -87,7 +87,7 @@ public class HackGridSquare : MonoBehaviour
         {
             rightConnectionCheck = "ok";
         }
-        Debug.Log("Right connection check: " + rightConnectionCheck);
+        //Debug.Log("Right connection check: " + rightConnectionCheck);
 
         string belowConnectionCheck;
         if (belowSquare && belowSquare.DoesSquareHaveCard())
@@ -97,7 +97,7 @@ public class HackGridSquare : MonoBehaviour
         {
             belowConnectionCheck = "ok";
         }
-        Debug.Log("Below connection check: " + belowConnectionCheck);
+        //Debug.Log("Below connection check: " + belowConnectionCheck);
 
         // Check all four directions, at minimum all connections must be "ok" with one "connected"
             // More than one "connected" is possible

@@ -12,48 +12,31 @@ public class CheckClicks : MonoBehaviour
     // Normal raycasts do not work on UI elements, they require a special kind
     GraphicRaycaster raycaster;
     string state = "normal";
+    CheckClickController checkClickController;
 
     void Awake()
     {
         // Get both of the components we need to do this
         this.raycaster = GetComponent<GraphicRaycaster>();
+        checkClickController = FindObjectOfType<CheckClickController>();
     }
 
     void Update()
     {
-        if (state == "normal")
+        switch(clickItemName)
         {
-            //Check if the left Mouse button is clicked
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                //Set up the new Pointer Event
-                PointerEventData pointerData = new PointerEventData(EventSystem.current);
-                List<RaycastResult> results = new List<RaycastResult>();
-
-                //Raycast using the Graphics Raycaster and mouse click position
-                pointerData.position = Input.mousePosition;
-                this.raycaster.Raycast(pointerData, results);
-
-                if (AreWeClickingOnCard(results) && !hackDeck.IsDeckEmpty())
-                {
-                    state = "dragging";
-                }
-            }
-        } else if (state == "dragging")
-        {
-            if (Input.GetKeyUp(KeyCode.Mouse0))
-            {
-                //Set up the new Pointer Event
-                PointerEventData pointerData = new PointerEventData(EventSystem.current);
-                List<RaycastResult> results = new List<RaycastResult>();
-
-                //Raycast using the Graphics Raycaster and mouse click position
-                pointerData.position = Input.mousePosition;
-                this.raycaster.Raycast(pointerData, results);
-
-                state = "goingback";
-                AttachCardToSquare();
-            }
+            case "HackDeck":
+                CaseHackDeckUpdate();
+                break;
+            case "DiscardZone":
+                CaseDiscardZoneUpdate();
+                break;
+            case "TopLeftZone":
+                CaseTopLeftZoneUpdate();
+                break;
+            case "DeckZone":
+                CaseDeckZoneUpdate();
+                break;
         }
     }
 
@@ -79,19 +62,144 @@ public class CheckClicks : MonoBehaviour
         return false;
     }
 
-    private void AttachCardToSquare()
+    private void CaseTopLeftZoneUpdate()
     {
-        HackGridSquare[] allSquares = FindObjectsOfType<HackGridSquare>();
-        foreach (HackGridSquare square in allSquares)
+        if (state == "normal")
         {
-            if (square.IsActive())
+            if (Input.GetKeyUp(KeyCode.Mouse0))
             {
-                bool wasAttachmentSuccessful = square.AttachCardToSquare(hackDeck.GetTopCard());
-                if (wasAttachmentSuccessful)
+                //Set up the new Pointer Event
+                PointerEventData pointerData = new PointerEventData(EventSystem.current);
+                List<RaycastResult> results = new List<RaycastResult>();
+
+                //Raycast using the Graphics Raycaster and mouse click position
+                pointerData.position = Input.mousePosition;
+                this.raycaster.Raycast(pointerData, results);
+
+                bool areWeOverTopLeftZone = false;
+                foreach (RaycastResult result in results)
                 {
-                    hackDeck.RemoveTopCardFromDeck();
+                    if (result.gameObject.name == "TopLeftBase")
+                    {
+                        areWeOverTopLeftZone = true;
+                    }
                 }
-                return;
+                if (areWeOverTopLeftZone)
+                {
+                    checkClickController.SetTopLeftZoneResult("overTopLeftZone");
+                }
+                else
+                {
+                    checkClickController.SetTopLeftZoneResult("notOverTopLeftZone");
+                }
+            }
+        }
+    }
+
+    private void CaseDiscardZoneUpdate()
+    {
+        if (state == "normal")
+        {
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                //Set up the new Pointer Event
+                PointerEventData pointerData = new PointerEventData(EventSystem.current);
+                List<RaycastResult> results = new List<RaycastResult>();
+
+                //Raycast using the Graphics Raycaster and mouse click position
+                pointerData.position = Input.mousePosition;
+                this.raycaster.Raycast(pointerData, results);
+
+                bool areWeOverDiscardZone = false;
+                foreach (RaycastResult result in results)
+                {
+                    if (result.gameObject.name == "DiscardZone")
+                    {
+                        areWeOverDiscardZone = true;
+                    }
+                }
+                if (areWeOverDiscardZone)
+                {
+                    checkClickController.SetDiscardClickResult("overDiscardZone");
+                } else
+                {
+                    checkClickController.SetDiscardClickResult("notOverDiscardZone");
+                }
+            }
+        }
+    }
+
+    private void CaseHackDeckUpdate()
+    {
+        if (state == "normal")
+        {
+            //Check if the left Mouse button is clicked
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                //Set up the new Pointer Event
+                PointerEventData pointerData = new PointerEventData(EventSystem.current);
+                List<RaycastResult> results = new List<RaycastResult>();
+
+                //Raycast using the Graphics Raycaster and mouse click position
+                pointerData.position = Input.mousePosition;
+                this.raycaster.Raycast(pointerData, results);
+
+                if (AreWeClickingOnCard(results) && !hackDeck.IsDeckEmpty())
+                {
+                    checkClickController.SetDraggingDeckState();
+                    state = "dragging";
+                }
+            }
+        }
+        else if (state == "dragging")
+        {
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                //Set up the new Pointer Event
+                PointerEventData pointerData = new PointerEventData(EventSystem.current);
+                List<RaycastResult> results = new List<RaycastResult>();
+
+                //Raycast using the Graphics Raycaster and mouse click position
+                pointerData.position = Input.mousePosition;
+                this.raycaster.Raycast(pointerData, results);
+
+                checkClickController.SetDeckClickResult("attemptPlaceCard");
+                checkClickController.ListenForClickResults();
+                state = "goingback";
+            }
+        }
+    }
+
+    private void CaseDeckZoneUpdate()
+    {
+        if (state == "normal")
+        {
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                //Set up the new Pointer Event
+                PointerEventData pointerData = new PointerEventData(EventSystem.current);
+                List<RaycastResult> results = new List<RaycastResult>();
+
+                //Raycast using the Graphics Raycaster and mouse click position
+                pointerData.position = Input.mousePosition;
+                this.raycaster.Raycast(pointerData, results);
+
+                bool areWeOverDeckZone = false;
+                foreach (RaycastResult result in results)
+                {
+                    if (result.gameObject.name == "DeckZone")
+                    {
+                        areWeOverDeckZone = true;
+                    }
+                }
+                if (areWeOverDeckZone)
+                {
+                    checkClickController.SetDeckZoneResult("overDeckZone");
+                }
+                else
+                {
+                    checkClickController.SetDeckZoneResult("notOverDeckZone");
+                }
             }
         }
     }

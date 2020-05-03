@@ -6,10 +6,22 @@ public class AllSpikeImages : MonoBehaviour
 {
     [SerializeField] Sprite[] allSpikeImages;
     [SerializeField] Sprite[] allCircuitImages;
+    [SerializeField] Sprite cardBack;
+    [SerializeField] Sprite emptyImage;
 
     public Sprite GetSpikeImageByIndex(int index)
     {
         return allSpikeImages[index];
+    }
+
+    public Sprite GetEmptyImage()
+    {
+        return emptyImage;
+    }
+
+    public Sprite GetCardBack()
+    {
+        return cardBack;
     }
 
     public Sprite GetSpikebyColorCornerAndState(string color, string position, string state)
@@ -304,11 +316,6 @@ public class AllSpikeImages : MonoBehaviour
                 }
                 break;
         }
-        return allCircuitImages[12];
-    }
-
-    public Sprite GetEmptyImage()
-    {
         return allCircuitImages[12];
     }
 
