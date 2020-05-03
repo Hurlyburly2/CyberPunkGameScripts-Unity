@@ -31,6 +31,9 @@ public class CheckClicks : MonoBehaviour
             case "DiscardZone":
                 CaseDiscardZoneUpdate();
                 break;
+            case "TopLeftZone":
+                CaseTopLeftZoneUpdate();
+                break;
         }
     }
 
@@ -54,6 +57,41 @@ public class CheckClicks : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private void CaseTopLeftZoneUpdate()
+    {
+        if (state == "normal")
+        {
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                //Set up the new Pointer Event
+                PointerEventData pointerData = new PointerEventData(EventSystem.current);
+                List<RaycastResult> results = new List<RaycastResult>();
+
+                //Raycast using the Graphics Raycaster and mouse click position
+                pointerData.position = Input.mousePosition;
+                this.raycaster.Raycast(pointerData, results);
+
+                bool areWeOverTopLeftZone = false;
+                foreach (RaycastResult result in results)
+                {
+                    Debug.Log(result.gameObject.name);
+                    if (result.gameObject.name == "TopLeftBase")
+                    {
+                        areWeOverTopLeftZone = true;
+                    }
+                }
+                if (areWeOverTopLeftZone)
+                {
+                    checkClickController.SetTopLeftZoneResult("overTopLeftZone");
+                }
+                else
+                {
+                    checkClickController.SetTopLeftZoneResult("notOverTopLeftZone");
+                }
+            }
+        }
     }
 
     private void CaseDiscardZoneUpdate()

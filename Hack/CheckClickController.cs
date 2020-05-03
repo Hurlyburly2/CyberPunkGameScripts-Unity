@@ -11,6 +11,7 @@ public class CheckClickController : MonoBehaviour
         // possibilities: normal, 
     string deckClickResult = null;
     string discardClickResult = null;
+    string topLeftZoneResult = null;
 
     public void ListenForClickResults()
     {
@@ -29,6 +30,7 @@ public class CheckClickController : MonoBehaviour
         }
         deckClickResult = null;
         discardClickResult = null;
+        topLeftZoneResult = null;
         state = "normal";
         // check click results and then place or discard card as needed
         // place card or discard card
@@ -40,6 +42,8 @@ public class CheckClickController : MonoBehaviour
         if (discardClickResult == "overDiscardZone")
         {
             Debug.Log("Discard, do not play, card");
+        } else if (topLeftZoneResult == "overTopLeftZone") {
+            Debug.Log("Over top left zone, do not play or discard card");
         } else
         {
             AttachCardToSquare();
@@ -56,6 +60,12 @@ public class CheckClickController : MonoBehaviour
     {
         // possible results: overDiscardZone, notOverDiscardZone
         discardClickResult = result;
+    }
+
+    public void SetTopLeftZoneResult(string result)
+    {
+        // possible results: 
+        topLeftZoneResult = result;
     }
 
     private void AttachCardToSquare()
