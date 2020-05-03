@@ -8,6 +8,7 @@ public class CheckClickController : MonoBehaviour
     // them to act in a coordinated fashion
 
     string state = "normal";
+        // possibilities: normal, 
     string deckClickResult = null;
     string discardClickResult = null;
 
@@ -22,9 +23,10 @@ public class CheckClickController : MonoBehaviour
         {
             yield return null;
         }
-        AttachCardToSquare();
-        Debug.Log("deck click result: " + deckClickResult);
-        Debug.Log("discard click result: " + discardClickResult);
+        if (deckClickResult == "attemptPlaceCard")
+        {
+            AttemptPlaceCard();
+        }
         deckClickResult = null;
         discardClickResult = null;
         state = "normal";
@@ -32,9 +34,21 @@ public class CheckClickController : MonoBehaviour
         // place card or discard card
     }
 
+    private void AttemptPlaceCard()
+    {
+        // Add the top UI bar as well
+        if (discardClickResult == "overDiscardZone")
+        {
+            Debug.Log("Discard, do not play, card");
+        } else
+        {
+            AttachCardToSquare();
+        }
+    }
+
     public void SetDeckClickResult(string result)
     {
-        // possible results: attemptPlaceCard
+        // possible results008s: attemptPlaceCard
         deckClickResult = result;
     }
 
