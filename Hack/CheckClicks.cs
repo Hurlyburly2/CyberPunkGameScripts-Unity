@@ -34,6 +34,9 @@ public class CheckClicks : MonoBehaviour
             case "TopLeftZone":
                 CaseTopLeftZoneUpdate();
                 break;
+            case "DeckZone":
+                CaseDeckZoneUpdate();
+                break;
         }
     }
 
@@ -164,6 +167,41 @@ public class CheckClicks : MonoBehaviour
                 checkClickController.SetDeckClickResult("attemptPlaceCard");
                 checkClickController.ListenForClickResults();
                 state = "goingback";
+            }
+        }
+    }
+
+    private void CaseDeckZoneUpdate()
+    {
+        if (state == "normal")
+        {
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                //Set up the new Pointer Event
+                PointerEventData pointerData = new PointerEventData(EventSystem.current);
+                List<RaycastResult> results = new List<RaycastResult>();
+
+                //Raycast using the Graphics Raycaster and mouse click position
+                pointerData.position = Input.mousePosition;
+                this.raycaster.Raycast(pointerData, results);
+
+                bool areWeOverDeckZone = false;
+                foreach (RaycastResult result in results)
+                {
+                    Debug.Log(result.gameObject.name);
+                    if (result.gameObject.name == "DeckZone")
+                    {
+                        areWeOverDeckZone = true;
+                    }
+                }
+                if (areWeOverDeckZone)
+                {
+                    checkClickController.SetDeckZoneResult("overDeckZone");
+                }
+                else
+                {
+                    checkClickController.SetDeckZoneResult("notOverDeckZone");
+                }
             }
         }
     }

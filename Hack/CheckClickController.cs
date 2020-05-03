@@ -12,6 +12,7 @@ public class CheckClickController : MonoBehaviour
     string deckClickResult = null;
     string discardClickResult = null;
     string topLeftZoneResult = null;
+    string deckZoneResult = null;
 
     public void ListenForClickResults()
     {
@@ -20,7 +21,7 @@ public class CheckClickController : MonoBehaviour
 
     private IEnumerator WaitForAllResults()
     {
-        while (deckClickResult == null || discardClickResult == null)
+        while (deckClickResult == null || discardClickResult == null || topLeftZoneResult == null)
         {
             yield return null;
         }
@@ -28,12 +29,18 @@ public class CheckClickController : MonoBehaviour
         {
             AttemptPlaceCard();
         }
-        deckClickResult = null;
-        discardClickResult = null;
-        topLeftZoneResult = null;
+        ResetAllResults();
         state = "normal";
         // check click results and then place or discard card as needed
         // place card or discard card
+    }
+
+    private void ResetAllResults()
+    {
+        deckClickResult = null;
+        discardClickResult = null;
+        topLeftZoneResult = null;
+        deckZoneResult = null;
     }
 
     private void AttemptPlaceCard()
@@ -44,6 +51,8 @@ public class CheckClickController : MonoBehaviour
             Debug.Log("Discard, do not play, card");
         } else if (topLeftZoneResult == "overTopLeftZone") {
             Debug.Log("Over top left zone, do not play or discard card");
+        } else if (deckZoneResult == "overDeckZone") {
+            Debug.Log("Over deck zone, do not play or discard card");
         } else
         {
             AttachCardToSquare();
@@ -64,8 +73,14 @@ public class CheckClickController : MonoBehaviour
 
     public void SetTopLeftZoneResult(string result)
     {
-        // possible results: 
+        // possible results: overTopLeftZone, notOverTopLeftZone
         topLeftZoneResult = result;
+    }
+
+    public void SetDeckZoneResult(string result)
+    {
+        // possible results: overDeckZone, notOverDeckZone
+        deckZoneResult = result;
     }
 
     private void AttachCardToSquare()
