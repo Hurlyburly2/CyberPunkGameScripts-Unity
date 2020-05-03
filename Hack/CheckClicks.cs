@@ -79,7 +79,6 @@ public class CheckClicks : MonoBehaviour
                 bool areWeOverTopLeftZone = false;
                 foreach (RaycastResult result in results)
                 {
-                    Debug.Log(result.gameObject.name);
                     if (result.gameObject.name == "TopLeftBase")
                     {
                         areWeOverTopLeftZone = true;
@@ -188,7 +187,6 @@ public class CheckClicks : MonoBehaviour
                 bool areWeOverDeckZone = false;
                 foreach (RaycastResult result in results)
                 {
-                    Debug.Log(result.gameObject.name);
                     if (result.gameObject.name == "DeckZone")
                     {
                         areWeOverDeckZone = true;

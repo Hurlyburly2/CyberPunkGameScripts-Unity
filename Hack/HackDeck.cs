@@ -6,8 +6,10 @@ using UnityEngine.EventSystems;
 
 public class HackDeck : MonoBehaviour
 {
-    List<HackCard> cards = new List<HackCard>();
     [SerializeField] CheckClicks clickChecker;
+
+    HackDiscard hackDiscard;
+    List<HackCard> cards = new List<HackCard>();
     float movementSpeed = 10000f;
     int zPos = 1;
     Vector3 startPostion;
@@ -15,6 +17,7 @@ public class HackDeck : MonoBehaviour
 
     private void Start()
     {
+        hackDiscard = FindObjectOfType<HackDiscard>();
         isEmpty = false;
         movementSpeed = 10000f;
         startPostion = transform.position;
@@ -33,6 +36,13 @@ public class HackDeck : MonoBehaviour
                 clickChecker.SetNormalState();
             }
         }
+    }
+
+    public void SendTopCardToDiscard()
+    {
+        hackDiscard.AddCardToDiscard(cards[0]);
+        RemoveTopCardFromDeck();
+        SetTopCard();
     }
 
     private void MoveTowardTarget(float targetX, float targetY)
@@ -92,69 +102,77 @@ public class HackDeck : MonoBehaviour
     {
         Image[] imageHolders = GetComponentsInChildren<Image>();
         AllSpikeImages allSpikeImages = FindObjectOfType<AllSpikeImages>();
-        HackCard topCard = cards[0];
-        foreach(Image image in imageHolders)
+
+        if (cards.Count == 0)
         {
-            switch(image.name)
+            foreach (Image image in imageHolders)
             {
-                case "CardBack":
-                    // This one should never change (maybe status stuff later though???)
-                    break;
-                case "LeftCircuit":
-                    string color = topCard.GetLeftCircuit();
-                    Sprite currentImage = allSpikeImages.GetCircuitImageByColorAndDirection(color, "left");
-                    image.sprite = currentImage;
-                    break;
-                case "TopCircuit":
-                    color = topCard.GetTopCircuit();
-                    currentImage = allSpikeImages.GetCircuitImageByColorAndDirection(color, "top");
-                    image.sprite = currentImage;
-                    break;
-                case "RightCircuit":
-                    color = topCard.GetRightCircuit();
-                    currentImage = allSpikeImages.GetCircuitImageByColorAndDirection(color, "right");
-                    image.sprite = currentImage;
-                    break;
-                case "DownCircuit":
-                    color = topCard.GetBottomCircuit();
-                    currentImage = allSpikeImages.GetCircuitImageByColorAndDirection(color, "bottom");
-                    image.sprite = currentImage;
-                    break;
-                case "TopLeftSpike":
-                    Spike currentspike = topCard.GetTopLeftSpike();
-                    string position = currentspike.GetSpikePosition();
-                    string state = currentspike.GetSpikeState();
-                    color = currentspike.GetSpikeColor();
-                    currentImage = allSpikeImages.GetSpikebyColorCornerAndState(color, position, state);
-                    image.sprite = currentImage;
-                    break;
-                case "TopRightSpike":
-                    currentspike = topCard.GetTopRightSpike();
-                    position = currentspike.GetSpikePosition();
-                    state = currentspike.GetSpikeState();
-                    color = currentspike.GetSpikeColor();
-                    currentImage = allSpikeImages.GetSpikebyColorCornerAndState(color, position, state);
-                    image.sprite = currentImage;
-                    break;
-                case "BottomLeftSpike":
-                    currentspike = topCard.GetBottomLeftSpike();
-                    position = currentspike.GetSpikePosition();
-                    state = currentspike.GetSpikeState();
-                    color = currentspike.GetSpikeColor();
-                    currentImage = allSpikeImages.GetSpikebyColorCornerAndState(color, position, state);
-                    image.sprite = currentImage;
-                    break;
-                case "BottomRightSpike":
-                    currentspike = topCard.GetbottomRightSpike();
-                    position = currentspike.GetSpikePosition();
-                    state = currentspike.GetSpikeState();
-                    color = currentspike.GetSpikeColor();
-                    currentImage = allSpikeImages.GetSpikebyColorCornerAndState(color, position, state);
-                    image.sprite = currentImage;
-                    break;
-                case "CardImage":
-                    image.sprite = topCard.GetCardImage();
-                    break;
+                image.sprite = allSpikeImages.GetEmptyImage();
+            }
+        }
+        else
+        {
+            HackCard topCard = cards[0];
+            Debug.Log(topCard.GetLeftCircuit());
+            foreach (Image image in imageHolders)
+            {
+                switch (image.name)
+                {
+                    case "HackDeckCardBack":
+                        image.sprite = allSpikeImages.GetCardBack();
+                        break;
+                    case "LeftCircuit":
+                        string color = topCard.GetLeftCircuit();
+                        Sprite currentImage = allSpikeImages.GetCircuitImageByColorAndDirection(color, "left");
+                        image.sprite = currentImage;
+                        break;
+                    case "TopCircuit":
+                        color = topCard.GetTopCircuit();
+                        currentImage = allSpikeImages.GetCircuitImageByColorAndDirection(color, "top");
+                        image.sprite = currentImage;
+                        break;
+                    case "RightCircuit":
+                        color = topCard.GetRightCircuit();
+                        currentImage = allSpikeImages.GetCircuitImageByColorAndDirection(color, "right");
+                        image.sprite = currentImage;
+                        break;
+                    case "DownCircuit":
+                        color = topCard.GetBottomCircuit();
+                        currentImage = allSpikeImages.GetCircuitImageByColorAndDirection(color, "bottom");
+                        image.sprite = currentImage;
+                        break;
+                    case "TopLeftSpike":
+                        Spike currentspike = topCard.GetTopLeftSpike();
+                        string state = currentspike.GetSpikeState();
+                        color = currentspike.GetSpikeColor();
+                        currentImage = allSpikeImages.GetSpikebyColorCornerAndState(color, "topleft", state);
+                        image.sprite = currentImage;
+                        break;
+                    case "TopRightSpike":
+                        currentspike = topCard.GetTopRightSpike();
+                        state = currentspike.GetSpikeState();
+                        color = currentspike.GetSpikeColor();
+                        currentImage = allSpikeImages.GetSpikebyColorCornerAndState(color, "topright", state);
+                        image.sprite = currentImage;
+                        break;
+                    case "BottomLeftSpike":
+                        currentspike = topCard.GetBottomLeftSpike();
+                        state = currentspike.GetSpikeState();
+                        color = currentspike.GetSpikeColor();
+                        currentImage = allSpikeImages.GetSpikebyColorCornerAndState(color, "bottomleft", state);
+                        image.sprite = currentImage;
+                        break;
+                    case "BottomRightSpike":
+                        currentspike = topCard.GetbottomRightSpike();
+                        state = currentspike.GetSpikeState();
+                        color = currentspike.GetSpikeColor();
+                        currentImage = allSpikeImages.GetSpikebyColorCornerAndState(color, "bottomright", state);
+                        image.sprite = currentImage;
+                        break;
+                    case "CardImage":
+                        image.sprite = topCard.GetCardImage();
+                        break;
+                }
             }
         }
     }

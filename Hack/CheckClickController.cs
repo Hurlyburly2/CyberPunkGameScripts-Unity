@@ -45,13 +45,14 @@ public class CheckClickController : MonoBehaviour
 
     private void AttemptPlaceCard()
     {
-        // Add the top UI bar as well
         if (discardClickResult == "overDiscardZone")
         {
-            Debug.Log("Discard, do not play, card");
-        } else if (topLeftZoneResult == "overTopLeftZone") {
+            DiscardCard();
+        } else if (topLeftZoneResult == "overTopLeftZone")
+        {
             Debug.Log("Over top left zone, do not play or discard card");
-        } else if (deckZoneResult == "overDeckZone") {
+        } else if (deckZoneResult == "overDeckZone")
+        {
             Debug.Log("Over deck zone, do not play or discard card");
         } else
         {
@@ -81,6 +82,12 @@ public class CheckClickController : MonoBehaviour
     {
         // possible results: overDeckZone, notOverDeckZone
         deckZoneResult = result;
+    }
+
+    private void DiscardCard()
+    {
+        HackDeck hackDeck = FindObjectOfType<HackDeck>();
+        hackDeck.SendTopCardToDiscard();
     }
 
     private void AttachCardToSquare()
