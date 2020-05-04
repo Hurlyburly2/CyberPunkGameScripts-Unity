@@ -45,6 +45,21 @@ public class HackCard : MonoBehaviour
         return spriteRenderers[0].sprite;
     }
 
+    public void RotateCircuitsAndSpikesNinetyDegrees()
+    {
+        string previousLeftConnection = leftConnection;
+        leftConnection = bottomConnection;
+        bottomConnection = rightConnection;
+        rightConnection = topConnection;
+        topConnection = previousLeftConnection;
+
+        Spike previousTopLeftSpike = topLeftSpike;
+        topLeftSpike = bottomLeftSpike;
+        bottomLeftSpike = bottomRightSpike;
+        bottomRightSpike = topRightSpike;
+        topRightSpike = previousTopLeftSpike;
+    }
+
     public Spike GetTopLeftSpike()
     {
         return topLeftSpike;

@@ -43,11 +43,21 @@ public class HackGridSquare : MonoBehaviour
 
     public bool AttachCardToSquare(HackCard hackCard)
     {
-        if (IsPlacementLegal(hackCard))
+        int timesToRotate = IsPlacementLegal(hackCard);
+        Debug.Log("Times to rotate: " + timesToRotate);
+        if (timesToRotate != -1)
         {
             HackCard newHackCard = Instantiate(hackCard, new Vector2(hackholder.transform.position.x, hackholder.transform.position.y), Quaternion.identity);
             newHackCard.transform.SetParent(hackholder.transform);
             newHackCard.transform.localScale = new Vector3(1, 1, 1);
+
+            for (int i = 0; i < timesToRotate; i++)
+            {
+                RotateCardNinetyDegrees(newHackCard);
+                newHackCard.RotateCircuitsAndSpikesNinetyDegrees();
+            }
+
+            Debug.Log("New Left: " + newHackCard.GetLeftCircuit() + " New right: " + newHackCard.GetRightCircuit() + " new top: " + newHackCard.GetTopCircuit() + " new bottom: " + newHackCard.GetBottomCircuit());
             return true;
         } else
         {
@@ -55,64 +65,33 @@ public class HackGridSquare : MonoBehaviour
         }
     }
 
-    private bool IsPlacementLegal(HackCard hackcard)
+    private int IsPlacementLegal(HackCard hackcard)
     {
         FindAndStoreAdjacentSquares();
 
-        string leftConnectionCheck;
-        if (leftSquare && leftSquare.DoesSquareHaveCard())
-        {
-            leftConnectionCheck = IsConnectionOk(hackcard.GetLeftCircuit(), leftSquare.GetAttachedCard().GetRightCircuit());
-        } else
-        {
-            leftConnectionCheck = "ok";
+        // We check all four rotations for a match and allow placing the square if there are any
+        // If there are, we return the number of rotations necessary for later processing
+        // If there are none, we return -1
+        for (int rotations = 0; rotations < 4; rotations++) {
+            string rotatedLeftCircuit = hackcard.GetLeftCircuit();
+            string rotatedTopCircuit = hackcard.GetTopCircuit();
+            string rotatedRightCircuit = hackcard.GetRightCircuit();
+            string rotatedBottomCircuit = hackcard.GetBottomCircuit();
+            for (int i = 0; i < rotations; i++)
+            {
+                string previousLeftCircuit = rotatedLeftCircuit;
+                rotatedLeftCircuit = rotatedBottomCircuit;
+                rotatedBottomCircuit = rotatedRightCircuit;
+                rotatedRightCircuit = rotatedTopCircuit;
+                rotatedTopCircuit = previousLeftCircuit;
+            }
+            bool isCurrentRotationLegal = CheckRotation(rotatedLeftCircuit, rotatedTopCircuit, rotatedRightCircuit, rotatedBottomCircuit);
+            if (isCurrentRotationLegal)
+            {
+                return rotations;
+            }
         }
-        //Debug.Log("Left connection check: " + leftConnectionCheck);
-
-        string aboveConnectionCheck;
-        if (aboveSquare && aboveSquare.DoesSquareHaveCard())
-        {
-            aboveConnectionCheck = IsConnectionOk(hackcard.GetTopCircuit(), aboveSquare.GetAttachedCard().GetBottomCircuit());
-        } else
-        {
-            aboveConnectionCheck = "ok";
-        }
-        //Debug.Log("Above connection check: " + aboveConnectionCheck);
-
-        string rightConnectionCheck;
-        if (rightSquare && rightSquare.DoesSquareHaveCard())
-        {
-            rightConnectionCheck = IsConnectionOk(hackcard.GetRightCircuit(), rightSquare.GetAttachedCard().GetLeftCircuit());
-        } else
-        {
-            rightConnectionCheck = "ok";
-        }
-        //Debug.Log("Right connection check: " + rightConnectionCheck);
-
-        string belowConnectionCheck;
-        if (belowSquare && belowSquare.DoesSquareHaveCard())
-        {
-            belowConnectionCheck = IsConnectionOk(hackcard.GetBottomCircuit(), belowSquare.GetAttachedCard().GetTopCircuit());
-        } else
-        {
-            belowConnectionCheck = "ok";
-        }
-        //Debug.Log("Below connection check: " + belowConnectionCheck);
-
-        // Check all four directions, at minimum all connections must be "ok" with one "connected"
-            // More than one "connected" is possible
-            // Cannot place with no "connected" UNLESS its the first card placed
-        // We check this for all four card orientations and keep track of the amount of ok orientations
-            // If more than one, we allow the user to rotate the card
-            // Disable card dragging during rotation
-        // If the card can only be placed in a rotated configuration, then rotate it and
-            // update all spike/circuit values
-
-        if (leftConnectionCheck == "mismatch" || aboveConnectionCheck == "mismatch" || rightConnectionCheck == "mismatch" || belowConnectionCheck == "mismatch")
-        {
-            return false;
-        }
-        return true;
+        return -1;
     }
 
     private string IsConnectionOk(string currentLeftCircuit, string leftCardRightCircuit)
@@ -124,18 +103,66 @@ public class HackGridSquare : MonoBehaviour
         return "mismatch";
     }
 
-    private void RotateCardNinetyDegrees(int times = 1)
+    private void RotateCardNinetyDegrees(HackCard cardToRotate)
     {
         // Variables must be shifted one to the right (eg left => top, top => right, right => bottom, bottom => left)
-            // this must be done for circuits AND spikes
-        // We perform the rotation x times, 2 = 180 degrees, 3 = 270
+        // this must be done for circuits AND spikes
+        cardToRotate.transform.Rotate(0, 0, 270);
     }
 
-    private void CheckRotation(int times = 1)
+    private bool CheckRotation(string rotatedLeftCircuit, string rotatedTopCircuit, string rotatedRightCircuit, string rotatedBottomCircuit)
     {
-        // Store the variables for a card rotation and pass them into the connection ok
-            // methods
-        // This is done so we can test rotations without mutating the cards actual values
+        string leftConnectionCheck;
+        if (leftSquare && leftSquare.DoesSquareHaveCard())
+        {
+            leftConnectionCheck = IsConnectionOk(rotatedLeftCircuit, leftSquare.GetAttachedCard().GetRightCircuit());
+        }
+        else
+        {
+            leftConnectionCheck = "ok";
+        }
+        //Debug.Log("Left connection check: " + leftConnectionCheck);
+
+        string aboveConnectionCheck;
+        if (aboveSquare && aboveSquare.DoesSquareHaveCard())
+        {
+            aboveConnectionCheck = IsConnectionOk(rotatedTopCircuit, aboveSquare.GetAttachedCard().GetBottomCircuit());
+        }
+        else
+        {
+            aboveConnectionCheck = "ok";
+        }
+        //Debug.Log("Above connection check: " + aboveConnectionCheck);
+
+        string rightConnectionCheck;
+        if (rightSquare && rightSquare.DoesSquareHaveCard())
+        {
+            rightConnectionCheck = IsConnectionOk(rotatedRightCircuit, rightSquare.GetAttachedCard().GetLeftCircuit());
+        }
+        else
+        {
+            rightConnectionCheck = "ok";
+        }
+        //Debug.Log("Right connection check: " + rightConnectionCheck);
+
+        string belowConnectionCheck;
+        if (belowSquare && belowSquare.DoesSquareHaveCard())
+        {
+            belowConnectionCheck = IsConnectionOk(rotatedBottomCircuit, belowSquare.GetAttachedCard().GetTopCircuit());
+        }
+        else
+        {
+            belowConnectionCheck = "ok";
+        }
+
+        if (leftConnectionCheck == "mismatch" || aboveConnectionCheck == "mismatch" || rightConnectionCheck == "mismatch" || belowConnectionCheck == "mismatch")
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public HackCard GetAttachedCard()
