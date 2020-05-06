@@ -107,7 +107,8 @@ public class HackGridSquare : MonoBehaviour
     {
         // Variables must be shifted one to the right (eg left => top, top => right, right => bottom, bottom => left)
         // this must be done for circuits AND spikes
-        cardToRotate.transform.Rotate(0, 0, 270);
+        cardToRotate.transform.Find("Card").gameObject.transform.Rotate(0, 0, 270);
+        //cardToRotate.transform.Rotate(0, 0, 270);
     }
 
     private bool CheckRotation(string rotatedLeftCircuit, string rotatedTopCircuit, string rotatedRightCircuit, string rotatedBottomCircuit)
