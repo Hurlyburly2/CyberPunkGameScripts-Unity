@@ -58,11 +58,17 @@ public class HackGridSquare : MonoBehaviour
             }
 
             Debug.Log("New Left: " + newHackCard.GetLeftCircuit() + " New right: " + newHackCard.GetRightCircuit() + " new top: " + newHackCard.GetTopCircuit() + " new bottom: " + newHackCard.GetBottomCircuit());
+            TurnOffSquareImage();
             return true;
         } else
         {
             return false;
         }
+    }
+
+    private void TurnOffSquareImage()
+    {
+        GetComponent<SpriteRenderer>().enabled = false;
     }
 
     private int IsPlacementLegal(HackCard hackcard)

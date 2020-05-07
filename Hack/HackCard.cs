@@ -25,6 +25,7 @@ public class HackCard : MonoBehaviour
     private void Start()
     {
         SetupCard();
+        uiImageHolder.SetActive(true);
     }
 
     public void SetupCard()
