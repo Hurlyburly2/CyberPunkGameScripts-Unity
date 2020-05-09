@@ -11,6 +11,9 @@ public class HackBattleData : MonoBehaviour
     HackDiscard hackDiscard;
     AllHackCards allHackCards;
 
+    string state = "normal";
+        // currently: normal, cardui
+
     private void Awake()
     {
         int count = FindObjectsOfType<BattleData>().Length;
@@ -69,5 +72,31 @@ public class HackBattleData : MonoBehaviour
             idString += cardId + " ";
         }
         Debug.Log("All Card Ids: " + idString);
+    }
+
+    public void SetStateToCardUI()
+    {
+        state = "cardui";
+    }
+
+    public void SetStateToNormal()
+    {
+        state = "normal";
+    }
+
+    public string GetState()
+    {
+        return state;
+    }
+
+    public bool IsPlayerAllowedToDragCard()
+    {
+        if (state == "cardui")
+        {
+            return false;
+        } else
+        {
+            return true;
+        }
     }
 }

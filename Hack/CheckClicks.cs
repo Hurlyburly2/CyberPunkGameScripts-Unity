@@ -13,12 +13,14 @@ public class CheckClicks : MonoBehaviour
     GraphicRaycaster raycaster;
     string state = "normal";
     CheckClickController checkClickController;
+    HackBattleData hackBattleData;
 
     void Awake()
     {
         // Get both of the components we need to do this
         this.raycaster = GetComponent<GraphicRaycaster>();
         checkClickController = FindObjectOfType<CheckClickController>();
+        hackBattleData = FindObjectOfType<HackBattleData>();
     }
 
     void Update()
@@ -134,7 +136,7 @@ public class CheckClicks : MonoBehaviour
         if (state == "normal")
         {
             //Check if the left Mouse button is clicked
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Mouse0) && hackBattleData.IsPlayerAllowedToDragCard())
             {
                 //Set up the new Pointer Event
                 PointerEventData pointerData = new PointerEventData(EventSystem.current);

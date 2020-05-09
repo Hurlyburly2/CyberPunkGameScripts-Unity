@@ -2,20 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HackDiscard : MonoBehaviour
 {
     List<HackCard> cards = new List<HackCard>();
+    TextMeshProUGUI discardCountTextField;
 
     private void Awake()
     {
         SetTopCard();
+        SetTextField();
+    }
+
+    private void SetTextField()
+    {
+        TextMeshProUGUI[] allTextFields = FindObjectsOfType<TextMeshProUGUI>();
+        foreach(TextMeshProUGUI textField in allTextFields)
+        {
+            if (textField.name == "DiscardCountText")
+            {
+                discardCountTextField = textField;
+                UpdateTextFieldCounter();
+                return;
+            }
+        }
+    }
+
+    public void UpdateTextFieldCounter()
+    {
+        discardCountTextField.text = cards.Count.ToString();
     }
 
     public void AddCardToDiscard(HackCard card)
     {
         cards.Add(card);
         SetTopCard();
+        UpdateTextFieldCounter();
     }
 
     public void SetTopCard()
