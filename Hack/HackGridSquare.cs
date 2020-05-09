@@ -58,10 +58,9 @@ public class HackGridSquare : MonoBehaviour
                 newHackCard.RotateCircuitsAndSpikesNinetyDegrees();
             }
 
-            Debug.Log("Next legal rotation: " + GetCountToNextLegalRotation(newHackCard, 1));
-            Debug.Log("Previous legal rotation: " + GetCountToPreviousLegalRotation(newHackCard, 1));
-            TurnOffSquareImage();
+            newHackCard.SetupUI(GetCountToPreviousLegalRotation(newHackCard, 1), GetCountToNextLegalRotation(newHackCard, 1));
             attachedHackCard = newHackCard;
+            TurnOffSquareImage();
             return true;
         } else
         {

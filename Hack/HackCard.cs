@@ -16,7 +16,7 @@ public class HackCard : MonoBehaviour
     [SerializeField] Spike bottomLeftSpike;
     [SerializeField] Spike bottomRightSpike;
 
-    [SerializeField] GameObject uiImageHolder;
+    [SerializeField] HackCardUIHolder uiImageHolder;
 
     HackGridSquare gridSquareHolder;
 
@@ -24,9 +24,10 @@ public class HackCard : MonoBehaviour
         // 0 = 0, 1 = 90, 2 = 180, 3 = 270
         // needed for figuring out connections
 
-    private void Start()
+    public void SetupUI(int toPreviousRotation, int toNextRotation)
     {
-        uiImageHolder.SetActive(true);
+        uiImageHolder.gameObject.SetActive(true);
+        uiImageHolder.SetRotationsOfArrows(toPreviousRotation, toNextRotation);
     }
 
     public Sprite GetCardImage()

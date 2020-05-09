@@ -8,10 +8,22 @@ public class HackRotateButton : MonoBehaviour
     [SerializeField] string leftOrRight;
         // determines which direction it rotates
 
+    int currentRotationAmount;
+
     private void Start()
     {
         string parentName = transform.parent.gameObject.transform.parent.gameObject.name;
         Debug.Log("arrow start");
         Debug.Log("parent card name: " + parentName);
+    }
+
+    public void SetRotationAmount(int rotationAmount)
+    {
+        currentRotationAmount = rotationAmount;
+    }
+
+    private void OnMouseUp()
+    {
+        Debug.Log("Clicked " + leftOrRight + " arrow! Rotation amount: " + currentRotationAmount);
     }
 }
