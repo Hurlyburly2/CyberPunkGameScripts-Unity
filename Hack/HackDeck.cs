@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class HackDeck : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class HackDeck : MonoBehaviour
     int zPos = 1;
     Vector3 startPostion;
     bool isEmpty = false;
+    TextMeshProUGUI cardsInHackDeckCountTextField;
 
     private void Start()
     {
@@ -21,6 +23,20 @@ public class HackDeck : MonoBehaviour
         isEmpty = false;
         movementSpeed = 10000f;
         startPostion = transform.position;
+        FindAndSetTextField();
+    }
+
+    private void FindAndSetTextField()
+    {
+        TextMeshProUGUI[] textFields = FindObjectsOfType<TextMeshProUGUI>();
+        foreach(TextMeshProUGUI textField in textFields)
+        {
+            if (textField.name == "DeckCountText")
+            {
+                cardsInHackDeckCountTextField = textField;
+                return;
+            }
+        }
     }
 
     private void Update()
@@ -43,6 +59,7 @@ public class HackDeck : MonoBehaviour
         hackDiscard.AddCardToDiscard(cards[0]);
         RemoveTopCardFromDeck();
         SetTopCard();
+        SetTextFieldCount();
     }
 
     private void MoveTowardTarget(float targetX, float targetY)
@@ -60,6 +77,7 @@ public class HackDeck : MonoBehaviour
             //SetTopCard();
             // Do not place top card until the previous card is confirmed
             SetAllImagesToEmpty();
+            SetTextFieldCount();
         } else
         {
             isEmpty = true;
@@ -186,5 +204,11 @@ public class HackDeck : MonoBehaviour
     public void SetDeckPrefabs(List<HackCard> newHackCards)
     {
         cards = newHackCards;
+        SetTextFieldCount();
+    }
+
+    public void SetTextFieldCount()
+    {
+        cardsInHackDeckCountTextField.text = cards.Count.ToString();
     }
 }
