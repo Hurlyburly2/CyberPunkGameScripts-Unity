@@ -9,7 +9,6 @@ public class HackDiscard : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("Hack discard exists");
         SetTopCard();
     }
 
@@ -33,7 +32,6 @@ public class HackDiscard : MonoBehaviour
         } else
         {
             HackCard topCard = cards[cards.Count - 1];
-            Debug.Log(topCard.GetLeftCircuit());
             foreach (Image image in imageHolders)
             {
                 switch (image.name)

@@ -113,7 +113,6 @@ public class HackDeck : MonoBehaviour
         else
         {
             HackCard topCard = cards[0];
-            Debug.Log(topCard.GetLeftCircuit());
             foreach (Image image in imageHolders)
             {
                 switch (image.name)

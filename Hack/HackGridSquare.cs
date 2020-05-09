@@ -17,6 +17,8 @@ public class HackGridSquare : MonoBehaviour
     HackGridSquare rightSquare = null;
     HackGridSquare belowSquare = null;
 
+    HackCard attachedHackCard;
+
     private void Start()
     {
         GameObject parentRowObject = transform.parent.gameObject;
@@ -43,8 +45,7 @@ public class HackGridSquare : MonoBehaviour
 
     public bool AttachCardToSquare(HackCard hackCard)
     {
-        int timesToRotate = IsPlacementLegal(hackCard);
-        Debug.Log("Times to rotate: " + timesToRotate);
+        int timesToRotate = GetCountToNextLegalRotation(hackCard);
         if (timesToRotate != -1)
         {
             HackCard newHackCard = Instantiate(hackCard, new Vector2(hackholder.transform.position.x, hackholder.transform.position.y), Quaternion.identity);
@@ -57,8 +58,10 @@ public class HackGridSquare : MonoBehaviour
                 newHackCard.RotateCircuitsAndSpikesNinetyDegrees();
             }
 
-            Debug.Log("New Left: " + newHackCard.GetLeftCircuit() + " New right: " + newHackCard.GetRightCircuit() + " new top: " + newHackCard.GetTopCircuit() + " new bottom: " + newHackCard.GetBottomCircuit());
+            Debug.Log("Next legal rotation: " + GetCountToNextLegalRotation(newHackCard, 1));
+            Debug.Log("Previous legal rotation: " + GetCountToPreviousLegalRotation(newHackCard, 1));
             TurnOffSquareImage();
+            attachedHackCard = newHackCard;
             return true;
         } else
         {
@@ -71,14 +74,42 @@ public class HackGridSquare : MonoBehaviour
         GetComponent<SpriteRenderer>().enabled = false;
     }
 
-    private int IsPlacementLegal(HackCard hackcard)
+    private int GetCountToPreviousLegalRotation(HackCard hackcard, int startingRotation = 0)
+    {
+        FindAndStoreAdjacentSquares();
+
+        for (int rotations = startingRotation; rotations < 4; rotations++)
+        {
+            string rotatedLeftCircuit = hackcard.GetLeftCircuit();
+            string rotatedTopCircuit = hackcard.GetTopCircuit();
+            string rotatedRightCircuit = hackcard.GetRightCircuit();
+            string rotatedBottomCircuit = hackcard.GetBottomCircuit();
+            for (int i = 0; i < rotations; i++)
+            {
+                string previousLeftCircuit = rotatedLeftCircuit;
+                rotatedLeftCircuit = rotatedTopCircuit;
+                rotatedTopCircuit = rotatedRightCircuit;
+                rotatedRightCircuit = rotatedBottomCircuit;
+                rotatedBottomCircuit = previousLeftCircuit;
+            }
+            bool isCurrentRotationLegal = CheckRotation(rotatedLeftCircuit, rotatedTopCircuit, rotatedRightCircuit, rotatedBottomCircuit);
+            if (isCurrentRotationLegal)
+            {
+                return rotations;
+            }
+        }
+        return -1;
+    }
+
+    private int GetCountToNextLegalRotation(HackCard hackcard, int startingRotation = 0)
     {
         FindAndStoreAdjacentSquares();
 
         // We check all four rotations for a match and allow placing the square if there are any
         // If there are, we return the number of rotations necessary for later processing
         // If there are none, we return -1
-        for (int rotations = 0; rotations < 4; rotations++) {
+        // Starting rotation is set to 1 if we want to find the next legal rotation and skip 'no rotation'
+        for (int rotations = startingRotation; rotations < 4; rotations++) {
             string rotatedLeftCircuit = hackcard.GetLeftCircuit();
             string rotatedTopCircuit = hackcard.GetTopCircuit();
             string rotatedRightCircuit = hackcard.GetRightCircuit();
