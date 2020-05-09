@@ -43,6 +43,20 @@ public class HackGridSquare : MonoBehaviour
         active = true;
     }
 
+    public void RotateButtonPressed(int timesToRotate, string directionToRotate)
+    {
+        if (directionToRotate == "left")
+        {
+            timesToRotate = 4 - timesToRotate;
+        }
+        for (int i = 0; i < timesToRotate; i++)
+        {
+            RotateCardNinetyDegrees(attachedHackCard);
+            attachedHackCard.RotateCircuitsAndSpikesNinetyDegrees();
+        }
+        attachedHackCard.SetupUI(GetCountToPreviousLegalRotation(attachedHackCard, 1), GetCountToNextLegalRotation(attachedHackCard, 1));
+    }
+
     public bool AttachCardToSquare(HackCard hackCard)
     {
         int timesToRotate = GetCountToNextLegalRotation(hackCard);
@@ -51,6 +65,7 @@ public class HackGridSquare : MonoBehaviour
             HackCard newHackCard = Instantiate(hackCard, new Vector2(hackholder.transform.position.x, hackholder.transform.position.y), Quaternion.identity);
             newHackCard.transform.SetParent(hackholder.transform);
             newHackCard.transform.localScale = new Vector3(1, 1, 1);
+            newHackCard.SetGridSquareHolder(this);
 
             for (int i = 0; i < timesToRotate; i++)
             {

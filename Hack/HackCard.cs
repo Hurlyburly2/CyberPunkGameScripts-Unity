@@ -30,6 +30,16 @@ public class HackCard : MonoBehaviour
         uiImageHolder.SetRotationsOfArrows(toPreviousRotation, toNextRotation);
     }
 
+    public void SetGridSquareHolder(HackGridSquare parentSquare)
+    {
+        gridSquareHolder = parentSquare;
+    }
+
+    public HackGridSquare GetCurrentSquareHolder()
+    {
+        return gridSquareHolder;
+    }
+
     public Sprite GetCardImage()
     {
         SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();

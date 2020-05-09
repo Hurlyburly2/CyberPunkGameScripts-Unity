@@ -24,6 +24,6 @@ public class HackRotateButton : MonoBehaviour
 
     private void OnMouseUp()
     {
-        Debug.Log("Clicked " + leftOrRight + " arrow! Rotation amount: " + currentRotationAmount);
+        hackCardUIHolder.SendCardRotationToSquare(currentRotationAmount, leftOrRight);
     }
 }

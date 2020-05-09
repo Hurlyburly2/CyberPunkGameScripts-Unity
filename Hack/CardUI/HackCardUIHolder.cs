@@ -14,6 +14,11 @@ public class HackCardUIHolder : MonoBehaviour
         SetupArrow(rightArrow, nextRotationAmount);
     }
 
+    public void SendCardRotationToSquare(int currentRotationAmount, string leftOrRight)
+    {
+        parentCard.GetCurrentSquareHolder().RotateButtonPressed(currentRotationAmount, leftOrRight);
+    }
+
     private void SetupArrow(HackRotateButton currentArrow, int currentRotation)
     {
         if (currentRotation == -1)
