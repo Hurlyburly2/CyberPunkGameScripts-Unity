@@ -16,18 +16,28 @@ public class HackCard : MonoBehaviour
     [SerializeField] Spike bottomLeftSpike;
     [SerializeField] Spike bottomRightSpike;
 
+    [SerializeField] HackCardUIHolder uiImageHolder;
+
+    HackGridSquare gridSquareHolder;
+
     int orientation = 0;
         // 0 = 0, 1 = 90, 2 = 180, 3 = 270
         // needed for figuring out connections
 
-    private void Start()
+    public void SetupUI(int toPreviousRotation, int toNextRotation)
     {
-        SetupCard();
+        uiImageHolder.gameObject.SetActive(true);
+        uiImageHolder.SetRotationsOfArrows(toPreviousRotation, toNextRotation);
     }
 
-    public void SetupCard()
+    public void SetGridSquareHolder(HackGridSquare parentSquare)
     {
-        
+        gridSquareHolder = parentSquare;
+    }
+
+    public HackGridSquare GetCurrentSquareHolder()
+    {
+        return gridSquareHolder;
     }
 
     public Sprite GetCardImage()
@@ -43,6 +53,21 @@ public class HackCard : MonoBehaviour
 
         // THIS COULD RETURN THE WRONG IMAGE IF NAMES ARE CHANGED ON THE GAMEOBJECT IN UNITY
         return spriteRenderers[0].sprite;
+    }
+
+    public void RotateCircuitsAndSpikesNinetyDegrees()
+    {
+        string previousLeftConnection = leftConnection;
+        leftConnection = bottomConnection;
+        bottomConnection = rightConnection;
+        rightConnection = topConnection;
+        topConnection = previousLeftConnection;
+
+        Spike previousTopLeftSpike = topLeftSpike;
+        topLeftSpike = bottomLeftSpike;
+        bottomLeftSpike = bottomRightSpike;
+        bottomRightSpike = topRightSpike;
+        topRightSpike = previousTopLeftSpike;
     }
 
     public Spike GetTopLeftSpike()
