@@ -57,16 +57,23 @@ public class HackDeck : MonoBehaviour
         cards.RemoveAt(0);
         if (cards.Count > 0)
         {
-            SetTopCard();
+            //SetTopCard();
+            // Do not place top card until the previous card is confirmed
+            SetAllImagesToEmpty();
         } else
         {
             isEmpty = true;
-            Image[] imageHolders = GetComponentsInChildren<Image>();
-            AllSpikeImages allSpikeImages = FindObjectOfType<AllSpikeImages>();
-            foreach(Image image in imageHolders)
-            {
-                image.sprite = allSpikeImages.GetEmptyImage();
-            }
+            SetAllImagesToEmpty();
+        }
+    }
+
+    private void SetAllImagesToEmpty()
+    {
+        Image[] imageHolders = GetComponentsInChildren<Image>();
+        AllSpikeImages allSpikeImages = FindObjectOfType<AllSpikeImages>();
+        foreach (Image image in imageHolders)
+        {
+            image.sprite = allSpikeImages.GetEmptyImage();
         }
     }
 
