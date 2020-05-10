@@ -8,11 +8,12 @@ public class CheckClickController : MonoBehaviour
     // them to act in a coordinated fashion
 
     string state = "normal";
-        // possibilities: normal, 
+        // possibilities: normal, cameradragging
     string deckClickResult = null;
     string discardClickResult = null;
     string topLeftZoneResult = null;
     string deckZoneResult = null;
+    string cameraResult = null;
 
     public void ListenForClickResults()
     {
@@ -21,13 +22,32 @@ public class CheckClickController : MonoBehaviour
 
     private IEnumerator WaitForAllResults()
     {
-        while (deckClickResult == null || discardClickResult == null || topLeftZoneResult == null)
+        Debug.Log("before while");
+        Debug.Log("camera result: " + cameraResult);
+        Debug.Log("discard result: " + discardClickResult);
+        Debug.Log("topleftzone result: " + topLeftZoneResult);
+        Debug.Log("deckzone result: " + deckZoneResult);
+        while (deckClickResult == null || discardClickResult == null || topLeftZoneResult == null || cameraResult == null)
         {
             yield return null;
         }
+
+        Debug.Log("after while");
+        Debug.Log("camera result: " + cameraResult);
+        Debug.Log("discard result: " + discardClickResult);
+        Debug.Log("topleftzone result: " + topLeftZoneResult);
+        Debug.Log("deckzone result: " + deckZoneResult);
         if (deckClickResult == "attemptPlaceCard")
         {
+            Debug.Log("hit card placement if statement");
             AttemptPlaceCard();
+        } else if (cameraResult == "attemptpan"
+            && discardClickResult == "notOverDiscardZone"
+            && topLeftZoneResult == "notOverTopLeftZone"
+            && deckZoneResult == "notOverDeckZone")
+        {
+            Debug.Log("hit camera if statement");
+            FindObjectOfType<PanZoom>().AllowCameraMovement();
         }
         ResetAllResults();
         state = "normal";
@@ -41,6 +61,7 @@ public class CheckClickController : MonoBehaviour
         discardClickResult = null;
         topLeftZoneResult = null;
         deckZoneResult = null;
+        cameraResult = null;
     }
 
     private void AttemptPlaceCard()
@@ -60,9 +81,16 @@ public class CheckClickController : MonoBehaviour
         }
     }
 
+    public void SetCameraDragResult(string result)
+    {
+        // possible results = attemptpan
+        // Camera drag should be if nothing important is clicked
+        cameraResult = result;
+    }
+
     public void SetDeckClickResult(string result)
     {
-        // possible results008s: attemptPlaceCard
+        // possible results: attemptPlaceCard
         deckClickResult = result;
     }
 
