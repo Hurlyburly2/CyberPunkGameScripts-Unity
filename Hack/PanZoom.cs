@@ -5,8 +5,14 @@ using UnityEngine;
 public class PanZoom : MonoBehaviour
 {
     Vector3 touchStart;
-    [SerializeField] float zoomOutMin = 5;
-    [SerializeField] float zoomOutMax = 20.5f;
+    float zoomOutMin = 5;
+    float zoomOutMax = 18f;
+
+    float cameraLowerLimit = -15.96f;
+    float cameraUpperLimit = 28f;
+    float cameraLeftLimit = -10.4f;
+    float cameraRightLimit = 23f;
+
     CheckClickController checkClickController;
 
     bool cameraMoveOk = true;
@@ -50,6 +56,26 @@ public class PanZoom : MonoBehaviour
                 Zoom(Input.GetAxis("Mouse ScrollWheel"));
             }
         }
+        ClampCamera();
+    }
+
+    public void LogClampValues()
+    {
+        Debug.Log("camsize: " + Camera.main.orthographicSize);
+        Debug.Log("aspect: " + Camera.main.aspect);
+        Debug.Log("camera Left Limit: " + (cameraLeftLimit + Camera.main.orthographicSize * Camera.main.aspect));
+    }
+
+    private void ClampCamera()
+    {
+        Vector3 clampMovement = transform.position;
+        float camSize = Camera.main.orthographicSize;
+        float aspect = Camera.main.aspect;
+        float cameraTotalHeight = camSize * 2;
+
+        clampMovement.x = Mathf.Clamp(clampMovement.x, cameraLeftLimit + camSize * aspect, cameraRightLimit - camSize * aspect);
+        clampMovement.y = Mathf.Clamp(clampMovement.y, cameraLowerLimit + camSize, cameraUpperLimit - camSize);
+        transform.position = clampMovement;
     }
 
     private void Zoom(float increment)
