@@ -16,9 +16,11 @@ public class PanZoom : MonoBehaviour
     CheckClickController checkClickController;
 
     bool cameraMoveOk = true;
+    CircuitBackground circuitBackground;
 
     private void Start()
     {
+        circuitBackground = FindObjectOfType<CircuitBackground>();
         checkClickController = FindObjectOfType<CheckClickController>();
     }
 
@@ -57,6 +59,7 @@ public class PanZoom : MonoBehaviour
             }
         }
         ClampCamera();
+        circuitBackground.UpdateBackgroundPos();
     }
 
     public void LogClampValues()
