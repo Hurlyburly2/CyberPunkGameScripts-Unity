@@ -10,6 +10,7 @@ public class HackUIAcceptButton : MonoBehaviour
     {
         FindObjectOfType<HackBattleData>().SetStateToNormal();
         FindObjectOfType<HackDeck>().SetTopCard();
+        hackCardUIHolder.GetParentCard().FindParentSquare().UpdateSpikeConnections();
         hackCardUIHolder.TurnOffCardUIHolder();
     }
 }

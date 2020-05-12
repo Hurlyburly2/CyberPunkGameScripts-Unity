@@ -63,11 +63,20 @@ public class HackCard : MonoBehaviour
         rightConnection = topConnection;
         topConnection = previousLeftConnection;
 
-        Spike previousTopLeftSpike = topLeftSpike;
-        topLeftSpike = bottomLeftSpike;
-        bottomLeftSpike = bottomRightSpike;
-        bottomRightSpike = topRightSpike;
-        topRightSpike = previousTopLeftSpike;
+        string previousTopLeftSpikeColor = topLeftSpike.GetSpikeColor();
+        string previousTopLeftSpikeState = topLeftSpike.GetSpikeState();
+
+        topLeftSpike.SetupNewValues(bottomLeftSpike.GetSpikeColor(), bottomLeftSpike.GetSpikeState());
+        topLeftSpike.SetSpikeImage("topleft");
+
+        bottomLeftSpike.SetupNewValues(bottomRightSpike.GetSpikeColor(), bottomRightSpike.GetSpikeState());
+        bottomLeftSpike.SetSpikeImage("bottomleft");
+
+        bottomRightSpike.SetupNewValues(topRightSpike.GetSpikeColor(), topRightSpike.GetSpikeState());
+        bottomRightSpike.SetSpikeImage("bottomright");
+
+        topRightSpike.SetupNewValues(previousTopLeftSpikeColor, previousTopLeftSpikeState);
+        topRightSpike.SetSpikeImage("topright");
     }
 
     public Spike GetTopLeftSpike()
@@ -114,5 +123,19 @@ public class HackCard : MonoBehaviour
     {
         string[] allConnections = new string[] { leftConnection, topConnection, rightConnection, bottomConnection };
         return allConnections;
+    }
+
+    public HackGridSquare FindParentSquare()
+    {
+        HackGridSquare[] allGridSquares = FindObjectsOfType<HackGridSquare>();
+        foreach(HackGridSquare square in allGridSquares)
+        {
+            if (square.GetAttachedCard() == this)
+            {
+                return square;
+            }
+        }
+
+        return null;
     }
 }

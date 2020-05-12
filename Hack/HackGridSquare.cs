@@ -17,7 +17,13 @@ public class HackGridSquare : MonoBehaviour
     HackGridSquare rightSquare = null;
     HackGridSquare belowSquare = null;
 
+    HackGridSquare aboveLeftDiagonalSquare = null;
+    HackGridSquare aboveRightDiagonalSquare = null;
+    HackGridSquare belowLeftDiagonalSquare = null;
+    HackGridSquare belowRightDiagonalSquare = null;
+
     HackCard attachedHackCard;
+    Spike emptySpike;
 
     private void Start()
     {
@@ -28,6 +34,7 @@ public class HackGridSquare : MonoBehaviour
 
     private void FindAndStoreAdjacentSquares()
     {
+        // Get adjacent squares
         if (squareNumber != 0)
             leftSquare = parentRow.GetSquareByNumber(squareNumber - 1);
         if (parentRow.GetRowNumber() != 0)
@@ -36,6 +43,15 @@ public class HackGridSquare : MonoBehaviour
             rightSquare = parentRow.GetSquareByNumber(squareNumber + 1);
         if (parentRow.GetRowNumber() != 16)
             belowSquare = gridRowHolder.GetRowByNumber(parentRow.GetRowNumber() + 1).GetSquareByNumber(squareNumber);
+
+        if (squareNumber != 0 && parentRow.GetRowNumber() != 0)
+            aboveLeftDiagonalSquare = gridRowHolder.GetRowByNumber(parentRow.GetRowNumber() - 1).GetSquareByNumber(squareNumber - 1);
+        if (squareNumber != 12 && parentRow.GetRowNumber() != 0)
+            aboveRightDiagonalSquare = gridRowHolder.GetRowByNumber(parentRow.GetRowNumber() - 1).GetSquareByNumber(squareNumber + 1);
+        if (squareNumber != 0 && parentRow.GetRowNumber() != 16)
+            belowLeftDiagonalSquare = gridRowHolder.GetRowByNumber(parentRow.GetRowNumber() + 1).GetSquareByNumber(squareNumber - 1);
+        if (squareNumber != 12 && parentRow.GetRowNumber() != 16)
+            belowRightDiagonalSquare = gridRowHolder.GetRowByNumber(parentRow.GetRowNumber() + 1).GetSquareByNumber(squareNumber + 1);
     }
 
     private void OnMouseOver()
@@ -174,7 +190,7 @@ public class HackGridSquare : MonoBehaviour
         {
             leftConnectionCheck = "ok";
         }
-        //Debug.Log("Left connection check: " + leftConnectionCheck);
+        // Left Connection Check
 
         string aboveConnectionCheck;
         if (aboveSquare && aboveSquare.DoesSquareHaveCard())
@@ -185,7 +201,7 @@ public class HackGridSquare : MonoBehaviour
         {
             aboveConnectionCheck = "ok";
         }
-        //Debug.Log("Above connection check: " + aboveConnectionCheck);
+        // Above Connection Check
 
         string rightConnectionCheck;
         if (rightSquare && rightSquare.DoesSquareHaveCard())
@@ -196,7 +212,7 @@ public class HackGridSquare : MonoBehaviour
         {
             rightConnectionCheck = "ok";
         }
-        //Debug.Log("Right connection check: " + rightConnectionCheck);
+        // Right Connection Check
 
         string belowConnectionCheck;
         if (belowSquare && belowSquare.DoesSquareHaveCard())
@@ -207,6 +223,7 @@ public class HackGridSquare : MonoBehaviour
         {
             belowConnectionCheck = "ok";
         }
+        // Below Conection Check
 
         if (leftConnectionCheck == "mismatch" || aboveConnectionCheck == "mismatch" || rightConnectionCheck == "mismatch" || belowConnectionCheck == "mismatch")
         {
@@ -251,5 +268,113 @@ public class HackGridSquare : MonoBehaviour
     public string SquareGridLocation()
     {
         return "x: " + squareNumber + " y: " + parentRow.GetRowNumber().ToString();
+    }
+
+    public void UpdateSpikeConnections()
+    {
+        FindAndStoreAdjacentSquares();
+
+        CheckAndUpdateTopLeftSpike();
+    }
+
+    private void CheckAndUpdateTopLeftSpike()
+    {
+        Spike currentSpike = attachedHackCard.GetTopLeftSpike();
+        Spike leftSpike = leftSquare.GetTopRightSpike();
+        Spike aboveLeftSpike = aboveLeftDiagonalSquare.GetBottomRightSpike();
+        Spike aboveSpike = aboveSquare.GetBottomLeftSpike();
+
+        if (currentSpike)
+            Debug.Log("current color: " + currentSpike.GetSpikeColor());
+        if (leftSpike)
+            Debug.Log("left color: " + leftSpike.GetSpikeColor());
+        if (aboveLeftSpike)
+            Debug.Log("aboveleft color: " + aboveLeftSpike.GetSpikeColor());
+        if (aboveSpike)
+            Debug.Log("above color: " + aboveSpike.GetSpikeColor());
+
+        string color = currentSpike.GetSpikeColor();
+        if (leftSpike && aboveSpike && aboveLeftSpike && color == leftSpike.GetSpikeColor() && color == aboveSpike.GetSpikeColor() && color == aboveLeftSpike.GetSpikeColor())
+        {
+            // ALL FOUR CONNECTED
+            currentSpike.SetState("two");
+            aboveSpike.SetState("two");
+            leftSpike.SetState("two");
+            aboveLeftSpike.SetState("two");
+        }
+        else if (leftSpike && aboveLeftSpike && color == leftSpike.GetSpikeColor() && color == aboveLeftSpike.GetSpikeColor())
+        {
+            // LEFT, DIAGONAL
+            currentSpike.SetState("left");
+            leftSpike.SetState("two");
+            aboveLeftSpike.SetState("down");
+        }
+        else if (aboveSpike && aboveLeftSpike && color == aboveSpike.GetSpikeColor() && color == aboveLeftSpike.GetSpikeColor())
+        {
+            // UP DIAGONAL
+            currentSpike.SetState("up");
+            aboveSpike.SetState("two");
+            aboveLeftSpike.SetState("right");
+        }
+        else if (leftSpike && aboveSpike && color == leftSpike.GetSpikeColor() && color == aboveSpike.GetSpikeColor())
+        {
+            // LEFT UP
+            currentSpike.SetState("two");
+            leftSpike.SetState("right");
+            aboveSpike.SetState("down");
+        }
+        else if (leftSpike && color == leftSpike.GetSpikeColor())
+        {
+            // LEFT
+            currentSpike.SetState("left");
+            leftSpike.SetState("right");
+        }
+        else if (aboveSpike && color == aboveSpike.GetSpikeColor())
+        {
+            // UP
+            currentSpike.SetState("up");
+            aboveSpike.SetState("down");
+        }
+        else
+        {
+            // NONE
+            currentSpike.SetState("closed");
+        }
+
+        currentSpike.SetSpikeImage("topleft");
+        if (aboveSpike)
+            aboveSpike.SetSpikeImage("bottomleft");
+        if (aboveLeftSpike)
+            aboveLeftSpike.SetSpikeImage("bottomright");
+        if (leftSpike)
+            leftSpike.SetSpikeImage("topright");
+    }
+
+    public Spike GetTopLeftSpike()
+    {
+        if (attachedHackCard)
+            return attachedHackCard.GetTopLeftSpike();
+        return emptySpike;
+    }
+
+    public Spike GetTopRightSpike()
+    {
+        if (attachedHackCard)
+            return attachedHackCard.GetTopRightSpike();
+        return emptySpike;
+    }
+
+    public Spike GetBottomLeftSpike()
+    {
+        if (attachedHackCard)
+            return attachedHackCard.GetBottomLeftSpike();
+        return emptySpike;
+    }
+
+    public Spike GetBottomRightSpike()
+    {
+        if (attachedHackCard)
+            return attachedHackCard.GetbottomRightSpike();
+        return emptySpike;
     }
 }

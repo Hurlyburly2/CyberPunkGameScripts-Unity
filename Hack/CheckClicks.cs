@@ -167,8 +167,6 @@ public class CheckClicks : MonoBehaviour
 
                 checkClickController.SetDeckClickResult("attemptPlaceCard");
                 checkClickController.ListenForClickResults();
-                // temporary:::
-                FindObjectOfType<Camera>().GetComponent<PanZoom>().LogClampValues();
                 state = "goingback";
             }
         }
