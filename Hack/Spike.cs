@@ -8,11 +8,6 @@ public class Spike : MonoBehaviour
     [SerializeField] string state = "none";
         // none, closed, down, left, right, up, two
 
-    [SerializeField] bool topConnection = false;
-    [SerializeField] bool rightConnection = false;
-    [SerializeField] bool leftConnection = false;
-    [SerializeField] bool bottomConnection = false;
-
     string position;
 
     private void Awake()
@@ -33,6 +28,35 @@ public class Spike : MonoBehaviour
     public string GetSpikePosition()
     {
         return position;
+    }
+
+    public void SetupEmptySpike()
+    {
+        color = "none";
+        state = "none";
+    }
+
+    public void SetState(string newState)
+    {
+        state = newState;
+    }
+
+    public void SetupNewValues(string newColor, string newState)
+    {
+        color = newColor;
+        state = newState;
+    }
+
+    public void SetSpikeImage(string position)
+    {
+        AllSpikeImages allSpikeImages = FindObjectOfType<AllSpikeImages>();
+        GetComponent<SpriteRenderer>().sprite = allSpikeImages.GetSpikebyColorCornerAndState(color, position, state);
+    }
+
+    public void SetSpikeImage(string position, string color, string state)
+    {
+        AllSpikeImages allSpikeImages = FindObjectOfType<AllSpikeImages>();
+        GetComponent<SpriteRenderer>().sprite = allSpikeImages.GetSpikebyColorCornerAndState(color, position, state);
     }
 
     // spike image reference:

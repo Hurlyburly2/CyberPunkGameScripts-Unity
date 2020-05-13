@@ -17,7 +17,13 @@ public class HackGridSquare : MonoBehaviour
     HackGridSquare rightSquare = null;
     HackGridSquare belowSquare = null;
 
+    HackGridSquare aboveLeftDiagonalSquare = null;
+    HackGridSquare aboveRightDiagonalSquare = null;
+    HackGridSquare belowLeftDiagonalSquare = null;
+    HackGridSquare belowRightDiagonalSquare = null;
+
     HackCard attachedHackCard;
+    Spike emptySpike;
 
     private void Start()
     {
@@ -28,6 +34,7 @@ public class HackGridSquare : MonoBehaviour
 
     private void FindAndStoreAdjacentSquares()
     {
+        // Get adjacent squares
         if (squareNumber != 0)
             leftSquare = parentRow.GetSquareByNumber(squareNumber - 1);
         if (parentRow.GetRowNumber() != 0)
@@ -36,6 +43,15 @@ public class HackGridSquare : MonoBehaviour
             rightSquare = parentRow.GetSquareByNumber(squareNumber + 1);
         if (parentRow.GetRowNumber() != 16)
             belowSquare = gridRowHolder.GetRowByNumber(parentRow.GetRowNumber() + 1).GetSquareByNumber(squareNumber);
+
+        if (squareNumber != 0 && parentRow.GetRowNumber() != 0)
+            aboveLeftDiagonalSquare = gridRowHolder.GetRowByNumber(parentRow.GetRowNumber() - 1).GetSquareByNumber(squareNumber - 1);
+        if (squareNumber != 12 && parentRow.GetRowNumber() != 0)
+            aboveRightDiagonalSquare = gridRowHolder.GetRowByNumber(parentRow.GetRowNumber() - 1).GetSquareByNumber(squareNumber + 1);
+        if (squareNumber != 0 && parentRow.GetRowNumber() != 16)
+            belowLeftDiagonalSquare = gridRowHolder.GetRowByNumber(parentRow.GetRowNumber() + 1).GetSquareByNumber(squareNumber - 1);
+        if (squareNumber != 12 && parentRow.GetRowNumber() != 16)
+            belowRightDiagonalSquare = gridRowHolder.GetRowByNumber(parentRow.GetRowNumber() + 1).GetSquareByNumber(squareNumber + 1);
     }
 
     private void OnMouseOver()
@@ -174,7 +190,7 @@ public class HackGridSquare : MonoBehaviour
         {
             leftConnectionCheck = "ok";
         }
-        //Debug.Log("Left connection check: " + leftConnectionCheck);
+        // Left Connection Check
 
         string aboveConnectionCheck;
         if (aboveSquare && aboveSquare.DoesSquareHaveCard())
@@ -185,7 +201,7 @@ public class HackGridSquare : MonoBehaviour
         {
             aboveConnectionCheck = "ok";
         }
-        //Debug.Log("Above connection check: " + aboveConnectionCheck);
+        // Above Connection Check
 
         string rightConnectionCheck;
         if (rightSquare && rightSquare.DoesSquareHaveCard())
@@ -196,7 +212,7 @@ public class HackGridSquare : MonoBehaviour
         {
             rightConnectionCheck = "ok";
         }
-        //Debug.Log("Right connection check: " + rightConnectionCheck);
+        // Right Connection Check
 
         string belowConnectionCheck;
         if (belowSquare && belowSquare.DoesSquareHaveCard())
@@ -207,6 +223,7 @@ public class HackGridSquare : MonoBehaviour
         {
             belowConnectionCheck = "ok";
         }
+        // Below Conection Check
 
         if (leftConnectionCheck == "mismatch" || aboveConnectionCheck == "mismatch" || rightConnectionCheck == "mismatch" || belowConnectionCheck == "mismatch")
         {
@@ -251,5 +268,340 @@ public class HackGridSquare : MonoBehaviour
     public string SquareGridLocation()
     {
         return "x: " + squareNumber + " y: " + parentRow.GetRowNumber().ToString();
+    }
+
+    public void UpdateSpikeConnections()
+    {
+        FindAndStoreAdjacentSquares();
+
+        CheckAndUpdateTopLeftSpike();
+        CheckAndUpdateTopRightSpike();
+        CheckAndUpdateBottomLeftSpike();
+        CheckAndUpdateBottomRightSpike();
+    }
+
+    private void CheckAndUpdateBottomRightSpike()
+    {
+        Spike currentSpike = attachedHackCard.GetbottomRightSpike();
+        Spike rightSpike = rightSquare.GetBottomLeftSpike();
+        Spike belowRightSpike = belowRightDiagonalSquare.GetTopLeftSpike();
+        Spike belowSpike = belowSquare.GetTopRightSpike();
+
+        string color = currentSpike.GetSpikeColor();
+        if (rightSpike && belowSpike && belowRightSpike && color == rightSpike.GetSpikeColor() && color == belowSpike.GetSpikeColor() && color == belowRightSpike.GetSpikeColor())
+        {
+            // ALL FOUR CONNECTED
+            currentSpike.SetState("two");
+            belowSpike.SetState("two");
+            rightSpike.SetState("two");
+            belowRightSpike.SetState("two");
+            UpdatePoints(color, 4);
+        }
+        else if (rightSpike && belowRightSpike && color == rightSpike.GetSpikeColor() && color == belowRightSpike.GetSpikeColor())
+        {
+            // RIGHT, DIAGONAL
+            currentSpike.SetState("right");
+            rightSpike.SetState("two");
+            belowRightSpike.SetState("up");
+            UpdatePoints(color, 3);
+        }
+        else if (belowSpike && belowRightSpike && color == belowSpike.GetSpikeColor() && color == belowRightSpike.GetSpikeColor())
+        {
+            // DOWN DIAGONAL
+            currentSpike.SetState("down");
+            belowSpike.SetState("two");
+            belowRightSpike.SetState("left");
+            UpdatePoints(color, 3);
+        }
+        else if (rightSpike && belowSpike && color == rightSpike.GetSpikeColor() && color == belowSpike.GetSpikeColor())
+        {
+            // RIGHT DOWN
+            currentSpike.SetState("two");
+            rightSpike.SetState("left");
+            belowSpike.SetState("up");
+            UpdatePoints(color, 3);
+        }
+        else if (rightSpike && color == rightSpike.GetSpikeColor())
+        {
+            // RIGHT
+            currentSpike.SetState("right");
+            rightSpike.SetState("left");
+            UpdatePoints(color, 2);
+        }
+        else if (belowSpike && color == belowSpike.GetSpikeColor())
+        {
+            // DOWN
+            currentSpike.SetState("down");
+            belowSpike.SetState("up");
+            UpdatePoints(color, 2);
+        }
+        else
+        {
+            // NONE
+            currentSpike.SetState("closed");
+        }
+
+        currentSpike.SetSpikeImage("bottomright");
+        if (belowSpike)
+            belowSpike.SetSpikeImage("topright");
+        if (belowRightSpike)
+            belowRightSpike.SetSpikeImage("topleft");
+        if (rightSpike)
+            rightSpike.SetSpikeImage("bottomleft");
+    }
+
+    private void CheckAndUpdateBottomLeftSpike()
+    {
+        Spike currentSpike = attachedHackCard.GetBottomLeftSpike();
+        Spike leftSpike = leftSquare.GetBottomRightSpike();
+        Spike belowLeftSpike = belowLeftDiagonalSquare.GetTopRightSpike();
+        Spike belowSpike = belowSquare.GetTopLeftSpike();
+
+        string color = currentSpike.GetSpikeColor();
+        if (leftSpike && belowSpike && belowLeftSpike && color == leftSpike.GetSpikeColor() && color == belowSpike.GetSpikeColor() && color == belowLeftSpike.GetSpikeColor())
+        {
+            // ALL FOUR CONNECTED
+            currentSpike.SetState("two");
+            belowSpike.SetState("two");
+            leftSpike.SetState("two");
+            belowLeftSpike.SetState("two");
+            UpdatePoints(color, 4);
+        }
+        else if (leftSpike && belowLeftSpike && color == leftSpike.GetSpikeColor() && color == belowLeftSpike.GetSpikeColor())
+        {
+            // LEFT, DIAGONAL
+            currentSpike.SetState("left");
+            leftSpike.SetState("two");
+            belowLeftSpike.SetState("up");
+            UpdatePoints(color, 3);
+        }
+        else if (belowSpike && belowLeftSpike && color == belowSpike.GetSpikeColor() && color == belowLeftSpike.GetSpikeColor())
+        {
+            // DOWN DIAGONAL
+            currentSpike.SetState("down");
+            belowSpike.SetState("two");
+            belowLeftSpike.SetState("right");
+            UpdatePoints(color, 3);
+        }
+        else if (leftSpike && belowSpike && color == leftSpike.GetSpikeColor() && color == belowSpike.GetSpikeColor())
+        {
+            // LEFT DOWN
+            currentSpike.SetState("two");
+            leftSpike.SetState("right");
+            belowSpike.SetState("up");
+            UpdatePoints(color, 3);
+        }
+        else if (leftSpike && color == leftSpike.GetSpikeColor())
+        {
+            // LEFT
+            currentSpike.SetState("left");
+            leftSpike.SetState("right");
+            UpdatePoints(color, 2);
+        }
+        else if (belowSpike && color == belowSpike.GetSpikeColor())
+        {
+            // UP
+            currentSpike.SetState("down");
+            belowSpike.SetState("up");
+            UpdatePoints(color, 2);
+        }
+        else
+        {
+            // NONE
+            currentSpike.SetState("closed");
+        }
+
+        currentSpike.SetSpikeImage("bottomleft");
+        if (belowSpike)
+            belowSpike.SetSpikeImage("topleft");
+        if (belowLeftSpike)
+            belowLeftSpike.SetSpikeImage("topright");
+        if (leftSpike)
+            leftSpike.SetSpikeImage("bottomright");
+    }
+
+    private void CheckAndUpdateTopRightSpike()
+    {
+        Spike currentSpike = attachedHackCard.GetTopRightSpike();
+        Spike rightSpike = rightSquare.GetTopLeftSpike();
+        Spike aboveRightSpike = aboveRightDiagonalSquare.GetBottomLeftSpike();
+        Spike aboveSpike = aboveSquare.GetBottomRightSpike();
+
+        string color = currentSpike.GetSpikeColor();
+        if (rightSpike && aboveSpike && aboveRightSpike && color == rightSpike.GetSpikeColor() && color == aboveSpike.GetSpikeColor() && color == aboveRightSpike.GetSpikeColor())
+        {
+            // ALL FOUR CONNECTED
+            currentSpike.SetState("two");
+            aboveSpike.SetState("two");
+            rightSpike.SetState("two");
+            aboveRightSpike.SetState("two");
+            UpdatePoints(color, 4);
+        }
+        else if (rightSpike && aboveRightSpike && color == rightSpike.GetSpikeColor() && color == aboveRightSpike.GetSpikeColor())
+        {
+            // RIGHT, DIAGONAL
+            currentSpike.SetState("right");
+            rightSpike.SetState("two");
+            aboveRightSpike.SetState("down");
+            UpdatePoints(color, 3);
+        }
+        else if (aboveSpike && aboveRightSpike && color == aboveSpike.GetSpikeColor() && color == aboveRightSpike.GetSpikeColor())
+        {
+            // UP DIAGONAL
+            currentSpike.SetState("up");
+            aboveSpike.SetState("two");
+            aboveRightSpike.SetState("left");
+            UpdatePoints(color, 3);
+        }
+        else if (rightSpike && aboveSpike && color == rightSpike.GetSpikeColor() && color == aboveSpike.GetSpikeColor())
+        {
+            // RIGHT UP
+            currentSpike.SetState("two");
+            rightSpike.SetState("left");
+            aboveSpike.SetState("down");
+            UpdatePoints(color, 3);
+        }
+        else if (rightSpike && color == rightSpike.GetSpikeColor())
+        {
+            // RIGHT
+            currentSpike.SetState("right");
+            rightSpike.SetState("left");
+            UpdatePoints(color, 2);
+        }
+        else if (aboveSpike && color == aboveSpike.GetSpikeColor())
+        {
+            // UP
+            currentSpike.SetState("up");
+            aboveSpike.SetState("down");
+            UpdatePoints(color, 2);
+        }
+        else
+        {
+            // NONE
+            currentSpike.SetState("closed");
+        }
+
+        currentSpike.SetSpikeImage("topright");
+        if (aboveSpike)
+            aboveSpike.SetSpikeImage("bottomright");
+        if (aboveRightSpike)
+            aboveRightSpike.SetSpikeImage("bottomleft");
+        if (rightSpike)
+            rightSpike.SetSpikeImage("topleft");
+    }
+
+    private void CheckAndUpdateTopLeftSpike()
+    {
+        Spike currentSpike = attachedHackCard.GetTopLeftSpike();
+        Spike leftSpike = leftSquare.GetTopRightSpike();
+        Spike aboveLeftSpike = aboveLeftDiagonalSquare.GetBottomRightSpike();
+        Spike aboveSpike = aboveSquare.GetBottomLeftSpike();
+
+        string color = currentSpike.GetSpikeColor();
+        if (leftSpike && aboveSpike && aboveLeftSpike && color == leftSpike.GetSpikeColor() && color == aboveSpike.GetSpikeColor() && color == aboveLeftSpike.GetSpikeColor())
+        {
+            // ALL FOUR CONNECTED
+            currentSpike.SetState("two");
+            aboveSpike.SetState("two");
+            leftSpike.SetState("two");
+            aboveLeftSpike.SetState("two");
+            UpdatePoints(color, 4);
+        }
+        else if (leftSpike && aboveLeftSpike && color == leftSpike.GetSpikeColor() && color == aboveLeftSpike.GetSpikeColor())
+        {
+            // LEFT, DIAGONAL
+            currentSpike.SetState("left");
+            leftSpike.SetState("two");
+            aboveLeftSpike.SetState("down");
+            UpdatePoints(color, 3);
+        }
+        else if (aboveSpike && aboveLeftSpike && color == aboveSpike.GetSpikeColor() && color == aboveLeftSpike.GetSpikeColor())
+        {
+            // UP DIAGONAL
+            currentSpike.SetState("up");
+            aboveSpike.SetState("two");
+            aboveLeftSpike.SetState("right");
+            UpdatePoints(color, 3);
+        }
+        else if (leftSpike && aboveSpike && color == leftSpike.GetSpikeColor() && color == aboveSpike.GetSpikeColor())
+        {
+            // LEFT UP
+            currentSpike.SetState("two");
+            leftSpike.SetState("right");
+            aboveSpike.SetState("down");
+            UpdatePoints(color, 3);
+        }
+        else if (leftSpike && color == leftSpike.GetSpikeColor())
+        {
+            // LEFT
+            currentSpike.SetState("left");
+            leftSpike.SetState("right");
+            UpdatePoints(color, 2);
+        }
+        else if (aboveSpike && color == aboveSpike.GetSpikeColor())
+        {
+            // UP
+            currentSpike.SetState("up");
+            aboveSpike.SetState("down");
+            UpdatePoints(color, 2);
+        }
+        else
+        {
+            // NONE
+            currentSpike.SetState("closed");
+        }
+
+        currentSpike.SetSpikeImage("topleft");
+        if (aboveSpike)
+            aboveSpike.SetSpikeImage("bottomleft");
+        if (aboveLeftSpike)
+            aboveLeftSpike.SetSpikeImage("bottomright");
+        if (leftSpike)
+            leftSpike.SetSpikeImage("topright");
+    }
+
+    private void UpdatePoints(string color, int connections)
+    {
+        HackBattleData hackBattleData = FindObjectOfType<HackBattleData>();
+        switch(connections)
+        {
+            case 2:
+                hackBattleData.UpdatePointValue(color, 1);
+                break;
+            case 3:
+                hackBattleData.UpdatePointValue(color, 3);
+                break;
+            case 4:
+                hackBattleData.UpdatePointValue(color, 9);
+                break;
+        }
+    }
+
+    public Spike GetTopLeftSpike()
+    {
+        if (attachedHackCard)
+            return attachedHackCard.GetTopLeftSpike();
+        return emptySpike;
+    }
+
+    public Spike GetTopRightSpike()
+    {
+        if (attachedHackCard)
+            return attachedHackCard.GetTopRightSpike();
+        return emptySpike;
+    }
+
+    public Spike GetBottomLeftSpike()
+    {
+        if (attachedHackCard)
+            return attachedHackCard.GetBottomLeftSpike();
+        return emptySpike;
+    }
+
+    public Spike GetBottomRightSpike()
+    {
+        if (attachedHackCard)
+            return attachedHackCard.GetbottomRightSpike();
+        return emptySpike;
     }
 }

@@ -22,24 +22,12 @@ public class CheckClickController : MonoBehaviour
 
     private IEnumerator WaitForAllResults()
     {
-        Debug.Log("before while");
-        Debug.Log("camera result: " + cameraResult);
-        Debug.Log("discard result: " + discardClickResult);
-        Debug.Log("topleftzone result: " + topLeftZoneResult);
-        Debug.Log("deckzone result: " + deckZoneResult);
         while (deckClickResult == null || discardClickResult == null || topLeftZoneResult == null || cameraResult == null)
         {
             yield return null;
         }
-
-        Debug.Log("after while");
-        Debug.Log("camera result: " + cameraResult);
-        Debug.Log("discard result: " + discardClickResult);
-        Debug.Log("topleftzone result: " + topLeftZoneResult);
-        Debug.Log("deckzone result: " + deckZoneResult);
         if (deckClickResult == "attemptPlaceCard")
         {
-            Debug.Log("hit card placement if statement");
             AttemptPlaceCard();
         } else if (cameraResult == "attemptpan"
             && discardClickResult == "notOverDiscardZone"

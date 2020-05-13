@@ -62,13 +62,6 @@ public class PanZoom : MonoBehaviour
         circuitBackground.UpdateBackgroundPos();
     }
 
-    public void LogClampValues()
-    {
-        Debug.Log("camsize: " + Camera.main.orthographicSize);
-        Debug.Log("aspect: " + Camera.main.aspect);
-        Debug.Log("camera Left Limit: " + (cameraLeftLimit + Camera.main.orthographicSize * Camera.main.aspect));
-    }
-
     private void ClampCamera()
     {
         Vector3 clampMovement = transform.position;

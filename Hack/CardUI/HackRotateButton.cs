@@ -13,8 +13,6 @@ public class HackRotateButton : MonoBehaviour
     private void Start()
     {
         string parentName = transform.parent.gameObject.transform.parent.gameObject.name;
-        Debug.Log("arrow start");
-        Debug.Log("parent card name: " + parentName);
     }
 
     public void SetRotationAmount(int rotationAmount)

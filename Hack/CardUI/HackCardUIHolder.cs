@@ -40,4 +40,9 @@ public class HackCardUIHolder : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    public HackCard GetParentCard()
+    {
+        return parentCard;
+    }
 }
