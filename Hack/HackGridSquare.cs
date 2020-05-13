@@ -295,6 +295,7 @@ public class HackGridSquare : MonoBehaviour
             belowSpike.SetState("two");
             rightSpike.SetState("two");
             belowRightSpike.SetState("two");
+            UpdatePoints(color, 4);
         }
         else if (rightSpike && belowRightSpike && color == rightSpike.GetSpikeColor() && color == belowRightSpike.GetSpikeColor())
         {
@@ -302,6 +303,7 @@ public class HackGridSquare : MonoBehaviour
             currentSpike.SetState("right");
             rightSpike.SetState("two");
             belowRightSpike.SetState("up");
+            UpdatePoints(color, 3);
         }
         else if (belowSpike && belowRightSpike && color == belowSpike.GetSpikeColor() && color == belowRightSpike.GetSpikeColor())
         {
@@ -309,6 +311,7 @@ public class HackGridSquare : MonoBehaviour
             currentSpike.SetState("down");
             belowSpike.SetState("two");
             belowRightSpike.SetState("left");
+            UpdatePoints(color, 3);
         }
         else if (rightSpike && belowSpike && color == rightSpike.GetSpikeColor() && color == belowSpike.GetSpikeColor())
         {
@@ -316,18 +319,21 @@ public class HackGridSquare : MonoBehaviour
             currentSpike.SetState("two");
             rightSpike.SetState("left");
             belowSpike.SetState("up");
+            UpdatePoints(color, 3);
         }
         else if (rightSpike && color == rightSpike.GetSpikeColor())
         {
             // RIGHT
             currentSpike.SetState("right");
             rightSpike.SetState("left");
+            UpdatePoints(color, 2);
         }
         else if (belowSpike && color == belowSpike.GetSpikeColor())
         {
             // DOWN
             currentSpike.SetState("down");
             belowSpike.SetState("up");
+            UpdatePoints(color, 2);
         }
         else
         {
@@ -359,6 +365,7 @@ public class HackGridSquare : MonoBehaviour
             belowSpike.SetState("two");
             leftSpike.SetState("two");
             belowLeftSpike.SetState("two");
+            UpdatePoints(color, 4);
         }
         else if (leftSpike && belowLeftSpike && color == leftSpike.GetSpikeColor() && color == belowLeftSpike.GetSpikeColor())
         {
@@ -366,6 +373,7 @@ public class HackGridSquare : MonoBehaviour
             currentSpike.SetState("left");
             leftSpike.SetState("two");
             belowLeftSpike.SetState("up");
+            UpdatePoints(color, 3);
         }
         else if (belowSpike && belowLeftSpike && color == belowSpike.GetSpikeColor() && color == belowLeftSpike.GetSpikeColor())
         {
@@ -373,6 +381,7 @@ public class HackGridSquare : MonoBehaviour
             currentSpike.SetState("down");
             belowSpike.SetState("two");
             belowLeftSpike.SetState("right");
+            UpdatePoints(color, 3);
         }
         else if (leftSpike && belowSpike && color == leftSpike.GetSpikeColor() && color == belowSpike.GetSpikeColor())
         {
@@ -380,18 +389,21 @@ public class HackGridSquare : MonoBehaviour
             currentSpike.SetState("two");
             leftSpike.SetState("right");
             belowSpike.SetState("up");
+            UpdatePoints(color, 3);
         }
         else if (leftSpike && color == leftSpike.GetSpikeColor())
         {
             // LEFT
             currentSpike.SetState("left");
             leftSpike.SetState("right");
+            UpdatePoints(color, 2);
         }
         else if (belowSpike && color == belowSpike.GetSpikeColor())
         {
             // UP
             currentSpike.SetState("down");
             belowSpike.SetState("up");
+            UpdatePoints(color, 2);
         }
         else
         {
@@ -423,6 +435,7 @@ public class HackGridSquare : MonoBehaviour
             aboveSpike.SetState("two");
             rightSpike.SetState("two");
             aboveRightSpike.SetState("two");
+            UpdatePoints(color, 4);
         }
         else if (rightSpike && aboveRightSpike && color == rightSpike.GetSpikeColor() && color == aboveRightSpike.GetSpikeColor())
         {
@@ -430,6 +443,7 @@ public class HackGridSquare : MonoBehaviour
             currentSpike.SetState("right");
             rightSpike.SetState("two");
             aboveRightSpike.SetState("down");
+            UpdatePoints(color, 3);
         }
         else if (aboveSpike && aboveRightSpike && color == aboveSpike.GetSpikeColor() && color == aboveRightSpike.GetSpikeColor())
         {
@@ -437,6 +451,7 @@ public class HackGridSquare : MonoBehaviour
             currentSpike.SetState("up");
             aboveSpike.SetState("two");
             aboveRightSpike.SetState("left");
+            UpdatePoints(color, 3);
         }
         else if (rightSpike && aboveSpike && color == rightSpike.GetSpikeColor() && color == aboveSpike.GetSpikeColor())
         {
@@ -444,18 +459,21 @@ public class HackGridSquare : MonoBehaviour
             currentSpike.SetState("two");
             rightSpike.SetState("left");
             aboveSpike.SetState("down");
+            UpdatePoints(color, 3);
         }
         else if (rightSpike && color == rightSpike.GetSpikeColor())
         {
             // RIGHT
             currentSpike.SetState("right");
             rightSpike.SetState("left");
+            UpdatePoints(color, 2);
         }
         else if (aboveSpike && color == aboveSpike.GetSpikeColor())
         {
             // UP
             currentSpike.SetState("up");
             aboveSpike.SetState("down");
+            UpdatePoints(color, 2);
         }
         else
         {
@@ -487,6 +505,7 @@ public class HackGridSquare : MonoBehaviour
             aboveSpike.SetState("two");
             leftSpike.SetState("two");
             aboveLeftSpike.SetState("two");
+            UpdatePoints(color, 4);
         }
         else if (leftSpike && aboveLeftSpike && color == leftSpike.GetSpikeColor() && color == aboveLeftSpike.GetSpikeColor())
         {
@@ -494,6 +513,7 @@ public class HackGridSquare : MonoBehaviour
             currentSpike.SetState("left");
             leftSpike.SetState("two");
             aboveLeftSpike.SetState("down");
+            UpdatePoints(color, 3);
         }
         else if (aboveSpike && aboveLeftSpike && color == aboveSpike.GetSpikeColor() && color == aboveLeftSpike.GetSpikeColor())
         {
@@ -501,6 +521,7 @@ public class HackGridSquare : MonoBehaviour
             currentSpike.SetState("up");
             aboveSpike.SetState("two");
             aboveLeftSpike.SetState("right");
+            UpdatePoints(color, 3);
         }
         else if (leftSpike && aboveSpike && color == leftSpike.GetSpikeColor() && color == aboveSpike.GetSpikeColor())
         {
@@ -508,18 +529,21 @@ public class HackGridSquare : MonoBehaviour
             currentSpike.SetState("two");
             leftSpike.SetState("right");
             aboveSpike.SetState("down");
+            UpdatePoints(color, 3);
         }
         else if (leftSpike && color == leftSpike.GetSpikeColor())
         {
             // LEFT
             currentSpike.SetState("left");
             leftSpike.SetState("right");
+            UpdatePoints(color, 2);
         }
         else if (aboveSpike && color == aboveSpike.GetSpikeColor())
         {
             // UP
             currentSpike.SetState("up");
             aboveSpike.SetState("down");
+            UpdatePoints(color, 2);
         }
         else
         {
@@ -534,6 +558,23 @@ public class HackGridSquare : MonoBehaviour
             aboveLeftSpike.SetSpikeImage("bottomright");
         if (leftSpike)
             leftSpike.SetSpikeImage("topright");
+    }
+
+    private void UpdatePoints(string color, int connections)
+    {
+        HackBattleData hackBattleData = FindObjectOfType<HackBattleData>();
+        switch(connections)
+        {
+            case 2:
+                hackBattleData.UpdatePointValue(color, 1);
+                break;
+            case 3:
+                hackBattleData.UpdatePointValue(color, 3);
+                break;
+            case 4:
+                hackBattleData.UpdatePointValue(color, 9);
+                break;
+        }
     }
 
     public Spike GetTopLeftSpike()

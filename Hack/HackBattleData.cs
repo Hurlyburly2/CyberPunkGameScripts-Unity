@@ -12,7 +12,13 @@ public class HackBattleData : MonoBehaviour
     AllHackCards allHackCards;
 
     string state = "normal";
-        // currently: normal, cardui
+    // currently: normal, cardui
+    int redPoints = 0;
+    int bluePoints = 0;
+    int purplePoints = 0;
+    PointIconHolder redPointIconHolder;
+    PointIconHolder bluePointIconHolder;
+    PointIconHolder purplePointIconHolder;
 
     private void Awake()
     {
@@ -47,6 +53,8 @@ public class HackBattleData : MonoBehaviour
         hackDeck.SetDeckPrefabs(cards);
         hackDeck.ShuffleDeck();
         hackDeck.SetTopCard();
+
+        SetupPointHolders();
     }
 
     private List<HackCard> GetCardsByIds(List<int> cardIds)
@@ -71,7 +79,6 @@ public class HackBattleData : MonoBehaviour
         {
             idString += cardId + " ";
         }
-        Debug.Log("All Card Ids: " + idString);
     }
 
     public void SetStateToCardUI()
@@ -98,5 +105,50 @@ public class HackBattleData : MonoBehaviour
         {
             return true;
         }
+    }
+
+    private void SetupPointHolders()
+    {
+        PointIconHolder[] pointIconHolders = FindObjectsOfType<PointIconHolder>();
+        foreach (PointIconHolder pointIconHolder in pointIconHolders)
+        {
+            switch(pointIconHolder.GetWhichColor())
+            {
+                case "red":
+                    redPointIconHolder = pointIconHolder;
+                    break;
+                case "blue":
+                    bluePointIconHolder = pointIconHolder;
+                    break;
+                case "purple":
+                    purplePointIconHolder = pointIconHolder;
+                    break;
+            }
+        }
+        UpdatePointDisplay();
+    }
+
+    public void UpdatePointValue(string color, int amount)
+    {
+        switch(color)
+        {
+            case "red":
+                redPoints += amount;
+                break;
+            case "blue":
+                bluePoints += amount;
+                break;
+            case "purple":
+                purplePoints += amount;
+                break;
+        }
+        UpdatePointDisplay();
+    }
+
+    public void UpdatePointDisplay()
+    {
+        redPointIconHolder.UpdatePointDisplay(redPoints);
+        bluePointIconHolder.UpdatePointDisplay(bluePoints);
+        purplePointIconHolder.UpdatePointDisplay(purplePoints);
     }
 }
