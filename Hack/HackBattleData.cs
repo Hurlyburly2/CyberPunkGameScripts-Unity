@@ -10,6 +10,7 @@ public class HackBattleData : MonoBehaviour
     HackDeck hackDeck;
     HackDiscard hackDiscard;
     AllHackCards allHackCards;
+    HackSecurityUI hackSecurityUI;
 
     string state = "normal";
     // currently: normal, cardui
@@ -57,6 +58,7 @@ public class HackBattleData : MonoBehaviour
         hackDeck.ShuffleDeck();
         hackDeck.SetTopCard();
 
+        hackSecurityUI = FindObjectOfType<HackSecurityUI>();
         SetupPointHolders();
         this.safeZoneSize = safeSize;
         SetupSafeSquares();
@@ -67,6 +69,7 @@ public class HackBattleData : MonoBehaviour
         securityLevel++;
         safeZoneSize += 2;
         SetupSafeSquares();
+        hackSecurityUI.UpdateHackSecurityUI(securityLevel);
     }
 
     private void SetupSafeSquares()
@@ -86,6 +89,7 @@ public class HackBattleData : MonoBehaviour
             }
             square.SetSafe(isSafe);
         }
+        hackSecurityUI.UpdateHackSecurityUI(securityLevel);
     }
 
     private List<HackCard> GetCardsByIds(List<int> cardIds)
