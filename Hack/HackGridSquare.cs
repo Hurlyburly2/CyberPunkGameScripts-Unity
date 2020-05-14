@@ -11,6 +11,7 @@ public class HackGridSquare : MonoBehaviour
     GridRow parentRow;
     GridRowHolder gridRowHolder;
     bool active = false;
+    bool safe = false;
 
     HackGridSquare leftSquare = null;
     HackGridSquare aboveSquare = null;
@@ -92,7 +93,7 @@ public class HackGridSquare : MonoBehaviour
             FindObjectOfType<HackBattleData>().SetStateToCardUI();
             newHackCard.SetupUI(GetCountToPreviousLegalRotation(newHackCard, 1), GetCountToNextLegalRotation(newHackCard, 1));
             attachedHackCard = newHackCard;
-            TurnOffSquareImage();
+            UpdateSecurityRating();
             return true;
         } else
         {
@@ -603,5 +604,37 @@ public class HackGridSquare : MonoBehaviour
         if (attachedHackCard)
             return attachedHackCard.GetbottomRightSpike();
         return emptySpike;
+    }
+
+    public int GetParentRowNumber()
+    {
+        return parentRow.GetRowNumber();
+    }
+
+    public int GetSquareNumber()
+    {
+        return squareNumber;
+    }
+
+    public void SetSafe(bool isSafe)
+    {
+        safe = isSafe;
+        if (safe)
+            TurnOffSquareImage();
+    }
+
+    public bool IsSafe()
+    {
+        return safe;
+    }
+
+    private void UpdateSecurityRating()
+    {
+        TurnOffSquareImage();
+        if (!IsSafe())
+        {
+            FindObjectOfType<HackBattleData>().RaiseSecurityLevel();
+        }
+        safe = true;
     }
 }

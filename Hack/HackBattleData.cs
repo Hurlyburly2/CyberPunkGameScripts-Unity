@@ -16,6 +16,9 @@ public class HackBattleData : MonoBehaviour
     int redPoints = 0;
     int bluePoints = 0;
     int purplePoints = 0;
+    int safeZoneSize;
+    int securityLevel = 0;
+
     PointIconHolder redPointIconHolder;
     PointIconHolder bluePointIconHolder;
     PointIconHolder purplePointIconHolder;
@@ -37,7 +40,7 @@ public class HackBattleData : MonoBehaviour
         hacker = newHacker;
     }
 
-    public void SetupHack()
+    public void SetupHack(int safeSize)
     {
         hackDeck = FindObjectOfType<HackDeck>();
         hackDiscard = FindObjectOfType<HackDiscard>();
@@ -55,6 +58,34 @@ public class HackBattleData : MonoBehaviour
         hackDeck.SetTopCard();
 
         SetupPointHolders();
+        this.safeZoneSize = safeSize;
+        SetupSafeSquares();
+    }
+
+    public void RaiseSecurityLevel()
+    {
+        securityLevel++;
+        safeZoneSize += 2;
+        SetupSafeSquares();
+    }
+
+    private void SetupSafeSquares()
+    {
+        HackGridSquare[] hackGridSquares = FindObjectsOfType<HackGridSquare>();
+        int squareHomeY = 7 - (safeZoneSize / 2 - 1);
+        int squareHomeX = 5 - (safeZoneSize / 2 - 1);  
+        foreach(HackGridSquare square in hackGridSquares)
+        {
+            bool isSafe = false;
+            if (square.GetParentRowNumber() >= squareHomeY && square.GetParentRowNumber() < squareHomeY + safeZoneSize)
+            {
+                if (square.GetSquareNumber() >= squareHomeX && square.GetSquareNumber() < squareHomeX + safeZoneSize)
+                {
+                    isSafe = true;
+                }
+            }
+            square.SetSafe(isSafe);
+        }
     }
 
     private List<HackCard> GetCardsByIds(List<int> cardIds)
