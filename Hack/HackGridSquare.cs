@@ -13,6 +13,7 @@ public class HackGridSquare : MonoBehaviour
     bool active = false;
     bool safe = false;
     bool wasSafeWhenPlacementAttempted;
+    bool isPlacementAllowed = false;
 
     HackGridSquare leftSquare = null;
     HackGridSquare aboveSquare = null;
@@ -27,10 +28,12 @@ public class HackGridSquare : MonoBehaviour
     HackCard attachedHackCard;
     Spike emptySpike;
     SpriteRenderer safeSquareIndicatorBlock;
+    Color defaultColor;
 
     private void Start()
     {
         safeSquareIndicatorBlock = GetComponent<SpriteRenderer>();
+        defaultColor = safeSquareIndicatorBlock.color;
         GameObject parentRowObject = transform.parent.gameObject;
         parentRow = parentRowObject.GetComponent<GridRow>();
         gridRowHolder = FindObjectOfType<GridRowHolder>();
@@ -74,7 +77,6 @@ public class HackGridSquare : MonoBehaviour
                 safe = wasSafeWhenPlacementAttempted;
                 hackBattleData.LowerSecurityLevel();
             }
-            hackBattleData.SetStateToNormal();
         }
     }
 
@@ -648,6 +650,15 @@ public class HackGridSquare : MonoBehaviour
             TurnOnSquareImage();
     }
 
+    public void SetLegality(bool legality)
+    {
+        isPlacementAllowed = legality;
+        if (isPlacementAllowed)
+            safeSquareIndicatorBlock.color = defaultColor;
+        else
+            safeSquareIndicatorBlock.color = new Color(0.75f, 0.5f, 0.25f, 1);
+    }
+
     public bool IsSafe()
     {
         return safe;
@@ -662,5 +673,10 @@ public class HackGridSquare : MonoBehaviour
             FindObjectOfType<HackBattleData>().RaiseSecurityLevel();
         }
         safe = true;
+    }
+
+    public bool IsPlacementAllowed()
+    {
+        return isPlacementAllowed;
     }
 }
