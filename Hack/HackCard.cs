@@ -125,6 +125,11 @@ public class HackCard : MonoBehaviour
         return allConnections;
     }
 
+    public int GetCardId()
+    {
+        return cardId;
+    }
+
     public HackGridSquare FindParentSquare()
     {
         HackGridSquare[] allGridSquares = FindObjectsOfType<HackGridSquare>();

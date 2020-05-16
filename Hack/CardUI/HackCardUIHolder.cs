@@ -7,6 +7,14 @@ public class HackCardUIHolder : MonoBehaviour
     [SerializeField] HackCard parentCard;
     [SerializeField] HackRotateButton leftArrow;
     [SerializeField] HackRotateButton rightArrow;
+    [SerializeField] HackUIUndoButton undoButton;
+
+    public void SendCardBackToDeck()
+    {
+        HackDeck hackDeck = FindObjectOfType<HackDeck>();
+        hackDeck.ReAttachTopCard();
+        parentCard.GetCurrentSquareHolder();
+    }
 
     public void SetRotationsOfArrows(int previousRotationAmount, int nextRotationAmount)
     {

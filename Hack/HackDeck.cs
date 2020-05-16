@@ -16,6 +16,7 @@ public class HackDeck : MonoBehaviour
     Vector3 startPostion;
     bool isEmpty = false;
     TextMeshProUGUI cardsInHackDeckCountTextField;
+    HackCard previousTopHackCard;
 
     private void Start()
     {
@@ -69,8 +70,42 @@ public class HackDeck : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, newPosition, step);
     }
 
+    public void ReAttachTopCard()
+    {
+        LogCardIdsInList();
+        if (cards.Count > 0)
+        {
+            for (int i = cards.Count - 1; i > 0; i--)
+            {
+                if (i == cards.Count - 1)
+                {
+                    cards.Add(cards[i]);
+                } else
+                {
+                    cards[i + 1] = cards[i];
+                }
+            }
+        }
+        cards[0] = previousTopHackCard;
+        LogCardIdsInList();
+
+        SetTopCard();
+        SetTextFieldCount();
+    }
+
+    private void LogCardIdsInList()
+    {
+        string cardIds = "";
+        foreach (HackCard card in cards)
+        {
+            cardIds += " " + card.GetCardId().ToString();
+        }
+        Debug.Log(cardIds);
+    }
+
     public void RemoveTopCardFromDeck()
     {
+        previousTopHackCard = cards[0];
         cards.RemoveAt(0);
         if (cards.Count > 0)
         {
