@@ -12,6 +12,7 @@ public class HackGridSquare : MonoBehaviour
     GridRowHolder gridRowHolder;
     bool active = false;
     bool safe = false;
+    bool wasSafeWhenPlacementAttempted;
 
     HackGridSquare leftSquare = null;
     HackGridSquare aboveSquare = null;
@@ -25,9 +26,11 @@ public class HackGridSquare : MonoBehaviour
 
     HackCard attachedHackCard;
     Spike emptySpike;
+    SpriteRenderer safeSquareIndicatorBlock;
 
     private void Start()
     {
+        safeSquareIndicatorBlock = GetComponent<SpriteRenderer>();
         GameObject parentRowObject = transform.parent.gameObject;
         parentRow = parentRowObject.GetComponent<GridRow>();
         gridRowHolder = FindObjectOfType<GridRowHolder>();
@@ -58,6 +61,21 @@ public class HackGridSquare : MonoBehaviour
     private void OnMouseOver()
     {
         active = true;
+    }
+
+    public void RemoveCardFromSquare()
+    {
+        HackBattleData hackBattleData = FindObjectOfType<HackBattleData>();
+        if (attachedHackCard)
+        {
+            attachedHackCard.DestroyInstance();
+            if (!wasSafeWhenPlacementAttempted)
+            {
+                safe = wasSafeWhenPlacementAttempted;
+                hackBattleData.LowerSecurityLevel();
+            }
+            hackBattleData.SetStateToNormal();
+        }
     }
 
     public void RotateButtonPressed(int timesToRotate, string directionToRotate)
@@ -103,7 +121,12 @@ public class HackGridSquare : MonoBehaviour
 
     private void TurnOffSquareImage()
     {
-        GetComponent<SpriteRenderer>().enabled = false;
+        safeSquareIndicatorBlock.enabled = false;
+    }
+
+    private void TurnOnSquareImage()
+    {
+        safeSquareIndicatorBlock.enabled = true;
     }
 
     private int GetCountToPreviousLegalRotation(HackCard hackcard, int startingRotation = 0)
@@ -621,6 +644,8 @@ public class HackGridSquare : MonoBehaviour
         safe = isSafe;
         if (safe)
             TurnOffSquareImage();
+        else
+            TurnOnSquareImage();
     }
 
     public bool IsSafe()
@@ -630,6 +655,7 @@ public class HackGridSquare : MonoBehaviour
 
     private void UpdateSecurityRating()
     {
+        wasSafeWhenPlacementAttempted = safe;
         TurnOffSquareImage();
         if (!IsSafe())
         {

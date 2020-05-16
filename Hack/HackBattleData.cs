@@ -72,6 +72,14 @@ public class HackBattleData : MonoBehaviour
         hackSecurityUI.UpdateHackSecurityUI(securityLevel);
     }
 
+    public void LowerSecurityLevel()
+    {
+        securityLevel--;
+        safeZoneSize -= 2;
+        SetupSafeSquares();
+        hackSecurityUI.UpdateHackSecurityUI(securityLevel);
+    }
+
     private void SetupSafeSquares()
     {
         HackGridSquare[] hackGridSquares = FindObjectsOfType<HackGridSquare>();

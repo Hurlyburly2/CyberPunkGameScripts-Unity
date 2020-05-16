@@ -72,7 +72,6 @@ public class HackDeck : MonoBehaviour
 
     public void ReAttachTopCard()
     {
-        LogCardIdsInList();
         if (cards.Count > 0)
         {
             for (int i = cards.Count - 1; i > 0; i--)
@@ -87,7 +86,6 @@ public class HackDeck : MonoBehaviour
             }
         }
         cards[0] = previousTopHackCard;
-        LogCardIdsInList();
 
         SetTopCard();
         SetTextFieldCount();

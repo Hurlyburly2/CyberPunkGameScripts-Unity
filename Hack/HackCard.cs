@@ -79,6 +79,11 @@ public class HackCard : MonoBehaviour
         topRightSpike.SetSpikeImage("topright");
     }
 
+    public void DestroyInstance()
+    {
+        Destroy(gameObject);
+    }
+
     public Spike GetTopLeftSpike()
     {
         return topLeftSpike;

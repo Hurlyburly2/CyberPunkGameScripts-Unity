@@ -13,7 +13,7 @@ public class HackCardUIHolder : MonoBehaviour
     {
         HackDeck hackDeck = FindObjectOfType<HackDeck>();
         hackDeck.ReAttachTopCard();
-        parentCard.GetCurrentSquareHolder();
+        parentCard.GetCurrentSquareHolder().RemoveCardFromSquare();
     }
 
     public void SetRotationsOfArrows(int previousRotationAmount, int nextRotationAmount)
