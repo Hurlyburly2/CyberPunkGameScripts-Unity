@@ -79,6 +79,11 @@ public class HackCard : MonoBehaviour
         topRightSpike.SetSpikeImage("topright");
     }
 
+    public void DestroyInstance()
+    {
+        Destroy(gameObject);
+    }
+
     public Spike GetTopLeftSpike()
     {
         return topLeftSpike;
@@ -123,6 +128,11 @@ public class HackCard : MonoBehaviour
     {
         string[] allConnections = new string[] { leftConnection, topConnection, rightConnection, bottomConnection };
         return allConnections;
+    }
+
+    public int GetCardId()
+    {
+        return cardId;
     }
 
     public HackGridSquare FindParentSquare()

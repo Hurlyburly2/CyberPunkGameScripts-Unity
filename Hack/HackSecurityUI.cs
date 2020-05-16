@@ -41,6 +41,12 @@ public class HackSecurityUI : MonoBehaviour
 
     private void SetSecurityBars(int securityLevel)
     {
+        // This is so they can revert to off if the user decides to undo a move
+        // that would have raised the security rating
+        securityBarOne.gameObject.SetActive(false);
+        securityBarTwo.gameObject.SetActive(false);
+        securityBarThree.gameObject.SetActive(false);
+
         if (securityLevel > 0)
             securityBarOne.gameObject.SetActive(true);
         if (securityLevel > 1)
