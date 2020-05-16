@@ -13,6 +13,7 @@ public class HackGridSquare : MonoBehaviour
     bool active = false;
     bool safe = false;
     bool wasSafeWhenPlacementAttempted;
+    bool isPlacementAllowed = false;
 
     HackGridSquare leftSquare = null;
     HackGridSquare aboveSquare = null;
@@ -662,5 +663,10 @@ public class HackGridSquare : MonoBehaviour
             FindObjectOfType<HackBattleData>().RaiseSecurityLevel();
         }
         safe = true;
+    }
+
+    public bool IsPlacementAllowed()
+    {
+        return isPlacementAllowed;
     }
 }

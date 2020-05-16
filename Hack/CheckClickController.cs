@@ -113,7 +113,7 @@ public class CheckClickController : MonoBehaviour
 
         foreach (HackGridSquare square in allSquares)
         {
-            if (square.IsActive())
+            if (square.IsActive() && square.IsPlacementAllowed())
             {
                 bool wasAttachmentSuccessful = square.AttachCardToSquare(hackDeck.GetTopCard());
                 if (wasAttachmentSuccessful)
