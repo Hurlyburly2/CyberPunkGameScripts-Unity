@@ -14,14 +14,12 @@ public class HackDeck : MonoBehaviour
     float movementSpeed = 10000f;
     int zPos = 1;
     Vector3 startPostion;
-    bool isEmpty = false;
     TextMeshProUGUI cardsInHackDeckCountTextField;
     HackCard previousTopHackCard;
 
     private void Start()
     {
         hackDiscard = FindObjectOfType<HackDiscard>();
-        isEmpty = false;
         movementSpeed = 10000f;
         startPostion = transform.position;
         FindAndSetTextField();
@@ -84,9 +82,13 @@ public class HackDeck : MonoBehaviour
                     cards[i + 1] = cards[i];
                 }
             }
+            cards[0] = previousTopHackCard;
+        } else
+        {
+            cards.Add(previousTopHackCard);
         }
-        cards[0] = previousTopHackCard;
 
+        FindObjectOfType<HackBattleData>().SetStateToNormal();
         SetTopCard();
         SetTextFieldCount();
     }
@@ -113,7 +115,7 @@ public class HackDeck : MonoBehaviour
             SetTextFieldCount();
         } else
         {
-            isEmpty = true;
+            SetTextFieldCount();
             SetAllImagesToEmpty();
         }
     }
@@ -148,7 +150,11 @@ public class HackDeck : MonoBehaviour
 
     public bool IsDeckEmpty()
     {
-        return isEmpty;
+        if (cards.Count > 0)
+        {
+            return false;
+        }
+        return true;
     }
 
     public HackCard GetTopCard()
@@ -160,6 +166,7 @@ public class HackDeck : MonoBehaviour
     {
         Image[] imageHolders = GetComponentsInChildren<Image>();
         AllSpikeImages allSpikeImages = FindObjectOfType<AllSpikeImages>();
+        Debug.Log(FindObjectOfType<HackBattleData>().GetState());
 
         if (cards.Count == 0)
         {

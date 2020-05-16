@@ -88,6 +88,8 @@ public class HackBattleData : MonoBehaviour
         foreach(HackGridSquare square in hackGridSquares)
         {
             bool isSafe = false;
+            bool isPlacementLegal = true;
+            // Check safe area
             if (square.GetParentRowNumber() >= squareHomeY && square.GetParentRowNumber() < squareHomeY + safeZoneSize)
             {
                 if (square.GetSquareNumber() >= squareHomeX && square.GetSquareNumber() < squareHomeX + safeZoneSize)
@@ -96,6 +98,18 @@ public class HackBattleData : MonoBehaviour
                 }
             }
             square.SetSafe(isSafe);
+
+            // Check for illegal area
+            if (square.GetParentRowNumber() < squareHomeY - 1 || square.GetParentRowNumber() > squareHomeY + safeZoneSize)
+            {
+                isPlacementLegal = false;
+            }
+            if (square.GetSquareNumber() < squareHomeX - 1 || square.GetSquareNumber() > squareHomeX + safeZoneSize)
+            {
+                isPlacementLegal = false;
+            }
+            square.SetLegality(isPlacementLegal);
+
         }
         hackSecurityUI.UpdateHackSecurityUI(securityLevel);
     }
