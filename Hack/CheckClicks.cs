@@ -52,6 +52,11 @@ public class CheckClicks : MonoBehaviour
         state = "normal";
     }
 
+    public void SetDraggingState()
+    {
+        state = "dragging";
+    }
+
     private bool AreWeClickingOnCard(List<RaycastResult> raycastResults)
     {
         foreach (RaycastResult result in raycastResults)
