@@ -58,7 +58,13 @@ public class HackDeck : MonoBehaviour
         hackDiscard.AddCardToDiscard(cards[0]);
         RemoveTopCardFromDeck();
         SetTopCard();
+        ResetToStartPosition();
         SetTextFieldCount();
+    }
+
+    private void ResetToStartPosition()
+    {
+        transform.position = startPostion;
     }
 
     private void MoveTowardTarget(float targetX, float targetY)
@@ -90,6 +96,8 @@ public class HackDeck : MonoBehaviour
 
         FindObjectOfType<HackBattleData>().SetStateToNormal();
         SetTopCard();
+        transform.position = Input.mousePosition;
+        clickChecker.SetDraggingState();
         SetTextFieldCount();
     }
 
