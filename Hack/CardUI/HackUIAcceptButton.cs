@@ -8,7 +8,10 @@ public class HackUIAcceptButton : MonoBehaviour
 
     private void OnMouseUp()
     {
-        FindObjectOfType<HackBattleData>().SetStateToNormal();
+        HackBattleData hackBattleData = FindObjectOfType<HackBattleData>();
+        hackBattleData.SetStateToNormal();
+        hackBattleData.OnCardPlacement();
+
         FindObjectOfType<HackDeck>().SetTopCard();
         hackCardUIHolder.GetParentCard().FindParentSquare().UpdateSpikeConnections();
         hackCardUIHolder.TurnOffCardUIHolder();

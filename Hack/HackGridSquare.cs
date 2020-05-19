@@ -110,7 +110,9 @@ public class HackGridSquare : MonoBehaviour
                 newHackCard.RotateCircuitsAndSpikesNinetyDegrees();
             }
 
-            FindObjectOfType<HackBattleData>().SetStateToCardUI();
+            HackBattleData hackBattleData = FindObjectOfType<HackBattleData>();
+            hackBattleData.SetStateToCardUI();
+
             newHackCard.SetupUI(GetCountToPreviousLegalRotation(newHackCard, 1), GetCountToNextLegalRotation(newHackCard, 1));
             attachedHackCard = newHackCard;
             UpdateSecurityRating();
