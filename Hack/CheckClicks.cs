@@ -57,6 +57,11 @@ public class CheckClicks : MonoBehaviour
         state = "dragging";
     }
 
+    public void SetDiscardingState()
+    {
+        state = "discarding";
+    }
+
     private bool AreWeClickingOnCard(List<RaycastResult> raycastResults)
     {
         foreach (RaycastResult result in raycastResults)

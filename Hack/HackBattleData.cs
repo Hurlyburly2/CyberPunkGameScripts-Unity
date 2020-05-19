@@ -14,6 +14,8 @@ public class HackBattleData : MonoBehaviour
 
     string state = "normal";
     // currently: normal, cardui
+    string securityType;
+        // currently: default
     int redPoints = 0;
     int bluePoints = 0;
     int purplePoints = 0;
@@ -41,7 +43,7 @@ public class HackBattleData : MonoBehaviour
         hacker = newHacker;
     }
 
-    public void SetupHack(int safeSize)
+    public void SetupHack(int safeSize, string newSecurityType)
     {
         hackDeck = FindObjectOfType<HackDeck>();
         hackDiscard = FindObjectOfType<HackDiscard>();
@@ -57,6 +59,8 @@ public class HackBattleData : MonoBehaviour
         hackDeck.SetDeckPrefabs(cards);
         hackDeck.ShuffleDeck();
         hackDeck.SetTopCard();
+
+        securityType = newSecurityType;
 
         hackSecurityUI = FindObjectOfType<HackSecurityUI>();
         SetupPointHolders();
@@ -207,5 +211,20 @@ public class HackBattleData : MonoBehaviour
         redPointIconHolder.UpdatePointDisplay(redPoints);
         bluePointIconHolder.UpdatePointDisplay(bluePoints);
         purplePointIconHolder.UpdatePointDisplay(purplePoints);
+    }
+
+    public void OnCardPlacement()
+    {
+        switch(securityType)
+        {
+            case "default":
+                DefaultSecurityOnCardPlacement();
+                break;
+        }
+    }
+
+    private void DefaultSecurityOnCardPlacement()
+    {
+        hackDeck.TrashXCards(securityLevel);
     }
 }

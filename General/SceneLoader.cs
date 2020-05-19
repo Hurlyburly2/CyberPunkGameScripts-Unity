@@ -94,7 +94,7 @@ public class SceneLoader : MonoBehaviour
             yield return null;
         }
         currentHack.GetHacker().LogHackerData();
-        currentHack.SetupHack(2);
+        currentHack.SetupHack(2, "default");
     }
 
     private void SetupRunnerAndHacker()

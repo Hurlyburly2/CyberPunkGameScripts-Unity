@@ -50,6 +50,13 @@ public class HackDeck : MonoBehaviour
             {
                 clickChecker.SetNormalState();
             }
+        } else if (clickChecker.GetClickState() == "discarding")
+        {
+            MoveTowardTarget(hackDiscard.transform.position.x, hackDiscard.transform.position.y);
+            if (transform.position == hackDiscard.transform.position)
+            {
+                ResetToStartPosition();
+            }
         }
     }
 
@@ -258,5 +265,28 @@ public class HackDeck : MonoBehaviour
     public void SetTextFieldCount()
     {
         cardsInHackDeckCountTextField.text = cards.Count.ToString();
+    }
+
+    // SECURITY EFFECTS
+
+    public void TrashXCards(int amountOfCardsToTrash)
+    {
+        StartCoroutine(TrashCardFromDeck(amountOfCardsToTrash));
+    }
+
+    private IEnumerator TrashCardFromDeck(int amountOfCardsToTrash)
+    {
+        if (amountOfCardsToTrash > cards.Count)
+        {
+            amountOfCardsToTrash = cards.Count;
+        }
+        for (int i = 0; i < amountOfCardsToTrash; i++)
+        {
+            clickChecker.SetDiscardingState();
+            yield return new WaitForSeconds(0.5f);
+            SendTopCardToDiscard();
+        }
+        ResetToStartPosition();
+        clickChecker.SetNormalState();
     }
 }

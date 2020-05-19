@@ -34,7 +34,7 @@ public class HackSecurityUI : MonoBehaviour
                 securityIconRenderer.sprite = securityIconImages[3];
                 break;
             default:
-                securityIconRenderer.sprite = securityIconImages[4];
+                securityIconRenderer.sprite = securityIconImages[3];
                 break;
         }
     }
@@ -53,5 +53,10 @@ public class HackSecurityUI : MonoBehaviour
             securityBarTwo.gameObject.SetActive(true);
         if (securityLevel > 2)
             securityBarThree.gameObject.SetActive(true);
+    }
+
+    public void SecurityCheck(string securityType, int securityLevel)
+    {
+
     }
 }
