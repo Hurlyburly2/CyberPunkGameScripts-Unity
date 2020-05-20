@@ -66,6 +66,33 @@ public class HackBattleData : MonoBehaviour
         SetupPointHolders();
         this.safeZoneSize = safeSize;
         SetupSafeSquares();
+
+        SetupAbilityButtons();
+    }
+
+    private void SetupAbilityButtons()
+    {
+        AbilityButton[] abilityButtons = FindObjectsOfType<AbilityButton>();
+        HackerLoadout currentLoadout = hacker.GetHackerLoadout();
+
+        foreach (AbilityButton abilityButton in abilityButtons)
+        {
+            switch(abilityButton.GetWhichAbility())
+            {
+                case "rig":
+                    HackerMod rigMod = currentLoadout.GetRigMod();
+                    abilityButton.SetupAbility(rigMod.GetActiveAbilityId(), rigMod.GetActiveAbilityUses());
+                    break;
+                case "neuralImplant":
+                    HackerMod neuralImplantMod = currentLoadout.GetNeuralImplantMod();
+                    abilityButton.SetupAbility(neuralImplantMod.GetActiveAbilityId(), neuralImplantMod.GetActiveAbilityUses());
+                    break;
+                case "uplink":
+                    HackerMod uplinkMod = currentLoadout.GetUplinkMod();
+                    abilityButton.SetupAbility(uplinkMod.GetActiveAbilityId(), uplinkMod.GetActiveAbilityUses());
+                    break;
+            }
+        }
     }
 
     public void RaiseSecurityLevel()

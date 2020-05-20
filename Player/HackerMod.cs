@@ -90,21 +90,39 @@ public class HackerMod : ScriptableObject
         modChips[slot] = newHackerModChip;
     }
 
-    public void GetActiveAbility()
+    public int GetActiveAbilityId()
     {
         switch(modName)
         {
             case "Basic Rig":
-                Debug.Log("1: Add a R connection and two R spikes to your active card");
-                break;
+                return 0;
+                // 1: Add a R connection and two R spikes to your active card
             case "Basic Cranial Dock":
-                Debug.Log("1: For your next action, pick from your top two cards. Discard the other.");
-                break;
+                return 1;
+                // 1: For your next action, pick from your top two cards. Discard the other
             case "Basic Uplink":
-                Debug.Log("2: you may play the top card of your discard as if it was your active card");
-                break;
+                return 2;
+                // 2: you may play the top card of your discard as if it was your active card
             default:
-                break;
+                return -1;
+        }
+    }
+
+    public int GetActiveAbilityUses()
+    {
+        switch (modName)
+        {
+            case "Basic Rig":
+                return 1;
+                // 1: Add a R connection and two R spikes to your active card
+            case "Basic Cranial Dock":
+                return 1;
+                // 1: For your next action, pick from your top two cards. Discard the other
+            case "Basic Uplink":
+                return 2;
+                // 2: you may play the top card of your discard as if it was your active card
+            default:
+                return -1;
         }
     }
 }
