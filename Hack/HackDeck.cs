@@ -382,4 +382,10 @@ public class HackDeck : MonoBehaviour
         tempRightCircuit = null;
         tempBottomCircuit = null;
     }
+
+    public string[] GetTemporaryCircuits()
+    {
+        string[] tempCircuits = { tempLeftCircuit, tempTopCircuit, tempRightCircuit, tempBottomCircuit };
+        return tempCircuits;
+    }
 }

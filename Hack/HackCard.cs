@@ -148,4 +148,35 @@ public class HackCard : MonoBehaviour
 
         return null;
     }
+
+    public void SetModifiedCircuit(string[] tempCircuits)
+    {
+        if (tempCircuits[0] != null)
+            leftConnection = tempCircuits[0];
+        if (tempCircuits[1] != null)
+            topConnection = tempCircuits[1];
+        if (tempCircuits[2] != null)
+            rightConnection = tempCircuits[2];
+        if (tempCircuits[3] != null)
+            bottomConnection = tempCircuits[3];
+
+        UpdateCircuitImages();
+    }
+
+    private void UpdateCircuitImages()
+    {
+        AllSpikeImages allSpikesAndCircuits = FindObjectOfType<AllSpikeImages>();
+        SpriteRenderer[] allImages = GetComponentsInChildren<SpriteRenderer>();
+        foreach (SpriteRenderer image in allImages)
+        {
+            if (image.name == "Left")
+                image.sprite = allSpikesAndCircuits.GetCircuitImageByColorAndDirection(leftConnection, "left");
+            if (image.name == "Up")
+                image.sprite = allSpikesAndCircuits.GetCircuitImageByColorAndDirection(topConnection, "top");
+            if (image.name == "Right")
+                image.sprite = allSpikesAndCircuits.GetCircuitImageByColorAndDirection(rightConnection, "right");
+            if (image.name == "Bottom")
+                image.sprite = allSpikesAndCircuits.GetCircuitImageByColorAndDirection(bottomConnection, "bottom");
+        }
+    }
 }

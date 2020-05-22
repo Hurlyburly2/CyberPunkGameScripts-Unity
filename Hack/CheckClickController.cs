@@ -115,7 +115,7 @@ public class CheckClickController : MonoBehaviour
         {
             if (square.IsActive() && square.IsPlacementAllowed())
             {
-                bool wasAttachmentSuccessful = square.AttachCardToSquare(hackDeck.GetTopCard());
+                bool wasAttachmentSuccessful = square.AttachCardToSquare(hackDeck.GetTopCard(), hackDeck.GetTemporaryCircuits());
                 if (wasAttachmentSuccessful)
                 {
                     hackDeck.RemoveTopCardFromDeck();
