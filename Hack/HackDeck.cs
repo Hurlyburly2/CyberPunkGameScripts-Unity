@@ -17,6 +17,11 @@ public class HackDeck : MonoBehaviour
     TextMeshProUGUI cardsInHackDeckCountTextField;
     HackCard previousTopHackCard;
 
+    string tempLeftCircuit;
+    string tempTopCircuit;
+    string tempRightCircuit;
+    string tempBottomCircuit;
+
     private void Start()
     {
         hackDiscard = FindObjectOfType<HackDiscard>();
@@ -201,22 +206,35 @@ public class HackDeck : MonoBehaviour
                         image.sprite = allSpikeImages.GetCardBack();
                         break;
                     case "LeftCircuit":
-                        string color = topCard.GetLeftCircuit();
+                        string color;
+                        if (tempLeftCircuit != null)
+                            color = tempLeftCircuit;
+                        else
+                            color = topCard.GetLeftCircuit();
                         Sprite currentImage = allSpikeImages.GetCircuitImageByColorAndDirection(color, "left");
                         image.sprite = currentImage;
                         break;
                     case "TopCircuit":
-                        color = topCard.GetTopCircuit();
+                        if (tempTopCircuit != null)
+                            color = tempTopCircuit;
+                        else
+                            color = topCard.GetTopCircuit();
                         currentImage = allSpikeImages.GetCircuitImageByColorAndDirection(color, "top");
                         image.sprite = currentImage;
                         break;
                     case "RightCircuit":
-                        color = topCard.GetRightCircuit();
+                        if (tempRightCircuit != null)
+                            color = tempRightCircuit;
+                        else
+                            color = topCard.GetRightCircuit();
                         currentImage = allSpikeImages.GetCircuitImageByColorAndDirection(color, "right");
                         image.sprite = currentImage;
                         break;
                     case "DownCircuit":
-                        color = topCard.GetBottomCircuit();
+                        if (tempBottomCircuit != null)
+                            color = tempBottomCircuit;
+                        else
+                            color = topCard.GetBottomCircuit();
                         currentImage = allSpikeImages.GetCircuitImageByColorAndDirection(color, "bottom");
                         image.sprite = currentImage;
                         break;
@@ -267,6 +285,73 @@ public class HackDeck : MonoBehaviour
         cardsInHackDeckCountTextField.text = cards.Count.ToString();
     }
 
+    public int GetCardCount()
+    {
+        return cards.Count;
+    }
+
+    public void AddConnectionsToActiveCard(int number, string color)
+    {
+        HackCard topCard = cards[0];
+
+        // in circuit array: 0 = left, 1 = top, 2 = right, 3 = bottom
+        string[] circuits = { topCard.GetLeftCircuit(), topCard.GetTopCircuit(), topCard.GetRightCircuit(), topCard.GetBottomCircuit() };
+        List<int> emptyColorIndices = new List<int>();
+        List<int> differentColorIndices = new List<int>();
+        List<int> sameColorIndices = new List<int>();
+
+        for (int i = 0; i < circuits.Length; i++)
+        {
+            if (circuits[i] == color)
+            {
+                sameColorIndices.Add(i);
+            } else if (circuits[i] == "none")
+            {
+                emptyColorIndices.Add(i);
+            } else
+            {
+                differentColorIndices.Add(i);
+            }
+        }
+
+        for (int i = 0; i < number; i++)
+        {
+            if (emptyColorIndices.Count > 0)
+            {
+                int indexToUse = Random.Range(0, emptyColorIndices.Count);
+                SetTemporaryCircuit(emptyColorIndices[indexToUse], color);
+                emptyColorIndices.RemoveAt(indexToUse);
+
+            } else if (differentColorIndices.Count > 0)
+            {
+                int indexToUse = Random.Range(0, differentColorIndices.Count);
+                SetTemporaryCircuit(differentColorIndices[indexToUse], color);
+                differentColorIndices.RemoveAt(indexToUse);
+            }
+        }
+
+        SetTopCard();
+    }
+
+    private void SetTemporaryCircuit(int positionNumber, string color)
+    {
+        switch(positionNumber)
+        {
+            case 0:
+                tempLeftCircuit = color;
+                break;
+            case 1:
+                tempTopCircuit = color;
+                break;
+            case 2:
+                tempRightCircuit = color;
+                break;
+            case 3:
+                tempBottomCircuit = color;
+                break;
+        }
+    }
+
     // SECURITY EFFECTS
 
     public void TrashXCards(int amountOfCardsToTrash)
@@ -288,5 +373,13 @@ public class HackDeck : MonoBehaviour
         }
         ResetToStartPosition();
         clickChecker.SetNormalState();
+    }
+
+    private void ClearTemporaryCardModifications()
+    {
+        tempLeftCircuit = null;
+        tempTopCircuit = null;
+        tempRightCircuit = null;
+        tempBottomCircuit = null;
     }
 }

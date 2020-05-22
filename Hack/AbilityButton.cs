@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AbilityButton : MonoBehaviour
 {
     [SerializeField] string whichAbility;
         // possibilities: rig, neuralImplant, uplink
+    [SerializeField] Image abilityIcon;
     int abilityId;
     int maxAbilityUses;
     int currentAbilityUses;
@@ -15,6 +17,12 @@ public class AbilityButton : MonoBehaviour
         abilityId = newAbilityId;
         maxAbilityUses = newAbilityMaxUses;
         currentAbilityUses = maxAbilityUses;
+        SetAbilityIcon();
+    }
+
+    private void SetAbilityIcon()
+    {
+        abilityIcon.sprite = FindObjectOfType<AllHackAbilityIcons>().GetAbilityIconById(abilityId);
     }
 
     public string GetWhichAbility()
@@ -28,7 +36,7 @@ public class AbilityButton : MonoBehaviour
         {
             case 0:
                 // Add a R connection and two R spikes to the active card
-                AddConnectionsToActiveCard();
+                AddConnectionsToActiveCard(1, "red");
                 AddSpikesToActiveCard();
                 Debug.Log("Total uses: " + maxAbilityUses);
                 break;
@@ -45,6 +53,21 @@ public class AbilityButton : MonoBehaviour
         }
     }
 
+    private void AddConnectionsToActiveCard(int number, string color)
+    {
+        Debug.Log("Add Red connection to active card");
+        HackDeck hackDeck = FindObjectOfType<HackDeck>();
+        if (hackDeck.GetCardCount() > 0)
+        {
+            hackDeck.AddConnectionsToActiveCard(number, color);
+        }
+    }
+
+    private void AddSpikesToActiveCard()
+    {
+        Debug.Log("Add Red spikes to active card");
+    }
+
     private void PlayCardsFromTopOfDiscard()
     {
         Debug.Log("play cards from top of discard");
@@ -53,15 +76,5 @@ public class AbilityButton : MonoBehaviour
     private void SelectFromTopOfDeck()
     {
         Debug.Log("Select cards from top of deck");
-    }
-
-    private void AddConnectionsToActiveCard()
-    {
-        Debug.Log("Add Red connection to active card");
-    }
-
-    private void AddSpikesToActiveCard()
-    {
-        Debug.Log("Add Red spikes to active card");
     }
 }
