@@ -175,7 +175,7 @@ public class HackCard : MonoBehaviour
                 image.sprite = allSpikesAndCircuits.GetCircuitImageByColorAndDirection(topConnection, "top");
             if (image.name == "Right")
                 image.sprite = allSpikesAndCircuits.GetCircuitImageByColorAndDirection(rightConnection, "right");
-            if (image.name == "Bottom")
+            if (image.name == "Down")
                 image.sprite = allSpikesAndCircuits.GetCircuitImageByColorAndDirection(bottomConnection, "bottom");
         }
     }

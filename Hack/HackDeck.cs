@@ -22,6 +22,11 @@ public class HackDeck : MonoBehaviour
     string tempRightCircuit;
     string tempBottomCircuit;
 
+    string prevTempLeftCircuit;
+    string prevTempTopCircuit;
+    string prevTempRightCircuit;
+    string prevtempBottomCircuit;
+
     private void Start()
     {
         hackDiscard = FindObjectOfType<HackDiscard>();
@@ -101,9 +106,11 @@ public class HackDeck : MonoBehaviour
                 }
             }
             cards[0] = previousTopHackCard;
+            ReSetPrevModifiers();
         } else
         {
             cards.Add(previousTopHackCard);
+            ReSetPrevModifiers();
         }
 
         FindObjectOfType<HackBattleData>().SetStateToNormal();
@@ -111,6 +118,14 @@ public class HackDeck : MonoBehaviour
         transform.position = Input.mousePosition;
         clickChecker.SetDraggingState();
         SetTextFieldCount();
+    }
+
+    private void ReSetPrevModifiers()
+    {
+        tempLeftCircuit = prevTempLeftCircuit;
+        tempTopCircuit = prevTempTopCircuit;
+        tempRightCircuit = prevTempRightCircuit;
+        tempBottomCircuit = prevtempBottomCircuit;
     }
 
     private void LogCardIdsInList()
@@ -125,8 +140,9 @@ public class HackDeck : MonoBehaviour
 
     public void RemoveTopCardFromDeck()
     {
-        previousTopHackCard = cards[0];
+        SetPreviousCardAndModifiers();
         cards.RemoveAt(0);
+        ClearTemporaryCardModifications();
         if (cards.Count > 0)
         {
             //SetTopCard();
@@ -138,6 +154,15 @@ public class HackDeck : MonoBehaviour
             SetTextFieldCount();
             SetAllImagesToEmpty();
         }
+    }
+
+    private void SetPreviousCardAndModifiers()
+    {
+        previousTopHackCard = cards[0];
+        prevTempLeftCircuit = tempLeftCircuit;
+        prevTempTopCircuit = tempTopCircuit;
+        prevTempRightCircuit = tempRightCircuit;
+        prevtempBottomCircuit = tempBottomCircuit;
     }
 
     private void SetAllImagesToEmpty()
