@@ -96,13 +96,13 @@ public class HackerMod : ScriptableObject
         {
             case "Basic Rig":
                 return 0;
-                // 1: Add a R connection and two R spikes to your active card
+                // 1: Add a R connection your active card
             case "Basic Cranial Dock":
                 return 1;
                 // 1: For your next action, pick from your top two cards. Discard the other
             case "Basic Uplink":
                 return 2;
-                // 2: you may play the top card of your discard as if it was your active card
+                // 2: add the top card of your discard to the top of your deck
             default:
                 return -1;
         }
@@ -114,13 +114,13 @@ public class HackerMod : ScriptableObject
         {
             case "Basic Rig":
                 return 1;
-                // 1: Add a R connection and two R spikes to your active card
+                // 1: Add a R connection to your active card
             case "Basic Cranial Dock":
                 return 1;
                 // 1: For your next action, pick from your top two cards. Discard the other
             case "Basic Uplink":
                 return 2;
-                // 2: you may play the top card of your discard as if it was your active card
+                // 2: add the top card of your discard to the top of your deck
             default:
                 return -1;
         }

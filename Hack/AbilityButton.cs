@@ -80,20 +80,16 @@ public class AbilityButton : MonoBehaviour
             switch (abilityId)
             {
                 case 0:
-                    // Add a R connection and two R spikes to the active card
+                    // Add a R connection to the active card
                     AddConnectionsToActiveCard(1, "red");
-                    AddSpikesToActiveCard();
-                    Debug.Log("Total uses: " + maxAbilityUses);
                     break;
                 case 1:
                     //1: For your next action, pick from your top two cards.Discard the other
                     SelectFromTopOfDeck();
-                    Debug.Log("Total uses: " + maxAbilityUses);
                     break;
                 case 2:
-                    // 2: you may play the top card of your discard as if it was your active card
-                    PlayCardsFromTopOfDiscard();
-                    Debug.Log("Total uses: " + maxAbilityUses);
+                    // 2: add the top card of your discard to the top of your deck
+                    MoveCardsFromDiscardToDeck(1);
                     break;
             }
             currentAbilityUses--;
@@ -103,7 +99,6 @@ public class AbilityButton : MonoBehaviour
 
     private void AddConnectionsToActiveCard(int number, string color)
     {
-        Debug.Log("Add Red connection to active card");
         HackDeck hackDeck = FindObjectOfType<HackDeck>();
         if (hackDeck.GetCardCount() > 0)
         {
@@ -113,12 +108,12 @@ public class AbilityButton : MonoBehaviour
 
     private void AddSpikesToActiveCard()
     {
-        Debug.Log("Add Red spikes to active card");
+        Debug.Log("Add spikes to active card");
     }
 
-    private void PlayCardsFromTopOfDiscard()
+    private void MoveCardsFromDiscardToDeck(int numberOfCards)
     {
-        Debug.Log("play cards from top of discard");
+        FindObjectOfType<HackDiscard>().SendCardsFromDiscardToTopOfDeck(numberOfCards);
     }
 
     private void SelectFromTopOfDeck()
