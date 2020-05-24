@@ -94,12 +94,15 @@ public class HackGridSquare : MonoBehaviour
         attachedHackCard.SetupUI(GetCountToPreviousLegalRotation(attachedHackCard, 1), GetCountToNextLegalRotation(attachedHackCard, 1));
     }
 
-    public bool AttachCardToSquare(HackCard hackCard)
+    public bool AttachCardToSquare(HackCard hackCard, string[] tempCircuitConnections)
     {
         int timesToRotate = GetCountToNextLegalRotation(hackCard);
         if (timesToRotate != -1)
         {
             HackCard newHackCard = Instantiate(hackCard, new Vector2(hackholder.transform.position.x, hackholder.transform.position.y), Quaternion.identity);
+
+            newHackCard.SetModifiedCircuit(tempCircuitConnections);
+
             newHackCard.transform.SetParent(hackholder.transform);
             newHackCard.transform.localScale = new Vector3(1, 1, 1);
             newHackCard.SetGridSquareHolder(this);
@@ -658,7 +661,7 @@ public class HackGridSquare : MonoBehaviour
         if (isPlacementAllowed)
             safeSquareIndicatorBlock.color = defaultColor;
         else
-            safeSquareIndicatorBlock.color = new Color(0.75f, 0.5f, 0.25f, 1);
+            safeSquareIndicatorBlock.color = new Color(0.5f, 0.0f, 0.5f, 1);
     }
 
     public bool IsSafe()

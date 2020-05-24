@@ -12,6 +12,21 @@ public class HackerLoadout : ScriptableObject
 
     List<HackerMod> allMods = new List<HackerMod>();
 
+    public HackerMod GetRigMod()
+    {
+        return rig;
+    }
+
+    public HackerMod GetNeuralImplantMod()
+    {
+        return neuralImplant;
+    }
+
+    public HackerMod GetUplinkMod()
+    {
+        return uplink;
+    }
+
     public void SetupInitialLoadout(string newHackerName)
     {
         hackerName = newHackerName;
