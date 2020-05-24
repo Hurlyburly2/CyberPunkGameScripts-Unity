@@ -7,12 +7,41 @@ using TMPro;
 public class HackDiscard : MonoBehaviour
 {
     List<HackCard> cards = new List<HackCard>();
+    HackDeck hackDeck;
     TextMeshProUGUI discardCountTextField;
+
+    [SerializeField] GameObject usualParent;
+    [SerializeField] GameObject temporaryParent;
+
+    int zPos = 1;
+    float movementSpeed = 10000f;
+    string state;
+        // normal, returningToDeck
+
+    Vector3 startPosition;
 
     private void Awake()
     {
+        hackDeck = FindObjectOfType<HackDeck>();
+        state = "normal";
         SetTopCard();
         SetTextField();
+        startPosition = transform.position;
+    }
+
+    private void Update()
+    {
+        if (state == "returningToDeck")
+        {
+            MoveTowardTarget(hackDeck.transform.position.x, hackDeck.transform.position.y);
+        }
+    }
+
+    private void MoveTowardTarget(float targetX, float targetY)
+    {
+        float step = movementSpeed * Time.deltaTime;
+        Vector3 newPosition = new Vector3(targetX, targetY, zPos);
+        transform.position = Vector3.MoveTowards(transform.position, newPosition, step);
     }
 
     private void SetTextField()
@@ -27,6 +56,42 @@ public class HackDiscard : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void SendCardsFromDiscardToTopOfDeck(int numberOfCards)
+    {
+        transform.SetParent(temporaryParent.transform);
+        StartCoroutine(SendCardsFromDiscardToTopOfDeckCoroutine(numberOfCards));
+    }
+
+    private IEnumerator SendCardsFromDiscardToTopOfDeckCoroutine(int numberOfCards)
+    {
+        if (numberOfCards > cards.Count)
+        {
+            numberOfCards= cards.Count;
+        }
+        for (int i = 0; i < numberOfCards; i++)
+        {
+            state = "returningToDeck";
+            yield return new WaitForSeconds(0.5f);
+            SendTopCardToDeck();
+            ResetToStartPosition();
+        }
+        transform.SetParent(usualParent.transform);
+        state = "normal";
+        ResetToStartPosition();
+    }
+
+    private void SendTopCardToDeck()
+    {
+        cards.RemoveAt(cards.Count - 1);
+        UpdateTextFieldCounter();
+        SetTopCard();
+    }
+
+    private void ResetToStartPosition()
+    {
+        transform.localPosition = new Vector3(0, 0, zPos);
     }
 
     public void UpdateTextFieldCounter()
