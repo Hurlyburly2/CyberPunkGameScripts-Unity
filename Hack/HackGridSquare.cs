@@ -661,7 +661,7 @@ public class HackGridSquare : MonoBehaviour
         if (isPlacementAllowed)
             safeSquareIndicatorBlock.color = defaultColor;
         else
-            safeSquareIndicatorBlock.color = new Color(0.75f, 0.5f, 0.25f, 1);
+            safeSquareIndicatorBlock.color = new Color(0.5f, 0.0f, 0.5f, 1);
     }
 
     public bool IsSafe()
