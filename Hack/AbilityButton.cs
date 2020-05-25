@@ -85,7 +85,7 @@ public class AbilityButton : MonoBehaviour
                     break;
                 case 1:
                     //1: For your next action, pick from your top two cards.Discard the other
-                    SelectFromTopOfDeck();
+                    SelectFromTopOfDeck(2, 1);
                     break;
                 case 2:
                     // 2: add the top card of your discard to the top of your deck
@@ -116,8 +116,9 @@ public class AbilityButton : MonoBehaviour
         FindObjectOfType<HackDiscard>().SendCardsFromDiscardToTopOfDeck(numberOfCards);
     }
 
-    private void SelectFromTopOfDeck()
+    private void SelectFromTopOfDeck(int pickFromHowMany, int pickHowMany)
     {
+        FindObjectOfType<HackHolder>().GetHackTilePicker().gameObject.SetActive(true);
         Debug.Log("Select cards from top of deck");
     }
 }
