@@ -570,7 +570,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6722190430320884752}
         m_MethodName: ToggleSelect
         m_Mode: 1
         m_Arguments:

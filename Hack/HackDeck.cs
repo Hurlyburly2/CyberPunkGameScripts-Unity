@@ -377,6 +377,19 @@ public class HackDeck : MonoBehaviour
         }
     }
 
+    public List<HackCard> GetTopXHackCards(int howManyCards)
+    {
+        int counter = 0;
+        List<HackCard> foundCards = new List<HackCard>();
+        while (counter < howManyCards && counter < cards.Count)
+        {
+            foundCards.Add(cards[counter]);
+            counter++;
+        }
+
+        return foundCards;
+    }
+
     // SECURITY EFFECTS
 
     public void TrashXCards(int amountOfCardsToTrash)

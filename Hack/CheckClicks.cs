@@ -25,20 +25,23 @@ public class CheckClicks : MonoBehaviour
 
     void Update()
     {
-        switch(clickItemName)
+        if (checkClickController.GetState() != "tilePicker")
         {
-            case "HackDeck":
-                CaseHackDeckUpdate();
-                break;
-            case "DiscardZone":
-                CaseDiscardZoneUpdate();
-                break;
-            case "TopLeftZone":
-                CaseTopLeftZoneUpdate();
-                break;
-            case "DeckZone":
-                CaseDeckZoneUpdate();
-                break;
+            switch (clickItemName)
+            {
+                case "HackDeck":
+                    CaseHackDeckUpdate();
+                    break;
+                case "DiscardZone":
+                    CaseDiscardZoneUpdate();
+                    break;
+                case "TopLeftZone":
+                    CaseTopLeftZoneUpdate();
+                    break;
+                case "DeckZone":
+                    CaseDeckZoneUpdate();
+                    break;
+            }
         }
     }
 

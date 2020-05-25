@@ -8,7 +8,7 @@ public class CheckClickController : MonoBehaviour
     // them to act in a coordinated fashion
 
     string state = "normal";
-        // possibilities: normal, cameradragging
+        // possibilities: normal, cameradragging, tilePicker
     string deckClickResult = null;
     string discardClickResult = null;
     string topLeftZoneResult = null;
@@ -143,5 +143,10 @@ public class CheckClickController : MonoBehaviour
     public void SetNormalState()
     {
         state = "normal";
+    }
+
+    public void SetTilePickerState()
+    {
+        state = "tilePicker";
     }
 }

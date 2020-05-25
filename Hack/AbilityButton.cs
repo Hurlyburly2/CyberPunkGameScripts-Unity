@@ -118,7 +118,14 @@ public class AbilityButton : MonoBehaviour
 
     private void SelectFromTopOfDeck(int pickFromHowMany, int pickHowMany)
     {
-        FindObjectOfType<HackHolder>().GetHackTilePicker().gameObject.SetActive(true);
-        Debug.Log("Select cards from top of deck");
+        List<HackCard> cardsToPickFrom = FindObjectOfType<HackDeck>().GetTopXHackCards(pickFromHowMany);
+
+        if (cardsToPickFrom.Count > 0)
+        {
+            FindObjectOfType<CheckClickController>().SetTilePickerState();
+            HackTilePicker hackTilePicker = FindObjectOfType<HackHolder>().GetHackTilePicker();
+            hackTilePicker.gameObject.SetActive(true);
+            hackTilePicker.Initialize(cardsToPickFrom, pickHowMany, "pickAndDiscard");
+        }
     }
 }
