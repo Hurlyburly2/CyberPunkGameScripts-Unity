@@ -51,6 +51,38 @@ public class HackTilePicker : MonoBehaviour
         horizontalLayoutGroup.padding.right = Mathf.CeilToInt(cardWidth);
     }
 
+    public void ConfirmSelection()
+    {
+        switch(type)
+        {
+            case "pickAndDiscard":
+                ConfirmPickAndDiscard();
+                break;
+        }
+    }
+
+    private void ConfirmPickAndDiscard()
+    {
+        List<int> tilesToKeepIds = new List<int>();
+        List<int> tilesToDiscardIds = new List<int>();
+        foreach (HackDummyTile tile in tileOptions)
+        {
+            if (tile.IsSelected())
+                tilesToKeepIds.Add(tile.GetId());
+            else
+                tilesToDiscardIds.Add(tile.GetId());
+        }
+
+        FindObjectOfType<HackDeck>().KeepOrDiscardFromTopXCards(tilesToKeepIds, tilesToDiscardIds, tileOptions.Count);
+        gameObject.SetActive(false);
+        AllowUserInputAgain();
+    }
+
+    private void AllowUserInputAgain()
+    {
+        FindObjectOfType<CheckClickController>().SetNormalState();
+    }
+
     private void CreateCardOption(HackCard card, int counter)
     {
         float imageOffset = cardWidth;

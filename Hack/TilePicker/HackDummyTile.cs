@@ -29,6 +29,7 @@ public class HackDummyTile : MonoBehaviour
     public void SetupDummyTile(HackCard card)
     {
         Image[] images = GetComponentsInChildren<Image>();
+        id = card.GetCardId();
         foreach(Image image in images)
         {
             switch(image.name)
@@ -122,24 +123,18 @@ public class HackDummyTile : MonoBehaviour
         }
     }
 
-    //CardPicker cardPicker = FindObjectOfType<CardPicker>();
-    //    if (selected)
-    //    {
-    //        selected = false;
-    //        selectedImage.sprite = emptyImageSprite;
-    //        cardPicker.UnSelectOne();
-    //    } else
-    //    {
-    //        if (cardPicker.CanSelectMore())
-    //        {
-    //            selected = true;
-    //            selectedImage.sprite = selectedImageSprite;
-    //            cardPicker.SelectOne();
-    //        }
-    //    }
-
     public void DestroyDummyTile()
     {
         Destroy(gameObject);
+    }
+
+    public bool IsSelected()
+    {
+        return selected;
+    }
+
+    public int GetId()
+    {
+        return id;
     }
 }
