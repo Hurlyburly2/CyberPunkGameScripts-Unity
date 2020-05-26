@@ -179,4 +179,18 @@ public class HackCard : MonoBehaviour
                 image.sprite = allSpikesAndCircuits.GetCircuitImageByColorAndDirection(bottomConnection, "bottom");
         }
     }
+
+    public Sprite GetImageByGameObjectName(string gameobjectName)
+    {
+        SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+        {
+            if (spriteRenderer.name == gameobjectName)
+            {
+                return spriteRenderer.sprite;
+            }
+        }
+
+        return FindObjectOfType<AllHackCards>().GetCardById(0).GetComponentInChildren<SpriteRenderer>().sprite;
+    }
 }

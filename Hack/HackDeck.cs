@@ -93,18 +93,10 @@ public class HackDeck : MonoBehaviour
 
     public void ReAttachTopCard()
     {
+        // for user from play area (as in, when player clicks the cancel button)
         if (cards.Count > 0)
         {
-            for (int i = cards.Count - 1; i > 0; i--)
-            {
-                if (i == cards.Count - 1)
-                {
-                    cards.Add(cards[i]);
-                } else
-                {
-                    cards[i + 1] = cards[i];
-                }
-            }
+            ShiftAllCardsDownOneInOrder();
             cards[0] = previousTopHackCard;
             ReSetPrevModifiers();
         } else
@@ -118,6 +110,40 @@ public class HackDeck : MonoBehaviour
         transform.position = Input.mousePosition;
         clickChecker.SetDraggingState();
         SetTextFieldCount();
+    }
+
+    public void ReAttachTopCardFromDiscard()
+    {
+        // reattaching from discard works differently and the animation is handled by the discard
+        // pile, so we need a separate method
+        if (cards.Count > 0)
+        {
+            ShiftAllCardsDownOneInOrder();
+            cards[0] = previousTopHackCard;
+            ReSetPrevModifiers();
+        } else
+        {
+            cards.Add(previousTopHackCard);
+            ReSetPrevModifiers();
+        }
+
+        SetTopCard();
+        SetTextFieldCount();
+    }
+
+    private void ShiftAllCardsDownOneInOrder()
+    {
+        for (int i = cards.Count - 1; i > 0; i--)
+        {
+            if (i == cards.Count - 1)
+            {
+                cards.Add(cards[i]);
+            }
+            else
+            {
+                cards[i + 1] = cards[i];
+            }
+        }
     }
 
     private void ReSetPrevModifiers()
@@ -211,7 +237,6 @@ public class HackDeck : MonoBehaviour
     {
         Image[] imageHolders = GetComponentsInChildren<Image>();
         AllSpikeImages allSpikeImages = FindObjectOfType<AllSpikeImages>();
-        Debug.Log(FindObjectOfType<HackBattleData>().GetState());
 
         if (cards.Count == 0)
         {
@@ -377,6 +402,19 @@ public class HackDeck : MonoBehaviour
         }
     }
 
+    public List<HackCard> GetTopXHackCards(int howManyCards)
+    {
+        int counter = 0;
+        List<HackCard> foundCards = new List<HackCard>();
+        while (counter < howManyCards && counter < cards.Count)
+        {
+            foundCards.Add(cards[counter]);
+            counter++;
+        }
+
+        return foundCards;
+    }
+
     // SECURITY EFFECTS
 
     public void TrashXCards(int amountOfCardsToTrash)
@@ -412,5 +450,35 @@ public class HackDeck : MonoBehaviour
     {
         string[] tempCircuits = { tempLeftCircuit, tempTopCircuit, tempRightCircuit, tempBottomCircuit };
         return tempCircuits;
+    }
+
+    public void KeepOrDiscardFromTopXCards(List<int> idsToKeep, List<int> idsToDiscard, int amountOfCards)
+    {
+        int currentIndex = 0;
+        // save the current card so we can see if it changes or not
+        HackCard currentTopCard = cards[0];
+
+        // loop through the top X cards to check the lists for their ids
+        for (int i = 0; i < amountOfCards; i++)
+        {
+            int currentCardId = cards[currentIndex].GetCardId();
+            if (idsToKeep.Contains(currentCardId))
+            {
+                currentIndex++;
+                idsToKeep.Remove(currentCardId);
+            } else if (idsToDiscard.Contains(currentCardId))
+            {
+                hackDiscard.AddCardToDiscard(cards[currentIndex]);
+                cards.RemoveAt(currentIndex);
+                idsToDiscard.Remove(currentCardId);
+            }
+        }
+
+        if (cards[0] != currentTopCard)
+        {
+            ClearTemporaryCardModifications();
+            SetTopCard();
+        }
+        SetTextFieldCount();
     }
 }

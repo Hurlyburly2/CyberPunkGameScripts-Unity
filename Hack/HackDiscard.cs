@@ -68,7 +68,7 @@ public class HackDiscard : MonoBehaviour
     {
         if (numberOfCards > cards.Count)
         {
-            numberOfCards= cards.Count;
+            numberOfCards = cards.Count;
         }
         for (int i = 0; i < numberOfCards; i++)
         {
@@ -79,11 +79,13 @@ public class HackDiscard : MonoBehaviour
         }
         transform.SetParent(usualParent.transform);
         state = "normal";
+        FindObjectOfType<HackBattleData>().SetStateToNormal();
         ResetToStartPosition();
     }
 
     private void SendTopCardToDeck()
     {
+        hackDeck.ReAttachTopCardFromDiscard();
         cards.RemoveAt(cards.Count - 1);
         UpdateTextFieldCounter();
         SetTopCard();

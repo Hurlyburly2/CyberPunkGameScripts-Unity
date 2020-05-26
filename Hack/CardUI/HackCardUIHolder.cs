@@ -11,6 +11,7 @@ public class HackCardUIHolder : MonoBehaviour
 
     public void SendCardBackToDeck()
     {
+        Debug.Log("Send card back to deck");
         HackDeck hackDeck = FindObjectOfType<HackDeck>();
         hackDeck.ReAttachTopCard();
         parentCard.GetCurrentSquareHolder().RemoveCardFromSquare();
