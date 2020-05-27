@@ -50,4 +50,27 @@ public class HackerModChip : ScriptableObject
     {
         return cardIds;
     }
+
+    public PassiveAbility SetupPassiveAbility()
+    {
+        PassiveAbility newAbility = CreateInstance<PassiveAbility>();
+        switch(chipName)
+        {
+            case "Cheap Ghost":
+                newAbility.SetupPassiveAbility("spikePointMultiplier", 2, "any", 1, 2);
+                // Your first 2 two-connection spikes are worth double points
+                break;
+            case "JuryRigged QwikThink":
+                newAbility.SetupPassiveAbility("spikePointMultiplier", 2, "any", 3, 2);
+                // Your first 3 connection spike is worth double points
+                break;
+            case "Salvaged Router":
+                newAbility.SetupPassiveAbility("dangerZoneBuffer", 1);
+                // The first time you place a card outside the safe zone each hack, it does
+                // not raise the security level
+                break;
+        }
+
+        return newAbility;
+    }
 }

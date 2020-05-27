@@ -26,6 +26,9 @@ public class HackBattleData : MonoBehaviour
     PointIconHolder bluePointIconHolder;
     PointIconHolder purplePointIconHolder;
 
+    // Passive abilities variables
+    List<PassiveAbility> passiveAbilities;
+
     private void Awake()
     {
         int count = FindObjectsOfType<BattleData>().Length;
@@ -68,6 +71,19 @@ public class HackBattleData : MonoBehaviour
         SetupSafeSquares();
 
         SetupAbilityButtons();
+
+        SetupPassiveAbilities();
+    }
+
+    private void SetupPassiveAbilities()
+    {
+        List<HackerModChip> modChips = hacker.GetHackerLoadout().GetAllModChips();
+        passiveAbilities = new List<PassiveAbility>();
+
+        foreach (HackerModChip chip in modChips)
+        {
+            passiveAbilities.Add(chip.SetupPassiveAbility());
+        }
     }
 
     private void SetupAbilityButtons()
@@ -97,10 +113,13 @@ public class HackBattleData : MonoBehaviour
 
     public void RaiseSecurityLevel()
     {
-        securityLevel++;
-        safeZoneSize += 2;
-        SetupSafeSquares();
-        hackSecurityUI.UpdateHackSecurityUI(securityLevel);
+        if (!IsThereADangerZoneBuffer())
+        {
+            securityLevel++;
+            safeZoneSize += 2;
+            SetupSafeSquares();
+            hackSecurityUI.UpdateHackSecurityUI(securityLevel);
+        }
     }
 
     public void LowerSecurityLevel()
@@ -109,6 +128,19 @@ public class HackBattleData : MonoBehaviour
         safeZoneSize -= 2;
         SetupSafeSquares();
         hackSecurityUI.UpdateHackSecurityUI(securityLevel);
+    }
+
+    public bool IsThereADangerZoneBuffer()
+    {
+        foreach(PassiveAbility passiveAbility in passiveAbilities)
+        {
+            if (passiveAbility.GetAbilityType() == "dangerZoneBuffer" && passiveAbility.GetRemainingUses() > 0)
+            {
+                passiveAbility.UseOne();
+                return true;
+            }
+        }
+        return false;
     }
 
     private void SetupSafeSquares()
@@ -218,19 +250,36 @@ public class HackBattleData : MonoBehaviour
 
     public void UpdatePointValue(string color, int amount)
     {
+        int modifier = CheckForPointModifierPassive(color, amount);
+        //int modifier = 1;
         switch(color)
         {
             case "red":
-                redPoints += amount;
+                redPoints += amount * modifier;
                 break;
             case "blue":
-                bluePoints += amount;
+                bluePoints += amount * modifier;
                 break;
             case "purple":
-                purplePoints += amount;
+                purplePoints += amount * modifier;
                 break;
         }
         UpdatePointDisplay();
+    }
+
+    private int CheckForPointModifierPassive(string color, int amount)
+    {
+        foreach(PassiveAbility passiveAbility in passiveAbilities)
+        {
+            if (passiveAbility.GetAbilityType() == "spikePointMultiplier" &&
+                (passiveAbility.GetColor() == color || passiveAbility.GetColor() == "any") &&
+                passiveAbility.GetRemainingUses() > 0)
+            {
+                passiveAbility.UseOne();
+                return passiveAbility.GetMultiplier();
+            }
+        }
+        return 1;
     }
 
     public void UpdatePointDisplay()

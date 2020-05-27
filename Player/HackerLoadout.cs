@@ -68,4 +68,17 @@ public class HackerLoadout : ScriptableObject
         allMods.Add(uplink);
         return allMods;
     }
+
+    public List<HackerModChip> GetAllModChips()
+    {
+        List<HackerModChip> modChips = new List<HackerModChip>();
+        List<HackerMod> mods = GetAllMods();
+
+        foreach (HackerMod mod in mods)
+        {
+            modChips.AddRange(mod.GetAttachedChips());
+        }
+
+        return modChips;
+    }
 }
