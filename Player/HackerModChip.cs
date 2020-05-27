@@ -61,7 +61,7 @@ public class HackerModChip : ScriptableObject
                 // Your first 2 two-connection spikes are worth double points
                 break;
             case "JuryRigged QwikThink":
-                newAbility.SetupPassiveAbility("spikePointMultiplier", 2, "any", 3, 2);
+                newAbility.SetupPassiveAbility("spikePointMultiplier", 1, "any", 3, 2);
                 // Your first 3 connection spike is worth double points
                 break;
             case "Salvaged Router":
