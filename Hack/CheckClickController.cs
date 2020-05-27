@@ -104,6 +104,7 @@ public class CheckClickController : MonoBehaviour
     {
         HackDeck hackDeck = FindObjectOfType<HackDeck>();
         hackDeck.SendTopCardToDiscard();
+        FindObjectOfType<HackBattleData>().RaiseSecurityLevel();
     }
 
     private void AttachCardToSquare()
