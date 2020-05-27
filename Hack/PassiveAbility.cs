@@ -13,7 +13,8 @@ public class PassiveAbility : ScriptableObject
 
     // spikePointMultiplier variables
     string color;
-    int connectionType; // 2, 3, 4
+    int connectionType; // 1, 3, 9
+    int multiplier;
 
     public void SetupPassiveAbility(string newAbilityType, int newMaxUses)
     {
@@ -22,12 +23,43 @@ public class PassiveAbility : ScriptableObject
         remainingUses = maxUses;
     }
 
-    public void SetupPassiveAbility(string newAbilityType, int newMaxUses, string newColor, int newConnectionType)
+    public void SetupPassiveAbility(string newAbilityType, int newMaxUses, string newColor, int newConnectionType, int newMultiplier)
     {
         abilityType = newAbilityType;
         maxUses = newMaxUses;
         remainingUses = maxUses;
         color = newColor;
         connectionType = newConnectionType;
+        multiplier = newMultiplier;
+    }
+
+    public string GetAbilityType()
+    {
+        return abilityType;
+    }
+
+    public int GetRemainingUses()
+    {
+        return remainingUses;
+    }
+
+    public int GetConnectionType()
+    {
+        return connectionType;
+    }
+
+    public string GetColor()
+    {
+        return color;
+    }
+
+    public int GetMultiplier()
+    {
+        return multiplier;
+    }
+
+    public void UseOne()
+    {
+        remainingUses--;
     }
 }
