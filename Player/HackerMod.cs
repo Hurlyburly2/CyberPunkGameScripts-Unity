@@ -125,4 +125,9 @@ public class HackerMod : ScriptableObject
                 return -1;
         }
     }
+
+    public List<HackerModChip> GetAttachedChips()
+    {
+        return modChips;
+    }
 }

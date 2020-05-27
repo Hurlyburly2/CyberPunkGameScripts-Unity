@@ -26,6 +26,9 @@ public class HackBattleData : MonoBehaviour
     PointIconHolder bluePointIconHolder;
     PointIconHolder purplePointIconHolder;
 
+    // Passive abilities variables
+    List<PassiveAbility> passiveAbilities;
+
     private void Awake()
     {
         int count = FindObjectsOfType<BattleData>().Length;
@@ -68,6 +71,19 @@ public class HackBattleData : MonoBehaviour
         SetupSafeSquares();
 
         SetupAbilityButtons();
+
+        SetupPassiveAbilities();
+    }
+
+    private void SetupPassiveAbilities()
+    {
+        List<HackerModChip> modChips = hacker.GetHackerLoadout().GetAllModChips();
+        passiveAbilities = new List<PassiveAbility>();
+
+        foreach (HackerModChip chip in modChips)
+        {
+            passiveAbilities.Add(chip.SetupPassiveAbility());
+        }
     }
 
     private void SetupAbilityButtons()
