@@ -119,6 +119,7 @@ public class HackGridSquare : MonoBehaviour
             newHackCard.SetupUI(GetCountToPreviousLegalRotation(newHackCard, 1), GetCountToNextLegalRotation(newHackCard, 1));
             attachedHackCard = newHackCard;
             UpdateSecurityRating();
+
             return true;
         } else
         {
@@ -305,10 +306,14 @@ public class HackGridSquare : MonoBehaviour
     {
         FindAndStoreAdjacentSquares();
 
-        CheckAndUpdateTopLeftSpike();
-        CheckAndUpdateTopRightSpike();
-        CheckAndUpdateBottomLeftSpike();
-        CheckAndUpdateBottomRightSpike();
+        if (attachedHackCard.GetTopLeftSpike().GetSpikeColor() != "none")
+            CheckAndUpdateTopLeftSpike();
+        if (attachedHackCard.GetTopRightSpike().GetSpikeColor() != "none")
+            CheckAndUpdateTopRightSpike();
+        if (attachedHackCard.GetBottomLeftSpike().GetSpikeColor() != "none")
+            CheckAndUpdateBottomLeftSpike();
+        if (attachedHackCard.GetbottomRightSpike().GetSpikeColor() != "none")
+            CheckAndUpdateBottomRightSpike();
     }
 
     private void CheckAndUpdateBottomRightSpike()
@@ -501,6 +506,7 @@ public class HackGridSquare : MonoBehaviour
         }
         else if (aboveSpike && color == aboveSpike.GetSpikeColor())
         {
+
             // UP
             currentSpike.SetState("up");
             aboveSpike.SetState("down");

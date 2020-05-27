@@ -251,7 +251,6 @@ public class HackBattleData : MonoBehaviour
     public void UpdatePointValue(string color, int amount)
     {
         int modifier = CheckForPointModifierPassive(color, amount);
-        //int modifier = 1;
         switch(color)
         {
             case "red":
@@ -273,7 +272,8 @@ public class HackBattleData : MonoBehaviour
         {
             if (passiveAbility.GetAbilityType() == "spikePointMultiplier" &&
                 (passiveAbility.GetColor() == color || passiveAbility.GetColor() == "any") &&
-                passiveAbility.GetRemainingUses() > 0)
+                passiveAbility.GetConnectionType() == amount &&
+                passiveAbility.GetRemainingUses() > 0)  
             {
                 passiveAbility.UseOne();
                 return passiveAbility.GetMultiplier();
