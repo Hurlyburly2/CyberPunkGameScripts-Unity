@@ -9,6 +9,11 @@ public class MapData : MonoBehaviour
     HackerData hacker;
     string mapType;
         // possible: "city"
+    MapConfig mapConfig;
+    [SerializeField] float setupTimeInSeconds = 1f;
+
+    // state
+    int securityLevel;
 
     private void Awake()
     {
@@ -23,23 +28,35 @@ public class MapData : MonoBehaviour
 
     public void SetUpMap()
     {
+        SetupPlayerPortraits();
+        runner.MapSetup();
+
+        mapConfig = FindObjectOfType<MapConfig>();
+
+        mapConfig.SetupPipManagers(runner, setupTimeInSeconds, securityLevel);
+    }
+
+    public void SetCharacterData(CharacterData characterToSet, HackerData hackerToSet, string newMapType, int newSecurityLevel)
+    {
+        runner = characterToSet;
+        hacker = hackerToSet;
+        mapType = newMapType;
+        securityLevel = newSecurityLevel;
+    }
+
+    private void SetupPlayerPortraits()
+    {
         PlayerPortrait[] portraits = FindObjectsOfType<PlayerPortrait>();
         foreach (PlayerPortrait portrait in portraits)
         {
             if (portrait.name == "RunnerPortrait")
             {
                 portrait.SetPortrait(runner.GetRunnerName());
-            } else if (portrait.name == "HackerPortrait")
+            }
+            else if (portrait.name == "HackerPortrait")
             {
                 portrait.SetPortrait(hacker.GetName());
             }
         }
-    }
-
-    public void SetCharacterData(CharacterData characterToSet, HackerData hackerToSet, string newMapType)
-    {
-        runner = characterToSet;
-        hacker = hackerToSet;
-        mapType = newMapType;
     }
 }

@@ -27,6 +27,7 @@ public class SceneLoader : MonoBehaviour
 
     private void Awake()
     {
+        // TODO: THIS MAY BE REDUNDANT AND WRONG, MAY BREAK STUFF WHEN EVERYTHING'S TIED TOGETHER
         int count = FindObjectsOfType<BattleData>().Length;
         if (count > 1)
         {
@@ -58,7 +59,7 @@ public class SceneLoader : MonoBehaviour
     public void LoadMap(string mapType)
     {
         currentMap = Instantiate(mapData);
-        currentMap.SetCharacterData(currentRunner, currentHacker, mapType);
+        currentMap.SetCharacterData(currentRunner, currentHacker, mapType, 10);
 
         SceneManager.LoadScene(mapSceneName);
 
