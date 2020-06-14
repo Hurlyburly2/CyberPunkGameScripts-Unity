@@ -8,6 +8,7 @@ public class PipManager : MonoBehaviour
     List<GameObject> pipList = new List<GameObject>();
 
     ConfigData configData;
+    MapConfig mapConfig;
     float distanceBetweenPips;
 
     int maximumNumberOfPips;
@@ -30,6 +31,25 @@ public class PipManager : MonoBehaviour
         pipValue = (float)maximumValue / maximumNumberOfPips;
 
         float setupTimeInSeconds = FindObjectOfType<BattleData>().GetSetupTimeInSeconds();
+        StartCoroutine(ChangeNumberOfPips(setupTimeInSeconds));
+    }
+
+    public void Setup(MapConfig mapConfigData, int newMaximumValue, int newCurrentValue)
+    {
+        mapConfig = mapConfigData;
+        maximumValue = newMaximumValue;
+        currentValue = newCurrentValue;
+
+        maximumNumberOfPips = mapConfig.GetMaximumNumberOfPips();
+        if (gameObject.name == mapConfig.GetSecurityPipManagerName())
+        {
+            maximumNumberOfPips += 7;
+        }
+        distanceBetweenPips = mapConfig.GetDistanceBetweenPips();
+
+        pipValue = (float)maximumValue / maximumNumberOfPips;
+
+        float setupTimeInSeconds = FindObjectOfType<MapData>().GetSetupTimeInSeconds();
         StartCoroutine(ChangeNumberOfPips(setupTimeInSeconds));
     }
 

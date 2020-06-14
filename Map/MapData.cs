@@ -59,4 +59,9 @@ public class MapData : MonoBehaviour
             }
         }
     }
+
+    public float GetSetupTimeInSeconds()
+    {
+        return setupTimeInSeconds;
+    }
 }
