@@ -15,6 +15,7 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] BattleData battleData;
     [SerializeField] HackBattleData hackBattleData;
     [SerializeField] MapData mapData;
+    [SerializeField] MusicPlayer musicPlayer;
 
     // Scene names
     [SerializeField] string battleSceneName = "Battle";
@@ -27,6 +28,8 @@ public class SceneLoader : MonoBehaviour
 
     private void Awake()
     {
+        musicPlayer = FindObjectOfType<MusicPlayer>();
+
         // TODO: THIS MAY BE REDUNDANT AND WRONG, MAY BREAK STUFF WHEN EVERYTHING'S TIED TOGETHER
         int count = FindObjectsOfType<BattleData>().Length;
         if (count > 1)
@@ -60,6 +63,7 @@ public class SceneLoader : MonoBehaviour
     {
         currentMap = Instantiate(mapData);
         currentMap.SetCharacterData(currentRunner, currentHacker, mapType, 10);
+        ChangeMusicTrack("slums");
 
         SceneManager.LoadScene(mapSceneName);
 
@@ -138,5 +142,10 @@ public class SceneLoader : MonoBehaviour
     {
         // TODO THIS METHOD IS FOR USE ONLY UNTIL SOME OUT OF BATTLE SETUP IS READY
 
+    }
+
+    private void ChangeMusicTrack(string trackName)
+    {
+        musicPlayer.ChangeTrack(trackName);
     }
 }
