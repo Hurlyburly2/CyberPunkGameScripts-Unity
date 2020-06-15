@@ -30,6 +30,9 @@ public class CharacterData : ScriptableObject
     PipManager energyPipManager;
     StatusEffectHolder statusEffectHolder;
 
+    // map config
+    MapConfig mapConfig;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,6 +72,17 @@ public class CharacterData : ScriptableObject
     {
         currentHealthText = configData.GetHealthTextField();
         currentEnergyText = configData.GetEnergyTextField();
+
+        SetHealthText();
+        SetEnergyText();
+    }
+
+    public void MapSetup()
+    {
+        mapConfig = FindObjectOfType<MapConfig>();
+
+        currentHealthText = mapConfig.GetHealthTextField();
+        currentEnergyText = mapConfig.GetEnergyTextField();
 
         SetHealthText();
         SetEnergyText();

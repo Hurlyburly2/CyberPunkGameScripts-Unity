@@ -9,14 +9,17 @@ public class SceneLoader : MonoBehaviour
     int currentScene;
     BattleData currentBattle;
     HackBattleData currentHack;
+    MapData currentMap;
 
     // config
     [SerializeField] BattleData battleData;
     [SerializeField] HackBattleData hackBattleData;
+    [SerializeField] MapData mapData;
 
     // Scene names
     [SerializeField] string battleSceneName = "Battle";
     [SerializeField] string hackSceneName = "Hack";
+    [SerializeField] string mapSceneName = "Map";
 
     // Character/h@cker
     CharacterData currentRunner;
@@ -24,6 +27,7 @@ public class SceneLoader : MonoBehaviour
 
     private void Awake()
     {
+        // TODO: THIS MAY BE REDUNDANT AND WRONG, MAY BREAK STUFF WHEN EVERYTHING'S TIED TOGETHER
         int count = FindObjectsOfType<BattleData>().Length;
         if (count > 1)
         {
@@ -37,12 +41,38 @@ public class SceneLoader : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+
+        int mapCount = FindObjectsOfType<MapData>().Length;
+        if (mapCount > 1)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
     }
 
     // Start is called before the first frame update
     void Start()
     {
         currentScene = SceneManager.GetActiveScene().buildIndex;
+    }
+
+    public void LoadMap(string mapType)
+    {
+        currentMap = Instantiate(mapData);
+        currentMap.SetCharacterData(currentRunner, currentHacker, mapType, 10);
+
+        SceneManager.LoadScene(mapSceneName);
+
+        StartCoroutine(WaitForMapLoad(mapSceneName));
+    }
+
+    private IEnumerator WaitForMapLoad(string mapName)
+    {
+        while (SceneManager.GetActiveScene().name != mapSceneName)
+        {
+            yield return null;
+        }
+        currentMap.SetUpMap();
     }
 
     public void LoadBattle()
@@ -76,6 +106,13 @@ public class SceneLoader : MonoBehaviour
         currentRunner = TestData.SetTestCharacterOne();
         currentHacker = TestData.SetTestHackerOne();
         LoadHack();
+    }
+
+    public void LoadMapTestOne()
+    {
+        currentRunner = TestData.SetTestCharacterOne();
+        currentHacker = TestData.SetTestHackerOne();
+        LoadMap("city");
     }
 
     public void LoadHack()

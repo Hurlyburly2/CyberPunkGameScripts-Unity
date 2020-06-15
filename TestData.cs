@@ -18,7 +18,7 @@ public class TestData : MonoBehaviour
     public static HackerData SetTestHackerOne()
     {
         HackerData newHacker = ScriptableObject.CreateInstance<HackerData>();
-        string hackerName = "TestHacker";
+        string hackerName = "Hacker";
 
         newHacker.SetupHacker(hackerName);
 
