@@ -11,6 +11,8 @@ public class MapData : MonoBehaviour
         // possible: "city"
     MapConfig mapConfig;
     [SerializeField] float setupTimeInSeconds = 1f;
+    MapGrid mapGrid;
+    int mapSize;
 
     // state
     int securityLevel;
@@ -32,16 +34,19 @@ public class MapData : MonoBehaviour
         runner.MapSetup();
 
         mapConfig = FindObjectOfType<MapConfig>();
-
         mapConfig.SetupPipManagers(runner, setupTimeInSeconds, securityLevel);
+
+        mapGrid = FindObjectOfType<MapGrid>();
+        mapGrid.SetupGrid(mapType, mapSize);
     }
 
-    public void SetCharacterData(CharacterData characterToSet, HackerData hackerToSet, string newMapType, int newSecurityLevel)
+    public void SetMapData(CharacterData characterToSet, HackerData hackerToSet, string newMapType, int newSecurityLevel, int newMapSize)
     {
         runner = characterToSet;
         hacker = hackerToSet;
         mapType = newMapType;
         securityLevel = newSecurityLevel;
+        mapSize = newMapSize;
     }
 
     private void SetupPlayerPortraits()
