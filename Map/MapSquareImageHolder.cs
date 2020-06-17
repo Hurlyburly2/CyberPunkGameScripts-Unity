@@ -11,7 +11,7 @@ public class MapSquareImageHolder : MonoBehaviour
 
     public Sprite GetSquareImage()
     {
-        if (unusedSquares.Count <= 0)
+        if (unusedSquares.Count == 0)
         {
             unusedSquares = usedSquares;
             usedSquares = new List<Sprite>();

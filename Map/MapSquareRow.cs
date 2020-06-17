@@ -71,8 +71,7 @@ public class MapSquareRow : MonoBehaviour
     {
         foreach (MapSquare square in mapSquares)
         {
-            square.GetComponent<SpriteRenderer>().sortingOrder = number;
-            square.enabled = false;
+            square.InitialSetup(number);
             number++;
         }
     }

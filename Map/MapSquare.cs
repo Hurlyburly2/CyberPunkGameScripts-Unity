@@ -11,9 +11,14 @@ public class MapSquare : MonoBehaviour
     int maxSquareRow = 19;
     int minSquareColumn = 0;
     int maxSquareColumn = 19;
+    float defaultYPos;
+    float targetYPos;
+    float squareMoveSpeed = 1f;
 
     //state
     bool isActive;
+    // state can be normal, movingDown
+    string state;
 
     public List<MapSquare> GetAdjacentSquares()
     {
@@ -48,14 +53,10 @@ public class MapSquare : MonoBehaviour
         return null;
     }
 
-    private void Start()
-    {
-        isActive = false;
-    }
-
     public void InitializeSquare(Sprite newImage)
     {
         isActive = true;
+        GetComponent<PolygonCollider2D>().enabled = true;
         parentRow.AddInitializedSquareToList(this);
         GetComponent<SpriteRenderer>().sprite = newImage;
     }
@@ -65,8 +66,37 @@ public class MapSquare : MonoBehaviour
         return isActive;
     }
 
+    public void InitialSetup(int layerNumber)
+    {
+        GetComponent<SpriteRenderer>().sortingOrder = layerNumber;
+        GetComponent<PolygonCollider2D>().enabled = false;
+        defaultYPos = transform.position.y;
+        targetYPos = defaultYPos - 8f;
+        state = "normal";
+        isActive = false;
+    }
+
+    void Update()
+    {
+        float step = 1 * Time.deltaTime;
+
+        Vector3 targetPos = new Vector3(transform.position.x, targetYPos, transform.position.z);
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
+    }
+
+    private void OnMouseDown()
+    {
+    }
+
     private void OnMouseUp()
     {
-        Debug.Log("clicked");
+        Debug.Log("default y pos: " + defaultYPos);
+        Debug.Log("target y pos: " + targetYPos);
+        Debug.Log("current y pos: " + transform.position.y);
+    }
+
+    private void SetState(string newState)
+    {
+        state = newState;
     }
 }
