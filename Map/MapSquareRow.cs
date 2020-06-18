@@ -30,14 +30,17 @@ public class MapSquareRow : MonoBehaviour
             List<MapSquare> adjacentSquares = square.GetAdjacentSquares();
             foreach (MapSquare adjacentSquare in adjacentSquares)
             {
-                int modifier = 0;
-                if (square.GetUpSquare() == adjacentSquare)
-                    modifier += 25;
-
-                if (!adjacentSquare.IsActive() && Random.Range(0, 100) < percentChange + modifier)
+                if (newSquareCount < remainingSquaresToSpawn)
                 {
-                    adjacentSquare.InitializeSquare(mapSquareImageHolder.GetSquareImage());
-                    newSquareCount++;
+                    int modifier = 0;
+                    if (square.GetUpSquare() == adjacentSquare)
+                        modifier += 25;
+
+                    if (!adjacentSquare.IsActive() && Random.Range(0, 100) < percentChange + modifier)
+                    {
+                        adjacentSquare.InitializeSquare(mapSquareImageHolder.GetSquareImage());
+                        newSquareCount++;
+                    }
                 }
             }
         }
