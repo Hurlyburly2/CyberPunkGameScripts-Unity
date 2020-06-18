@@ -59,10 +59,10 @@ public class SceneLoader : MonoBehaviour
         currentScene = SceneManager.GetActiveScene().buildIndex;
     }
 
-    public void LoadMap(string mapType)
+    public void LoadMap(string mapType, int mapSize)
     {
         currentMap = Instantiate(mapData);
-        currentMap.SetCharacterData(currentRunner, currentHacker, mapType, 10);
+        currentMap.SetMapData(currentRunner, currentHacker, mapType, 10, mapSize);
         ChangeMusicTrack("slums");
 
         SceneManager.LoadScene(mapSceneName);
@@ -116,7 +116,7 @@ public class SceneLoader : MonoBehaviour
     {
         currentRunner = TestData.SetTestCharacterOne();
         currentHacker = TestData.SetTestHackerOne();
-        LoadMap("city");
+        LoadMap("city", 20);
     }
 
     public void LoadHack()
