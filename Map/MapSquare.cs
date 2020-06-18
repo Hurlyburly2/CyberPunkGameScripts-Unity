@@ -25,17 +25,26 @@ public class MapSquare : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        Debug.Log("click location");
+        if (!shroud)
+        {
+            Debug.Log("click location");
+        }
     }
 
     private void OnMouseDown()
     {
-        SetState("movingDown");
+        if (!shroud)
+        {
+            SetState("movingDown");
+        }
     }
 
     private void OnMouseUp()
     {
-        SetState("movingUp");
+        if (!shroud)
+        {
+            SetState("movingUp");
+        }
     }
 
     public List<MapSquare> GetAdjacentSquares()
