@@ -14,12 +14,14 @@ public class MapSquare : MonoBehaviour
     float defaultYPos;
     float targetYPos;
     float squareMoveSpeed = 1f;
+    Color defaultColor;
 
     //state
     bool isActive;
     // state can be normal, movingDown
     string state;
     bool playerPresent;
+    bool shroud;
 
     private void OnMouseUpAsButton()
     {
@@ -71,6 +73,8 @@ public class MapSquare : MonoBehaviour
 
     public void SetPlayerStart()
     {
+        RemoveShroud();
+        RemoveAdjacentShrouds();
         playerPresent = true;
         PlayerMarker playerMarkerPrefab = parentRow.GetMapGrid().GetPlayerMarkerPrefab();
         Vector3 markerPosition = GetPlayerMarkerPosition();
@@ -91,6 +95,28 @@ public class MapSquare : MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = newImage;
     }
 
+    public void AddShroud()
+    {
+        shroud = true;
+        GetComponent<SpriteRenderer>().color = new Color(0.25f, 0.25f, 0.25f, 1);
+    }
+
+    public void RemoveShroud()
+    {
+        shroud = false;
+        GetComponent<SpriteRenderer>().color = defaultColor;
+    }
+
+    private void RemoveAdjacentShrouds()
+    {
+        List<MapSquare> adjacentSquares = GetAdjacentSquares();
+        Debug.Log("found adjacent squares: " + adjacentSquares.Count);
+        foreach (MapSquare square in adjacentSquares)
+        {
+            square.RemoveShroud();
+        }
+    }
+
     public bool IsActive()
     {
         return isActive;
@@ -104,6 +130,12 @@ public class MapSquare : MonoBehaviour
         targetYPos = defaultYPos - 0.35f;
         state = "normal";
         isActive = false;
+    }
+
+    private void Start()
+    {
+        defaultColor = GetComponent<SpriteRenderer>().color;
+        AddShroud();
     }
 
     void Update()
