@@ -28,12 +28,12 @@ public class MapSquare : MonoBehaviour
 
     private void OnMouseDown()
     {
-        state = "movingDown";
+        SetState("movingDown");
     }
 
     private void OnMouseUp()
     {
-        state = "movingUp";
+        SetState("movingUp");
     }
 
     public List<MapSquare> GetAdjacentSquares()
@@ -112,6 +112,12 @@ public class MapSquare : MonoBehaviour
 
         if (state == "movingDown")
         {
+            if (Input.touchCount == 3 || Input.touchCount == 2)
+            {
+                // the click was accidental, user actually means to drag the camera if they're
+                // touching with three fingers, or to zoom if they're touching with two
+                SetState("movingUp");
+            }
             Vector3 targetPos = new Vector3(transform.position.x, targetYPos, transform.position.z);
             transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
         } else if (state == "movingUp")
@@ -120,7 +126,7 @@ public class MapSquare : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
             if (transform.position.y == defaultYPos)
             {
-                state = "normal";
+                SetState("normal");
             }
         }
     }

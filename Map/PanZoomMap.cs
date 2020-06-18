@@ -21,7 +21,7 @@ public class PanZoomMap : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
@@ -41,7 +41,7 @@ public class PanZoomMap : MonoBehaviour
                 float difference = currentMagnitude - prevMagnitude;
                 Zoom(difference * 0.01f);
             }
-            else if (Input.GetMouseButton(0))
+            else if (Input.GetMouseButton(1) || Input.touchCount == 3)
             {
                 Vector3 direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 Camera.main.transform.position += direction;
