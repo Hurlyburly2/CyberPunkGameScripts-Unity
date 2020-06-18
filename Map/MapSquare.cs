@@ -15,6 +15,7 @@ public class MapSquare : MonoBehaviour
     float targetYPos;
     float squareMoveSpeed = 1f;
     Color defaultColor;
+    MapConfig mapConfig;
 
     //state
     bool isActive;
@@ -25,15 +26,23 @@ public class MapSquare : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        if (!shroud)
+        if (!shroud && !mapConfig.GetIsAMenuOpen())
         {
-            Debug.Log("click location");
+            if (playerPresent)
+            {
+
+            } else
+            {
+                mapConfig.SetIsAMenuOpen(true);
+                NeighboringNodeMenu menu = mapConfig.GetNeighboringNodeMenu();
+                menu.InitializeMenu(this);
+            }
         }
     }
 
     private void OnMouseDown()
     {
-        if (!shroud)
+        if (!shroud && !mapConfig.GetIsAMenuOpen())
         {
             SetState("movingDown");
         }
@@ -145,6 +154,7 @@ public class MapSquare : MonoBehaviour
     {
         defaultColor = GetComponent<SpriteRenderer>().color;
         AddShroud();
+        mapConfig = FindObjectOfType<MapConfig>();
     }
 
     void Update()

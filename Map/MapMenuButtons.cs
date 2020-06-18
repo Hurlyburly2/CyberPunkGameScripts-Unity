@@ -33,11 +33,13 @@ public class MapMenuButtons : MonoBehaviour
 
     public void CloseMenu()
     {
+        FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);
         mainMenu.SetActive(false);
     }
 
     public void OpenMenu()
     {
+        FindObjectOfType<MapConfig>().SetIsAMenuOpen(true);
         mainMenu.SetActive(true);
     }
 }
