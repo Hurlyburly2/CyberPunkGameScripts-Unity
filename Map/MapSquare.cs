@@ -19,6 +19,22 @@ public class MapSquare : MonoBehaviour
     bool isActive;
     // state can be normal, movingDown
     string state;
+    bool playerPresent;
+
+    private void OnMouseUpAsButton()
+    {
+        Debug.Log("click location");
+    }
+
+    private void OnMouseDown()
+    {
+        state = "movingDown";
+    }
+
+    private void OnMouseUp()
+    {
+        state = "movingUp";
+    }
 
     public List<MapSquare> GetAdjacentSquares()
     {
@@ -53,8 +69,22 @@ public class MapSquare : MonoBehaviour
         return null;
     }
 
+    public void SetPlayerStart()
+    {
+        playerPresent = true;
+        PlayerMarker playerMarkerPrefab = parentRow.GetMapGrid().GetPlayerMarkerPrefab();
+        Vector3 markerPosition = GetPlayerMarkerPosition();
+        PlayerMarker newPlayerMarker = Instantiate(playerMarkerPrefab, markerPosition, Quaternion.identity);
+    }
+
+    public Vector3 GetPlayerMarkerPosition()
+    {
+        return new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
+    }
+
     public void InitializeSquare(Sprite newImage)
     {
+        playerPresent = false;
         isActive = true;
         GetComponent<PolygonCollider2D>().enabled = true;
         parentRow.AddInitializedSquareToList(this);
@@ -71,28 +101,28 @@ public class MapSquare : MonoBehaviour
         GetComponent<SpriteRenderer>().sortingOrder = layerNumber;
         GetComponent<PolygonCollider2D>().enabled = false;
         defaultYPos = transform.position.y;
-        targetYPos = defaultYPos - 8f;
+        targetYPos = defaultYPos - 0.35f;
         state = "normal";
         isActive = false;
     }
 
     void Update()
     {
-        float step = 1 * Time.deltaTime;
+        float step = 2.5f * Time.deltaTime;
 
-        Vector3 targetPos = new Vector3(transform.position.x, targetYPos, transform.position.z);
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
-    }
-
-    private void OnMouseDown()
-    {
-    }
-
-    private void OnMouseUp()
-    {
-        Debug.Log("default y pos: " + defaultYPos);
-        Debug.Log("target y pos: " + targetYPos);
-        Debug.Log("current y pos: " + transform.position.y);
+        if (state == "movingDown")
+        {
+            Vector3 targetPos = new Vector3(transform.position.x, targetYPos, transform.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
+        } else if (state == "movingUp")
+        {
+            Vector3 targetPos = new Vector3(transform.position.x, defaultYPos, transform.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
+            if (transform.position.y == defaultYPos)
+            {
+                state = "normal";
+            }
+        }
     }
 
     private void SetState(string newState)

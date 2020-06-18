@@ -6,6 +6,7 @@ public class MapGrid : MonoBehaviour
 {
     //config
     [SerializeField] MapSquareRow[] rows;
+    [SerializeField] PlayerMarker playerMarkerPrefab;
     int startingRow = 0;
     int startingSquare = 9;
     MapSquareImageHolder mapSquareImageHolder;
@@ -95,5 +96,10 @@ public class MapGrid : MonoBehaviour
             rows[i].SetLayerOrder(currentNumber);
             currentNumber += 20;
         }
+    }
+
+    public PlayerMarker GetPlayerMarkerPrefab()
+    {
+        return playerMarkerPrefab;
     }
 }

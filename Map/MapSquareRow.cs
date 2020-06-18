@@ -54,7 +54,10 @@ public class MapSquareRow : MonoBehaviour
     public void InitializeFirstSquare(int squareNumber, Sprite image)
     {
         activeSquares.Add(mapSquares[squareNumber]);
-        mapSquares[squareNumber].InitializeSquare(image);
+
+        MapSquare firstSquare = mapSquares[squareNumber];
+        firstSquare.InitializeSquare(image);
+        firstSquare.SetPlayerStart();
     }
 
     public void AddInitializedSquareToList(MapSquare newlyInitializedSquare)
