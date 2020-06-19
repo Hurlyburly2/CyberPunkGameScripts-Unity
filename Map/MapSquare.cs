@@ -16,6 +16,7 @@ public class MapSquare : MonoBehaviour
     float squareMoveSpeed = 1f;
     Color defaultColor;
     MapConfig mapConfig;
+    Sprite locationImage;
 
     //state
     bool isActive;
@@ -104,13 +105,14 @@ public class MapSquare : MonoBehaviour
         return new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
     }
 
-    public void InitializeSquare(Sprite newImage)
+    public void InitializeSquare(Sprite newImage, Sprite newLocationImage)
     {
         playerPresent = false;
         isActive = true;
         GetComponent<PolygonCollider2D>().enabled = true;
         parentRow.AddInitializedSquareToList(this);
         GetComponent<SpriteRenderer>().sprite = newImage;
+        locationImage = newLocationImage;
     }
 
     public void AddShroud()
@@ -185,5 +187,10 @@ public class MapSquare : MonoBehaviour
     private void SetState(string newState)
     {
         state = newState;
+    }
+
+    public Sprite GetLocationImage()
+    {
+        return locationImage;
     }
 }

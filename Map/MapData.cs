@@ -8,7 +8,7 @@ public class MapData : MonoBehaviour
     CharacterData runner;
     HackerData hacker;
     string mapType;
-        // possible: "city"
+        // possible: "slums"
     MapConfig mapConfig;
     [SerializeField] float setupTimeInSeconds = 1f;
     MapGrid mapGrid;

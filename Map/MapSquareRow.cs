@@ -38,7 +38,7 @@ public class MapSquareRow : MonoBehaviour
 
                     if (!adjacentSquare.IsActive() && Random.Range(0, 100) < percentChange + modifier)
                     {
-                        adjacentSquare.InitializeSquare(mapSquareImageHolder.GetSquareImage());
+                        adjacentSquare.InitializeSquare(mapSquareImageHolder.GetSquareImage(), mapSquareImageHolder.GetLocationImage());
                         newSquareCount++;
                     }
                 }
@@ -59,7 +59,7 @@ public class MapSquareRow : MonoBehaviour
         activeSquares.Add(mapSquares[squareNumber]);
 
         MapSquare firstSquare = mapSquares[squareNumber];
-        firstSquare.InitializeSquare(image);
+        firstSquare.InitializeSquare(image, FindObjectOfType<MapSquareImageHolder>().GetLocationImage());
         firstSquare.SetPlayerStart();
     }
 

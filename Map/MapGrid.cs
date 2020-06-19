@@ -68,7 +68,7 @@ public class MapGrid : MonoBehaviour
     {
         switch (mapType)
         {
-            case "city":
+            case "slums":
                 return 35;
             default:
                 return 35;

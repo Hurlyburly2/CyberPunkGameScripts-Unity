@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MapSquareImageHolder : MonoBehaviour
 {
@@ -8,6 +9,11 @@ public class MapSquareImageHolder : MonoBehaviour
 
     List<Sprite> unusedSquares;
     List<Sprite> usedSquares;
+
+    [SerializeField] Sprite[] slumImages;
+
+    List<Sprite> unusedImages;
+    List<Sprite> usedImages;
 
     public Sprite GetSquareImage()
     {
@@ -23,15 +29,33 @@ public class MapSquareImageHolder : MonoBehaviour
         return imageToReturn;
     }
 
+    public Sprite GetLocationImage()
+    {
+        if (unusedImages.Count == 0)
+        {
+            unusedImages = usedImages;
+            usedImages = new List<Sprite>();
+        }
+
+        Sprite imageToReturn = unusedImages[Random.Range(0, unusedImages.Count)];
+        usedImages.Add(imageToReturn);
+        unusedImages.Remove(imageToReturn);
+        return imageToReturn;
+    }
+
     public void Initialize(string mapType)
     {
         unusedSquares = new List<Sprite>();
         usedSquares = new List<Sprite>();
 
+        unusedImages = new List<Sprite>();
+        usedImages = new List<Sprite>();
+
         switch (mapType)
         {
-            case "city":
+            case "slums":
                 unusedSquares.AddRange(citySquares);
+                unusedImages.AddRange(slumImages);
                 break;
         }
     }

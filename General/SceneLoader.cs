@@ -116,7 +116,7 @@ public class SceneLoader : MonoBehaviour
     {
         currentRunner = TestData.SetTestCharacterOne();
         currentHacker = TestData.SetTestHackerOne();
-        LoadMap("city", 20);
+        LoadMap("slums", 20);
     }
 
     public void LoadHack()
