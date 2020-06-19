@@ -25,6 +25,12 @@ public class MapSquare : MonoBehaviour
     bool playerPresent;
     bool shroud;
 
+    // objects and hacks
+    List<HackTarget> hackTargets;
+    List<MapObject> mapObjects;
+    List<string> availableHackTypes;
+    List<string> availableObjectTypes;
+
     private void OnMouseUpAsButton()
     {
         if (!shroud && !mapConfig.GetIsAMenuOpen())
@@ -113,6 +119,53 @@ public class MapSquare : MonoBehaviour
         parentRow.AddInitializedSquareToList(this);
         GetComponent<SpriteRenderer>().sprite = newImage;
         locationImage = newLocationImage;
+
+        SetupHacksAndObjects();
+    }
+
+    private void SetupHacksAndObjects()
+    {
+        SetupHackObjectSpawnLists();
+
+        // random 1-3
+        int objectsToSpawn = Random.Range(1, 4);
+        while (objectsToSpawn > 0)
+        {
+            int random = Random.Range(0, 100);
+            if (random <= 60)
+            {
+                HackTarget newHackTarget = ScriptableObject.CreateInstance<HackTarget>();
+                string newHackType = availableHackTypes[Random.Range(0, availableHackTypes.Count)];
+                newHackTarget.SetupHackTarget(newHackType);
+                availableHackTypes.Remove(newHackType);
+
+                hackTargets.Add(newHackTarget);
+                objectsToSpawn--;
+            } else if (random > 60)
+            {
+                MapObject newMapObject = ScriptableObject.CreateInstance<MapObject>();
+                string newMapObjectType = availableObjectTypes[Random.Range(0, availableObjectTypes.Count)];
+                newMapObject.SetupMapObject(newMapObjectType);
+                availableObjectTypes.Remove(newMapObjectType);
+
+                mapObjects.Add(newMapObject);
+                objectsToSpawn--;
+            }
+        }
+    }
+
+    private void SetupHackObjectSpawnLists()
+    {
+        hackTargets = new List<HackTarget>();
+        mapObjects = new List<MapObject>();
+
+        availableHackTypes = new List<string>();
+        string[] hackTypes = { "securityCamera", "combatServer", "database", "defenseSystem", "transportation", "medicalServer" };
+        availableHackTypes.AddRange(hackTypes);
+
+        availableObjectTypes = new List<string>();
+        string[] objectTypes = { "trap", "reward", "powerUp", "shop", "upgrade", "firstAidStation" };
+        availableObjectTypes.AddRange(objectTypes);
     }
 
     public void AddShroud()

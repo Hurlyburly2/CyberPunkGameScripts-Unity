@@ -69,4 +69,9 @@ public class MapData : MonoBehaviour
     {
         return setupTimeInSeconds;
     }
+
+    public string GetMapType()
+    {
+        return mapType;
+    }
 }
