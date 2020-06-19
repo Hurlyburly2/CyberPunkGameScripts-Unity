@@ -25,4 +25,12 @@ public class NeighboringNodeMenu : MonoBehaviour
             }
         }
     }
+
+    public void CloseMenu()
+    {
+        square = null;
+        locationImage = null;
+        FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);
+        gameObject.SetActive(false);
+    }
 }
