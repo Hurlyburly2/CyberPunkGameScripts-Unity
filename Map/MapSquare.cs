@@ -19,11 +19,13 @@ public class MapSquare : MonoBehaviour
     Sprite locationImage;
 
     //state
+        // state can be normal, movingDown
     bool isActive;
-    // state can be normal, movingDown
     string state;
     bool playerPresent;
     bool shroud;
+    int scoutLevel;
+        // 1 = normal (default) no knowledge, 2 = know how many items, 3 = know what everything is
 
     // objects and hacks
     List<HackTarget> hackTargets;
@@ -98,6 +100,8 @@ public class MapSquare : MonoBehaviour
 
     public void SetPlayerStart()
     {
+        // move some of this to SetPlayerPosition once moving is added
+        scoutLevel = 3;
         RemoveShroud();
         RemoveAdjacentShrouds();
         playerPresent = true;
@@ -113,6 +117,7 @@ public class MapSquare : MonoBehaviour
 
     public void InitializeSquare(Sprite newImage, Sprite newLocationImage)
     {
+        scoutLevel = 1;
         playerPresent = false;
         isActive = true;
         GetComponent<PolygonCollider2D>().enabled = true;
@@ -160,11 +165,11 @@ public class MapSquare : MonoBehaviour
         mapObjects = new List<MapObject>();
 
         availableHackTypes = new List<string>();
-        string[] hackTypes = { "securityCamera", "combatServer", "database", "defenseSystem", "transportation", "medicalServer" };
+        string[] hackTypes = { "Security Camera", "Combat Server", "Database", "Defense System", "Transportation", "Medical Server" };
         availableHackTypes.AddRange(hackTypes);
 
         availableObjectTypes = new List<string>();
-        string[] objectTypes = { "trap", "reward", "powerUp", "shop", "upgrade", "firstAidStation" };
+        string[] objectTypes = { "Trap", "Reward", "PowerUp", "Shop", "Upgrade", "First Aid Station" };
         availableObjectTypes.AddRange(objectTypes);
     }
 
@@ -245,5 +250,15 @@ public class MapSquare : MonoBehaviour
     public Sprite GetLocationImage()
     {
         return locationImage;
+    }
+
+    public List<HackTarget> GetHackTargets()
+    {
+        return hackTargets;
+    }
+
+    public List<MapObject> GetMapObjects()
+    {
+        return mapObjects;
     }
 }
