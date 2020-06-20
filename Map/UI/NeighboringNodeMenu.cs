@@ -6,16 +6,19 @@ using UnityEngine.UI;
 public class NeighboringNodeMenu : MonoBehaviour
 {
     [SerializeField] PointOfInterestLine[] pointOfInterestLines;
+    [SerializeField] NeighboringNodeEnemyInfo enemyInfo;
 
     MapSquare square;
     Sprite locationImage;
     List<HackTarget> hackTargets;
     List<MapObject> mapObjects;
-    int scoutLevel;
+    int poiScoutLevel;
+
+    Enemy enemy;
 
     public void InitializeMenu(MapSquare mapSquare)
     {
-        scoutLevel = 3;
+        poiScoutLevel = 3;
         gameObject.SetActive(true);
         square = mapSquare;
         locationImage = square.GetLocationImage();
@@ -33,12 +36,22 @@ public class NeighboringNodeMenu : MonoBehaviour
             }
         }
 
+        enemy = mapSquare.GetEnemy();
+
+        if (enemy != null)
+        {
+            enemyInfo.SetupEnemyInfo(enemy);
+        } else
+        {
+            // TODO: SET UP AN EMPTY ENEMY
+        }
+
         SetupHackTargets();
     }
 
     private void SetupHackTargets()
     {
-        switch(scoutLevel)
+        switch(poiScoutLevel)
         {
             case 1:
                 break;
@@ -74,7 +87,7 @@ public class NeighboringNodeMenu : MonoBehaviour
             line.SetupLine(true, mapObject.GetObjectType());
         }
 
-        while (counter < 6)
+        while (counter < 4)
         {
             counter++;
             line = pointOfInterestLines[counter];

@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] int currentEnergy;
     [SerializeField] int handSize;
     [SerializeField] GameObject playCardZone;
+    [SerializeField] Sprite tinyMapImage;
 
     // config
     GameObject currentHealthText;
@@ -119,5 +120,10 @@ public class Enemy : MonoBehaviour
     public int GetCurrentEnergy()
     {
         return currentEnergy;
+    }
+
+    public Sprite GetThumbnailImage()
+    {
+        return tinyMapImage;
     }
 }

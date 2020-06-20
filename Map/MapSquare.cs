@@ -33,6 +33,9 @@ public class MapSquare : MonoBehaviour
     List<string> availableHackTypes;
     List<string> availableObjectTypes;
 
+    // Enemy
+    Enemy enemy;
+
     private void OnMouseUpAsButton()
     {
         if (!shroud && !mapConfig.GetIsAMenuOpen())
@@ -117,6 +120,7 @@ public class MapSquare : MonoBehaviour
 
     public void InitializeSquare(Sprite newImage, Sprite newLocationImage)
     {
+        enemy = null;
         scoutLevel = 1;
         playerPresent = false;
         isActive = true;
@@ -157,6 +161,11 @@ public class MapSquare : MonoBehaviour
                 objectsToSpawn--;
             }
         }
+    }
+
+    public void SpawnEnemy(string mapType)
+    {
+        enemy = FindObjectOfType<EnemyCollection>().GetAnEnemyByArea(mapType);
     }
 
     private void SetupHackObjectSpawnLists()
@@ -260,5 +269,10 @@ public class MapSquare : MonoBehaviour
     public List<MapObject> GetMapObjects()
     {
         return mapObjects;
+    }
+
+    public Enemy GetEnemy()
+    {
+        return enemy;
     }
 }

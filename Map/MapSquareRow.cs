@@ -22,7 +22,7 @@ public class MapSquareRow : MonoBehaviour
         mapSquareImageHolder = FindObjectOfType<MapSquareImageHolder>();
     }
 
-    public int AttemptToSpawnSquares(int percentChange, int remainingSquaresToSpawn, int verticalModifer)
+    public int AttemptToSpawnSquares(string mapType, int percentChange, int remainingSquaresToSpawn, int verticalModifer, int chanceToSpawnEnemy)
     {
         int newSquareCount = 0;
         foreach (MapSquare square in activeSquares)
@@ -34,12 +34,16 @@ public class MapSquareRow : MonoBehaviour
                 {
                     int modifier = 0;
                     if (square.GetUpSquare() == adjacentSquare)
-                        modifier += 25;
+                        modifier += verticalModifer;
 
                     if (!adjacentSquare.IsActive() && Random.Range(0, 100) < percentChange + modifier)
                     {
                         adjacentSquare.InitializeSquare(mapSquareImageHolder.GetSquareImage(), mapSquareImageHolder.GetLocationImage());
                         newSquareCount++;
+                        if (Random.Range(0, 100) < chanceToSpawnEnemy)
+                        {
+                            adjacentSquare.SpawnEnemy(mapType);
+                        }
                     }
                 }
             }
