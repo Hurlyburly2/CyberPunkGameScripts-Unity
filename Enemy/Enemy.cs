@@ -15,6 +15,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] int currentEnergy;
     [SerializeField] int handSize;
     [SerializeField] GameObject playCardZone;
+    [SerializeField] Sprite tinyMapImage;
+    [SerializeField] int starRating;
+        // star rating represents enemy difficulty and ranges from 0-5
 
     // config
     GameObject currentHealthText;
@@ -119,5 +122,15 @@ public class Enemy : MonoBehaviour
     public int GetCurrentEnergy()
     {
         return currentEnergy;
+    }
+
+    public Sprite GetThumbnailImage()
+    {
+        return tinyMapImage;
+    }
+
+    public int GetStarRating()
+    {
+        return starRating;
     }
 }

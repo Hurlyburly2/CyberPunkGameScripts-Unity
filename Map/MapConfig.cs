@@ -6,6 +6,7 @@ public class MapConfig : MonoBehaviour
 {
     // config
     MapData mapData;
+    [SerializeField] NeighboringNodeMenu neighboringNodeMenu;
 
     // pip manager config
     [SerializeField] string healthPipManagerName = "HealthPipManager";
@@ -21,9 +22,13 @@ public class MapConfig : MonoBehaviour
     [SerializeField] string healthTextFieldName = "HealthText";
     [SerializeField] string energyTextFieldName = "EnergyText";
 
+    //state
+    bool isAMenuOpen;
+
     private void Start()
     {
         mapData = FindObjectOfType<MapData>();
+        isAMenuOpen = false;
     }
 
     public void SetupPipManagers(CharacterData runner, float setupTimeInSeconds, int currentSecurityLevel)
@@ -74,5 +79,20 @@ public class MapConfig : MonoBehaviour
     public string GetSecurityPipManagerName()
     {
         return securityPipManagerName;
+    }
+
+    public NeighboringNodeMenu GetNeighboringNodeMenu()
+    {
+        return neighboringNodeMenu;
+    }
+
+    public bool GetIsAMenuOpen()
+    {
+        return isAMenuOpen;
+    }
+
+    public void SetIsAMenuOpen(bool newState)
+    {
+        isAMenuOpen = newState;
     }
 }

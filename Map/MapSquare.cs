@@ -15,25 +15,50 @@ public class MapSquare : MonoBehaviour
     float targetYPos;
     float squareMoveSpeed = 1f;
     Color defaultColor;
+    MapConfig mapConfig;
+    Sprite locationImage;
 
     //state
+        // state can be normal, movingDown
     bool isActive;
-    // state can be normal, movingDown
     string state;
     bool playerPresent;
     bool shroud;
+    int poiScoutLevel;
+    int enemyScoutLevel;
+        // 1 = normal (default) no knowledge, 2 = know how many items, 3 = know what everything is
+
+    // objects and hacks
+    List<HackTarget> hackTargets;
+    List<MapObject> mapObjects;
+    List<string> availableHackTypes;
+    List<string> availableObjectTypes;
+
+    // Enemy
+    Enemy enemy;
+    // TODO: THESE BUFFS AND DEBUFFS ARE CURRENTLY ALWAYS EMPTY
+    List<int> enemyBuffs;
+    List<int> enemyDebuffs;
 
     private void OnMouseUpAsButton()
     {
-        if (!shroud)
+        if (!shroud && !mapConfig.GetIsAMenuOpen())
         {
-            Debug.Log("click location");
+            if (playerPresent)
+            {
+
+            } else
+            {
+                mapConfig.SetIsAMenuOpen(true);
+                NeighboringNodeMenu menu = mapConfig.GetNeighboringNodeMenu();
+                menu.InitializeMenu(this);
+            }
         }
     }
 
     private void OnMouseDown()
     {
-        if (!shroud)
+        if (!shroud && !mapConfig.GetIsAMenuOpen())
         {
             SetState("movingDown");
         }
@@ -82,6 +107,9 @@ public class MapSquare : MonoBehaviour
 
     public void SetPlayerStart()
     {
+        // move some of this to SetPlayerPosition once moving is added
+        enemyScoutLevel = 3;
+        poiScoutLevel = 3;
         RemoveShroud();
         RemoveAdjacentShrouds();
         playerPresent = true;
@@ -95,13 +123,71 @@ public class MapSquare : MonoBehaviour
         return new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
     }
 
-    public void InitializeSquare(Sprite newImage)
+    public void InitializeSquare(Sprite newImage, Sprite newLocationImage)
     {
+        enemy = null;
+        enemyScoutLevel = 1;
+        poiScoutLevel = 1;
         playerPresent = false;
         isActive = true;
         GetComponent<PolygonCollider2D>().enabled = true;
         parentRow.AddInitializedSquareToList(this);
         GetComponent<SpriteRenderer>().sprite = newImage;
+        locationImage = newLocationImage;
+        enemyBuffs = new List<int>();
+        enemyDebuffs = new List<int>();
+
+        SetupHacksAndObjects();
+    }
+
+    private void SetupHacksAndObjects()
+    {
+        SetupHackObjectSpawnLists();
+
+        // random 1-3
+        int objectsToSpawn = Random.Range(1, 4);
+        while (objectsToSpawn > 0)
+        {
+            int random = Random.Range(0, 100);
+            if (random <= 60)
+            {
+                HackTarget newHackTarget = ScriptableObject.CreateInstance<HackTarget>();
+                string newHackType = availableHackTypes[Random.Range(0, availableHackTypes.Count)];
+                newHackTarget.SetupHackTarget(newHackType);
+                availableHackTypes.Remove(newHackType);
+
+                hackTargets.Add(newHackTarget);
+                objectsToSpawn--;
+            } else if (random > 60)
+            {
+                MapObject newMapObject = ScriptableObject.CreateInstance<MapObject>();
+                string newMapObjectType = availableObjectTypes[Random.Range(0, availableObjectTypes.Count)];
+                newMapObject.SetupMapObject(newMapObjectType);
+                availableObjectTypes.Remove(newMapObjectType);
+
+                mapObjects.Add(newMapObject);
+                objectsToSpawn--;
+            }
+        }
+    }
+
+    public void SpawnEnemy(string mapType)
+    {
+        enemy = FindObjectOfType<EnemyCollection>().GetAnEnemyByArea(mapType);
+    }
+
+    private void SetupHackObjectSpawnLists()
+    {
+        hackTargets = new List<HackTarget>();
+        mapObjects = new List<MapObject>();
+
+        availableHackTypes = new List<string>();
+        string[] hackTypes = { "Security Camera", "Combat Server", "Database", "Defense System", "Transportation", "Medical Server" };
+        availableHackTypes.AddRange(hackTypes);
+
+        availableObjectTypes = new List<string>();
+        string[] objectTypes = { "Trap", "Reward", "PowerUp", "Shop", "Upgrade", "First Aid Station" };
+        availableObjectTypes.AddRange(objectTypes);
     }
 
     public void AddShroud()
@@ -145,6 +231,7 @@ public class MapSquare : MonoBehaviour
     {
         defaultColor = GetComponent<SpriteRenderer>().color;
         AddShroud();
+        mapConfig = FindObjectOfType<MapConfig>();
     }
 
     void Update()
@@ -175,5 +262,45 @@ public class MapSquare : MonoBehaviour
     private void SetState(string newState)
     {
         state = newState;
+    }
+
+    public Sprite GetLocationImage()
+    {
+        return locationImage;
+    }
+
+    public List<HackTarget> GetHackTargets()
+    {
+        return hackTargets;
+    }
+
+    public List<MapObject> GetMapObjects()
+    {
+        return mapObjects;
+    }
+
+    public Enemy GetEnemy()
+    {
+        return enemy;
+    }
+
+    public List<int> GetEnemyBuffs()
+    {
+        return enemyBuffs;
+    }
+
+    public List<int> GetEnemyDebuffs()
+    {
+        return enemyDebuffs;
+    }
+
+    public int GetPOIScoutLevel()
+    {
+        return poiScoutLevel;
+    }
+
+    public int GetEnemyScoutLevel()
+    {
+        return enemyScoutLevel;
     }
 }

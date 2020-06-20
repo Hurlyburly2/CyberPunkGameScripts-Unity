@@ -116,7 +116,7 @@ public class SceneLoader : MonoBehaviour
     {
         currentRunner = TestData.SetTestCharacterOne();
         currentHacker = TestData.SetTestHackerOne();
-        LoadMap("city", 20);
+        LoadMap("slums", 20);
     }
 
     public void LoadHack()
@@ -147,5 +147,19 @@ public class SceneLoader : MonoBehaviour
     private void ChangeMusicTrack(string trackName)
     {
         musicPlayer.ChangeTrack(trackName);
+    }
+
+    public void SaveTest()
+    {
+        int randomNumber = Random.Range(0, 100);
+        Debug.Log("random number befoer save: " + randomNumber);
+        SaveData data = new SaveData(randomNumber);
+        SaveSystem.SaveGame(data);
+    }
+
+    public void LoadTest()
+    {
+        SaveData data = SaveSystem.LoadSaveData();
+        Debug.Log("random number loaded: " + data.GetRandomNumber());
     }
 }

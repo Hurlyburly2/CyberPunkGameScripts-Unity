@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MapSquareImageHolder : MonoBehaviour
 {
@@ -8,6 +9,49 @@ public class MapSquareImageHolder : MonoBehaviour
 
     List<Sprite> unusedSquares;
     List<Sprite> usedSquares;
+
+    [SerializeField] Sprite[] slumImages;
+
+    List<Sprite> unusedImages;
+    List<Sprite> usedImages;
+
+    [SerializeField] Sprite[] menuIcons;
+
+    public Sprite GetMenuIconByName(string iconName)
+    {
+        switch (iconName)
+        {
+            case "Hacks":
+                return menuIcons[1];
+            case "Security Camera":
+                return menuIcons[2];
+            case "Combat Server":
+                return menuIcons[3];
+            case "Database":
+                return menuIcons[4];
+            case "Defense System":
+                return menuIcons[5];
+            case "Transportation":
+                return menuIcons[6];
+            case "Medical Server":
+                return menuIcons[7];
+            case "Objects":
+                return menuIcons[8];
+            case "Trap":
+                return menuIcons[9];
+            case "PowerUp":
+                return menuIcons[10];
+            case "Reward":
+                return menuIcons[11];
+            case "Shop":
+                return menuIcons[12];
+            case "Upgrade":
+                return menuIcons[13];
+            case "First Aid Station":
+                return menuIcons[14];
+        }
+        return menuIcons[0];
+    }
 
     public Sprite GetSquareImage()
     {
@@ -23,15 +67,33 @@ public class MapSquareImageHolder : MonoBehaviour
         return imageToReturn;
     }
 
+    public Sprite GetLocationImage()
+    {
+        if (unusedImages.Count == 0)
+        {
+            unusedImages = usedImages;
+            usedImages = new List<Sprite>();
+        }
+
+        Sprite imageToReturn = unusedImages[Random.Range(0, unusedImages.Count)];
+        usedImages.Add(imageToReturn);
+        unusedImages.Remove(imageToReturn);
+        return imageToReturn;
+    }
+
     public void Initialize(string mapType)
     {
         unusedSquares = new List<Sprite>();
         usedSquares = new List<Sprite>();
 
+        unusedImages = new List<Sprite>();
+        usedImages = new List<Sprite>();
+
         switch (mapType)
         {
-            case "city":
+            case "slums":
                 unusedSquares.AddRange(citySquares);
+                unusedImages.AddRange(slumImages);
                 break;
         }
     }

@@ -22,10 +22,10 @@ public class MapGrid : MonoBehaviour
         mapSquareImageHolder.Initialize(mapType);
 
         SetupSquareLevels();
-        SetupMap(mapType, mapSize, GetVerticalModifier(mapType));
+        SetupMap(mapType, mapSize, GetVerticalModifier(mapType), GetInitialEnemySpawnChance(mapType));
     }
 
-    private void SetupMap(string mapType, int mapSize, int mapSquareChanceForVerticalModifier)
+    private void SetupMap(string mapType, int mapSize, int mapSquareChanceForVerticalModifier, int percentEnemySpawn)
     {
         // initialize starting square in first row
         int activeSquares = 1;
@@ -40,7 +40,7 @@ public class MapGrid : MonoBehaviour
             // go through active rows and spawn squares around each active square
             for (int i = activeRows.Count - 1; i >= 0; i--)
             {
-                int amountOfNewSquares = activeRows[i].AttemptToSpawnSquares(percentChanceForSpawn, mapSize - activeSquares, mapSquareChanceForVerticalModifier);
+                int amountOfNewSquares = activeRows[i].AttemptToSpawnSquares(mapType, percentChanceForSpawn, mapSize - activeSquares, mapSquareChanceForVerticalModifier, percentEnemySpawn);
                 activeSquares += amountOfNewSquares;
             }
 
@@ -59,19 +59,6 @@ public class MapGrid : MonoBehaviour
         foreach(MapSquareRow row in rows)
         {
             activeSquareAccurateCount += row.CountActiveSquares();
-        }
-        Debug.Log("We counted " + activeSquareAccurateCount + " squares.");
-        Debug.Log("it thinks we made " + activeSquares + " squares.");
-    }
-
-    private int GetVerticalModifier(string mapType)
-    {
-        switch (mapType)
-        {
-            case "city":
-                return 35;
-            default:
-                return 35;
         }
     }
 
@@ -101,5 +88,25 @@ public class MapGrid : MonoBehaviour
     public PlayerMarker GetPlayerMarkerPrefab()
     {
         return playerMarkerPrefab;
+    }
+
+    private int GetVerticalModifier(string mapType)
+    {
+        switch (mapType)
+        {
+            case "slums":
+                return 35;
+            default:
+                return 35;
+        }
+    }
+
+    private int GetInitialEnemySpawnChance(string mapType)
+    {
+        switch (mapType) {
+            case "slums":
+                return 66;
+        }
+        return 0;
     }
 }
