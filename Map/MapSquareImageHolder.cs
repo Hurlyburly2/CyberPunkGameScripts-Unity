@@ -26,15 +26,59 @@ public class MapSquareImageHolder : MonoBehaviour
         {
             switch (buttonName)
             {
+                case "Security Camera":
+                    return activeMenuButtons[2];
+                case "Combat Server":
+                    return activeMenuButtons[3];
+                case "Database":
+                    return activeMenuButtons[4];
+                case "Defense System":
+                    return activeMenuButtons[5];
+                case "Transportation":
+                    return activeMenuButtons[6];
+                case "Medical Server":
+                    return activeMenuButtons[7];
                 case "Trap":
                     return activeMenuButtons[9];
+                case "PowerUp":
+                    return activeMenuButtons[10];
+                case "Reward":
+                    return activeMenuButtons[11];
+                case "Shop":
+                    return activeMenuButtons[12];
+                case "Upgrade":
+                    return activeMenuButtons[13];
+                case "First Aid Station":
+                    return activeMenuButtons[14];
             }
         } else
         {
             switch (buttonName)
             {
+                case "Security Camera":
+                    return inactiveMenuButtons[2];
+                case "Combat Server":
+                    return inactiveMenuButtons[3];
+                case "Database":
+                    return inactiveMenuButtons[4];
+                case "Defense System":
+                    return inactiveMenuButtons[5];
+                case "Transportation":
+                    return inactiveMenuButtons[6];
+                case "Medical Server":
+                    return inactiveMenuButtons[7];
                 case "Trap":
-                    return activeMenuButtons[9];
+                    return inactiveMenuButtons[9];
+                case "PowerUp":
+                    return inactiveMenuButtons[10];
+                case "Reward":
+                    return inactiveMenuButtons[11];
+                case "Shop":
+                    return inactiveMenuButtons[12];
+                case "Upgrade":
+                    return inactiveMenuButtons[13];
+                case "First Aid Station":
+                    return inactiveMenuButtons[14];
             }
         }
         return activeMenuButtons[0];

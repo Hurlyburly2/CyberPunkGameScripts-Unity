@@ -5,15 +5,22 @@ using UnityEngine.UI;
 
 public class MenuPOIButton : MonoBehaviour
 {
-    public void SetupButton(MapObject mapObject)
+    MapObject mapObject;
+
+    public void SetupButton(MapObject newMapObject)
     {
-        Debug.Log("mapobject type: " + mapObject.GetObjectType());
-        Debug.Log("mapobject isActive: " + mapObject.GetObjectType());
-        GetComponent<Image>().sprite = FindObjectOfType<MapSquareImageHolder>().GetButtonImageByName(mapObject.GetObjectType(), mapObject.GetIsActive());
+        mapObject = newMapObject;
+        Image image = GetComponent<Image>();
+        image.enabled = true;
+        GetComponent<Button>().enabled = true;
+        image.sprite = FindObjectOfType<MapSquareImageHolder>().GetButtonImageByName(mapObject.GetObjectType(), mapObject.GetIsActive());
     }
 
     public void SetupButton()
     {
-        GetComponent<Image>().sprite = FindObjectOfType<MapSquareImageHolder>().GetButtonImageByName("none", false);
+        Image image = GetComponent<Image>();
+        image.enabled = false;
+        GetComponent<Button>().enabled = false;
+        image.sprite = FindObjectOfType<MapSquareImageHolder>().GetButtonImageByName("none", false);
     }
 }

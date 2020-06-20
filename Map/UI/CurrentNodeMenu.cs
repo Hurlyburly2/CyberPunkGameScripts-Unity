@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CurrentNodeMenu : MonoBehaviour
 {
     [SerializeField] CurrentNodeMenuPointsOfInterest poiMenu;
+    [SerializeField] CurrentNodeMenuHacks hackMenu;
     MapSquare square;
     Sprite locationImage;
 
@@ -28,6 +29,7 @@ public class CurrentNodeMenu : MonoBehaviour
         }
 
         poiMenu.SetupButtons(square.GetMapObjects());
+        hackMenu.SetupButtons(square.GetHackTargets());
     }
 
     public void CloseMenu()
