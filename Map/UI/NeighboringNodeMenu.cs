@@ -7,6 +7,8 @@ public class NeighboringNodeMenu : MonoBehaviour
 {
     [SerializeField] PointOfInterestLine[] pointOfInterestLines;
     [SerializeField] NeighboringNodeEnemyInfo enemyInfo;
+    [SerializeField] GameObject levelOneScoutPOI;
+    [SerializeField] GameObject levelTwoAndThreeScoutPOI;
 
     MapSquare square;
     Sprite locationImage;
@@ -56,8 +58,10 @@ public class NeighboringNodeMenu : MonoBehaviour
         switch(poiScoutLevel)
         {
             case 1:
+                SetupLevelOneScoutPOIUI();
                 break;
             case 2:
+                SetupLevelTwoScoutPOIUI();
                 break;
             case 3:
                 SetupLevelThreeScoutPOIUI();
@@ -65,8 +69,38 @@ public class NeighboringNodeMenu : MonoBehaviour
         }
     }
 
+    private void SetupLevelOneScoutPOIUI()
+    {
+        levelOneScoutPOI.SetActive(true);
+        levelTwoAndThreeScoutPOI.SetActive(false);
+    }
+
+    private void SetupLevelTwoScoutPOIUI()
+    {
+        levelOneScoutPOI.SetActive(false);
+        levelTwoAndThreeScoutPOI.SetActive(true);
+
+        int counter = 0;
+        PointOfInterestLine line = pointOfInterestLines[counter];
+        line.SetupLine(false, "Hacks", hackTargets.Count);
+
+        counter++;
+        line = pointOfInterestLines[counter];
+        line.SetupLine(false, "Objects", mapObjects.Count);
+
+        while (counter < 4)
+        {
+            counter += 1;
+            line = pointOfInterestLines[counter];
+            line.SetBlankLine();
+        }
+    }
+
     private void SetupLevelThreeScoutPOIUI()
     {
+        levelOneScoutPOI.SetActive(false);
+        levelTwoAndThreeScoutPOI.SetActive(true);
+
         int counter = 0;
         PointOfInterestLine line = pointOfInterestLines[counter];
         line.SetupLine(false, "Hacks", hackTargets.Count);

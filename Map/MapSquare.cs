@@ -127,7 +127,7 @@ public class MapSquare : MonoBehaviour
     {
         enemy = null;
         enemyScoutLevel = 1;
-        poiScoutLevel = 3;
+        poiScoutLevel = 1;
         playerPresent = false;
         isActive = true;
         GetComponent<PolygonCollider2D>().enabled = true;

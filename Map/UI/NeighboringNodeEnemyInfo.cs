@@ -25,9 +25,6 @@ public class NeighboringNodeEnemyInfo : MonoBehaviour
         enemy = newEnemy;
         Vector3 dummyPosition = new Vector3(-100, -100, -100);
 
-        // we have to do this so we can get data from the prefab...
-        Enemy dummyEnemy = Instantiate(enemy, dummyPosition, Quaternion.identity);
-
         switch (enemyScoutLevel)
         {
             case 1:
@@ -36,11 +33,18 @@ public class NeighboringNodeEnemyInfo : MonoBehaviour
                 scoutLevel3.SetActive(false);
                 break;
             case 2:
+                // we have to do this so we can get data from the prefab...
+                Enemy dummyEnemy = Instantiate(enemy, dummyPosition, Quaternion.identity);
+
                 noEnemyPresent.SetActive(false);
                 scoutLevel2.SetActive(true);
                 scoutLevel3.SetActive(false);
+
+                Destroy(dummyEnemy);
                 break;
             case 3:
+                dummyEnemy = Instantiate(enemy, dummyPosition, Quaternion.identity);
+
                 noEnemyPresent.SetActive(false);
                 scoutLevel2.SetActive(false);
                 scoutLevel3.SetActive(true);

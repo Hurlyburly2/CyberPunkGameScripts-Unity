@@ -60,8 +60,6 @@ public class MapGrid : MonoBehaviour
         {
             activeSquareAccurateCount += row.CountActiveSquares();
         }
-        Debug.Log("We counted " + activeSquareAccurateCount + " squares.");
-        Debug.Log("it thinks we made " + activeSquares + " squares.");
     }
 
     public void ConsolidateNewActiveSquaresInAllRows()
