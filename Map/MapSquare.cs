@@ -35,6 +35,9 @@ public class MapSquare : MonoBehaviour
 
     // Enemy
     Enemy enemy;
+    // TODO: THESE BUFFS AND DEBUFFS ARE CURRENTLY ALWAYS EMPTY
+    List<int> enemyBuffs;
+    List<int> enemyDebuffs;
 
     private void OnMouseUpAsButton()
     {
@@ -128,6 +131,8 @@ public class MapSquare : MonoBehaviour
         parentRow.AddInitializedSquareToList(this);
         GetComponent<SpriteRenderer>().sprite = newImage;
         locationImage = newLocationImage;
+        enemyBuffs = new List<int>();
+        enemyDebuffs = new List<int>();
 
         SetupHacksAndObjects();
     }
@@ -274,5 +279,15 @@ public class MapSquare : MonoBehaviour
     public Enemy GetEnemy()
     {
         return enemy;
+    }
+
+    public List<int> GetEnemyBuffs()
+    {
+        return enemyBuffs;
+    }
+
+    public List<int> GetEnemyDebuffs()
+    {
+        return enemyDebuffs;
     }
 }

@@ -40,7 +40,7 @@ public class NeighboringNodeMenu : MonoBehaviour
 
         if (enemy != null)
         {
-            enemyInfo.SetupEnemyInfo(enemy);
+            enemyInfo.SetupEnemyInfo(enemy, square);
         } else
         {
             enemyInfo.SetupEmptyEnemy();
