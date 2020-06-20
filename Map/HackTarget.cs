@@ -8,9 +8,11 @@ public class HackTarget : ScriptableObject
     string hackType;
     // options are fed to it by mapSquare:
     // "Security Camera", "Combat Server", "Database", "Defense System", "Transportation", "Medical Server"
+    bool isActive;
 
     public void SetupHackTarget(string newHackType)
     {
+        isActive = true;
         hackType = newHackType;
         mapType = FindObjectOfType<MapData>().GetMapType();
     }
@@ -18,5 +20,10 @@ public class HackTarget : ScriptableObject
     public string getHackType()
     {
         return hackType;
+    }
+
+    public bool GetIsActive()
+    {
+        return isActive;
     }
 }
