@@ -24,7 +24,8 @@ public class MapSquare : MonoBehaviour
     string state;
     bool playerPresent;
     bool shroud;
-    int scoutLevel;
+    int poiScoutLevel;
+    int enemyScoutLevel;
         // 1 = normal (default) no knowledge, 2 = know how many items, 3 = know what everything is
 
     // objects and hacks
@@ -107,7 +108,8 @@ public class MapSquare : MonoBehaviour
     public void SetPlayerStart()
     {
         // move some of this to SetPlayerPosition once moving is added
-        scoutLevel = 3;
+        enemyScoutLevel = 3;
+        poiScoutLevel = 3;
         RemoveShroud();
         RemoveAdjacentShrouds();
         playerPresent = true;
@@ -124,7 +126,8 @@ public class MapSquare : MonoBehaviour
     public void InitializeSquare(Sprite newImage, Sprite newLocationImage)
     {
         enemy = null;
-        scoutLevel = 1;
+        enemyScoutLevel = 1;
+        poiScoutLevel = 3;
         playerPresent = false;
         isActive = true;
         GetComponent<PolygonCollider2D>().enabled = true;
@@ -289,5 +292,15 @@ public class MapSquare : MonoBehaviour
     public List<int> GetEnemyDebuffs()
     {
         return enemyDebuffs;
+    }
+
+    public int GetPOIScoutLevel()
+    {
+        return poiScoutLevel;
+    }
+
+    public int GetEnemyScoutLevel()
+    {
+        return enemyScoutLevel;
     }
 }

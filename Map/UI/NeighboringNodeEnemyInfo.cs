@@ -14,9 +14,13 @@ public class NeighboringNodeEnemyInfo : MonoBehaviour
     [SerializeField] Image[] stars;
     [SerializeField] Image enemyBuffIcon;
     [SerializeField] Image enemyDebuffIcon;
+    [SerializeField] GameObject scoutLevel1;
+    [SerializeField] GameObject scoutLevel2;
+    [SerializeField] GameObject scoutLevel3;
+    [SerializeField] GameObject noEnemyPresent;
     int starRating;
 
-    public void SetupEnemyInfo(Enemy newEnemy, MapSquare square)
+    public void SetupEnemyInfo(Enemy newEnemy, MapSquare square, int enemyScoutLevel)
     {
         enemy = newEnemy;
         Vector3 dummyPosition = new Vector3(-100, -100, -100);
@@ -24,30 +28,52 @@ public class NeighboringNodeEnemyInfo : MonoBehaviour
         // we have to do this so we can get data from the prefab...
         Enemy dummyEnemy = Instantiate(enemy, dummyPosition, Quaternion.identity);
 
-        EnableFields();
-        portraitImage.sprite = dummyEnemy.GetThumbnailImage();
-        enemyName.text = dummyEnemy.GetEnemyName();
-        starRating = dummyEnemy.GetStarRating();
-        
+        switch (enemyScoutLevel)
+        {
+            case 1:
+                noEnemyPresent.SetActive(false);
+                scoutLevel2.SetActive(false);
+                scoutLevel3.SetActive(false);
+                break;
+            case 2:
+                noEnemyPresent.SetActive(false);
+                scoutLevel2.SetActive(true);
+                scoutLevel3.SetActive(false);
+                break;
+            case 3:
+                noEnemyPresent.SetActive(false);
+                scoutLevel2.SetActive(false);
+                scoutLevel3.SetActive(true);
+                EnableEnemyFieldsLevel3();
+                portraitImage.sprite = dummyEnemy.GetThumbnailImage();
+                enemyName.text = dummyEnemy.GetEnemyName();
+                starRating = dummyEnemy.GetStarRating();
 
-        Destroy(dummyEnemy);
-        SetupStars();
+
+                Destroy(dummyEnemy);
+                SetupStars();
+                break;
+        }
+
         SetupBuffsAndDebuffs(square);
     }
 
-    public void SetupEmptyEnemy()
+    public void SetupEmptyEnemy(MapSquare square)
     {
+        noEnemyPresent.SetActive(true);
+        scoutLevel2.SetActive(false);
+        scoutLevel3.SetActive(false);
         DisableFields();
+
+        SetupBuffsAndDebuffs(square);
     }
 
-    private void EnableFields()
+    private void EnableEnemyFieldsLevel3()
     {
         portraitImage.enabled = true;
         portraitBorderFront.enabled = true;
         portraitBorderBack.enabled = true;
         enemyName.enabled = true;
-        enemyBuffIcon.enabled = true;
-        enemyDebuffIcon.enabled = true;
         foreach (Image star in stars)
         {
             star.enabled = true;
@@ -60,8 +86,6 @@ public class NeighboringNodeEnemyInfo : MonoBehaviour
         portraitBorderFront.enabled = false;
         portraitBorderBack.enabled = false;
         enemyName.enabled = false;
-        enemyBuffIcon.enabled = false;
-        enemyDebuffIcon.enabled = false;
         foreach (Image star in stars)
         {
             star.enabled = false;

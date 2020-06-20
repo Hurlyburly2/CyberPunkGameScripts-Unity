@@ -13,17 +13,19 @@ public class NeighboringNodeMenu : MonoBehaviour
     List<HackTarget> hackTargets;
     List<MapObject> mapObjects;
     int poiScoutLevel;
+    int enemyScoutLevel;
 
     Enemy enemy;
 
     public void InitializeMenu(MapSquare mapSquare)
     {
-        poiScoutLevel = 3;
         gameObject.SetActive(true);
         square = mapSquare;
         locationImage = square.GetLocationImage();
         hackTargets = square.GetHackTargets();
         mapObjects = square.GetMapObjects();
+        poiScoutLevel = square.GetPOIScoutLevel();
+        enemyScoutLevel = square.GetEnemyScoutLevel();
 
         Image[] images = GetComponentsInChildren<Image>();
         foreach (Image image in images)
@@ -38,12 +40,12 @@ public class NeighboringNodeMenu : MonoBehaviour
 
         enemy = mapSquare.GetEnemy();
 
-        if (enemy != null)
+        if (enemy != null || enemyScoutLevel == 1)
         {
-            enemyInfo.SetupEnemyInfo(enemy, square);
-        } else
+            enemyInfo.SetupEnemyInfo(enemy, square, enemyScoutLevel);
+        } else if (enemy == null && enemyScoutLevel == 3 || enemy == null && enemyScoutLevel == 2)
         {
-            enemyInfo.SetupEmptyEnemy();
+            enemyInfo.SetupEmptyEnemy(square);
         }
 
         SetupHackTargets();
