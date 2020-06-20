@@ -8,9 +8,11 @@ public class MapObject : ScriptableObject
     string type;
     // options are fed to it by mapSquare:
     // "Trap", "Reward", "PowerUp", "Shop", "Upgrade", "First Aid Station"
+    bool isActive;
 
     public void SetupMapObject(string newMapObjectType)
     {
+        isActive = true;
         type = newMapObjectType;
         mapType = FindObjectOfType<MapData>().GetMapType();
     }
@@ -18,5 +20,10 @@ public class MapObject : ScriptableObject
     public string GetObjectType()
     {
         return type;
+    }
+
+    public bool GetIsActive()
+    {
+        return isActive;
     }
 }

@@ -46,7 +46,9 @@ public class MapSquare : MonoBehaviour
         {
             if (playerPresent)
             {
-
+                mapConfig.SetIsAMenuOpen(true);
+                CurrentNodeMenu menu = mapConfig.GetCurrentNodeMenu();
+                menu.InitializeMenu(this);
             } else
             {
                 mapConfig.SetIsAMenuOpen(true);

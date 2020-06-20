@@ -17,6 +17,29 @@ public class MapSquareImageHolder : MonoBehaviour
 
     [SerializeField] Sprite[] menuIcons;
 
+    [SerializeField] Sprite[] activeMenuButtons;
+    [SerializeField] Sprite[] inactiveMenuButtons;
+
+    public Sprite GetButtonImageByName(string buttonName, bool isActive)
+    {
+        if (isActive)
+        {
+            switch (buttonName)
+            {
+                case "Trap":
+                    return activeMenuButtons[9];
+            }
+        } else
+        {
+            switch (buttonName)
+            {
+                case "Trap":
+                    return activeMenuButtons[9];
+            }
+        }
+        return activeMenuButtons[0];
+    }
+
     public Sprite GetMenuIconByName(string iconName)
     {
         switch (iconName)

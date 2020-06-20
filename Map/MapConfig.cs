@@ -7,6 +7,7 @@ public class MapConfig : MonoBehaviour
     // config
     MapData mapData;
     [SerializeField] NeighboringNodeMenu neighboringNodeMenu;
+    [SerializeField] CurrentNodeMenu currentNodeMenu;
 
     // pip manager config
     [SerializeField] string healthPipManagerName = "HealthPipManager";
@@ -84,6 +85,11 @@ public class MapConfig : MonoBehaviour
     public NeighboringNodeMenu GetNeighboringNodeMenu()
     {
         return neighboringNodeMenu;
+    }
+
+    public CurrentNodeMenu GetCurrentNodeMenu()
+    {
+        return currentNodeMenu;
     }
 
     public bool GetIsAMenuOpen()
