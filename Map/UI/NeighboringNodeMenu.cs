@@ -43,7 +43,7 @@ public class NeighboringNodeMenu : MonoBehaviour
             enemyInfo.SetupEnemyInfo(enemy);
         } else
         {
-            // TODO: SET UP AN EMPTY ENEMY
+            enemyInfo.SetupEmptyEnemy();
         }
 
         SetupHackTargets();
