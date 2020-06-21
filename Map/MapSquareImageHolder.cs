@@ -164,4 +164,13 @@ public class MapSquareImageHolder : MonoBehaviour
                 break;
         }
     }
+
+    public int GetImageIndexByImage(Sprite image)
+    {
+        // TODO: Proof of concept for getting an id for an image
+        List<Sprite> loadList = new List<Sprite>();
+        loadList.AddRange(citySquares);
+
+        return loadList.IndexOf(image);
+    }
 }

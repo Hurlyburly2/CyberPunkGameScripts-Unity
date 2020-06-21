@@ -161,5 +161,10 @@ public class SceneLoader : MonoBehaviour
     {
         SaveData data = SaveSystem.LoadSaveData();
         Debug.Log("random number loaded: " + data.GetRandomNumber());
+        Debug.Log("random number list:");
+        foreach(int number in data.GetRandomNumbers())
+        {
+            Debug.Log(number);
+        }
     }
 }
