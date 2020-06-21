@@ -28,6 +28,53 @@ public class MapData : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public void MovePlayer(MapSquare currentSquare, MapSquare targetSquare)
+    {
+        PlayerMarker playerMarker = FindObjectOfType<PlayerMarker>();
+        playerMarker.SetTargetPosition(targetSquare.GetPlayerMarkerPosition());
+        playerMarker.moveTowardTargetPosition();
+        playerMarker.SetCurrentSquare(targetSquare);
+
+        currentSquare.UnsetPlayerPosition();
+        targetSquare.SetPlayerPosition();
+    }
+
+    public void PlayerFinishesMoving(MapSquare currentSquare)
+    {
+        TrapsSpring();
+        if (currentSquare.GetEnemy() != null)
+        {
+            StartBattle();
+        }
+        PostMovementActions();
+    }
+
+    public void StartBattle()
+    {
+        Debug.Log("Battle goes here!");
+    }
+
+    private void PostMovementActions()
+    {
+        AttemptToSpawnEnemy();
+        RaiseSecurityLevel();
+    }
+
+    private void TrapsSpring()
+    {
+        Debug.Log("Traps Spring!");
+    }
+
+    private void AttemptToSpawnEnemy()
+    {
+        Debug.Log("Attempt to Spawn an Enemy");
+    }
+
+    private void RaiseSecurityLevel()
+    {
+        Debug.Log("Raise Security Level");
+    }
+
     public void SetUpMap()
     {
         SetupPlayerPortraits();
