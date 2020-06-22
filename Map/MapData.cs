@@ -44,14 +44,14 @@ public class MapData : MonoBehaviour
         TrapsSpring();
         if (currentSquare.GetEnemy() != null)
         {
-            StartBattle();
+            StartBattle(currentSquare);
         }
         PostMovementActions();
     }
 
-    public void StartBattle()
+    public void StartBattle(MapSquare currentSquare)
     {
-        Debug.Log("Battle goes here!");
+        FindObjectOfType<SceneLoader>().LoadBattleFromMap(currentSquare);
     }
 
     private void PostMovementActions()

@@ -61,6 +61,8 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadMap(string mapType, int mapSize)
     {
+        currentRunner = TestData.SetTestCharacterOne();
+        currentHacker = TestData.SetTestHackerOne();
         currentMap = Instantiate(mapData);
         currentMap.SetMapData(currentRunner, currentHacker, mapType, 10, mapSize);
         ChangeMusicTrack("slums");
@@ -77,6 +79,17 @@ public class SceneLoader : MonoBehaviour
             yield return null;
         }
         currentMap.SetUpMap();
+    }
+
+    public void LoadBattleFromMap(MapSquare currentSquare)
+    {
+        currentBattle = Instantiate(battleData);
+        currentBattle.SetCharacterData(currentRunner, currentHacker);
+        currentBattle.GetDataFromMapSquare(currentSquare);
+
+        SceneManager.LoadScene(battleSceneName);
+
+        StartCoroutine(WaitForBattleLoad(battleSceneName));
     }
 
     public void LoadBattle()
