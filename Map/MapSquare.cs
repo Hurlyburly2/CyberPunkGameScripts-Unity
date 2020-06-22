@@ -63,6 +63,8 @@ public class MapSquare : MonoBehaviour
             }
         }
         Debug.Log("iunno1");
+        Debug.Log("is a menu open?:" + mapConfig.GetIsAMenuOpen());
+        Debug.Log("is the location shrouded?: " + shroud);
     }
 
     private void OnMouseDown()

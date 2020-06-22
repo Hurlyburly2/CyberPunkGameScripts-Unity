@@ -90,6 +90,21 @@ public class SceneLoader : MonoBehaviour
         currentMap.SetUpMapFromBattle();
         BattleData previousBattle = FindObjectOfType<BattleData>();
         Destroy(previousBattle);
+        DestroyExtraGrids();
+    }
+
+    private void DestroyExtraGrids()
+    {
+        MapGrid[] grids = FindObjectsOfType<MapGrid>();
+
+        for (int i = 0; i < grids.Length; i++)
+        {
+            if (!grids[i].GetIsInitialized())
+            {
+                Debug.Log("destroy the gridddd");
+                Destroy(grids[i].gameObject);
+            }
+        }
     }
 
     private IEnumerator WaitForMapLoad(string mapName)
