@@ -50,21 +50,16 @@ public class MapSquare : MonoBehaviour
         {
             if (playerPresent)
             {
-                Debug.Log("iunno2");
                 mapConfig.SetIsAMenuOpen(true);
                 CurrentNodeMenu menu = mapConfig.GetCurrentNodeMenu();
                 menu.InitializeMenu(this);
             } else
             {
-                Debug.Log("iunno3");
                 mapConfig.SetIsAMenuOpen(true);
                 NeighboringNodeMenu menu = mapConfig.GetNeighboringNodeMenu();
                 menu.InitializeMenu(this);
             }
         }
-        Debug.Log("iunno1");
-        Debug.Log("is a menu open?:" + mapConfig.GetIsAMenuOpen());
-        Debug.Log("is the location shrouded?: " + shroud);
     }
 
     private void OnMouseDown()

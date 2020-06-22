@@ -101,7 +101,6 @@ public class SceneLoader : MonoBehaviour
         {
             if (!grids[i].GetIsInitialized())
             {
-                Debug.Log("destroy the gridddd");
                 Destroy(grids[i].gameObject);
             }
         }
