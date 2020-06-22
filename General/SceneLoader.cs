@@ -83,9 +83,12 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadBattleFromMap(MapSquare currentSquare)
     {
+        MapGrid mapGrid = FindObjectOfType<MapGrid>();
+
         currentBattle = Instantiate(battleData);
         currentBattle.SetCharacterData(currentRunner, currentHacker);
         currentBattle.GetDataFromMapSquare(currentSquare);
+        currentBattle.SetMapGrid(mapGrid);
 
         SceneManager.LoadScene(battleSceneName);
 

@@ -45,6 +45,10 @@ public class PipManagerEnemy : MonoBehaviour
         int targetNumberOfPips = Mathf.CeilToInt(currentValue / pipValue);
 
         float timePerPip = transitionTime / targetNumberOfPips;
+        if (targetNumberOfPips == 0)
+        {
+            timePerPip = .05f;
+        }
         while (pipList.Count != targetNumberOfPips)
         {
             if (pipList.Count > targetNumberOfPips)
@@ -54,12 +58,16 @@ public class PipManagerEnemy : MonoBehaviour
             {
                 AddPip();
             }
+            Debug.Log("target number of pips: " + targetNumberOfPips);
+            Debug.Log("old piplist count: " + pipList.Count);
             yield return new WaitForSeconds(timePerPip);
+            Debug.Log("new piplist count: " + pipList.Count);
         }
     }
 
     private void RemovePip()
     {
+        Debug.Log("remove pip");
         GameObject previousLastPip = pipList[pipList.Count - 1];
         pipList.RemoveAt(pipList.Count - 1);
         Destroy(previousLastPip);

@@ -20,6 +20,7 @@ public class BattleData : MonoBehaviour
     // data from map
     int enemyId;
     bool enemyLoaded = false;
+    MapGrid mapGrid;
 
     // state
     bool actionDisabled = true;
@@ -210,6 +211,12 @@ public class BattleData : MonoBehaviour
         Debug.Log("enemyID: " + enemyId);
         Destroy(dummyEnemy);
         return enemyId;
+    }
+
+    public void SetMapGrid(MapGrid newMapGrid)
+    {
+        mapGrid = newMapGrid;
+        mapGrid.gameObject.SetActive(false);
     }
 
     public CharacterData GetCharacter()

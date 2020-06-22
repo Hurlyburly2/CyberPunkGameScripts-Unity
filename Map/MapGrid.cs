@@ -15,6 +15,17 @@ public class MapGrid : MonoBehaviour
     // state
     List<MapSquareRow> activeRows;
 
+    private void Start()
+    {
+        int count = FindObjectsOfType<MapGrid>().Length;
+
+        if (count > 1)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
     public void SetupGrid(string mapType, int mapSize)
     {
         activeRows = new List<MapSquareRow>();
