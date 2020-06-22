@@ -58,6 +58,10 @@ public class PipManager : MonoBehaviour
         int targetNumberOfPips = Mathf.CeilToInt(currentValue / pipValue);
 
         float timePerPip = transitionTime / targetNumberOfPips;
+        if (targetNumberOfPips == 0)
+        {
+            timePerPip = .05f;
+        }
         while (pipList.Count != targetNumberOfPips)
         {
             if (pipList.Count > targetNumberOfPips)

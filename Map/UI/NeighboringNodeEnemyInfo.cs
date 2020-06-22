@@ -29,6 +29,7 @@ public class NeighboringNodeEnemyInfo : MonoBehaviour
         {
             case 1:
                 noEnemyPresent.SetActive(false);
+                scoutLevel1.SetActive(true);
                 scoutLevel2.SetActive(false);
                 scoutLevel3.SetActive(false);
                 break;
@@ -37,6 +38,7 @@ public class NeighboringNodeEnemyInfo : MonoBehaviour
                 Enemy dummyEnemy = Instantiate(enemy, dummyPosition, Quaternion.identity);
 
                 noEnemyPresent.SetActive(false);
+                scoutLevel1.SetActive(false);
                 scoutLevel2.SetActive(true);
                 scoutLevel3.SetActive(false);
 
@@ -46,6 +48,7 @@ public class NeighboringNodeEnemyInfo : MonoBehaviour
                 dummyEnemy = Instantiate(enemy, dummyPosition, Quaternion.identity);
 
                 noEnemyPresent.SetActive(false);
+                scoutLevel1.SetActive(false);
                 scoutLevel2.SetActive(false);
                 scoutLevel3.SetActive(true);
                 EnableEnemyFieldsLevel3();
@@ -65,6 +68,7 @@ public class NeighboringNodeEnemyInfo : MonoBehaviour
     public void SetupEmptyEnemy(MapSquare square)
     {
         noEnemyPresent.SetActive(true);
+        scoutLevel1.SetActive(false);
         scoutLevel2.SetActive(false);
         scoutLevel3.SetActive(false);
         DisableFields();

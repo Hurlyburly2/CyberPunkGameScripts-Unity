@@ -9,8 +9,10 @@ public class NeighboringNodeMenu : MonoBehaviour
     [SerializeField] NeighboringNodeEnemyInfo enemyInfo;
     [SerializeField] GameObject levelOneScoutPOI;
     [SerializeField] GameObject levelTwoAndThreeScoutPOI;
+    [SerializeField] Button moveButton;
 
     MapSquare square;
+    MapSquare playerLocation;
     Sprite locationImage;
     List<HackTarget> hackTargets;
     List<MapObject> mapObjects;
@@ -51,6 +53,21 @@ public class NeighboringNodeMenu : MonoBehaviour
         }
 
         SetupHackTargets();
+        CheckIsPlayerAdjacent();
+    }
+
+    private void CheckIsPlayerAdjacent()
+    {
+        List<MapSquare> adjacentSquares = square.GetAdjacentSquares();
+        moveButton.interactable = false;
+        foreach(MapSquare square in adjacentSquares)
+        {
+            if (square.GetIsPlayerPresent())
+            {
+                moveButton.interactable = true;
+                playerLocation = square;
+            }
+        }
     }
 
     private void SetupHackTargets()
@@ -129,6 +146,12 @@ public class NeighboringNodeMenu : MonoBehaviour
             line = pointOfInterestLines[counter];
             line.SetBlankLine();
         }
+    }
+
+    public void MovePlayer()
+    {
+        FindObjectOfType<MapData>().MovePlayer(playerLocation, square);
+        CloseMenu();
     }
 
     public void CloseMenu()

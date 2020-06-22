@@ -67,6 +67,7 @@ public class Enemy : MonoBehaviour
         if (currentHealth - damageInflicted < 1)
         {
             currentHealth = 0;
+            UpdateHealthText();
             healthPipManager.ChangeValue(currentHealth);
         } else
         {

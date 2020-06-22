@@ -42,20 +42,29 @@ public class MapSquare : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
+        if (mapConfig == null)
+        {
+            mapConfig = FindObjectOfType<MapConfig>();
+        }
         if (!shroud && !mapConfig.GetIsAMenuOpen())
         {
             if (playerPresent)
             {
+                Debug.Log("iunno2");
                 mapConfig.SetIsAMenuOpen(true);
                 CurrentNodeMenu menu = mapConfig.GetCurrentNodeMenu();
                 menu.InitializeMenu(this);
             } else
             {
+                Debug.Log("iunno3");
                 mapConfig.SetIsAMenuOpen(true);
                 NeighboringNodeMenu menu = mapConfig.GetNeighboringNodeMenu();
                 menu.InitializeMenu(this);
             }
         }
+        Debug.Log("iunno1");
+        Debug.Log("is a menu open?:" + mapConfig.GetIsAMenuOpen());
+        Debug.Log("is the location shrouded?: " + shroud);
     }
 
     private void OnMouseDown()
@@ -109,20 +118,30 @@ public class MapSquare : MonoBehaviour
 
     public void SetPlayerStart()
     {
-        // move some of this to SetPlayerPosition once moving is added
-        enemyScoutLevel = 3;
-        poiScoutLevel = 3;
-        RemoveShroud();
-        RemoveAdjacentShrouds();
-        playerPresent = true;
+        SetPlayerPosition();
         PlayerMarker playerMarkerPrefab = parentRow.GetMapGrid().GetPlayerMarkerPrefab();
         Vector3 markerPosition = GetPlayerMarkerPosition();
         PlayerMarker newPlayerMarker = Instantiate(playerMarkerPrefab, markerPosition, Quaternion.identity);
+        newPlayerMarker.SetCurrentSquare(this);
     }
 
     public Vector3 GetPlayerMarkerPosition()
     {
         return new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
+    }
+
+    public void UnsetPlayerPosition()
+    {
+        playerPresent = false;
+    }
+
+    public void SetPlayerPosition()
+    {
+        playerPresent = true;
+        enemyScoutLevel = 3;
+        poiScoutLevel = 3;
+        RemoveShroud();
+        RemoveAdjacentShrouds();
     }
 
     public void InitializeSquare(Sprite newImage, Sprite newLocationImage)
@@ -304,5 +323,10 @@ public class MapSquare : MonoBehaviour
     public int GetEnemyScoutLevel()
     {
         return enemyScoutLevel;
+    }
+
+    public bool GetIsPlayerPresent()
+    {
+        return playerPresent;
     }
 }

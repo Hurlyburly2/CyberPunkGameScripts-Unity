@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MapGrid : MonoBehaviour
 {
+    public static MapGrid instance { get; private set; }
+
     //config
     [SerializeField] MapSquareRow[] rows;
     [SerializeField] PlayerMarker playerMarkerPrefab;
@@ -14,9 +16,23 @@ public class MapGrid : MonoBehaviour
 
     // state
     List<MapSquareRow> activeRows;
+    bool isInitialized = false;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Debug.Log("destroy extra grid...");
+            Destroy(gameObject);
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     public void SetupGrid(string mapType, int mapSize)
     {
+        isInitialized = true;
         activeRows = new List<MapSquareRow>();
         mapSquareImageHolder = FindObjectOfType<MapSquareImageHolder>();
         mapSquareImageHolder.Initialize(mapType);
@@ -108,5 +124,10 @@ public class MapGrid : MonoBehaviour
                 return 66;
         }
         return 0;
+    }
+
+    public bool GetIsInitialized()
+    {
+        return isInitialized;
     }
 }

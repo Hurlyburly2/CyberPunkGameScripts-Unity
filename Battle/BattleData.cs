@@ -17,6 +17,11 @@ public class BattleData : MonoBehaviour
     HackerData hacker;
     Enemy enemy;
 
+    // data from map
+    int enemyId;
+    bool enemyLoaded = false;
+    MapGrid mapGrid;
+
     // state
     bool actionDisabled = true;
     string whoseTurn = "player";
@@ -41,8 +46,17 @@ public class BattleData : MonoBehaviour
         deck = FindObjectOfType<Deck>();
         discard = FindObjectOfType<Discard>();
 
-        // TODO: pass a value here, sets the current enemy to the test enemy and instantiates them
-        SetUpEnemy(0);
+        // square will only be null when testing battles directly, so we just set it to a default enemy
+        if (!enemyLoaded)
+        {
+            Debug.Log("booooo");
+            SetUpEnemy(0);
+        } else
+        {
+            Debug.Log("This happened");
+            Debug.Log("enemy id: " + enemyId);
+            SetUpEnemy(enemyId);
+        }
         enemy.BattleSetup(setupTimeInSeconds);
 
         configData = FindObjectOfType<ConfigData>();
@@ -179,6 +193,35 @@ public class BattleData : MonoBehaviour
     {
         character = characterToSet;
         hacker = hackerToSet;
+    }
+
+    public void GetDataFromMapSquare(MapSquare newCurrentSquare)
+    {
+        Debug.Log("set square");
+        enemyId = GetEnemyIDFromMapSquare(newCurrentSquare);
+        enemyLoaded = true;
+    }
+
+    private int GetEnemyIDFromMapSquare(MapSquare square)
+    {
+        Enemy prefabEnemy = square.GetEnemy();
+        Vector3 dummyPosition = new Vector3(-100, -100, -100);
+        Enemy dummyEnemy = Instantiate(prefabEnemy, dummyPosition, Quaternion.identity);
+        int enemyId = dummyEnemy.GetEnemyId();
+        Debug.Log("enemyID: " + enemyId);
+        Destroy(dummyEnemy);
+        return enemyId;
+    }
+
+    public void SetMapGrid(MapGrid newMapGrid)
+    {
+        mapGrid = newMapGrid;
+        mapGrid.gameObject.SetActive(false);
+    }
+
+    public MapGrid GetMapGrid()
+    {
+        return mapGrid;
     }
 
     public CharacterData GetCharacter()

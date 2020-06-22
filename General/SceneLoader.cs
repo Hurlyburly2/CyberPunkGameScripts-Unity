@@ -61,6 +61,8 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadMap(string mapType, int mapSize)
     {
+        currentRunner = TestData.SetTestCharacterOne();
+        currentHacker = TestData.SetTestHackerOne();
         currentMap = Instantiate(mapData);
         currentMap.SetMapData(currentRunner, currentHacker, mapType, 10, mapSize);
         ChangeMusicTrack("slums");
@@ -70,6 +72,41 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(WaitForMapLoad(mapSceneName));
     }
 
+    public void LoadMapFromBattle()
+    {
+        MapGrid mapGrid = FindObjectOfType<BattleData>().GetMapGrid();
+        SceneManager.LoadScene(mapSceneName);
+
+        StartCoroutine(WaitForMapToLoadFromBattle(mapGrid));
+    }
+
+    private IEnumerator WaitForMapToLoadFromBattle(MapGrid mapGrid)
+    {
+        while (SceneManager.GetActiveScene().name != mapSceneName)
+        {
+            yield return null;
+        }
+        mapGrid.gameObject.SetActive(true);
+        currentMap.SetUpMapFromBattle();
+        BattleData previousBattle = FindObjectOfType<BattleData>();
+        Destroy(previousBattle);
+        DestroyExtraGrids();
+    }
+
+    private void DestroyExtraGrids()
+    {
+        MapGrid[] grids = FindObjectsOfType<MapGrid>();
+
+        for (int i = 0; i < grids.Length; i++)
+        {
+            if (!grids[i].GetIsInitialized())
+            {
+                Debug.Log("destroy the gridddd");
+                Destroy(grids[i].gameObject);
+            }
+        }
+    }
+
     private IEnumerator WaitForMapLoad(string mapName)
     {
         while (SceneManager.GetActiveScene().name != mapSceneName)
@@ -77,6 +114,20 @@ public class SceneLoader : MonoBehaviour
             yield return null;
         }
         currentMap.SetUpMap();
+    }
+
+    public void LoadBattleFromMap(MapSquare currentSquare)
+    {
+        MapGrid mapGrid = FindObjectOfType<MapGrid>();
+
+        currentBattle = Instantiate(battleData);
+        currentBattle.SetCharacterData(currentRunner, currentHacker);
+        currentBattle.GetDataFromMapSquare(currentSquare);
+        currentBattle.SetMapGrid(mapGrid);
+
+        SceneManager.LoadScene(battleSceneName);
+
+        StartCoroutine(WaitForBattleLoad(battleSceneName));
     }
 
     public void LoadBattle()
@@ -161,5 +212,10 @@ public class SceneLoader : MonoBehaviour
     {
         SaveData data = SaveSystem.LoadSaveData();
         Debug.Log("random number loaded: " + data.GetRandomNumber());
+        Debug.Log("random number list:");
+        foreach(int number in data.GetRandomNumbers())
+        {
+            Debug.Log(number);
+        }
     }
 }
