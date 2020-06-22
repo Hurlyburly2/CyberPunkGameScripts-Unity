@@ -87,6 +87,25 @@ public class MapData : MonoBehaviour
         mapGrid.SetupGrid(mapType, mapSize);
     }
 
+    public void SetUpMapFromBattle()
+    {
+        SetupPlayerPortraits();
+        runner.MapSetup();
+
+        mapConfig = FindObjectOfType<MapConfig>();
+        mapConfig.SetupPipManagers(runner, setupTimeInSeconds, securityLevel);
+
+        MapSquare[] mapSquares = FindObjectsOfType<MapSquare>();
+        foreach (MapSquare square in mapSquares)
+        {
+            if (square.GetIsPlayerPresent())
+            {
+                square.SetPlayerStart();
+                break;
+            }
+        }
+    }
+
     public void SetMapData(CharacterData characterToSet, HackerData hackerToSet, string newMapType, int newSecurityLevel, int newMapSize)
     {
         runner = characterToSet;

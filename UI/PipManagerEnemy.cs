@@ -63,6 +63,12 @@ public class PipManagerEnemy : MonoBehaviour
             yield return new WaitForSeconds(timePerPip);
             Debug.Log("new piplist count: " + pipList.Count);
         }
+
+        if (pipList.Count == 0)
+        {
+            Debug.Log("Enemy Dead!");
+            FindObjectOfType<SceneLoader>().LoadMapFromBattle();
+        }
     }
 
     private void RemovePip()

@@ -219,6 +219,11 @@ public class BattleData : MonoBehaviour
         mapGrid.gameObject.SetActive(false);
     }
 
+    public MapGrid GetMapGrid()
+    {
+        return mapGrid;
+    }
+
     public CharacterData GetCharacter()
     {
         return character;

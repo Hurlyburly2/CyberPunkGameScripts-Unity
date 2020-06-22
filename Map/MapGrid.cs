@@ -15,7 +15,7 @@ public class MapGrid : MonoBehaviour
     // state
     List<MapSquareRow> activeRows;
 
-    private void Start()
+    private void Awake()
     {
         int count = FindObjectsOfType<MapGrid>().Length;
 

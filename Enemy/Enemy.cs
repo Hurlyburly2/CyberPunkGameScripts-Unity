@@ -64,12 +64,11 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damageInflicted)
     {
-        if (currentHealth - damageInflicted < -1)
+        if (currentHealth - damageInflicted < 1)
         {
             currentHealth = 0;
             UpdateHealthText();
             healthPipManager.ChangeValue(currentHealth);
-            Debug.Log("Enemy Dead");
         } else
         {
             currentHealth -= damageInflicted;

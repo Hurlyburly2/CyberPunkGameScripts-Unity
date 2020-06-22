@@ -72,6 +72,26 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(WaitForMapLoad(mapSceneName));
     }
 
+    public void LoadMapFromBattle()
+    {
+        MapGrid mapGrid = FindObjectOfType<BattleData>().GetMapGrid();
+        SceneManager.LoadScene(mapSceneName);
+
+        StartCoroutine(WaitForMapToLoadFromBattle(mapGrid));
+    }
+
+    private IEnumerator WaitForMapToLoadFromBattle(MapGrid mapGrid)
+    {
+        while (SceneManager.GetActiveScene().name != mapSceneName)
+        {
+            yield return null;
+        }
+        mapGrid.gameObject.SetActive(true);
+        currentMap.SetUpMapFromBattle();
+        BattleData previousBattle = FindObjectOfType<BattleData>();
+        Destroy(previousBattle);
+    }
+
     private IEnumerator WaitForMapLoad(string mapName)
     {
         while (SceneManager.GetActiveScene().name != mapSceneName)
