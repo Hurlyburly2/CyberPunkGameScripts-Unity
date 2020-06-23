@@ -39,4 +39,9 @@ public class CurrentNodeMenu : MonoBehaviour
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);
         gameObject.SetActive(false);
     }
+
+    public MapSquare GetMapSquare()
+    {
+        return square;
+    }
 }

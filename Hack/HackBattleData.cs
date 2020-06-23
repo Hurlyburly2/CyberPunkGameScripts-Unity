@@ -11,6 +11,9 @@ public class HackBattleData : MonoBehaviour
     HackDiscard hackDiscard;
     AllHackCards allHackCards;
     HackSecurityUI hackSecurityUI;
+    MapGrid mapGrid;
+    MapSquare currentMapSquare;
+    HackTarget hackTarget;
 
     string state = "normal";
     // currently: normal, cardui
@@ -38,6 +41,11 @@ public class HackBattleData : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void FinishHack()
+    {
+        FindObjectOfType<SceneLoader>().LoadMapFromHack(redPoints, bluePoints, purplePoints, currentMapSquare, hackTarget);
     }
 
     public void SetCharacterData(CharacterData newRunner, HackerData newHacker)
@@ -302,5 +310,18 @@ public class HackBattleData : MonoBehaviour
     private void DefaultSecurityOnCardPlacement()
     {
         hackDeck.TrashXCards(securityLevel);
+    }
+
+    public void SetMapData(MapGrid newMapGrid, MapSquare mapSquare, HackTarget newHackTarget)
+    {
+        mapGrid = newMapGrid;
+        mapGrid.gameObject.SetActive(false);
+        currentMapSquare = mapSquare;
+        hackTarget = newHackTarget;
+    }
+
+    public MapGrid GetMapGrid()
+    {
+        return mapGrid;
     }
 }

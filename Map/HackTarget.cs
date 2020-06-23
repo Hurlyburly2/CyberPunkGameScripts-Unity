@@ -15,6 +15,7 @@ public class HackTarget : ScriptableObject
     int bluePoints;
     int purplePoints;
     bool isActive;
+    bool hackIsDone;
 
     public void SetupHackTarget(string newHackType)
     {
@@ -22,10 +23,39 @@ public class HackTarget : ScriptableObject
         bluePoints = 0;
         purplePoints = 0;
         isActive = true;
+        hackIsDone = false;
         //hackType = newHackType;
         hackType = "Security Camera";
         // temporary for testing security camera
         mapType = FindObjectOfType<MapData>().GetMapType();
+    }
+
+    public void SetPoints(int newRedPoints, int newBluePoints, int newPurplePoints)
+    {
+        redPoints = newRedPoints;
+        bluePoints = newBluePoints;
+        purplePoints = newPurplePoints;
+        hackIsDone = true;
+    }
+
+    public bool GetIsHackDone()
+    {
+        return hackIsDone;
+    }
+
+    public int GetRedPoints()
+    {
+        return redPoints;
+    }
+
+    public int GetBluePoints()
+    {
+        return bluePoints;
+    }
+
+    public int GetPurplePoints()
+    {
+        return purplePoints;
     }
 
     public bool CanPlayerAffordAbility(string color, int cost)
