@@ -16,6 +16,30 @@ public class MapHackMenu : MonoBehaviour
         MapSquareImageHolder imageHolder = FindObjectOfType<MapSquareImageHolder>();
         hackTypeImage.sprite = imageHolder.GetImageForHackOrPOI(hackTarget.getHackType());
         hackTypeIcon.sprite = imageHolder.GetButtonImageByName(hackTarget.getHackType(), true);
+
+        SetupHackOptionsLines();
+        CheckHackCosts();
+    }
+
+    private void SetupHackOptionsLines()
+    {
+        int count = 0;
+        foreach(HackOptionLine line in hackOptionLine)
+        {
+            string color = hackTarget.GetColor(count);
+            string description = hackTarget.GetDescription(count);
+            int cost = hackTarget.GetCost(count);
+            line.InitializeHackOptionsLine(color, cost, description, hackTarget);
+            count++;
+        }
+    }
+
+    private void CheckHackCosts()
+    {
+        foreach (HackOptionLine line in hackOptionLine)
+        {
+            line.UpdateCanPlayerAffordAbility();
+        }
     }
 
     public void StartHack()
