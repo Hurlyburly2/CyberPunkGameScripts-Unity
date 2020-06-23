@@ -20,6 +20,34 @@ public class MapSquareImageHolder : MonoBehaviour
     [SerializeField] Sprite[] activeMenuButtons;
     [SerializeField] Sprite[] inactiveMenuButtons;
 
+    [SerializeField] Sprite[] hackAndPOITypeImages;
+
+    [SerializeField] Sprite[] pointSquares;
+
+    public Sprite GetPointSquareByColor(string color)
+    {
+        switch (color)
+        {
+            case "red":
+                return pointSquares[1];
+            case "blue":
+                return pointSquares[2];
+            case "purple":
+                return pointSquares[3];
+        }
+        return pointSquares[0];
+    }
+
+    public Sprite GetImageForHackOrPOI(string name)
+    {
+        switch(name)
+        {
+            case "Security Camera":
+                return hackAndPOITypeImages[2];
+        }
+        return hackAndPOITypeImages[0];
+    }
+
     public Sprite GetButtonImageByName(string buttonName, bool isActive)
     {
         if (isActive)
