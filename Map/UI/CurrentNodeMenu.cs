@@ -32,8 +32,14 @@ public class CurrentNodeMenu : MonoBehaviour
         hackMenu.SetupButtons(square.GetHackTargets());
     }
 
+    public void ReopenHackMenu(HackTarget hackTarget)
+    {
+        hackMenu.ReopenHackMenu(hackTarget);
+    }
+
     public void CloseMenu()
     {
+        Debug.Log("closed menu");
         square = null;
         locationImage = null;
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);

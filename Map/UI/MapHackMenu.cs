@@ -67,10 +67,15 @@ public class MapHackMenu : MonoBehaviour
 
     private void CheckHackCosts()
     {
+        bool canPlayerAffordAnything = false;
         foreach (HackOptionLine line in hackOptionLine)
         {
-            line.UpdateCanPlayerAffordAbility();
+            bool canAffordAbility = line.UpdateCanPlayerAffordAbility();
+            if (canAffordAbility)
+                canPlayerAffordAnything = true;
+
         }
+        hackTarget.SetCanPlayerAffordAnything(canPlayerAffordAnything);
     }
 
     public void StartHack()
@@ -82,6 +87,10 @@ public class MapHackMenu : MonoBehaviour
 
     public void CloseMapMenu()
     {
+        CheckHackCosts();
+        Debug.Log("is hack still active: " + hackTarget.GetIsActive());
+        List<HackTarget> hackTargets = FindObjectOfType<CurrentNodeMenu>().GetMapSquare().GetHackTargets();
+        FindObjectOfType<CurrentNodeMenuHacks>().SetupButtons(hackTargets);
         gameObject.SetActive(false);
     }
 }

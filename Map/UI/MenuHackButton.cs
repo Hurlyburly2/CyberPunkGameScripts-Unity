@@ -16,8 +16,17 @@ public class MenuHackButton : MonoBehaviour
         image.enabled = true;
         GetComponent<Button>().enabled = true;
         image.sprite = FindObjectOfType<MapSquareImageHolder>().GetButtonImageByName(hackTarget.getHackType(), hackTarget.GetIsActive());
+        if (!hackTarget.GetIsActive())
+        {
+            GetComponent<Button>().enabled = false;
+        }
         hackName.enabled = true;
         hackName.text = hackTarget.getHackType();
+    }
+
+    public HackTarget GetHackTarget()
+    {
+        return hackTarget;
     }
 
     public void SetupButton()

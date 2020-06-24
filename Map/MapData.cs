@@ -106,7 +106,7 @@ public class MapData : MonoBehaviour
         }
     }
 
-    public void SetUpMapFromHack()
+    public void SetUpMapFromHack(MapSquare currentSquare, HackTarget currentHackTarget)
     {
         SetupPlayerPortraits();
         runner.MapSetup();
@@ -124,7 +124,7 @@ public class MapData : MonoBehaviour
             }
         }
 
-        // OPEN MENUS HERE
+        currentSquare.ReopenHackMenu(currentHackTarget);
     }
 
     public void SetMapData(CharacterData characterToSet, HackerData hackerToSet, string newMapType, int newSecurityLevel, int newMapSize)

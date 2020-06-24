@@ -32,18 +32,19 @@ public class HackOptionLine : MonoBehaviour
         buttonImage.sprite = buttonActive;
     }
 
-    public void UpdateCanPlayerAffordAbility()
+    public bool UpdateCanPlayerAffordAbility()
     {
         bool playerCanAffordAbility = hackTarget.CanPlayerAffordAbility(color, cost);
         if (playerCanAffordAbility)
         {
             button.enabled = true;
             buttonImage.sprite = buttonActive;
+            return true;
         } else
         {
             buttonImage.sprite = buttonInactive;
             button.enabled = false;
+            return false;
         }
-        Debug.Log("player can afford ability: " + playerCanAffordAbility);
     }
 }

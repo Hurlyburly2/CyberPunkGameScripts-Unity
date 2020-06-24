@@ -21,4 +21,16 @@ public class CurrentNodeMenuHacks : MonoBehaviour
             count++;
         }
     }
+
+    public void ReopenHackMenu(HackTarget hackTarget)
+    {
+        foreach (MenuHackButton button in buttons)
+        {
+            if (button.GetHackTarget() == hackTarget)
+            {
+                button.OpenHackMenu();
+                break;
+            }
+        }
+    }
 }

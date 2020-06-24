@@ -16,6 +16,7 @@ public class HackTarget : ScriptableObject
     int purplePoints;
     bool isActive;
     bool hackIsDone;
+    bool canPlayerAffordAnything;
 
     public void SetupHackTarget(string newHackType)
     {
@@ -56,6 +57,15 @@ public class HackTarget : ScriptableObject
     public int GetPurplePoints()
     {
         return purplePoints;
+    }
+
+    public void SetCanPlayerAffordAnything(bool canTheyAffordAnything)
+    {
+        canPlayerAffordAnything = canTheyAffordAnything;
+        if (!canPlayerAffordAnything && hackIsDone)
+        {
+            isActive = false;
+        }
     }
 
     public bool CanPlayerAffordAbility(string color, int cost)

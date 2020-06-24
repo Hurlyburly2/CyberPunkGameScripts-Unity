@@ -42,10 +42,7 @@ public class MapSquare : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        if (mapConfig == null)
-        {
-            mapConfig = FindObjectOfType<MapConfig>();
-        }
+        
         if (!shroud && !mapConfig.GetIsAMenuOpen())
         {
             if (playerPresent)
@@ -60,6 +57,18 @@ public class MapSquare : MonoBehaviour
                 menu.InitializeMenu(this);
             }
         }
+    }
+
+    public void ReopenHackMenu(HackTarget hackTarget)
+    {
+        if (mapConfig == null)
+        {
+            mapConfig = FindObjectOfType<MapConfig>();
+        }
+        mapConfig.SetIsAMenuOpen(true);
+        CurrentNodeMenu menu = mapConfig.GetCurrentNodeMenu();
+        menu.InitializeMenu(this);
+        menu.ReopenHackMenu(hackTarget);
     }
 
     private void OnMouseDown()
