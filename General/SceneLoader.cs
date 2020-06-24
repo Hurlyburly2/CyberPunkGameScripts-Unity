@@ -226,12 +226,12 @@ public class SceneLoader : MonoBehaviour
         }
         Debug.Log("OR do we reach this we reach this?");
         mapGrid.gameObject.SetActive(true);
+        currentMap.SetUpMapFromHack(currentSquare, currentHackTarget);
         HackBattleData previousHack = FindObjectOfType<HackBattleData>();
         Destroy(previousHack);
 
         currentHackTarget.SetPoints(redPoints, bluePoints, purplePoints);
         DestroyExtraGrids();
-        currentMap.SetUpMapFromHack(currentSquare, currentHackTarget);
     }
 
     private void SetupRunnerAndHacker()

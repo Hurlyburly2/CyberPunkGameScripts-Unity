@@ -42,7 +42,10 @@ public class MapSquare : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        
+        if (mapConfig == null)
+        {
+            mapConfig = FindObjectOfType<MapConfig>();
+        }
         if (!shroud && !mapConfig.GetIsAMenuOpen())
         {
             if (playerPresent)
