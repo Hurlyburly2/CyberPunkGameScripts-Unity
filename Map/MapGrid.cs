@@ -13,6 +13,7 @@ public class MapGrid : MonoBehaviour
     int startingSquare = 9;
     MapSquareImageHolder mapSquareImageHolder;
     int percentChanceForSpawn = 10;
+    string mapType;
 
     // state
     List<MapSquareRow> activeRows;
@@ -29,8 +30,9 @@ public class MapGrid : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void SetupGrid(string mapType, int mapSize)
+    public void SetupGrid(string newMapType, int mapSize)
     {
+        mapType = newMapType;
         isInitialized = true;
         activeRows = new List<MapSquareRow>();
         mapSquareImageHolder = FindObjectOfType<MapSquareImageHolder>();
@@ -128,5 +130,10 @@ public class MapGrid : MonoBehaviour
     public bool GetIsInitialized()
     {
         return isInitialized;
+    }
+
+    public string GetMapType()
+    {
+        return mapType;
     }
 }

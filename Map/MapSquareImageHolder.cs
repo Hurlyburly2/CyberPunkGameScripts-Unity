@@ -10,8 +10,6 @@ public class MapSquareImageHolder : MonoBehaviour
     List<Sprite> unusedSquares;
     List<Sprite> usedSquares;
 
-    [SerializeField] Sprite[] slumImages;
-
     List<Sprite> unusedImages;
     List<Sprite> usedImages;
 
@@ -23,6 +21,8 @@ public class MapSquareImageHolder : MonoBehaviour
     [SerializeField] Sprite[] hackAndPOITypeImages;
 
     [SerializeField] Sprite[] pointSquares;
+
+    int maxSlumLocations; // amount of locations images in slums
 
     public Sprite GetPointSquareByColor(string color)
     {
@@ -162,18 +162,29 @@ public class MapSquareImageHolder : MonoBehaviour
         return imageToReturn;
     }
 
-    public Sprite GetLocationImage()
+    public Sprite GetLocationImage(string mapType)
     {
-        if (unusedImages.Count == 0)
+        //if (unusedImages.Count == 0)
+        //{
+        //    unusedImages = usedImages;
+        //    usedImages = new List<Sprite>();
+        //}
+
+        //Sprite imageToReturn = unusedImages[Random.Range(0, unusedImages.Count)];
+        //usedImages.Add(imageToReturn);
+        //unusedImages.Remove(imageToReturn);
+        string locationString = "LocationImages";
+        switch(mapType)
         {
-            unusedImages = usedImages;
-            usedImages = new List<Sprite>();
+            case "slums":
+                locationString += "/Slums/Location";
+                locationString += Random.Range(1, maxSlumLocations).ToString();
+                Debug.Log("location string: " + locationString);
+                return Resources.Load<Sprite>(locationString);
         }
 
-        Sprite imageToReturn = unusedImages[Random.Range(0, unusedImages.Count)];
-        usedImages.Add(imageToReturn);
-        unusedImages.Remove(imageToReturn);
-        return imageToReturn;
+        return Resources.Load<Sprite>("LocationImages/City/Location1");
+        //return imageToReturn;
     }
 
     public void Initialize(string mapType)
@@ -188,7 +199,7 @@ public class MapSquareImageHolder : MonoBehaviour
         {
             case "slums":
                 unusedSquares.AddRange(citySquares);
-                unusedImages.AddRange(slumImages);
+                //unusedImages.AddRange(slumImages);
                 break;
         }
     }

@@ -76,6 +76,8 @@ public class SceneLoader : MonoBehaviour
     {
         MapGrid mapGrid = FindObjectOfType<BattleData>().GetMapGrid();
         SceneManager.LoadScene(mapSceneName);
+        BattleData previousBattle = FindObjectOfType<BattleData>();
+        Destroy(previousBattle.gameObject);
 
         StartCoroutine(WaitForMapToLoadFromBattle(mapGrid));
     }
@@ -88,8 +90,6 @@ public class SceneLoader : MonoBehaviour
         }
         mapGrid.gameObject.SetActive(true);
         currentMap.SetUpMapFromBattle();
-        BattleData previousBattle = FindObjectOfType<BattleData>();
-        DestroyImmediate(previousBattle);
         DestroyExtraGrids();
     }
 
@@ -196,6 +196,7 @@ public class SceneLoader : MonoBehaviour
         currentHack.SetCharacterData(currentRunner, currentHacker);
         currentHack.SetMapData(mapGrid, mapSqare, hackTarget);
 
+        Destroy(FindObjectOfType<MapGrid>());
         SceneManager.LoadScene(hackSceneName);
         StartCoroutine(WaitForHackToLoadFromMap());
     }
@@ -214,6 +215,9 @@ public class SceneLoader : MonoBehaviour
         MapGrid mapGrid = FindObjectOfType<HackBattleData>().GetMapGrid();
         SceneManager.LoadScene(mapSceneName);
 
+        HackBattleData previousHack = FindObjectOfType<HackBattleData>();
+        Destroy(previousHack.gameObject);
+
         StartCoroutine(WaitForMapToLoadFromHack(mapGrid, currentSquare, currentHackTarget, redPoints, bluePoints, purplePoints));
     }
 
@@ -226,9 +230,6 @@ public class SceneLoader : MonoBehaviour
         mapGrid.gameObject.SetActive(true);
         currentHackTarget.SetPoints(redPoints, bluePoints, purplePoints);
         currentMap.SetUpMapFromHack(currentSquare, currentHackTarget);
-        HackBattleData previousHack = FindObjectOfType<HackBattleData>();
-        DestroyImmediate(previousHack);
-        previousHack.Iunno();
         DestroyExtraGrids();
     }
 
@@ -260,5 +261,12 @@ public class SceneLoader : MonoBehaviour
         {
             Debug.Log(number);
         }
+    }
+
+    [SerializeField] MapSquareImageHolder imageHolder;
+
+    public void DisableObject()
+    {
+        Destroy(imageHolder.gameObject);
     }
 }

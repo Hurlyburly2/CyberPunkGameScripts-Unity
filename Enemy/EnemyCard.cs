@@ -138,7 +138,6 @@ public class EnemyCard : MonoBehaviour
 
     private void Update()
     {
-        EnemyHand enemyHand = FindObjectOfType<EnemyHand>();
         MoveTowardTarget();
     }
 

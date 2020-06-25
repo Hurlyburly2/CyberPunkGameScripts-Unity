@@ -26,6 +26,7 @@ public class MapSquare : MonoBehaviour
     bool shroud;
     int poiScoutLevel;
     int enemyScoutLevel;
+    float step;
         // 1 = normal (default) no knowledge, 2 = know how many items, 3 = know what everything is
 
     // objects and hacks
@@ -256,6 +257,7 @@ public class MapSquare : MonoBehaviour
 
     private void Start()
     {
+        step = 2.5f * Time.deltaTime;
         defaultColor = GetComponent<SpriteRenderer>().color;
         AddShroud();
         mapConfig = FindObjectOfType<MapConfig>();
@@ -263,8 +265,6 @@ public class MapSquare : MonoBehaviour
 
     void Update()
     {
-        float step = 2.5f * Time.deltaTime;
-
         if (state == "movingDown")
         {
             if (Input.touchCount == 3 || Input.touchCount == 2)
@@ -346,5 +346,10 @@ public class MapSquare : MonoBehaviour
     public bool GetIsPlayerPresent()
     {
         return playerPresent;
+    }
+
+    public MapSquareRow GetParentRow()
+    {
+        return parentRow;
     }
 }
