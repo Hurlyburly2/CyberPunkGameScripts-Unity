@@ -34,11 +34,11 @@ public class HackTarget : ScriptableObject
     public void SetupHackTest()
     {
         hackType = "Security Camera";
-        redPoints = 500;
-        bluePoints = 500;
-        purplePoints = 500;
-        canPlayerAffordAnything = true;
-        hackIsDone = true;
+        //redPoints = 500;
+        //bluePoints = 500;
+        //purplePoints = 500;
+        //canPlayerAffordAnything = true;
+        //hackIsDone = true;
     }
 
     public void SetPoints(int newRedPoints, int newBluePoints, int newPurplePoints)

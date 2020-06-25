@@ -34,7 +34,6 @@ public class CheckClickController : MonoBehaviour
             && topLeftZoneResult == "notOverTopLeftZone"
             && deckZoneResult == "notOverDeckZone")
         {
-            Debug.Log("hit camera if statement");
             FindObjectOfType<PanZoom>().AllowCameraMovement();
         }
         ResetAllResults();
@@ -59,10 +58,10 @@ public class CheckClickController : MonoBehaviour
             DiscardCard();
         } else if (topLeftZoneResult == "overTopLeftZone")
         {
-            Debug.Log("Over top left zone, do not play or discard card");
+            //Debug.Log("Over top left zone, do not play or discard card");
         } else if (deckZoneResult == "overDeckZone")
         {
-            Debug.Log("Over deck zone, do not play or discard card");
+            //Debug.Log("Over deck zone, do not play or discard card");
         } else
         {
             AttachCardToSquare();

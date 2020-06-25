@@ -89,7 +89,7 @@ public class SceneLoader : MonoBehaviour
         mapGrid.gameObject.SetActive(true);
         currentMap.SetUpMapFromBattle();
         BattleData previousBattle = FindObjectOfType<BattleData>();
-        Destroy(previousBattle);
+        DestroyImmediate(previousBattle);
         DestroyExtraGrids();
     }
 
@@ -227,8 +227,8 @@ public class SceneLoader : MonoBehaviour
         currentHackTarget.SetPoints(redPoints, bluePoints, purplePoints);
         currentMap.SetUpMapFromHack(currentSquare, currentHackTarget);
         HackBattleData previousHack = FindObjectOfType<HackBattleData>();
-        Destroy(previousHack);
-
+        DestroyImmediate(previousHack);
+        previousHack.Iunno();
         DestroyExtraGrids();
     }
 

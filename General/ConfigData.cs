@@ -154,7 +154,7 @@ public class ConfigData : MonoBehaviour
             battleData.EndTurn();
         } else
         {
-            Debug.Log("Did not find battledata");
+            //Debug.Log("Did not find battledata");
         }
         // Get battle data EndTurn here
         // Disable and discolor this button if not player's turn

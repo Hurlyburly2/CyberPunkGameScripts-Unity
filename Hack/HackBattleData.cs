@@ -32,6 +32,11 @@ public class HackBattleData : MonoBehaviour
     // Passive abilities variables
     List<PassiveAbility> passiveAbilities;
 
+    public void Iunno()
+    {
+        Debug.Log("test");
+    }
+
     private void Awake()
     {
         int count = FindObjectsOfType<BattleData>().Length;

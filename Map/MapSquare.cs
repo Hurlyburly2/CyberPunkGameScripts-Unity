@@ -233,7 +233,6 @@ public class MapSquare : MonoBehaviour
     private void RemoveAdjacentShrouds()
     {
         List<MapSquare> adjacentSquares = GetAdjacentSquares();
-        Debug.Log("found adjacent squares: " + adjacentSquares.Count);
         foreach (MapSquare square in adjacentSquares)
         {
             square.RemoveShroud();

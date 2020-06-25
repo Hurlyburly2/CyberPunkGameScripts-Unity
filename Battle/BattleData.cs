@@ -49,12 +49,9 @@ public class BattleData : MonoBehaviour
         // square will only be null when testing battles directly, so we just set it to a default enemy
         if (!enemyLoaded)
         {
-            Debug.Log("booooo");
             SetUpEnemy(0);
         } else
         {
-            Debug.Log("This happened");
-            Debug.Log("enemy id: " + enemyId);
             SetUpEnemy(enemyId);
         }
         enemy.BattleSetup(setupTimeInSeconds);
@@ -197,7 +194,6 @@ public class BattleData : MonoBehaviour
 
     public void GetDataFromMapSquare(MapSquare newCurrentSquare)
     {
-        Debug.Log("set square");
         enemyId = GetEnemyIDFromMapSquare(newCurrentSquare);
         enemyLoaded = true;
     }
@@ -208,7 +204,6 @@ public class BattleData : MonoBehaviour
         Vector3 dummyPosition = new Vector3(-100, -100, -100);
         Enemy dummyEnemy = Instantiate(prefabEnemy, dummyPosition, Quaternion.identity);
         int enemyId = dummyEnemy.GetEnemyId();
-        Debug.Log("enemyID: " + enemyId);
         Destroy(dummyEnemy);
         return enemyId;
     }

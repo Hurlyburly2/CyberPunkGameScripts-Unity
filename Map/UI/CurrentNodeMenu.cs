@@ -39,7 +39,6 @@ public class CurrentNodeMenu : MonoBehaviour
 
     public void CloseMenu()
     {
-        Debug.Log("closed menu");
         square = null;
         locationImage = null;
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);

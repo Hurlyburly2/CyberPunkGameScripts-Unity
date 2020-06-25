@@ -22,7 +22,6 @@ public class MapGrid : MonoBehaviour
     {
         if (instance != null && instance != this)
         {
-            Debug.Log("destroy extra grid...");
             Destroy(gameObject);
         }
 
