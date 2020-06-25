@@ -47,4 +47,12 @@ public class HackOptionLine : MonoBehaviour
             return false;
         }
     }
+
+    public void UseAbility()
+    {
+        MapSquare currentMapSquare = mapHackMenu.GetMapSquare();
+        hackTarget.UseAbility(currentMapSquare, description, color, cost);
+        mapHackMenu.SetPointsTextFields();
+        mapHackMenu.CheckHackCosts();
+    }
 }

@@ -219,18 +219,16 @@ public class SceneLoader : MonoBehaviour
 
     private IEnumerator WaitForMapToLoadFromHack(MapGrid mapGrid, MapSquare currentSquare, HackTarget currentHackTarget, int redPoints, int bluePoints, int purplePoints)
     {
-        Debug.Log("Do we reach this?");
         while (SceneManager.GetActiveScene().name != mapSceneName)
         {
             yield return null;
         }
-        Debug.Log("OR do we reach this we reach this?");
         mapGrid.gameObject.SetActive(true);
+        currentHackTarget.SetPoints(redPoints, bluePoints, purplePoints);
         currentMap.SetUpMapFromHack(currentSquare, currentHackTarget);
         HackBattleData previousHack = FindObjectOfType<HackBattleData>();
         Destroy(previousHack);
 
-        currentHackTarget.SetPoints(redPoints, bluePoints, purplePoints);
         DestroyExtraGrids();
     }
 

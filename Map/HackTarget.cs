@@ -25,10 +25,20 @@ public class HackTarget : ScriptableObject
         purplePoints = 0;
         isActive = true;
         hackIsDone = false;
-        //hackType = newHackType;
-        hackType = "Security Camera";
-        // temporary for testing security camera
+        hackType = newHackType;
         mapType = FindObjectOfType<MapData>().GetMapType();
+        SetupHackTest();
+    }
+
+    // METHOD FOR TESTING
+    public void SetupHackTest()
+    {
+        hackType = "Security Camera";
+        redPoints = 500;
+        bluePoints = 500;
+        purplePoints = 500;
+        canPlayerAffordAnything = true;
+        hackIsDone = true;
     }
 
     public void SetPoints(int newRedPoints, int newBluePoints, int newPurplePoints)
@@ -144,4 +154,71 @@ public class HackTarget : ScriptableObject
     string[] securityCameraColors = { "blue", "blue", "blue", "red", "red", "purple", "purple" };
     int[] securityCameraCosts = { 5, 10, 15, 10, 20, 15, 25 };
 
+    public void UseAbility(MapSquare square, string description, string color, int cost)
+    {
+        switch (description)
+        {
+            case "Scout Points of Interest":
+                ScoutPointOfInterest(2, square);
+                break;
+            case "Reduce Security Level":
+                Debug.Log("Not yet implemented");
+                break;
+            case "Reveal Points of Interest":
+                ScoutPointOfInterest(3, square);
+                break;
+            case "Scout Enemies":
+                ScoutEnemies(2, square);
+                break;
+            case "Reveal Enemies":
+                ScoutEnemies(3, square);
+                break;
+            case "Despawn a Weak Enemy":
+                Debug.Log("Not yet implemented");
+                break;
+            case "Despawn a Medium Enemy":
+                Debug.Log("Not yet implemented");
+                break;
+        }
+        switch (color)
+        {
+            case "red":
+                redPoints -= cost;
+                break;
+            case "blue":
+                bluePoints -= cost;
+                break;
+            case "purple":
+                purplePoints -= cost;
+                break;
+        }
+    }
+
+    private void ScoutPointOfInterest(int newScoutLevel, MapSquare square)
+    {
+        List<MapSquare> adjacentSquares = square.GetAdjacentSquares();
+        foreach(MapSquare adjSquare in adjacentSquares)
+        {
+            adjSquare.SetPOIScoutLevel(newScoutLevel);
+        }
+    }
+
+    private void ScoutEnemies(int newScoutLevel, MapSquare square)
+    {
+        List<MapSquare> adjacentSquares = square.GetAdjacentSquares();
+        foreach(MapSquare adjSquare in adjacentSquares)
+        {
+            adjSquare.SetEnemyScoutLevel(newScoutLevel);
+        }
+    }
+
+    private void ReduceSecurityLevel()
+    {
+        
+    }
+
+    private void DespawnAnEnemy()
+    {
+
+    }
 }

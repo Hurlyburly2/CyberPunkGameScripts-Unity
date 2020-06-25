@@ -35,17 +35,19 @@ public class MapHackMenu : MonoBehaviour
     {
         if (hackTarget.GetIsHackDone())
         {
+            Debug.Log("hack is done");
             startHackButton.gameObject.SetActive(false);
             pointsZone.SetActive(true);
             SetPointsTextFields();
         } else
         {
+            Debug.Log("hack is not done");
             startHackButton.gameObject.SetActive(true);
             pointsZone.SetActive(false);
         }
     }
 
-    private void SetPointsTextFields()
+    public void SetPointsTextFields()
     {
         redPointsText.text = hackTarget.GetRedPoints().ToString();
         bluePointsText.text = hackTarget.GetBluePoints().ToString();
@@ -65,7 +67,7 @@ public class MapHackMenu : MonoBehaviour
         }
     }
 
-    private void CheckHackCosts()
+    public void CheckHackCosts()
     {
         bool canPlayerAffordAnything = false;
         foreach (HackOptionLine line in hackOptionLine)
@@ -92,5 +94,10 @@ public class MapHackMenu : MonoBehaviour
         List<HackTarget> hackTargets = FindObjectOfType<CurrentNodeMenu>().GetMapSquare().GetHackTargets();
         FindObjectOfType<CurrentNodeMenuHacks>().SetupButtons(hackTargets);
         gameObject.SetActive(false);
+    }
+
+    public MapSquare GetMapSquare()
+    {
+        return mapSquare;
     }
 }

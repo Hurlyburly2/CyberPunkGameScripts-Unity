@@ -287,6 +287,18 @@ public class MapSquare : MonoBehaviour
         }
     }
 
+    public void SetPOIScoutLevel(int newScoutLevel)
+    {
+        if (newScoutLevel > poiScoutLevel)
+            poiScoutLevel = newScoutLevel;
+    }
+
+    public void SetEnemyScoutLevel(int newScoutLevel)
+    {
+        if (newScoutLevel > enemyScoutLevel)
+            enemyScoutLevel = newScoutLevel;
+    }
+
     private void SetState(string newState)
     {
         state = newState;
