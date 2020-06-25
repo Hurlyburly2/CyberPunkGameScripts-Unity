@@ -22,7 +22,7 @@ public class MapSquareImageHolder : MonoBehaviour
 
     [SerializeField] Sprite[] pointSquares;
 
-    int maxSlumLocations; // amount of locations images in slums
+    int maxSlumLocations = 43; // amount of locations images in slums
 
     public Sprite GetPointSquareByColor(string color)
     {
