@@ -106,6 +106,27 @@ public class MapData : MonoBehaviour
         }
     }
 
+    public void SetUpMapFromHack(MapSquare currentSquare, HackTarget currentHackTarget)
+    {
+        SetupPlayerPortraits();
+        runner.MapSetup();
+
+        mapConfig = FindObjectOfType<MapConfig>();
+        mapConfig.SetupPipManagers(runner, setupTimeInSeconds, securityLevel);
+
+        MapSquare[] mapSquares = FindObjectsOfType<MapSquare>();
+        foreach (MapSquare square in mapSquares)
+        {
+            if (square.GetIsPlayerPresent())
+            {
+                square.SetPlayerStart();
+                break;
+            }
+        }
+
+        currentSquare.ReopenHackMenu(currentHackTarget);
+    }
+
     public void SetMapData(CharacterData characterToSet, HackerData hackerToSet, string newMapType, int newSecurityLevel, int newMapSize)
     {
         runner = characterToSet;

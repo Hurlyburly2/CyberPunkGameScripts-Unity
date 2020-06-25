@@ -17,6 +17,8 @@ public class HackDeck : MonoBehaviour
     TextMeshProUGUI cardsInHackDeckCountTextField;
     HackCard previousTopHackCard;
 
+    bool isInitialized;
+
     string tempLeftCircuit;
     string tempTopCircuit;
     string tempRightCircuit;
@@ -29,6 +31,7 @@ public class HackDeck : MonoBehaviour
 
     private void Start()
     {
+        isInitialized = false;
         hackDiscard = FindObjectOfType<HackDiscard>();
         movementSpeed = 10000f;
         startPostion = transform.position;
@@ -68,6 +71,16 @@ public class HackDeck : MonoBehaviour
                 ResetToStartPosition();
             }
         }
+        if (IsDeckEmpty() && isInitialized)
+        {
+            FinishHack();
+        }   
+    }
+
+    private void FinishHack()
+    {
+        HackBattleData hackBattleData = FindObjectOfType<HackBattleData>();
+        hackBattleData.FinishHack();
     }
 
     public void SendTopCardToDiscard()
@@ -328,6 +341,7 @@ public class HackDeck : MonoBehaviour
     {
         cards = newHackCards;
         SetTextFieldCount();
+        isInitialized = true;
     }
 
     public void SetTextFieldCount()

@@ -90,7 +90,6 @@ public class Deck : MonoBehaviour
 
     public void DebugLogDeck()
     {
-        Debug.Log("Deck size: " + cards.Count);
 
         string cardOrder = "";
 
@@ -99,7 +98,6 @@ public class Deck : MonoBehaviour
             cardOrder += card.GetCardId() + " ";
         }
 
-        Debug.Log("Card Order: " + cardOrder);
     }
 
     public int GetCardCount()

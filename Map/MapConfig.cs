@@ -8,6 +8,7 @@ public class MapConfig : MonoBehaviour
     MapData mapData;
     [SerializeField] NeighboringNodeMenu neighboringNodeMenu;
     [SerializeField] CurrentNodeMenu currentNodeMenu;
+    [SerializeField] MapHackMenu hackMenu;
 
     // pip manager config
     [SerializeField] string healthPipManagerName = "HealthPipManager";
@@ -100,5 +101,10 @@ public class MapConfig : MonoBehaviour
     public void SetIsAMenuOpen(bool newState)
     {
         isAMenuOpen = newState;
+    }
+
+    public MapHackMenu GetMapHackMenu()
+    {
+        return hackMenu;
     }
 }

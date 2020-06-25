@@ -26,6 +26,7 @@ public class MapSquare : MonoBehaviour
     bool shroud;
     int poiScoutLevel;
     int enemyScoutLevel;
+    float step;
         // 1 = normal (default) no knowledge, 2 = know how many items, 3 = know what everything is
 
     // objects and hacks
@@ -50,21 +51,28 @@ public class MapSquare : MonoBehaviour
         {
             if (playerPresent)
             {
-                Debug.Log("iunno2");
                 mapConfig.SetIsAMenuOpen(true);
                 CurrentNodeMenu menu = mapConfig.GetCurrentNodeMenu();
                 menu.InitializeMenu(this);
             } else
             {
-                Debug.Log("iunno3");
                 mapConfig.SetIsAMenuOpen(true);
                 NeighboringNodeMenu menu = mapConfig.GetNeighboringNodeMenu();
                 menu.InitializeMenu(this);
             }
         }
-        Debug.Log("iunno1");
-        Debug.Log("is a menu open?:" + mapConfig.GetIsAMenuOpen());
-        Debug.Log("is the location shrouded?: " + shroud);
+    }
+
+    public void ReopenHackMenu(HackTarget hackTarget)
+    {
+        if (mapConfig == null)
+        {
+            mapConfig = FindObjectOfType<MapConfig>();
+        }
+        mapConfig.SetIsAMenuOpen(true);
+        CurrentNodeMenu menu = mapConfig.GetCurrentNodeMenu();
+        menu.InitializeMenu(this);
+        menu.ReopenHackMenu(hackTarget);
     }
 
     private void OnMouseDown()
@@ -226,7 +234,6 @@ public class MapSquare : MonoBehaviour
     private void RemoveAdjacentShrouds()
     {
         List<MapSquare> adjacentSquares = GetAdjacentSquares();
-        Debug.Log("found adjacent squares: " + adjacentSquares.Count);
         foreach (MapSquare square in adjacentSquares)
         {
             square.RemoveShroud();
@@ -250,6 +257,7 @@ public class MapSquare : MonoBehaviour
 
     private void Start()
     {
+        step = 2.5f * Time.deltaTime;
         defaultColor = GetComponent<SpriteRenderer>().color;
         AddShroud();
         mapConfig = FindObjectOfType<MapConfig>();
@@ -257,8 +265,6 @@ public class MapSquare : MonoBehaviour
 
     void Update()
     {
-        float step = 2.5f * Time.deltaTime;
-
         if (state == "movingDown")
         {
             if (Input.touchCount == 3 || Input.touchCount == 2)
@@ -278,6 +284,18 @@ public class MapSquare : MonoBehaviour
                 SetState("normal");
             }
         }
+    }
+
+    public void SetPOIScoutLevel(int newScoutLevel)
+    {
+        if (newScoutLevel > poiScoutLevel)
+            poiScoutLevel = newScoutLevel;
+    }
+
+    public void SetEnemyScoutLevel(int newScoutLevel)
+    {
+        if (newScoutLevel > enemyScoutLevel)
+            enemyScoutLevel = newScoutLevel;
     }
 
     private void SetState(string newState)
@@ -328,5 +346,10 @@ public class MapSquare : MonoBehaviour
     public bool GetIsPlayerPresent()
     {
         return playerPresent;
+    }
+
+    public MapSquareRow GetParentRow()
+    {
+        return parentRow;
     }
 }

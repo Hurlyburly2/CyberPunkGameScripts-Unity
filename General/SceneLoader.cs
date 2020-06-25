@@ -76,6 +76,8 @@ public class SceneLoader : MonoBehaviour
     {
         MapGrid mapGrid = FindObjectOfType<BattleData>().GetMapGrid();
         SceneManager.LoadScene(mapSceneName);
+        BattleData previousBattle = FindObjectOfType<BattleData>();
+        Destroy(previousBattle.gameObject);
 
         StartCoroutine(WaitForMapToLoadFromBattle(mapGrid));
     }
@@ -88,8 +90,6 @@ public class SceneLoader : MonoBehaviour
         }
         mapGrid.gameObject.SetActive(true);
         currentMap.SetUpMapFromBattle();
-        BattleData previousBattle = FindObjectOfType<BattleData>();
-        Destroy(previousBattle);
         DestroyExtraGrids();
     }
 
@@ -101,7 +101,6 @@ public class SceneLoader : MonoBehaviour
         {
             if (!grids[i].GetIsInitialized())
             {
-                Debug.Log("destroy the gridddd");
                 Destroy(grids[i].gameObject);
             }
         }
@@ -189,6 +188,51 @@ public class SceneLoader : MonoBehaviour
         currentHack.SetupHack(2, "default");
     }
 
+    public void LoadHackFromMap(MapSquare mapSqare, HackTarget hackTarget)
+    {
+        MapGrid mapGrid = FindObjectOfType<MapGrid>();
+
+        currentHack = Instantiate(hackBattleData);
+        currentHack.SetCharacterData(currentRunner, currentHacker);
+        currentHack.SetMapData(mapGrid, mapSqare, hackTarget);
+
+        Destroy(FindObjectOfType<MapGrid>());
+        SceneManager.LoadScene(hackSceneName);
+        StartCoroutine(WaitForHackToLoadFromMap());
+    }
+
+    private IEnumerator WaitForHackToLoadFromMap()
+    {
+        while (SceneManager.GetActiveScene().name != hackSceneName)
+        {
+            yield return null;
+        }
+        currentHack.SetupHack(2, "default");
+    }
+
+    public void LoadMapFromHack(int redPoints, int bluePoints, int purplePoints, MapSquare currentSquare, HackTarget currentHackTarget)
+    {
+        MapGrid mapGrid = FindObjectOfType<HackBattleData>().GetMapGrid();
+        SceneManager.LoadScene(mapSceneName);
+
+        HackBattleData previousHack = FindObjectOfType<HackBattleData>();
+        Destroy(previousHack.gameObject);
+
+        StartCoroutine(WaitForMapToLoadFromHack(mapGrid, currentSquare, currentHackTarget, redPoints, bluePoints, purplePoints));
+    }
+
+    private IEnumerator WaitForMapToLoadFromHack(MapGrid mapGrid, MapSquare currentSquare, HackTarget currentHackTarget, int redPoints, int bluePoints, int purplePoints)
+    {
+        while (SceneManager.GetActiveScene().name != mapSceneName)
+        {
+            yield return null;
+        }
+        mapGrid.gameObject.SetActive(true);
+        currentHackTarget.SetPoints(redPoints, bluePoints, purplePoints);
+        currentMap.SetUpMapFromHack(currentSquare, currentHackTarget);
+        DestroyExtraGrids();
+    }
+
     private void SetupRunnerAndHacker()
     {
         // TODO THIS METHOD IS FOR USE ONLY UNTIL SOME OUT OF BATTLE SETUP IS READY
@@ -217,5 +261,12 @@ public class SceneLoader : MonoBehaviour
         {
             Debug.Log(number);
         }
+    }
+
+    [SerializeField] MapSquareImageHolder imageHolder;
+
+    public void DisableObject()
+    {
+        Destroy(imageHolder.gameObject);
     }
 }

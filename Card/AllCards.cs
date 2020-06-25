@@ -6,18 +6,6 @@ public class AllCards : MonoBehaviour
 {
     [SerializeField] Card[] cards;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public Card GetRandomCard()
     {
         int randomIndex = Mathf.FloorToInt(Random.Range(1, cards.Length));
