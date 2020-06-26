@@ -5,13 +5,11 @@ using UnityEngine.UI;
 
 public class MapSquareImageHolder : MonoBehaviour
 {
-    [SerializeField] Sprite[] citySquares;
+    List<int> unusedSquareIds;
+    List<int> usedSquareIds;
 
-    List<Sprite> unusedSquares;
-    List<Sprite> usedSquares;
-
-    List<Sprite> unusedImages;
-    List<Sprite> usedImages;
+    List<int> usedImageIds;
+    List<int> unusedImageIds;
 
     [SerializeField] Sprite[] menuIcons;
 
@@ -23,6 +21,7 @@ public class MapSquareImageHolder : MonoBehaviour
     [SerializeField] Sprite[] pointSquares;
 
     int maxSlumLocations = 43; // amount of locations images in slums
+    int maxCitySquares = 20;
 
     public Sprite GetPointSquareByColor(string color)
     {
@@ -148,68 +147,74 @@ public class MapSquareImageHolder : MonoBehaviour
         return menuIcons[0];
     }
 
-    public Sprite GetSquareImage()
+    public Sprite GetSquareImage(string mapType)
     {
-        if (unusedSquares.Count == 0)
+        string locationString = "Squares";
+        switch (mapType)
         {
-            unusedSquares = usedSquares;
-            usedSquares = new List<Sprite>();
+            case "slums":
+                locationString += "/City/Square";
+                locationString += GetRandomSquareId().ToString();
+                return Resources.Load<Sprite>(locationString);
         }
+        return Resources.Load<Sprite>("Squares/City/Square1");
+    }
 
-        Sprite imageToReturn = unusedSquares[Random.Range(0, unusedSquares.Count)];
-        usedSquares.Add(imageToReturn);
-        unusedSquares.Remove(imageToReturn);
-        return imageToReturn;
+    private int GetRandomSquareId()
+    {
+        int currentId = unusedSquareIds[Random.Range(0, unusedSquareIds.Count - 1)];
+        usedSquareIds.Add(currentId);
+        unusedSquareIds.Remove(currentId);
+        return currentId;
     }
 
     public Sprite GetLocationImage(string mapType)
     {
-        //if (unusedImages.Count == 0)
-        //{
-        //    unusedImages = usedImages;
-        //    usedImages = new List<Sprite>();
-        //}
-
-        //Sprite imageToReturn = unusedImages[Random.Range(0, unusedImages.Count)];
-        //usedImages.Add(imageToReturn);
-        //unusedImages.Remove(imageToReturn);
         string locationString = "LocationImages";
         switch(mapType)
         {
             case "slums":
                 locationString += "/Slums/Location";
-                locationString += Random.Range(1, maxSlumLocations).ToString();
-                Debug.Log("location string: " + locationString);
+                locationString += GetRandomLocationId().ToString();
                 return Resources.Load<Sprite>(locationString);
         }
 
         return Resources.Load<Sprite>("LocationImages/City/Location1");
-        //return imageToReturn;
     }
 
-    public void Initialize(string mapType)
+    private int GetRandomLocationId()
     {
-        unusedSquares = new List<Sprite>();
-        usedSquares = new List<Sprite>();
+        int currentId = unusedImageIds[Random.Range(0, unusedImageIds.Count - 1)];
+        usedImageIds.Add(currentId);
+        unusedImageIds.Remove(currentId);
+        return currentId;
+    }
 
-        unusedImages = new List<Sprite>();
-        usedImages = new List<Sprite>();
-
+    public void InitializeMapSquareImageHolder(string mapType)
+    {
         switch (mapType)
         {
             case "slums":
-                unusedSquares.AddRange(citySquares);
-                //unusedImages.AddRange(slumImages);
+                InitializeLists(maxSlumLocations, maxCitySquares);
                 break;
         }
     }
 
-    public int GetImageIndexByImage(Sprite image)
+    private void InitializeLists(int maxLocations, int maxCitySquares)
     {
-        // TODO: Proof of concept for getting an id for an image
-        List<Sprite> loadList = new List<Sprite>();
-        loadList.AddRange(citySquares);
+        usedSquareIds = new List<int>();
+        unusedSquareIds = new List<int>();
 
-        return loadList.IndexOf(image);
+        for (int i = 1; i <= maxCitySquares; i++)
+        {
+            unusedSquareIds.Add(i);
+        }
+
+        usedImageIds = new List<int>();
+        unusedImageIds = new List<int>();
+        for (int i = 1; i <= maxLocations; i++)
+        {
+            unusedImageIds.Add(i);
+        }
     }
 }
