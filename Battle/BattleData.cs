@@ -11,6 +11,7 @@ public class BattleData : MonoBehaviour
     Deck deck;
     Discard discard;
     ConfigData configData;
+    MapSquare mapSquare;
 
     // data
     CharacterData character;
@@ -194,6 +195,7 @@ public class BattleData : MonoBehaviour
 
     public void GetDataFromMapSquare(MapSquare newCurrentSquare)
     {
+        mapSquare = newCurrentSquare;
         enemyId = GetEnemyIDFromMapSquare(newCurrentSquare);
         enemyLoaded = true;
     }
@@ -232,5 +234,10 @@ public class BattleData : MonoBehaviour
     public Enemy GetEnemy()
     {
         return enemy;
+    }
+
+    public MapSquare GetMapSquare()
+    {
+        return mapSquare;
     }
 }

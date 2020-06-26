@@ -77,6 +77,10 @@ public class SceneLoader : MonoBehaviour
         MapGrid mapGrid = FindObjectOfType<BattleData>().GetMapGrid();
         SceneManager.LoadScene(mapSceneName);
         BattleData previousBattle = FindObjectOfType<BattleData>();
+
+        MapSquare currentSquare = previousBattle.GetMapSquare();
+        currentSquare.DespawnEnemy();
+
         Destroy(previousBattle.gameObject);
 
         StartCoroutine(WaitForMapToLoadFromBattle(mapGrid));

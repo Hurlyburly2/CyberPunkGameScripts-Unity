@@ -174,10 +174,10 @@ public class HackTarget : ScriptableObject
                 ScoutEnemies(3, square);
                 break;
             case "Despawn a Weak Enemy":
-                Debug.Log("Not yet implemented");
+                DespawnAnEnemy(2);
                 break;
             case "Despawn a Medium Enemy":
-                Debug.Log("Not yet implemented");
+                DespawnAnEnemy(4);
                 break;
         }
         switch (color)
@@ -218,8 +218,8 @@ public class HackTarget : ScriptableObject
         FindObjectOfType<MapData>().AdjustSecurityLevel(amount);
     }
 
-    private void DespawnAnEnemy()
+    private void DespawnAnEnemy(int maxEnemyLevelToDespawn)
     {
-
+        FindObjectOfType<MapSquare>();
     }
 }
