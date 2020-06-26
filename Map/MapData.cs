@@ -152,6 +152,24 @@ public class MapData : MonoBehaviour
         }
     }
 
+    public void AdjustSecurityLevel(int adjustment)
+    {
+        securityLevel += adjustment;
+        if (securityLevel < 0)
+            securityLevel = 0;
+        if (securityLevel > 100)
+            securityLevel = 100;
+        mapConfig.GetSecurityPipManager().ChangeValue(securityLevel);
+    }
+
+    private void CheckMapConfigExists()
+    {
+        if (mapConfig == null)
+        {
+            mapConfig = FindObjectOfType<MapConfig>();
+        }
+    }
+
     public float GetSetupTimeInSeconds()
     {
         return setupTimeInSeconds;

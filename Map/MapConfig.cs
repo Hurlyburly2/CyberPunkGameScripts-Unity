@@ -107,4 +107,9 @@ public class MapConfig : MonoBehaviour
     {
         return hackMenu;
     }
+
+    public PipManager GetSecurityPipManager()
+    {
+        return securityPipManager;
+    }
 }

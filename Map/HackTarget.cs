@@ -34,11 +34,11 @@ public class HackTarget : ScriptableObject
     public void SetupHackTest()
     {
         hackType = "Security Camera";
-        //redPoints = 500;
-        //bluePoints = 500;
-        //purplePoints = 500;
-        //canPlayerAffordAnything = true;
-        //hackIsDone = true;
+        redPoints = 500;
+        bluePoints = 500;
+        purplePoints = 500;
+        canPlayerAffordAnything = true;
+        hackIsDone = true;
     }
 
     public void SetPoints(int newRedPoints, int newBluePoints, int newPurplePoints)
@@ -162,7 +162,7 @@ public class HackTarget : ScriptableObject
                 ScoutPointOfInterest(2, square);
                 break;
             case "Reduce Security Level":
-                Debug.Log("Not yet implemented");
+                ReduceSecurityLevel(5);
                 break;
             case "Reveal Points of Interest":
                 ScoutPointOfInterest(3, square);
@@ -212,9 +212,10 @@ public class HackTarget : ScriptableObject
         }
     }
 
-    private void ReduceSecurityLevel()
+    private void ReduceSecurityLevel(int amount)
     {
-        
+        amount = amount * -1;
+        FindObjectOfType<MapData>().AdjustSecurityLevel(amount);
     }
 
     private void DespawnAnEnemy()
