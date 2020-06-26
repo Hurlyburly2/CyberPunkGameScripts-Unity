@@ -36,7 +36,7 @@ public class MapGrid : MonoBehaviour
         isInitialized = true;
         activeRows = new List<MapSquareRow>();
         mapSquareImageHolder = FindObjectOfType<MapSquareImageHolder>();
-        mapSquareImageHolder.Initialize(mapType);
+        mapSquareImageHolder.InitializeMapSquareImageHolder(mapType);
 
         SetupSquareLevels();
         SetupMap(mapType, mapSize, GetVerticalModifier(mapType), GetInitialEnemySpawnChance(mapType));
@@ -47,7 +47,7 @@ public class MapGrid : MonoBehaviour
         // initialize starting square in first row
         int activeSquares = 1;
         activeRows.Add(rows[startingRow]);
-        rows[startingRow].InitializeFirstSquare(startingSquare, mapSquareImageHolder.GetSquareImage());
+        rows[startingRow].InitializeFirstSquare(startingSquare, mapSquareImageHolder.GetSquareImage(mapType));
 
         // then start spawning the rest
         int currentRow = startingRow;
