@@ -38,7 +38,7 @@ public class HackTarget : ScriptableObject
     // METHOD FOR TESTING
     public void SetupHackTest()
     {
-        hackType = "Database";
+        hackType = "Combat Server";
         redPoints = 500;
         bluePoints = 500;
         purplePoints = 500;
@@ -122,6 +122,8 @@ public class HackTarget : ScriptableObject
         {
             case "Security Camera":
                 return securityCameraColors[count];
+            case "Combat Server":
+                return combatServerColors[count];
             case "Database":
                 return databaseColors[count];
         }
@@ -134,6 +136,8 @@ public class HackTarget : ScriptableObject
         {
             case "Security Camera":
                 return securityCameraOptions[count];
+            case "Combat Server":
+                return combatServerOptions[count];
             case "Database":
                 return databaseOptions[count];
         }
@@ -146,6 +150,8 @@ public class HackTarget : ScriptableObject
         {
             case "Security Camera":
                 return securityCameraCosts[count];
+            case "Combat Server":
+                return combatServerCosts[count];
             case "Database":
                 return databaseCosts[count];
         }
@@ -165,6 +171,19 @@ public class HackTarget : ScriptableObject
     string[] securityCameraColors = { blue, blue, blue, red, red, purple, purple };
     int[] securityCameraCosts = { 5, 10, 15, 10, 20, 15, 25 };
 
+    string[] combatServerOptions =
+    {
+        "Accelerate Reaction Time",
+        "Disengage Enemy Shielding",
+        "Enhance Targetting",
+        "Overclock Systems",
+        "Harden Armor",
+        "Install Mod Intereference",
+        "Sabotage Enemy Tech"
+    };
+    string[] combatServerColors = { blue, blue, red, red, red, purple, purple };
+    int[] combatServerCosts = { 10, 20, 8, 12, 18, 10, 20 };
+
     string[] databaseOptions = {
         "Erase Database",
         "Upload and Sell Financial Data",
@@ -177,6 +196,7 @@ public class HackTarget : ScriptableObject
     string[] databaseColors = { blue, blue, blue, red, red, purple, purple };
     int[] databaseCosts = { 10, 10, 20, 5, 15, 10, 15 };
 
+    // ability usages
     public void UseAbility(MapSquare square, string description, string color, int cost)
     {
         switch (description)
@@ -202,6 +222,35 @@ public class HackTarget : ScriptableObject
                 break;
             case "Despawn a Medium Enemy":
                 DespawnAnEnemy(3, 2);
+                break;
+
+            // COMBAT SERVER OPTIONS
+            case "Accelerate Reaction Time":
+                BuffPlayerDodge(10, square);
+                break;
+            case "Disengage Enemy Shielding":
+                // Enemy Defense Down
+                Debug.Log("Not Yet Implemented");
+                break;
+            case "Enhance Targetting":
+                // Crit Up
+                Debug.Log("Not yet implemented");
+                break;
+            case "Overclock Systemss":
+                // Hand Size Up
+                Debug.Log("Not yet implemented");
+                break;
+            case "Harden Armor":
+                // Defense Up
+                Debug.Log("Not yet implemented");
+                break;
+            case "Install Mod Intereference":
+                // Enemy Hand Size debuff
+                Debug.Log("Not yet implemented");
+                break;
+            case "Sabotage Enemy Tech":
+                // Enemy fizzle chance up
+                Debug.Log("Sabotage Enemy Tech");
                 break;
 
             // DATABASE OPTIONS
@@ -321,6 +370,15 @@ public class HackTarget : ScriptableObject
     private void RaiseGoalMultiplier(int amount)
     {
         FindObjectOfType<MapData>().ChangeGoalMultiplier(amount);
+    }
+
+    private void BuffPlayerDodge(int amount, MapSquare currentSquare)
+    {
+        List<MapSquare> squares = currentSquare.GetAdjacentSquares();
+        foreach (MapSquare square in squares)
+        {
+            square.AdjustPlayerDodge(10);
+        }
     }
 
     private void LogEnemyCount()

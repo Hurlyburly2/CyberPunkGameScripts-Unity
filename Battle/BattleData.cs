@@ -29,6 +29,7 @@ public class BattleData : MonoBehaviour
         // possible values: player, enemy
     bool skipEndTurnDiscard;
         // if true, skip discard and set to false
+    int playerDodgeMapBuff;
 
     private void Awake()
     {
@@ -214,6 +215,17 @@ public class BattleData : MonoBehaviour
     {
         mapGrid = newMapGrid;
         mapGrid.gameObject.SetActive(false);
+    }
+
+    public void SetPlayerBuffs(List<int> loadedPlayerBuffs)
+    {
+        // buff order: dodge
+        playerDodgeMapBuff = loadedPlayerBuffs[0];
+    }
+
+    public int GetPlayerDodgeMapBuff()
+    {
+        return playerDodgeMapBuff;
     }
 
     public MapGrid GetMapGrid()

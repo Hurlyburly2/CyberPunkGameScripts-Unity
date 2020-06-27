@@ -41,6 +41,9 @@ public class MapSquare : MonoBehaviour
     List<int> enemyBuffs;
     List<int> enemyDebuffs;
 
+    // player/enemy status effects
+    int playerDodgeBuff;
+
     private void OnMouseUpAsButton()
     {
         if (mapConfig == null)
@@ -165,6 +168,8 @@ public class MapSquare : MonoBehaviour
         locationImage = newLocationImage;
         enemyBuffs = new List<int>();
         enemyDebuffs = new List<int>();
+
+        playerDodgeBuff = 0;
 
         SetupHacksAndObjects();
     }
@@ -306,6 +311,33 @@ public class MapSquare : MonoBehaviour
     private void SetState(string newState)
     {
         state = newState;
+    }
+
+    public void AdjustPlayerDodge(int amount)
+    {
+        // max player dodge is currently 80
+        if (playerDodgeBuff + amount <= 80)
+        {
+            playerDodgeBuff += amount;
+        } else
+        {
+            playerDodgeBuff = 80;
+        }
+    }
+
+    public int GetPlayerDodgeBuff()
+    {
+        return playerDodgeBuff;
+    }
+
+    public List<int> GetPackageOfPlayerBuffs()
+    {
+        // list order: dodge
+        // list length: 1
+        List<int> playerBuffList = new List<int>();
+        playerBuffList.Add(playerDodgeBuff);
+
+        return playerBuffList;
     }
 
     public Sprite GetLocationImage()

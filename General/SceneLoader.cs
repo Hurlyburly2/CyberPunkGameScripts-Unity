@@ -150,6 +150,7 @@ public class SceneLoader : MonoBehaviour
             yield return null;
         }
         currentBattle.SetUpBattle();
+        currentBattle.SetPlayerBuffs(currentBattle.GetMapSquare().GetPackageOfPlayerBuffs());
     }
 
     public void LoadBattleTestOne()

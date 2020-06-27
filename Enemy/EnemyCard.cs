@@ -208,8 +208,8 @@ public class EnemyCard : MonoBehaviour
         ConfigData configData = FindObjectOfType<ConfigData>();
         playerCurrentStatusEffects = configData.GetPlayerStatusEffects();
         enemyCurrentStatusEffects = configData.GetEnemyStatusEffects();
-
-        int dodgeChance = playerCurrentStatusEffects.GetDodgeChance();
+        
+        int dodgeChance = Mathf.Clamp(playerCurrentStatusEffects.GetDodgeChance() + FindObjectOfType<BattleData>().GetPlayerDodgeMapBuff(), 0, 80);
         if (PercentChance(dodgeChance))
         {
             Debug.Log("Dodged!");
