@@ -229,8 +229,7 @@ public class HackTarget : ScriptableObject
                 BuffPlayerDodge(10, square);
                 break;
             case "Disengage Enemy Shielding":
-                // Enemy Defense Down
-                Debug.Log("Not Yet Implemented");
+                IncreaseEnemyVulnerability(1, square);
                 break;
             case "Enhance Targetting":
                 // Crit Up
@@ -378,6 +377,15 @@ public class HackTarget : ScriptableObject
         foreach (MapSquare square in squares)
         {
             square.AdjustPlayerDodge(10);
+        }
+    }
+
+    private void IncreaseEnemyVulnerability(int amount, MapSquare currentSquare)
+    {
+        List<MapSquare> squares = currentSquare.GetAdjacentSquares();
+        foreach (MapSquare square in squares)
+        {
+            square.AdjustEnemyVulnerability(amount);
         }
     }
 

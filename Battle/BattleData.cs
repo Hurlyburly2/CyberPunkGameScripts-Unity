@@ -29,7 +29,8 @@ public class BattleData : MonoBehaviour
         // possible values: player, enemy
     bool skipEndTurnDiscard;
         // if true, skip discard and set to false
-    int playerDodgeMapBuff;
+    int playerDodgeMapBuff = 0;
+    int enemyVulnerability = 0;
 
     private void Awake()
     {
@@ -217,15 +218,21 @@ public class BattleData : MonoBehaviour
         mapGrid.gameObject.SetActive(false);
     }
 
-    public void SetPlayerBuffs(List<int> loadedPlayerBuffs)
+    public void LoadModifiersFromMap(List<int> loadedPlayerBuffs)
     {
-        // buff order: dodge
+        // buff order: dodge, enemyVulnerability
         playerDodgeMapBuff = loadedPlayerBuffs[0];
+        enemyVulnerability = loadedPlayerBuffs[1];
     }
 
     public int GetPlayerDodgeMapBuff()
     {
         return playerDodgeMapBuff;
+    }
+
+    public int GetEnemyVulnerabilityMapDebuff()
+    {
+        return enemyVulnerability;
     }
 
     public MapGrid GetMapGrid()

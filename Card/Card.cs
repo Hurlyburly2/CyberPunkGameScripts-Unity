@@ -439,6 +439,7 @@ public class Card : MonoBehaviour
         // Modify Damage
         damageAmount += playerCurrentStatusEffects.GetMomentumStacks();
         damageAmount += enemyCurrentStatusEffects.GetVulnerableStacks();
+        damageAmount += FindObjectOfType<BattleData>().GetEnemyVulnerabilityMapDebuff();
         damageAmount -= enemyCurrentStatusEffects.GetDamageResistStacks();
 
         int dodgeChance = enemyCurrentStatusEffects.GetDodgeChance();
