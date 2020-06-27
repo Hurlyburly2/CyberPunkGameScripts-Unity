@@ -449,7 +449,8 @@ public class Card : MonoBehaviour
             damageAmount = 0;
         } else
         {
-            damageAmount = CheckAndApplyCritical(damageAmount, critChance);
+            int modifiedCritChance = Mathf.Clamp(critChance + FindObjectOfType<BattleData>().GetPlayerCritMapBuff(), 0, 100);
+            damageAmount = CheckAndApplyCritical(damageAmount, modifiedCritChance);
         }
 
         battleData.GetEnemy().TakeDamage(damageAmount);

@@ -42,8 +42,9 @@ public class MapSquare : MonoBehaviour
     List<int> enemyDebuffs;
 
     // player/enemy status effects
-    int playerDodgeBuff;
-    int enemyVulnerability;
+    int playerDodgeBuff = 0;
+    int enemyVulnerability = 0;
+    int playerCritBuff = 0;
 
     private void OnMouseUpAsButton()
     {
@@ -169,8 +170,6 @@ public class MapSquare : MonoBehaviour
         locationImage = newLocationImage;
         enemyBuffs = new List<int>();
         enemyDebuffs = new List<int>();
-
-        playerDodgeBuff = 0;
 
         SetupHacksAndObjects();
     }
@@ -331,12 +330,18 @@ public class MapSquare : MonoBehaviour
         enemyVulnerability += amount;
     }
 
+    public void AdjustPlayerCritChance(int amount)
+    {
+        playerCritBuff += amount;
+    }
+
     public List<int> GetPackageOfModifiers()
     {
-        // list order: dodge, enemyvulnerability
+        // list order: playerDodge, enemyVulnerability, playerCrit
         List<int> mapModifiers = new List<int>();
         mapModifiers.Add(playerDodgeBuff);
         mapModifiers.Add(enemyVulnerability);
+        mapModifiers.Add(playerCritBuff);
 
         return mapModifiers;
     }

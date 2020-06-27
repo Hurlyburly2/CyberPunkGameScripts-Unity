@@ -233,7 +233,7 @@ public class HackTarget : ScriptableObject
                 break;
             case "Enhance Targetting":
                 // Crit Up
-                Debug.Log("Not yet implemented");
+                BuffPlayerCritChance(15, square);
                 break;
             case "Overclock Systemss":
                 // Hand Size Up
@@ -386,6 +386,15 @@ public class HackTarget : ScriptableObject
         foreach (MapSquare square in squares)
         {
             square.AdjustEnemyVulnerability(amount);
+        }
+    }
+
+    private void BuffPlayerCritChance(int amount, MapSquare currentSquare)
+    {
+        List<MapSquare> squares = currentSquare.GetAdjacentSquares();
+        foreach (MapSquare square in squares)
+        {
+            square.AdjustPlayerCritChance(amount);
         }
     }
 

@@ -31,6 +31,7 @@ public class BattleData : MonoBehaviour
         // if true, skip discard and set to false
     int playerDodgeMapBuff = 0;
     int enemyVulnerability = 0;
+    int playerCritMapBuff = 0;
 
     private void Awake()
     {
@@ -223,6 +224,8 @@ public class BattleData : MonoBehaviour
         // buff order: dodge, enemyVulnerability
         playerDodgeMapBuff = loadedPlayerBuffs[0];
         enemyVulnerability = loadedPlayerBuffs[1];
+        playerCritMapBuff = loadedPlayerBuffs[2];
+        Debug.Log("player crit map buff: " + playerCritMapBuff);
     }
 
     public int GetPlayerDodgeMapBuff()
@@ -233,6 +236,11 @@ public class BattleData : MonoBehaviour
     public int GetEnemyVulnerabilityMapDebuff()
     {
         return enemyVulnerability;
+    }
+
+    public int GetPlayerCritMapBuff()
+    {
+        return playerCritMapBuff;
     }
 
     public MapGrid GetMapGrid()
