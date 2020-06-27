@@ -27,7 +27,7 @@ public class HackTarget : ScriptableObject
         hackIsDone = false;
         hackType = newHackType;
         mapType = FindObjectOfType<MapData>().GetMapType();
-        SetupHackTest();
+        //SetupHackTest();
     }
 
     // METHOD FOR TESTING
@@ -220,7 +220,6 @@ public class HackTarget : ScriptableObject
 
     private void DespawnAnEnemy(int maxDespawn, int preferredMinDespawn)
     {
-        LogEnemyCount();
         MapSquare[] mapSquares = FindObjectsOfType<MapSquare>();
         List<MapSquare> preferredToDespawnSquares = new List<MapSquare>();
         List<MapSquare> weakerEnemiesToDespawn = new List<MapSquare>();
@@ -248,7 +247,6 @@ public class HackTarget : ScriptableObject
         {
             DespawnEnemyFromSquareList(weakerEnemiesToDespawn);
         }
-        LogEnemyCount();
     }
 
     private void DespawnEnemyFromSquareList(List<MapSquare> squares)
