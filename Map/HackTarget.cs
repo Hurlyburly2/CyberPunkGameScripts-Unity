@@ -27,18 +27,18 @@ public class HackTarget : ScriptableObject
         hackIsDone = false;
         hackType = newHackType;
         mapType = FindObjectOfType<MapData>().GetMapType();
-        SetupHackTest();
+        //SetupHackTest();
     }
 
     // METHOD FOR TESTING
     public void SetupHackTest()
     {
         hackType = "Security Camera";
-        //redPoints = 500;
-        //bluePoints = 500;
-        //purplePoints = 500;
-        //canPlayerAffordAnything = true;
-        //hackIsDone = true;
+        redPoints = 500;
+        bluePoints = 500;
+        purplePoints = 500;
+        canPlayerAffordAnything = true;
+        hackIsDone = true;
     }
 
     public void SetPoints(int newRedPoints, int newBluePoints, int newPurplePoints)
@@ -162,7 +162,7 @@ public class HackTarget : ScriptableObject
                 ScoutPointOfInterest(2, square);
                 break;
             case "Reduce Security Level":
-                Debug.Log("Not yet implemented");
+                ReduceSecurityLevel(5);
                 break;
             case "Reveal Points of Interest":
                 ScoutPointOfInterest(3, square);
@@ -174,10 +174,10 @@ public class HackTarget : ScriptableObject
                 ScoutEnemies(3, square);
                 break;
             case "Despawn a Weak Enemy":
-                Debug.Log("Not yet implemented");
+                DespawnAnEnemy(2, 1);
                 break;
             case "Despawn a Medium Enemy":
-                Debug.Log("Not yet implemented");
+                DespawnAnEnemy(3, 2);
                 break;
         }
         switch (color)
@@ -212,13 +212,57 @@ public class HackTarget : ScriptableObject
         }
     }
 
-    private void ReduceSecurityLevel()
+    private void ReduceSecurityLevel(int amount)
     {
-        
+        amount = amount * -1;
+        FindObjectOfType<MapData>().AdjustSecurityLevel(amount);
     }
 
-    private void DespawnAnEnemy()
+    private void DespawnAnEnemy(int maxDespawn, int preferredMinDespawn)
     {
+        MapSquare[] mapSquares = FindObjectsOfType<MapSquare>();
+        List<MapSquare> preferredToDespawnSquares = new List<MapSquare>();
+        List<MapSquare> weakerEnemiesToDespawn = new List<MapSquare>();
 
+        foreach(MapSquare square in mapSquares)
+        {
+            if (square.GetEnemy() != null)
+            {
+                int starRating = square.GetEnemy().GetStarRating();
+                if (starRating <= maxDespawn && starRating >= preferredMinDespawn)
+                {
+                    preferredToDespawnSquares.Add(square);
+                }
+                else if (starRating < preferredMinDespawn)
+                {
+                    weakerEnemiesToDespawn.Add(square);
+                }
+            }
+        }
+
+        if (preferredToDespawnSquares.Count > 0)
+        {
+            DespawnEnemyFromSquareList(preferredToDespawnSquares);
+        } else
+        {
+            DespawnEnemyFromSquareList(weakerEnemiesToDespawn);
+        }
+    }
+
+    private void DespawnEnemyFromSquareList(List<MapSquare> squares)
+    {
+        squares[Random.Range(0, squares.Count)].DespawnEnemy();
+    }
+
+    private void LogEnemyCount()
+    {
+        int count = 0;
+        MapSquare[] squares = FindObjectsOfType<MapSquare>();
+        foreach (MapSquare square in squares)
+        {
+            if (square.GetEnemy() != null)
+                count++;
+        }
+        Debug.Log("Found " + count + " enemies");
     }
 }

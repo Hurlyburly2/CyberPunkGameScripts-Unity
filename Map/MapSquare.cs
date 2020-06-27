@@ -205,6 +205,11 @@ public class MapSquare : MonoBehaviour
         enemy = FindObjectOfType<EnemyCollection>().GetAnEnemyByArea(mapType);
     }
 
+    public void DespawnEnemy()
+    {
+        enemy = null;
+    }
+
     private void SetupHackObjectSpawnLists()
     {
         hackTargets = new List<HackTarget>();
