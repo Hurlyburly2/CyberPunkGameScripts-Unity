@@ -17,9 +17,17 @@ public class MapData : MonoBehaviour
     // state
     int securityLevel;
 
+    // reward stuff
+    int moneyEarned; // in match
+    int moneyMultiplier; // percent multiplier added to money earned in round
+    int goalMultiplier; // percent multiplier added to money earned at end of round
+
     private void Awake()
     {
         int count = FindObjectsOfType<MapData>().Length;
+        moneyEarned = 0;
+        moneyMultiplier = 0;
+        goalMultiplier = 0;
 
         if (count > 1)
         {
@@ -160,6 +168,27 @@ public class MapData : MonoBehaviour
         if (securityLevel > 100)
             securityLevel = 100;
         mapConfig.GetSecurityPipManager().ChangeValue(securityLevel);
+    }
+
+    public void ChangeMoney(int amount)
+    {
+        float percentMultiplier = moneyMultiplier / 100;
+        Debug.Log("percent multiplier: " + percentMultiplier);
+        float multipliedAmount = amount * percentMultiplier;
+        Debug.Log("money multiplier: " + moneyMultiplier);
+        Debug.Log("multiplied amount: " + multipliedAmount);
+        moneyEarned += amount + Mathf.FloorToInt(multipliedAmount);
+        Debug.Log("Earned total of " + moneyEarned + " money.");
+    }
+
+    public void ChangeMoneyMultiplier(int amount)
+    {
+        moneyMultiplier += amount;
+    }
+
+    public void ChangeGoalMultiplier(int amount)
+    {
+        goalMultiplier += amount;
     }
 
     private void CheckMapConfigExists()

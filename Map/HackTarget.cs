@@ -9,7 +9,12 @@ public class HackTarget : ScriptableObject
     string hackType;
     // options are fed to it by mapSquare:
     // "Security Camera", "Combat Server", "Database", "Defense System", "Transportation", "Medical Server"
-    
+
+    // consts
+    const string red = "red";
+    const string blue = "blue";
+    const string purple = "purple";
+
     // state
     int redPoints;
     int bluePoints;
@@ -27,13 +32,13 @@ public class HackTarget : ScriptableObject
         hackIsDone = false;
         hackType = newHackType;
         mapType = FindObjectOfType<MapData>().GetMapType();
-        //SetupHackTest();
+        SetupHackTest();
     }
 
     // METHOD FOR TESTING
     public void SetupHackTest()
     {
-        hackType = "Security Camera";
+        hackType = "Database";
         redPoints = 500;
         bluePoints = 500;
         purplePoints = 500;
@@ -82,17 +87,17 @@ public class HackTarget : ScriptableObject
     {
         switch(color)
         {
-            case "red":
+            case red:
                 if (redPoints >= cost)
                     return true;
                 else
                     return false;
-            case "blue":
+            case blue:
                 if (bluePoints >= cost)
                     return true;
                 else
                     return false;
-            case "purple":
+            case purple:
                 if (purplePoints >= cost)
                     return true;
                 else
@@ -117,6 +122,8 @@ public class HackTarget : ScriptableObject
         {
             case "Security Camera":
                 return securityCameraColors[count];
+            case "Database":
+                return databaseColors[count];
         }
         return "";
     }
@@ -127,6 +134,8 @@ public class HackTarget : ScriptableObject
         {
             case "Security Camera":
                 return securityCameraOptions[count];
+            case "Database":
+                return databaseOptions[count];
         }
         return "";
     }
@@ -137,6 +146,8 @@ public class HackTarget : ScriptableObject
         {
             case "Security Camera":
                 return securityCameraCosts[count];
+            case "Database":
+                return databaseCosts[count];
         }
         return 0;
     }
@@ -151,13 +162,26 @@ public class HackTarget : ScriptableObject
         "Despawn a Weak Enemy",
         "Despawn a Medium Enemy"
     };
-    string[] securityCameraColors = { "blue", "blue", "blue", "red", "red", "purple", "purple" };
+    string[] securityCameraColors = { blue, blue, blue, red, red, purple, purple };
     int[] securityCameraCosts = { 5, 10, 15, 10, 20, 15, 25 };
+
+    string[] databaseOptions = {
+        "Erase Database",
+        "Upload and Sell Financial Data",
+        "Install Backdoor",
+        "Brute Force Passwords",
+        "Upload and Sell Personal Data",
+        "Download Buyer List",
+        "Download VIP Buyer List"
+    };
+    string[] databaseColors = { blue, blue, blue, red, red, purple, purple };
+    int[] databaseCosts = { 10, 10, 20, 5, 15, 10, 15 };
 
     public void UseAbility(MapSquare square, string description, string color, int cost)
     {
         switch (description)
         {
+            // SECURITY CAMERA OPTIONS
             case "Scout Points of Interest":
                 ScoutPointOfInterest(2, square);
                 break;
@@ -173,22 +197,47 @@ public class HackTarget : ScriptableObject
             case "Reveal Enemies":
                 ScoutEnemies(3, square);
                 break;
-            case "Despawn a Weak Enemy":
+            case "Despa0wn a Weak Enemy":
                 DespawnAnEnemy(2, 1);
                 break;
             case "Despawn a Medium Enemy":
                 DespawnAnEnemy(3, 2);
                 break;
+
+            // DATABASE OPTIONS
+            case "Erase Database":
+                ReduceSecurityLevel(5);
+                break;
+            case "Upload and Sell Financial Data":
+                GainMoney(600);
+                break;
+            case "Install Backdoor":
+                RaiseMoneyMultiplier(5);
+                RaiseGoalMultiplier(5);
+                break;
+            case "Brute Force Passwords":
+                GainMoney(300);
+                RaiseSecurityLevel(5);
+                break;
+            case "Upload and Sell Personal Data":
+                GainMoney(400);
+                break;
+            case "Download Buyer List":
+                RaiseGoalMultiplier(15);
+                break;
+            case "Download VIP Buyer List":
+                RaiseGoalMultiplier(25);
+                break;
         }
         switch (color)
         {
-            case "red":
+            case red:
                 redPoints -= cost;
                 break;
-            case "blue":
+            case blue:
                 bluePoints -= cost;
                 break;
-            case "purple":
+            case purple:
                 purplePoints -= cost;
                 break;
         }
@@ -215,6 +264,11 @@ public class HackTarget : ScriptableObject
     private void ReduceSecurityLevel(int amount)
     {
         amount = amount * -1;
+        FindObjectOfType<MapData>().AdjustSecurityLevel(amount);
+    }
+
+    private void RaiseSecurityLevel(int amount)
+    {
         FindObjectOfType<MapData>().AdjustSecurityLevel(amount);
     }
 
@@ -252,6 +306,21 @@ public class HackTarget : ScriptableObject
     private void DespawnEnemyFromSquareList(List<MapSquare> squares)
     {
         squares[Random.Range(0, squares.Count)].DespawnEnemy();
+    }
+
+    private void GainMoney(int amount)
+    {
+        FindObjectOfType<MapData>().ChangeMoney(amount);
+    }
+
+    private void RaiseMoneyMultiplier(int amount)
+    {
+        FindObjectOfType<MapData>().ChangeMoneyMultiplier(amount);
+    }
+
+    private void RaiseGoalMultiplier(int amount)
+    {
+        FindObjectOfType<MapData>().ChangeGoalMultiplier(amount);
     }
 
     private void LogEnemyCount()
