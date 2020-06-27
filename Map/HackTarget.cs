@@ -174,10 +174,10 @@ public class HackTarget : ScriptableObject
                 ScoutEnemies(3, square);
                 break;
             case "Despawn a Weak Enemy":
-                DespawnAnEnemy(2);
+                DespawnAnEnemy(2, 1);
                 break;
             case "Despawn a Medium Enemy":
-                DespawnAnEnemy(4);
+                DespawnAnEnemy(3, 2);
                 break;
         }
         switch (color)
@@ -218,8 +218,53 @@ public class HackTarget : ScriptableObject
         FindObjectOfType<MapData>().AdjustSecurityLevel(amount);
     }
 
-    private void DespawnAnEnemy(int maxEnemyLevelToDespawn)
+    private void DespawnAnEnemy(int maxDespawn, int preferredMinDespawn)
     {
-        FindObjectOfType<MapSquare>();
+        LogEnemyCount();
+        MapSquare[] mapSquares = FindObjectsOfType<MapSquare>();
+        List<MapSquare> preferredToDespawnSquares = new List<MapSquare>();
+        List<MapSquare> weakerEnemiesToDespawn = new List<MapSquare>();
+
+        foreach(MapSquare square in mapSquares)
+        {
+            if (square.GetEnemy() != null)
+            {
+                int starRating = square.GetEnemy().GetStarRating();
+                if (starRating <= maxDespawn && starRating >= preferredMinDespawn)
+                {
+                    preferredToDespawnSquares.Add(square);
+                }
+                else if (starRating < preferredMinDespawn)
+                {
+                    weakerEnemiesToDespawn.Add(square);
+                }
+            }
+        }
+
+        if (preferredToDespawnSquares.Count > 0)
+        {
+            DespawnEnemyFromSquareList(preferredToDespawnSquares);
+        } else
+        {
+            DespawnEnemyFromSquareList(weakerEnemiesToDespawn);
+        }
+        LogEnemyCount();
+    }
+
+    private void DespawnEnemyFromSquareList(List<MapSquare> squares)
+    {
+        squares[Random.Range(0, squares.Count)].DespawnEnemy();
+    }
+
+    private void LogEnemyCount()
+    {
+        int count = 0;
+        MapSquare[] squares = FindObjectsOfType<MapSquare>();
+        foreach (MapSquare square in squares)
+        {
+            if (square.GetEnemy() != null)
+                count++;
+        }
+        Debug.Log("Found " + count + " enemies");
     }
 }
