@@ -48,6 +48,7 @@ public class MapSquare : MonoBehaviour
     int playerHandSizeBuff = 0;
     int playerDefenseBuff = 0;
     int enemyHandSizeDebuff = 0;
+    int enemyFizzleChance = 0;
 
     private void OnMouseUpAsButton()
     {
@@ -353,6 +354,11 @@ public class MapSquare : MonoBehaviour
         enemyHandSizeDebuff += amount;
     }
 
+    public void AdjustEnemyFizzleChance(int amount)
+    {
+        enemyFizzleChance = Mathf.Clamp(enemyFizzleChance + amount, 0, 75);
+    }
+
     public List<int> GetPackageOfModifiers()
     {
         // list order: playerDodge, enemyVulnerability, playerCrit, playerHandSize, playerDefenseBuff
@@ -363,6 +369,7 @@ public class MapSquare : MonoBehaviour
         mapModifiers.Add(playerHandSizeBuff);
         mapModifiers.Add(playerDefenseBuff);
         mapModifiers.Add(enemyHandSizeDebuff);
+        mapModifiers.Add(enemyFizzleChance);
 
         return mapModifiers;
     }

@@ -244,8 +244,7 @@ public class HackTarget : ScriptableObject
                 DebuffEnemyHandSize(1, square);
                 break;
             case "Sabotage Enemy Tech":
-                // Enemy fizzle chance up
-                Debug.Log("Sabotage Enemy Tech");
+                AddToEnemyFizzleChance(10, square);
                 break;
 
             // DATABASE OPTIONS
@@ -418,6 +417,15 @@ public class HackTarget : ScriptableObject
         foreach (MapSquare square in squares)
         {
             square.AdjustEnemyHandSizeDebuff(amount);
+        }
+    }
+
+    private void AddToEnemyFizzleChance(int amount, MapSquare currentSquare)
+    {
+        List<MapSquare> squares = currentSquare.GetAdjacentSquares();
+        foreach (MapSquare square in squares)
+        {
+            square.AdjustEnemyFizzleChance(amount);
         }
     }
 
