@@ -198,7 +198,7 @@ public class EnemyCard : MonoBehaviour
 
     private void DealDamage(int damageAmount, int critChance = 0)
     {
-        int modifiedDamage = CalculateModifiedDamage(damageAmount, critChance);
+        int modifiedDamage = Mathf.Clamp(CalculateModifiedDamage(damageAmount, critChance), 0, 999999);
         CharacterData character = FindObjectOfType<BattleData>().GetCharacter();
         character.TakeDamage(modifiedDamage);
     }
@@ -219,6 +219,7 @@ public class EnemyCard : MonoBehaviour
         damageAmount += enemyCurrentStatusEffects.GetMomentumStacks();
         damageAmount += playerCurrentStatusEffects.GetVulnerableStacks();
         damageAmount -= playerCurrentStatusEffects.GetDamageResistStacks();
+        damageAmount -= FindObjectOfType<BattleData>().GetPlayerDefenseBuff();
 
         damageAmount = CheckAndApplyCritical(damageAmount, critChance);
 

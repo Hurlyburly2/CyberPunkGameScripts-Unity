@@ -453,6 +453,7 @@ public class Card : MonoBehaviour
             damageAmount = CheckAndApplyCritical(damageAmount, modifiedCritChance);
         }
 
+        damageAmount = Mathf.Clamp(damageAmount, 0, 999999);
         battleData.GetEnemy().TakeDamage(damageAmount);
     }
 

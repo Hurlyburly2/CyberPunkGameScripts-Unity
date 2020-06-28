@@ -238,8 +238,7 @@ public class HackTarget : ScriptableObject
                 BuffPlayerHandSize(1, square);
                 break;
             case "Harden Armor":
-                // Defense Up
-                Debug.Log("Not yet implemented");
+                BuffPlayerDefense(1, square);
                 break;
             case "Install Mod Intereference":
                 // Enemy Hand Size debuff
@@ -402,6 +401,15 @@ public class HackTarget : ScriptableObject
         foreach (MapSquare square in squares)
         {
             square.AdjustPlayerHandSize(amount);
+        }
+    }
+
+    private void BuffPlayerDefense(int amount, MapSquare currentSquare)
+    {
+        List<MapSquare> squares = currentSquare.GetAdjacentSquares();
+        foreach (MapSquare square in squares)
+        {
+            square.AdjustPlayerDefenseBuff(amount);
         }
     }
 
