@@ -58,10 +58,7 @@ public class PipManagerEnemy : MonoBehaviour
             {
                 AddPip();
             }
-            Debug.Log("target number of pips: " + targetNumberOfPips);
-            Debug.Log("old piplist count: " + pipList.Count);
             yield return new WaitForSeconds(timePerPip);
-            Debug.Log("new piplist count: " + pipList.Count);
         }
 
         if (pipList.Count == 0)

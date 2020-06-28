@@ -127,6 +127,7 @@ public class SceneLoader : MonoBehaviour
         currentBattle.SetCharacterData(currentRunner, currentHacker);
         currentBattle.GetDataFromMapSquare(currentSquare);
         currentBattle.SetMapGrid(mapGrid);
+        currentBattle.LoadModifiersFromMap(currentBattle.GetMapSquare().GetPackageOfModifiers());
 
         SceneManager.LoadScene(battleSceneName);
 

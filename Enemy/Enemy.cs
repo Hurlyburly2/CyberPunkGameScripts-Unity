@@ -53,7 +53,6 @@ public class Enemy : MonoBehaviour
 
     public void PlayCards()
     {
-        Debug.Log("Play all cards in hand");
         enemyHand.PlayAllCards();
     }
 

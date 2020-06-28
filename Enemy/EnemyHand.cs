@@ -21,11 +21,14 @@ public class EnemyHand : MonoBehaviour
     public void DrawInitialHand(int handSize)
     {
         handSize += handBuff;
+        // minimum hand size is 1, debuffs shouldn't prevent them from every playing anything
+        handSize = Mathf.Clamp(handSize - FindObjectOfType<BattleData>().GetEnemyHandSizeDebuff(), 1, 999999);
         handBuff = 0;
 
         playingCards = false;
         enemyDeck = FindObjectOfType<EnemyDeck>();
         enemyDiscard = FindObjectOfType<EnemyDiscard>();
+        Debug.Log(handSize);
         StartCoroutine(DrawHandTimer(handSize));
     }
 

@@ -439,6 +439,7 @@ public class Card : MonoBehaviour
         // Modify Damage
         damageAmount += playerCurrentStatusEffects.GetMomentumStacks();
         damageAmount += enemyCurrentStatusEffects.GetVulnerableStacks();
+        damageAmount += FindObjectOfType<BattleData>().GetEnemyVulnerabilityMapDebuff();
         damageAmount -= enemyCurrentStatusEffects.GetDamageResistStacks();
 
         int dodgeChance = enemyCurrentStatusEffects.GetDodgeChance();
@@ -448,9 +449,11 @@ public class Card : MonoBehaviour
             damageAmount = 0;
         } else
         {
-            damageAmount = CheckAndApplyCritical(damageAmount, critChance);
+            int modifiedCritChance = Mathf.Clamp(critChance + FindObjectOfType<BattleData>().GetPlayerCritMapBuff(), 0, 100);
+            damageAmount = CheckAndApplyCritical(damageAmount, modifiedCritChance);
         }
 
+        damageAmount = Mathf.Clamp(damageAmount, 0, 999999);
         battleData.GetEnemy().TakeDamage(damageAmount);
     }
 

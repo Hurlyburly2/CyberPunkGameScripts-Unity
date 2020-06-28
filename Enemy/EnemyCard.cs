@@ -162,27 +162,33 @@ public class EnemyCard : MonoBehaviour
 
     private void PlayCardEffect()
     {
-        switch (cardId)
+        if (PercentChance(FindObjectOfType<BattleData>().GetEnemyFizzleChance()))
         {
-            case 0:
-                Debug.LogError("This is not a real card");
-                break;
-            case 1: // Ambush
-                DealDamage(5);
-                destroyOnPlay = true;
-                break;
-            case 2: // Stab
-                DealDamage(2);
-                break;
-            case 3: // MINOR TRAP
-                GainStatus("Vulnerable", 1);
-                SelfDamage(1);
-                BuffHandSize(1);
-                destroyOnPlay = true;
-                break;
-            default:
-                Debug.Log("Card not implemented");
-                break;
+            Debug.Log("Fizzled!");
+        } else
+        {
+            switch (cardId)
+            {
+                case 0:
+                    Debug.LogError("This is not a real card");
+                    break;
+                case 1: // Ambush
+                    DealDamage(5);
+                    destroyOnPlay = true;
+                    break;
+                case 2: // Stab
+                    DealDamage(2);
+                    break;
+                case 3: // MINOR TRAP
+                    GainStatus("Vulnerable", 1);
+                    SelfDamage(1);
+                    BuffHandSize(1);
+                    destroyOnPlay = true;
+                    break;
+                default:
+                    Debug.Log("Card not implemented");
+                    break;
+            }
         }
     }
 
@@ -198,7 +204,7 @@ public class EnemyCard : MonoBehaviour
 
     private void DealDamage(int damageAmount, int critChance = 0)
     {
-        int modifiedDamage = CalculateModifiedDamage(damageAmount, critChance);
+        int modifiedDamage = Mathf.Clamp(CalculateModifiedDamage(damageAmount, critChance), 0, 999999);
         CharacterData character = FindObjectOfType<BattleData>().GetCharacter();
         character.TakeDamage(modifiedDamage);
     }
@@ -208,8 +214,8 @@ public class EnemyCard : MonoBehaviour
         ConfigData configData = FindObjectOfType<ConfigData>();
         playerCurrentStatusEffects = configData.GetPlayerStatusEffects();
         enemyCurrentStatusEffects = configData.GetEnemyStatusEffects();
-
-        int dodgeChance = playerCurrentStatusEffects.GetDodgeChance();
+        
+        int dodgeChance = Mathf.Clamp(playerCurrentStatusEffects.GetDodgeChance() + FindObjectOfType<BattleData>().GetPlayerDodgeMapBuff(), 0, 80);
         if (PercentChance(dodgeChance))
         {
             Debug.Log("Dodged!");
@@ -219,6 +225,7 @@ public class EnemyCard : MonoBehaviour
         damageAmount += enemyCurrentStatusEffects.GetMomentumStacks();
         damageAmount += playerCurrentStatusEffects.GetVulnerableStacks();
         damageAmount -= playerCurrentStatusEffects.GetDamageResistStacks();
+        damageAmount -= FindObjectOfType<BattleData>().GetPlayerDefenseBuff();
 
         damageAmount = CheckAndApplyCritical(damageAmount, critChance);
 

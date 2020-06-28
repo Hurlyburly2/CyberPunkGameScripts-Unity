@@ -29,6 +29,13 @@ public class BattleData : MonoBehaviour
         // possible values: player, enemy
     bool skipEndTurnDiscard;
         // if true, skip discard and set to false
+    int playerDodgeMapBuff = 0;
+    int enemyVulnerability = 0;
+    int playerCritMapBuff = 0;
+    int playerHandSizeBuff = 0;
+    int playerDefenseBuff = 0;
+    int enemyHandSizeDebuff = 0;
+    int enemyFizzleChance = 0;
 
     private void Awake()
     {
@@ -214,6 +221,53 @@ public class BattleData : MonoBehaviour
     {
         mapGrid = newMapGrid;
         mapGrid.gameObject.SetActive(false);
+    }
+
+    public void LoadModifiersFromMap(List<int> loadedMapSquareEffects)
+    {
+        // buff order: dodge, enemyVulnerability, playerCrit, playerHandSize, playerDefense, enemy hand size debuff
+        playerDodgeMapBuff = loadedMapSquareEffects[0];
+        enemyVulnerability = loadedMapSquareEffects[1];
+        playerCritMapBuff = loadedMapSquareEffects[2];
+        playerHandSizeBuff = loadedMapSquareEffects[3];
+        playerDefenseBuff = loadedMapSquareEffects[4];
+        enemyHandSizeDebuff = loadedMapSquareEffects[5];
+        enemyFizzleChance = loadedMapSquareEffects[6];
+    }
+
+    public int GetPlayerDodgeMapBuff()
+    {
+        return playerDodgeMapBuff;
+    }
+
+    public int GetEnemyVulnerabilityMapDebuff()
+    {
+        return enemyVulnerability;
+    }
+
+    public int GetPlayerCritMapBuff()
+    {
+        return playerCritMapBuff;
+    }
+
+    public int GetPlayerHandMapBuff()
+    {
+        return playerHandSizeBuff;
+    }
+
+    public int GetPlayerDefenseBuff()
+    {
+        return playerDefenseBuff;
+    }
+
+    public int GetEnemyHandSizeDebuff()
+    {
+        return enemyHandSizeDebuff;
+    }
+
+    public int GetEnemyFizzleChance()
+    {
+        return enemyFizzleChance;
     }
 
     public MapGrid GetMapGrid()

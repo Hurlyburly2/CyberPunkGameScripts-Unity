@@ -41,6 +41,15 @@ public class MapSquare : MonoBehaviour
     List<int> enemyBuffs;
     List<int> enemyDebuffs;
 
+    // player/enemy status effects
+    int playerDodgeBuff = 0;
+    int enemyVulnerability = 0;
+    int playerCritBuff = 0;
+    int playerHandSizeBuff = 0;
+    int playerDefenseBuff = 0;
+    int enemyHandSizeDebuff = 0;
+    int enemyFizzleChance = 0;
+
     private void OnMouseUpAsButton()
     {
         if (mapConfig == null)
@@ -306,6 +315,63 @@ public class MapSquare : MonoBehaviour
     private void SetState(string newState)
     {
         state = newState;
+    }
+
+    public void AdjustPlayerDodge(int amount)
+    {
+        // max player dodge is currently 80
+        if (playerDodgeBuff + amount <= 80)
+        {
+            playerDodgeBuff += amount;
+        } else
+        {
+            playerDodgeBuff = 80;
+        }
+    }
+
+    public void AdjustEnemyVulnerability(int amount)
+    {
+        enemyVulnerability += amount;
+    }
+
+    public void AdjustPlayerCritChance(int amount)
+    {
+        playerCritBuff += amount;
+    }
+
+    public void AdjustPlayerHandSize(int amount)
+    {
+        playerHandSizeBuff += amount;
+    }
+
+    public void AdjustPlayerDefenseBuff(int amount)
+    {
+        playerDefenseBuff += amount;
+    }
+
+    public void AdjustEnemyHandSizeDebuff(int amount)
+    {
+        enemyHandSizeDebuff += amount;
+    }
+
+    public void AdjustEnemyFizzleChance(int amount)
+    {
+        enemyFizzleChance = Mathf.Clamp(enemyFizzleChance + amount, 0, 75);
+    }
+
+    public List<int> GetPackageOfModifiers()
+    {
+        // list order: playerDodge, enemyVulnerability, playerCrit, playerHandSize, playerDefenseBuff
+        List<int> mapModifiers = new List<int>();
+        mapModifiers.Add(playerDodgeBuff);
+        mapModifiers.Add(enemyVulnerability);
+        mapModifiers.Add(playerCritBuff);
+        mapModifiers.Add(playerHandSizeBuff);
+        mapModifiers.Add(playerDefenseBuff);
+        mapModifiers.Add(enemyHandSizeDebuff);
+        mapModifiers.Add(enemyFizzleChance);
+
+        return mapModifiers;
     }
 
     public Sprite GetLocationImage()
