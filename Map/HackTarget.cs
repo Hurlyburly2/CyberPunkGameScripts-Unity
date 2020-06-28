@@ -241,8 +241,7 @@ public class HackTarget : ScriptableObject
                 BuffPlayerDefense(1, square);
                 break;
             case "Install Mod Intereference":
-                // Enemy Hand Size debuff
-                Debug.Log("Not yet implemented");
+                DebuffEnemyHandSize(1, square);
                 break;
             case "Sabotage Enemy Tech":
                 // Enemy fizzle chance up
@@ -410,6 +409,15 @@ public class HackTarget : ScriptableObject
         foreach (MapSquare square in squares)
         {
             square.AdjustPlayerDefenseBuff(amount);
+        }
+    }
+
+    private void DebuffEnemyHandSize(int amount, MapSquare currentSquare)
+    {
+        List<MapSquare> squares = currentSquare.GetAdjacentSquares();
+        foreach (MapSquare square in squares)
+        {
+            square.AdjustEnemyHandSizeDebuff(amount);
         }
     }
 

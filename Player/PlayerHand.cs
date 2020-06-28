@@ -45,7 +45,6 @@ public class PlayerHand : MonoBehaviour
 
     public void DrawStartingHand(int startingHandSize, float setupTimeInSeconds)
     {
-        Debug.Log(FindObjectOfType<BattleData>().GetPlayerHandMapBuff());
         int modifiedHandSize = startingHandSize + FindObjectOfType<BattleData>().GetPlayerHandMapBuff();
         float timePerCardDraw = setupTimeInSeconds / modifiedHandSize;
 

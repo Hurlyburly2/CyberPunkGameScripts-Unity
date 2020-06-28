@@ -34,6 +34,7 @@ public class BattleData : MonoBehaviour
     int playerCritMapBuff = 0;
     int playerHandSizeBuff = 0;
     int playerDefenseBuff = 0;
+    int enemyHandSizeDebuff = 0;
 
     private void Awake()
     {
@@ -223,12 +224,13 @@ public class BattleData : MonoBehaviour
 
     public void LoadModifiersFromMap(List<int> loadedPlayerBuffs)
     {
-        // buff order: dodge, enemyVulnerability, playerCrit, playerHandSize, playerDefense
+        // buff order: dodge, enemyVulnerability, playerCrit, playerHandSize, playerDefense, enemy hand size debuff
         playerDodgeMapBuff = loadedPlayerBuffs[0];
         enemyVulnerability = loadedPlayerBuffs[1];
         playerCritMapBuff = loadedPlayerBuffs[2];
         playerHandSizeBuff = loadedPlayerBuffs[3];
         playerDefenseBuff = loadedPlayerBuffs[4];
+        enemyHandSizeDebuff = loadedPlayerBuffs[5];
     }
 
     public int GetPlayerDodgeMapBuff()
@@ -254,6 +256,11 @@ public class BattleData : MonoBehaviour
     public int GetPlayerDefenseBuff()
     {
         return playerDefenseBuff;
+    }
+
+    public int GetEnemyHandSizeDebuff()
+    {
+        return enemyHandSizeDebuff;
     }
 
     public MapGrid GetMapGrid()
