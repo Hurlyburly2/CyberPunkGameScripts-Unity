@@ -213,7 +213,7 @@ public class HackTarget : ScriptableObject
         "Despawn a Strong Enemy"
     };
     string[] defenseSystemColors = { blue, blue, blue, red, red, purple, purple };
-    int[] defenseSystemCosts = { 10, 10, 15, 10, 20, 10, 20 };
+    int[] defenseSystemCosts = { 20, 10, 15, 10, 20, 10, 20 };
 
     // ability usages
     public void UseAbility(MapSquare square, string description, string color, int cost)
@@ -293,7 +293,7 @@ public class HackTarget : ScriptableObject
 
             // DEFENSE SYSTEM OPTIONS
             case "Disable Trap":
-                Debug.Log("Not yet Implemented");
+                DisableATrap();
                 break;
             //case "Reduce Security Level":
                 // THIS IS ALREADY PART OF THE ABOVE, AND IT WORKS FOR BOTH
@@ -468,6 +468,40 @@ public class HackTarget : ScriptableObject
         foreach (MapSquare square in squares)
         {
             square.AdjustEnemyFizzleChance(amount);
+        }
+    }
+
+    private void DisableATrap()
+    {
+        MapSquare[] squares = FindObjectsOfType<MapSquare>();
+        List<MapSquare> squaresWithTraps = new List<MapSquare>();
+        foreach (MapSquare square in squares)
+        {
+            if (square.IsActive())
+            {
+                List<MapObject> mapObjects = square.GetMapObjects();
+                foreach (MapObject mapObject in mapObjects)
+                {
+                    if (mapObject.GetObjectType() == "Trap" && mapObject.GetIsActive() == true)
+                    {
+                        squaresWithTraps.Add(square);
+                    }
+                }
+            }
+        }
+
+        if (squaresWithTraps.Count > 0)
+        {
+            MapSquare squareToDisable = squaresWithTraps[Random.Range(0, squaresWithTraps.Count)];
+            List<MapObject> mapObjects = squareToDisable.GetMapObjects();
+            foreach (MapObject mapObject in mapObjects)
+            {
+                if (mapObject.GetObjectType() == "Trap")
+                {
+                    mapObject.SetIsActive(false);
+                    Debug.Log("Disabled a Trap");
+                }
+            }
         }
     }
 

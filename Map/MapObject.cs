@@ -9,12 +9,18 @@ public class MapObject : ScriptableObject
     // options are fed to it by mapSquare:
     // "Trap", "Reward", "PowerUp", "Shop", "Upgrade", "First Aid Station"
     bool isActive;
+    // IF IT IS A TRAP AND IT IS NOT ACTIVE IT SHOULDN'T TRIGGER
 
     public void SetupMapObject(string newMapObjectType)
     {
         isActive = true;
         type = newMapObjectType;
         mapType = FindObjectOfType<MapData>().GetMapType();
+    }
+
+    public void SetIsActive(bool state)
+    {
+        isActive = false;
     }
 
     public string GetObjectType()
