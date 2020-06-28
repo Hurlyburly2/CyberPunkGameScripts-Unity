@@ -45,6 +45,7 @@ public class MapSquare : MonoBehaviour
     int playerDodgeBuff = 0;
     int enemyVulnerability = 0;
     int playerCritBuff = 0;
+    int playerHandSizeBuff = 0;
 
     private void OnMouseUpAsButton()
     {
@@ -335,13 +336,19 @@ public class MapSquare : MonoBehaviour
         playerCritBuff += amount;
     }
 
+    public void AdjustPlayerHandSize(int amount)
+    {
+        playerHandSizeBuff += amount;
+    }
+
     public List<int> GetPackageOfModifiers()
     {
-        // list order: playerDodge, enemyVulnerability, playerCrit
+        // list order: playerDodge, enemyVulnerability, playerCrit, playerHandSize
         List<int> mapModifiers = new List<int>();
         mapModifiers.Add(playerDodgeBuff);
         mapModifiers.Add(enemyVulnerability);
         mapModifiers.Add(playerCritBuff);
+        mapModifiers.Add(playerHandSizeBuff);
 
         return mapModifiers;
     }

@@ -127,6 +127,7 @@ public class SceneLoader : MonoBehaviour
         currentBattle.SetCharacterData(currentRunner, currentHacker);
         currentBattle.GetDataFromMapSquare(currentSquare);
         currentBattle.SetMapGrid(mapGrid);
+        currentBattle.LoadModifiersFromMap(currentBattle.GetMapSquare().GetPackageOfModifiers());
 
         SceneManager.LoadScene(battleSceneName);
 
@@ -150,7 +151,6 @@ public class SceneLoader : MonoBehaviour
             yield return null;
         }
         currentBattle.SetUpBattle();
-        currentBattle.LoadModifiersFromMap(currentBattle.GetMapSquare().GetPackageOfModifiers());
     }
 
     public void LoadBattleTestOne()

@@ -32,6 +32,7 @@ public class BattleData : MonoBehaviour
     int playerDodgeMapBuff = 0;
     int enemyVulnerability = 0;
     int playerCritMapBuff = 0;
+    int playerHandSizeBuff = 0;
 
     private void Awake()
     {
@@ -225,7 +226,7 @@ public class BattleData : MonoBehaviour
         playerDodgeMapBuff = loadedPlayerBuffs[0];
         enemyVulnerability = loadedPlayerBuffs[1];
         playerCritMapBuff = loadedPlayerBuffs[2];
-        Debug.Log("player crit map buff: " + playerCritMapBuff);
+        playerHandSizeBuff = loadedPlayerBuffs[3];
     }
 
     public int GetPlayerDodgeMapBuff()
@@ -241,6 +242,11 @@ public class BattleData : MonoBehaviour
     public int GetPlayerCritMapBuff()
     {
         return playerCritMapBuff;
+    }
+
+    public int GetPlayerHandMapBuff()
+    {
+        return playerHandSizeBuff;
     }
 
     public MapGrid GetMapGrid()

@@ -173,12 +173,8 @@ public class MapData : MonoBehaviour
     public void ChangeMoney(int amount)
     {
         float percentMultiplier = moneyMultiplier / 100;
-        Debug.Log("percent multiplier: " + percentMultiplier);
         float multipliedAmount = amount * percentMultiplier;
-        Debug.Log("money multiplier: " + moneyMultiplier);
-        Debug.Log("multiplied amount: " + multipliedAmount);
         moneyEarned += amount + Mathf.FloorToInt(multipliedAmount);
-        Debug.Log("Earned total of " + moneyEarned + " money.");
     }
 
     public void ChangeMoneyMultiplier(int amount)

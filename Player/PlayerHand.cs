@@ -45,9 +45,11 @@ public class PlayerHand : MonoBehaviour
 
     public void DrawStartingHand(int startingHandSize, float setupTimeInSeconds)
     {
-        float timePerCardDraw = setupTimeInSeconds / startingHandSize;
+        Debug.Log(FindObjectOfType<BattleData>().GetPlayerHandMapBuff());
+        int modifiedHandSize = startingHandSize + FindObjectOfType<BattleData>().GetPlayerHandMapBuff();
+        float timePerCardDraw = setupTimeInSeconds / modifiedHandSize;
 
-        StartCoroutine(DrawStartingHandCoroutine(startingHandSize, timePerCardDraw));
+        StartCoroutine(DrawStartingHandCoroutine(modifiedHandSize, timePerCardDraw));
     }
 
     private IEnumerator DrawStartingHandCoroutine(int startingHandSize, float timePerCardDraw)
@@ -66,7 +68,7 @@ public class PlayerHand : MonoBehaviour
 
     public void DrawToMaxHandSize()
     {
-        int cardTarget = initialHandSize - playerHandDebuff;
+        int cardTarget = initialHandSize - playerHandDebuff + FindObjectOfType<BattleData>().GetPlayerHandMapBuff();
         if (cardsInHand.Count < cardTarget)
         {
             DrawXCards(cardTarget - cardsInHand.Count);

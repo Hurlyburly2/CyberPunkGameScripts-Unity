@@ -232,12 +232,10 @@ public class HackTarget : ScriptableObject
                 IncreaseEnemyVulnerability(1, square);
                 break;
             case "Enhance Targetting":
-                // Crit Up
                 BuffPlayerCritChance(15, square);
                 break;
-            case "Overclock Systemss":
-                // Hand Size Up
-                Debug.Log("Not yet implemented");
+            case "Overclock Systems":
+                BuffPlayerHandSize(1, square);
                 break;
             case "Harden Armor":
                 // Defense Up
@@ -395,6 +393,15 @@ public class HackTarget : ScriptableObject
         foreach (MapSquare square in squares)
         {
             square.AdjustPlayerCritChance(amount);
+        }
+    }
+
+    private void BuffPlayerHandSize(int amount, MapSquare currentSquare)
+    {
+        List<MapSquare> squares = currentSquare.GetAdjacentSquares();
+        foreach (MapSquare square in squares)
+        {
+            square.AdjustPlayerHandSize(amount);
         }
     }
 
