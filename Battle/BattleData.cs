@@ -37,6 +37,7 @@ public class BattleData : MonoBehaviour
     int enemyHandSizeDebuff = 0;
     int enemyFizzleChance = 0;
     int percentDamageToEnemy = 0;
+    int dotDamageToEnemy = 0;
 
     private void Awake()
     {
@@ -233,7 +234,7 @@ public class BattleData : MonoBehaviour
     public void LoadModifiersFromMap(List<int> loadedMapSquareEffects)
     {
         // buff order: dodge, enemyVulnerability, playerCrit, playerHandSize, playerDefense, enemy hand size debuff
-            // percentDamageToEnemy
+            // percentDamageToEnemy, dotDamageToEnemy
         playerDodgeMapBuff = loadedMapSquareEffects[0];
         enemyVulnerability = loadedMapSquareEffects[1];
         playerCritMapBuff = loadedMapSquareEffects[2];
@@ -242,6 +243,7 @@ public class BattleData : MonoBehaviour
         enemyHandSizeDebuff = loadedMapSquareEffects[5];
         enemyFizzleChance = loadedMapSquareEffects[6];
         percentDamageToEnemy = loadedMapSquareEffects[7];
+        dotDamageToEnemy = loadedMapSquareEffects[8];
     }
 
     public int GetPlayerDodgeMapBuff()
@@ -277,6 +279,11 @@ public class BattleData : MonoBehaviour
     public int GetEnemyFizzleChance()
     {
         return enemyFizzleChance;
+    }
+
+    public int GetMapDotDamage()
+    {
+        return dotDamageToEnemy;
     }
 
     public MapGrid GetMapGrid()

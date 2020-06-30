@@ -305,7 +305,7 @@ public class HackTarget : ScriptableObject
                 DamageEnemies(10, square);
                 break;
             case "Control Attack Drones":
-                Debug.Log("Not yet Implemented");
+                DotEnemies(2, square);
                 break;
             case "Infect Weapon Systems":
                 Debug.Log("Not yet Implemented");
@@ -511,6 +511,15 @@ public class HackTarget : ScriptableObject
         foreach (MapSquare square in squares)
         {
             square.AdjustPercentDamageToEnemy(percentage);
+        }
+    }
+
+    private void DotEnemies(int amount, MapSquare currentSquare)
+    {
+        List<MapSquare> squares = currentSquare.GetAdjacentSquares();
+        foreach (MapSquare square in squares)
+        {
+            square.AdjustDotDamageToEnemy(amount);
         }
     }
 
