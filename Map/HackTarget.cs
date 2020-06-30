@@ -308,7 +308,7 @@ public class HackTarget : ScriptableObject
                 DotEnemies(2, square);
                 break;
             case "Infect Weapon Systems":
-                Debug.Log("Not yet Implemented");
+                DebuffEnemyDamage(1, square);
                 break;
             case "Despawn a Strong Enemy":
                 Debug.Log("Not yet Implemented");
@@ -520,6 +520,15 @@ public class HackTarget : ScriptableObject
         foreach (MapSquare square in squares)
         {
             square.AdjustDotDamageToEnemy(amount);
+        }
+    }
+
+    private void DebuffEnemyDamage(int amount, MapSquare currentSquare)
+    {
+        List<MapSquare> squares = currentSquare.GetAdjacentSquares();
+        foreach (MapSquare square in squares)
+        {
+            square.AdjustEnemyDamageDebuff(amount);
         }
     }
 

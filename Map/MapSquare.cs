@@ -51,6 +51,7 @@ public class MapSquare : MonoBehaviour
     int enemyFizzleChance = 0;
     int percentDamageToEnemy = 0;
     int dotDamageToEnemy = 0;
+    int enemyDamageDebuff = 0;
 
     private void OnMouseUpAsButton()
     {
@@ -377,10 +378,15 @@ public class MapSquare : MonoBehaviour
         dotDamageToEnemy += amount;
     }
 
+    public void AdjustEnemyDamageDebuff(int amount)
+    {
+        enemyDamageDebuff += amount;
+    }
+
     public List<int> GetPackageOfModifiers()
     {
         // list order: playerDodge, enemyVulnerability, playerCrit, playerHandSize, playerDefenseBuff
-            // percentDamageToEnemy, dotDamageToEnemy
+            // percentDamageToEnemy, dotDamageToEnemy, enemyDamageDebuff
         List<int> mapModifiers = new List<int>();
         mapModifiers.Add(playerDodgeBuff);
         mapModifiers.Add(enemyVulnerability);
@@ -391,6 +397,7 @@ public class MapSquare : MonoBehaviour
         mapModifiers.Add(enemyFizzleChance);
         mapModifiers.Add(percentDamageToEnemy);
         mapModifiers.Add(dotDamageToEnemy);
+        mapModifiers.Add(enemyDamageDebuff);
 
         return mapModifiers;
     }
