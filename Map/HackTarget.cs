@@ -299,10 +299,10 @@ public class HackTarget : ScriptableObject
                 // THIS IS ALREADY PART OF THE ABOVE, AND IT WORKS FOR BOTH
                 // break;
             case "Detonate EMP":
-                Debug.Log("Not yet Implemented");
+                AddToEnemyFizzleChance(10, square);
                 break;
             case "Turn Turrets on Enemies":
-                Debug.Log("Not yet Implemented");
+                DamageEnemies(10, square);
                 break;
             case "Control Attack Drones":
                 Debug.Log("Not yet Implemented");
@@ -502,6 +502,15 @@ public class HackTarget : ScriptableObject
                     Debug.Log("Disabled a Trap");
                 }
             }
+        }
+    }
+
+    private void DamageEnemies(int percentage, MapSquare currentSquare)
+    {
+        List<MapSquare> squares = currentSquare.GetAdjacentSquares();
+        foreach (MapSquare square in squares)
+        {
+            square.AdjustPercentDamageToEnemy(percentage);
         }
     }
 

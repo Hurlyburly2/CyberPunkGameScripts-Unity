@@ -61,6 +61,19 @@ public class Enemy : MonoBehaviour
         enemyHand.ClearPlayedCards();
     }
 
+    public void TakePercentDamageFromMap(int percent)
+    {
+        float percentageAmount = percent / 100f;
+        int amountOfDamage = Mathf.FloorToInt(maxHealth * percentageAmount);
+        if (currentHealth - amountOfDamage > 0)
+        {
+            currentHealth -= amountOfDamage;
+        } else
+        {
+            currentHealth = 0;
+        }
+    }
+
     public void TakeDamage(int damageInflicted)
     {
         if (currentHealth - damageInflicted < 1)

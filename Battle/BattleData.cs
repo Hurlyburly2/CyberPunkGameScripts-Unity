@@ -36,6 +36,7 @@ public class BattleData : MonoBehaviour
     int playerDefenseBuff = 0;
     int enemyHandSizeDebuff = 0;
     int enemyFizzleChance = 0;
+    int percentDamageToEnemy = 0;
 
     private void Awake()
     {
@@ -62,6 +63,7 @@ public class BattleData : MonoBehaviour
         {
             SetUpEnemy(enemyId);
         }
+        DealMapDamageToEnemy();
         enemy.BattleSetup(setupTimeInSeconds);
 
         configData = FindObjectOfType<ConfigData>();
@@ -76,6 +78,11 @@ public class BattleData : MonoBehaviour
         playerHand.DrawStartingHand(character.GetStartingHandSize(), setupTimeInSeconds);
 
         StartCoroutine(EnablePlayAfterSetup());
+    }
+
+    private void DealMapDamageToEnemy()
+    {
+        enemy.TakePercentDamageFromMap(percentDamageToEnemy);
     }
 
     public void SetUpEnemy(int enemyId)
@@ -226,6 +233,7 @@ public class BattleData : MonoBehaviour
     public void LoadModifiersFromMap(List<int> loadedMapSquareEffects)
     {
         // buff order: dodge, enemyVulnerability, playerCrit, playerHandSize, playerDefense, enemy hand size debuff
+            // percentDamageToEnemy
         playerDodgeMapBuff = loadedMapSquareEffects[0];
         enemyVulnerability = loadedMapSquareEffects[1];
         playerCritMapBuff = loadedMapSquareEffects[2];
@@ -233,6 +241,7 @@ public class BattleData : MonoBehaviour
         playerDefenseBuff = loadedMapSquareEffects[4];
         enemyHandSizeDebuff = loadedMapSquareEffects[5];
         enemyFizzleChance = loadedMapSquareEffects[6];
+        percentDamageToEnemy = loadedMapSquareEffects[7];
     }
 
     public int GetPlayerDodgeMapBuff()
