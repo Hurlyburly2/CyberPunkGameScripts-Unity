@@ -38,7 +38,7 @@ public class HackTarget : ScriptableObject
     // METHOD FOR TESTING
     public void SetupHackTest()
     {
-        hackType = "Combat Server";
+        hackType = "Defense System";
         redPoints = 500;
         bluePoints = 500;
         purplePoints = 500;
@@ -126,6 +126,8 @@ public class HackTarget : ScriptableObject
                 return combatServerColors[count];
             case "Database":
                 return databaseColors[count];
+            case "Defense System":
+                return defenseSystemColors[count];
         }
         return "";
     }
@@ -140,6 +142,8 @@ public class HackTarget : ScriptableObject
                 return combatServerOptions[count];
             case "Database":
                 return databaseOptions[count];
+            case "Defense System":
+                return defenseSystemOptions[count];
         }
         return "";
     }
@@ -154,6 +158,8 @@ public class HackTarget : ScriptableObject
                 return combatServerCosts[count];
             case "Database":
                 return databaseCosts[count];
+            case "Defense System":
+                return defenseSystemCosts[count];
         }
         return 0;
     }
@@ -195,6 +201,19 @@ public class HackTarget : ScriptableObject
     };
     string[] databaseColors = { blue, blue, blue, red, red, purple, purple };
     int[] databaseCosts = { 10, 10, 20, 5, 15, 10, 15 };
+
+    string[] defenseSystemOptions =
+    {
+        "Disable Trap",
+        "Reduce Security Level",
+        "Detonate EMP",
+        "Turn Turrets on Enemies",
+        "Control Attack Drones",
+        "Infect Weapon Systems",
+        "Despawn a Strong Enemy"
+    };
+    string[] defenseSystemColors = { blue, blue, blue, red, red, purple, purple };
+    int[] defenseSystemCosts = { 20, 10, 15, 10, 20, 10, 20 };
 
     // ability usages
     public void UseAbility(MapSquare square, string description, string color, int cost)
@@ -271,6 +290,29 @@ public class HackTarget : ScriptableObject
             case "Download VIP Buyer List":
                 RaiseGoalMultiplier(25);
                 break;
+
+            // DEFENSE SYSTEM OPTIONS
+            case "Disable Trap":
+                DisableATrap();
+                break;
+            //case "Reduce Security Level":
+                // THIS IS ALREADY PART OF THE ABOVE, AND IT WORKS FOR BOTH
+                // break;
+            case "Detonate EMP":
+                AddToEnemyFizzleChance(10, square);
+                break;
+            case "Turn Turrets on Enemies":
+                DamageEnemies(10, square);
+                break;
+            case "Control Attack Drones":
+                DotEnemies(2, square);
+                break;
+            case "Infect Weapon Systems":
+                DebuffEnemyDamage(1, square);
+                break;
+            case "Despawn a Strong Enemy":
+                DespawnAnEnemy(4, 3);
+                break;
         }
         switch (color)
         {
@@ -317,6 +359,7 @@ public class HackTarget : ScriptableObject
 
     private void DespawnAnEnemy(int maxDespawn, int preferredMinDespawn)
     {
+        LogEnemyCount();
         MapSquare[] mapSquares = FindObjectsOfType<MapSquare>();
         List<MapSquare> preferredToDespawnSquares = new List<MapSquare>();
         List<MapSquare> weakerEnemiesToDespawn = new List<MapSquare>();
@@ -344,6 +387,7 @@ public class HackTarget : ScriptableObject
         {
             DespawnEnemyFromSquareList(weakerEnemiesToDespawn);
         }
+        LogEnemyCount();
     }
 
     private void DespawnEnemyFromSquareList(List<MapSquare> squares)
@@ -426,6 +470,67 @@ public class HackTarget : ScriptableObject
         foreach (MapSquare square in squares)
         {
             square.AdjustEnemyFizzleChance(amount);
+        }
+    }
+
+    private void DisableATrap()
+    {
+        MapSquare[] squares = FindObjectsOfType<MapSquare>();
+        List<MapSquare> squaresWithTraps = new List<MapSquare>();
+        foreach (MapSquare square in squares)
+        {
+            if (square.IsActive())
+            {
+                List<MapObject> mapObjects = square.GetMapObjects();
+                foreach (MapObject mapObject in mapObjects)
+                {
+                    if (mapObject.GetObjectType() == "Trap" && mapObject.GetIsActive() == true)
+                    {
+                        squaresWithTraps.Add(square);
+                    }
+                }
+            }
+        }
+
+        if (squaresWithTraps.Count > 0)
+        {
+            MapSquare squareToDisable = squaresWithTraps[Random.Range(0, squaresWithTraps.Count)];
+            List<MapObject> mapObjects = squareToDisable.GetMapObjects();
+            foreach (MapObject mapObject in mapObjects)
+            {
+                if (mapObject.GetObjectType() == "Trap")
+                {
+                    mapObject.SetIsActive(false);
+                    Debug.Log("Disabled a Trap");
+                }
+            }
+        }
+    }
+
+    private void DamageEnemies(int percentage, MapSquare currentSquare)
+    {
+        List<MapSquare> squares = currentSquare.GetAdjacentSquares();
+        foreach (MapSquare square in squares)
+        {
+            square.AdjustPercentDamageToEnemy(percentage);
+        }
+    }
+
+    private void DotEnemies(int amount, MapSquare currentSquare)
+    {
+        List<MapSquare> squares = currentSquare.GetAdjacentSquares();
+        foreach (MapSquare square in squares)
+        {
+            square.AdjustDotDamageToEnemy(amount);
+        }
+    }
+
+    private void DebuffEnemyDamage(int amount, MapSquare currentSquare)
+    {
+        List<MapSquare> squares = currentSquare.GetAdjacentSquares();
+        foreach (MapSquare square in squares)
+        {
+            square.AdjustEnemyDamageDebuff(amount);
         }
     }
 

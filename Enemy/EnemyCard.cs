@@ -225,10 +225,21 @@ public class EnemyCard : MonoBehaviour
         damageAmount += enemyCurrentStatusEffects.GetMomentumStacks();
         damageAmount += playerCurrentStatusEffects.GetVulnerableStacks();
         damageAmount -= playerCurrentStatusEffects.GetDamageResistStacks();
-        damageAmount -= FindObjectOfType<BattleData>().GetPlayerDefenseBuff();
+
+        BattleData battleData = FindObjectOfType<BattleData>();
+        damageAmount -= battleData.GetEnemyDamageDebuff();
+
+        if (damageAmount < 1)
+            damageAmount = 1;
+
+        damageAmount -= battleData.GetPlayerDefenseBuff();
 
         damageAmount = CheckAndApplyCritical(damageAmount, critChance);
 
+        if (damageAmount < 0)
+        {
+            return 0;
+        }
         return damageAmount;
     }
 

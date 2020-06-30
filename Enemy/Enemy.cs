@@ -48,6 +48,7 @@ public class Enemy : MonoBehaviour
 
     public void StartTurn()
     {
+        TakeDotDamageFromMap(FindObjectOfType<BattleData>().GetMapDotDamage());
         enemyHand.DrawInitialHand(handSize);
     }
 
@@ -59,6 +60,35 @@ public class Enemy : MonoBehaviour
     public void FinishTurn()
     {
         enemyHand.ClearPlayedCards();
+    }
+
+    public void TakePercentDamageFromMap(int percent)
+    {
+        float percentageAmount = percent / 100f;
+        int amountOfDamage = Mathf.FloorToInt(maxHealth * percentageAmount);
+        if (currentHealth - amountOfDamage > 0)
+        {
+            currentHealth -= amountOfDamage;
+        } else
+        {
+            currentHealth = 0;
+        }
+    }
+
+    public void TakeDotDamageFromMap(int percent)
+    {
+        int minimumDamage = percent / 2;
+
+        float percentAgeAmount = percent / 100f;
+        int percentDamage = Mathf.FloorToInt(maxHealth * percentAgeAmount);
+
+        if (percentDamage > minimumDamage)
+        {
+            TakeDamage(percentDamage);
+        } else
+        {
+            TakeDamage(minimumDamage);
+        }
     }
 
     public void TakeDamage(int damageInflicted)
