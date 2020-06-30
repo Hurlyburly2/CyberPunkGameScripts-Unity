@@ -311,7 +311,7 @@ public class HackTarget : ScriptableObject
                 DebuffEnemyDamage(1, square);
                 break;
             case "Despawn a Strong Enemy":
-                Debug.Log("Not yet Implemented");
+                DespawnAnEnemy(4, 3);
                 break;
         }
         switch (color)
@@ -359,6 +359,7 @@ public class HackTarget : ScriptableObject
 
     private void DespawnAnEnemy(int maxDespawn, int preferredMinDespawn)
     {
+        LogEnemyCount();
         MapSquare[] mapSquares = FindObjectsOfType<MapSquare>();
         List<MapSquare> preferredToDespawnSquares = new List<MapSquare>();
         List<MapSquare> weakerEnemiesToDespawn = new List<MapSquare>();
@@ -386,6 +387,7 @@ public class HackTarget : ScriptableObject
         {
             DespawnEnemyFromSquareList(weakerEnemiesToDespawn);
         }
+        LogEnemyCount();
     }
 
     private void DespawnEnemyFromSquareList(List<MapSquare> squares)
