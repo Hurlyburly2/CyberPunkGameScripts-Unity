@@ -17,6 +17,7 @@ public class HackTarget : ScriptableObject
 
     // if hackType is Transportation
     string transportationType = null;
+    bool isStationOpen = false;
 
     // state
     int redPoints;
@@ -35,7 +36,7 @@ public class HackTarget : ScriptableObject
         hackIsDone = false;
         hackType = newHackType;
         mapType = FindObjectOfType<MapData>().GetMapType();
-        //SetupHackTest();
+        SetupHackTest();
     }
 
     // METHOD FOR TESTING
@@ -335,6 +336,29 @@ public class HackTarget : ScriptableObject
             case "Despawn a Strong Enemy":
                 DespawnAnEnemy(4, 3);
                 break;
+
+            // TRANSPORTATION
+            case "Unlock This Metro Station":
+                UnlockThisMetro(square);
+                break;
+            case "Unlock Remote Metro Station":
+                Debug.Log("Not yet implemented");
+                break;
+            case "Unlock All Metro Stations":
+                Debug.Log("Not yet implemented");
+                break;
+            case "Map Ventilation Systems":
+                Debug.Log("Not yet implemented");
+                break;
+            case "Scan for Shortcuts":
+                Debug.Log("Not yet implemented");
+                break;
+            case "Hinder Enemy Movement":
+                Debug.Log("Not yet implemented");
+                break;
+            case "Stop Enemy Movement":
+                Debug.Log("Not yet implemented");
+                break;
         }
         switch (color)
         {
@@ -566,5 +590,10 @@ public class HackTarget : ScriptableObject
                 count++;
         }
         Debug.Log("Found " + count + " enemies");
+    }
+
+    private void UnlockThisMetro(MapSquare currentSquare)
+    {
+        currentSquare.OpenMetroStation();
     }
 }

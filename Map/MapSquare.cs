@@ -7,6 +7,7 @@ public class MapSquare : MonoBehaviour
     //config
     [SerializeField] int rowPosition; // 0-19 position in row
     [SerializeField] MapSquareRow parentRow;
+    [SerializeField] MetroButton metroButton;
     int minSquareRow = 0;
     int maxSquareRow = 19;
     int minSquareColumn = 0;
@@ -74,6 +75,12 @@ public class MapSquare : MonoBehaviour
                 menu.InitializeMenu(this);
             }
         }
+    }
+
+    public void OpenMetroStation()
+    {
+        metroButton.gameObject.SetActive(true);
+        Debug.Log("Open the metro station...");
     }
 
     public void ReopenHackMenu(HackTarget hackTarget)
