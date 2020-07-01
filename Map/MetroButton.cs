@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class MetroButton : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] MapSquare square;
 
-    // Update is called once per frame
-    void Update()
+    private void OnMouseUp()
     {
-        
+        Debug.Log("Clicked Metro Button");
     }
 }
