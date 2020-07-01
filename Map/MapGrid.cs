@@ -18,6 +18,7 @@ public class MapGrid : MonoBehaviour
     // state
     List<MapSquareRow> activeRows;
     bool isInitialized = false;
+    int transportationNodeCount = 0; // amount of transportation nodes, needs to be either 0 or greater than 1
 
     private void Awake()
     {
@@ -77,6 +78,37 @@ public class MapGrid : MonoBehaviour
         {
             activeSquareAccurateCount += row.CountActiveSquares();
         }
+
+        CheckNumberOfTransportationHacks();
+    }
+
+    private void CheckNumberOfTransportationHacks()
+    {
+        if (transportationNodeCount == 0)
+        {
+            Debug.Log("None spawned");
+            return;
+        } else if (transportationNodeCount > 1)
+        {
+            Debug.Log("Many spawned");
+            return;
+        } else
+        {
+            Debug.Log("One spawned");
+            MapSquare[] squares = FindObjectsOfType<MapSquare>();
+            List<MapSquare> potentialSpawns = new List<MapSquare>();
+            foreach (MapSquare square in squares)
+            {
+                if (square.IsActive() && !square.DoesSquareHaveTransportationNode())
+                {
+                    potentialSpawns.Add(square);
+                }
+            }
+
+            Debug.Log("Found " + potentialSpawns.Count + " squares without transportation");
+            MapSquare squareToSpawnTransportation = potentialSpawns[Random.Range(0, potentialSpawns.Count)];
+            squareToSpawnTransportation.SpawnTransportationNode();
+        }
     }
 
     public void ConsolidateNewActiveSquaresInAllRows()
@@ -135,5 +167,10 @@ public class MapGrid : MonoBehaviour
     public string GetMapType()
     {
         return mapType;
+    }
+
+    public void AddATransportationNode()
+    {
+        transportationNodeCount++;
     }
 }

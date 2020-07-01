@@ -27,7 +27,8 @@ public class MapSquare : MonoBehaviour
     int poiScoutLevel;
     int enemyScoutLevel;
     float step;
-        // 1 = normal (default) no knowledge, 2 = know how many items, 3 = know what everything is
+    // 1 = normal (default) no knowledge, 2 = know how many items, 3 = know what everything is
+    bool hasTransportationNode = false;
 
     // objects and hacks
     List<HackTarget> hackTargets;
@@ -194,6 +195,13 @@ public class MapSquare : MonoBehaviour
             {
                 HackTarget newHackTarget = ScriptableObject.CreateInstance<HackTarget>();
                 string newHackType = availableHackTypes[Random.Range(0, availableHackTypes.Count)];
+
+                if (newHackType == "Transportation")
+                {
+                    hasTransportationNode = true;
+                    parentRow.GetMapGrid().AddATransportationNode();
+                }
+
                 newHackTarget.SetupHackTarget(newHackType);
                 availableHackTypes.Remove(newHackType);
 
@@ -212,9 +220,22 @@ public class MapSquare : MonoBehaviour
         }
     }
 
+    public void SpawnTransportationNode()
+    {
+        HackTarget newHackTarget = ScriptableObject.CreateInstance<HackTarget>();
+        newHackTarget.SetupHackTarget("Transportation");
+        hackTargets.Add(newHackTarget);
+    }
+
     public void SpawnEnemy(string mapType)
     {
         enemy = FindObjectOfType<EnemyCollection>().GetAnEnemyByArea(mapType);
+        EmptyEnemyForTesting();
+    }
+
+    private void EmptyEnemyForTesting()
+    {
+        enemy = null;
     }
 
     public void DespawnEnemy()
@@ -450,5 +471,10 @@ public class MapSquare : MonoBehaviour
     public MapSquareRow GetParentRow()
     {
         return parentRow;
+    }
+
+    public bool DoesSquareHaveTransportationNode()
+    {
+        return hasTransportationNode;
     }
 }

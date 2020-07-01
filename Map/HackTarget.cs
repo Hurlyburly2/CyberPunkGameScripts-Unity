@@ -15,6 +15,9 @@ public class HackTarget : ScriptableObject
     const string blue = "blue";
     const string purple = "purple";
 
+    // if hackType is Transportation
+    string transportationType = null;
+
     // state
     int redPoints;
     int bluePoints;
@@ -32,13 +35,13 @@ public class HackTarget : ScriptableObject
         hackIsDone = false;
         hackType = newHackType;
         mapType = FindObjectOfType<MapData>().GetMapType();
-        SetupHackTest();
+        //SetupHackTest();
     }
 
     // METHOD FOR TESTING
     public void SetupHackTest()
     {
-        hackType = "Defense System";
+        hackType = "Transportation";
         redPoints = 500;
         bluePoints = 500;
         purplePoints = 500;
@@ -128,6 +131,8 @@ public class HackTarget : ScriptableObject
                 return databaseColors[count];
             case "Defense System":
                 return defenseSystemColors[count];
+            case "Transportation":
+                return transportationColors[count];
         }
         return "";
     }
@@ -144,6 +149,8 @@ public class HackTarget : ScriptableObject
                 return databaseOptions[count];
             case "Defense System":
                 return defenseSystemOptions[count];
+            case "Transportation":
+                return transportationOptions[count];
         }
         return "";
     }
@@ -160,6 +167,8 @@ public class HackTarget : ScriptableObject
                 return databaseCosts[count];
             case "Defense System":
                 return defenseSystemCosts[count];
+            case "Transportation":
+                return transportationCosts[count];
         }
         return 0;
     }
@@ -214,6 +223,19 @@ public class HackTarget : ScriptableObject
     };
     string[] defenseSystemColors = { blue, blue, blue, red, red, purple, purple };
     int[] defenseSystemCosts = { 20, 10, 15, 10, 20, 10, 20 };
+
+    string[] transportationOptions =
+    {
+        "Unlock This Metro Station",
+        "Unlock Remote Metro Station",
+        "Unlock All Metro Stations",
+        "Map Ventilation Systems",
+        "Scan for Shortcuts",
+        "Hinder Enemy Movement",
+        "Stop Enemy Movement"
+    };
+    string[] transportationColors = { red, red, red, blue, blue, purple, purple };
+    int[] transportationCosts = { 5, 15, 30, 10, 20, 10, 20 };
 
     // ability usages
     public void UseAbility(MapSquare square, string description, string color, int cost)
