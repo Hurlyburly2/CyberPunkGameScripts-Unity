@@ -345,7 +345,7 @@ public class HackTarget : ScriptableObject
                 UnlockRemoteMetro(square);
                 break;
             case "Unlock All Metro Stations":
-                Debug.Log("Not yet implemented");
+                UnlockAllMetroStations();
                 break;
             case "Map Ventilation Systems":
                 Debug.Log("Not yet implemented");
@@ -618,5 +618,18 @@ public class HackTarget : ScriptableObject
 
         if (squaresWithTransportation.Count > 0)
             squaresWithTransportation[Random.Range(0, squaresWithTransportation.Count)].OpenMetroStation();
+    }
+
+    private void UnlockAllMetroStations()
+    {
+        MapSquare[] allSquaresArray = FindObjectsOfType<MapSquare>();
+
+        foreach (MapSquare square in allSquaresArray)
+        {
+            if (square.IsActive() && square.DoesSquareHaveTransportationNode() && !square.GetIsTransportationNodeUnlocked())
+            {
+                square.OpenMetroStation();
+            }
+        }
     }
 }
