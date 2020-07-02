@@ -16,8 +16,10 @@ public class MapData : MonoBehaviour
 
     // state
     int securityLevel;
-    int enemyHindrance;
+    int enemyHindrance = 0;
         // enemyHindrance helps to hinder enemy spawn, each tick lowers the level by one
+    int enemySpawnBlock = 0;
+        // enemySpawnBlock blocks a successful spawn, then goes down by one. If zero- doesn't function
 
     // reward stuff
     int moneyEarned; // in match
@@ -93,7 +95,14 @@ public class MapData : MonoBehaviour
             Debug.Log("Enemy percent spawn hindrance");
             enemyHindrance--;
         }
-        Debug.Log("Attempt to Spawn an Enemy");
+        if (enemySpawnBlock > 0)
+        {
+            enemySpawnBlock--;
+            Debug.Log("Blocked spawning an enemy");
+        } else
+        {
+            Debug.Log("Spawn an Enemy");
+        }
     }
 
     private void RaiseSecurityLevel(MapSquare currentSquare)
@@ -232,5 +241,10 @@ public class MapData : MonoBehaviour
     public void RaiseEnemyHindrance(int amount)
     {
         enemyHindrance += amount;
+    }
+
+    public void RaiseBlockEnemySpawn(int amount)
+    {
+        enemySpawnBlock += amount;
     }
 }

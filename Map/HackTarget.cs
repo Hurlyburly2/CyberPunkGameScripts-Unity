@@ -357,7 +357,7 @@ public class HackTarget : ScriptableObject
                 HinderEnemyMovement(3);
                 break;
             case "Stop Enemy Movement":
-                Debug.Log("Not yet implemented");
+                StopEnemyMovement(1);
                 break;
         }
         switch (color)
@@ -652,5 +652,10 @@ public class HackTarget : ScriptableObject
     private void HinderEnemyMovement(int amount)
     {
         FindObjectOfType<MapData>().RaiseEnemyHindrance(amount);
+    }
+
+    private void StopEnemyMovement(int amount)
+    {
+        FindObjectOfType<MapData>().RaiseBlockEnemySpawn(amount);
     }
 }
