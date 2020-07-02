@@ -16,6 +16,10 @@ public class MapData : MonoBehaviour
 
     // state
     int securityLevel;
+    int enemyHindrance = 0;
+        // enemyHindrance helps to hinder enemy spawn, each tick lowers the level by one
+    int enemySpawnBlock = 0;
+        // enemySpawnBlock blocks a successful spawn, then goes down by one. If zero- doesn't function
 
     // reward stuff
     int moneyEarned; // in match
@@ -49,12 +53,23 @@ public class MapData : MonoBehaviour
 
     public void PlayerFinishesMoving(MapSquare currentSquare)
     {
+        CheckMapGridExists();
         TrapsSpring();
-        if (currentSquare.GetEnemy() != null)
+        if (currentSquare.GetEnemy() != null && mapGrid.GetStealthMovement() < 1)
         {
             StartBattle(currentSquare);
+        } else if (currentSquare.GetEnemy() != null && mapGrid.GetStealthMovement() > 0)
+        {
+            mapGrid.UseAStealthCharge();
         }
-        PostMovementActions();
+        // TODO THIS MIGHT NOT HAPPEN IF BATTLE HAPPENS
+        PostMovementActions(currentSquare);
+    }
+
+    private void CheckMapGridExists()
+    {
+        if (mapGrid == null)
+            mapGrid = FindObjectOfType<MapGrid>();
     }
 
     public void StartBattle(MapSquare currentSquare)
@@ -62,10 +77,10 @@ public class MapData : MonoBehaviour
         FindObjectOfType<SceneLoader>().LoadBattleFromMap(currentSquare);
     }
 
-    private void PostMovementActions()
+    private void PostMovementActions(MapSquare currentSquare)
     {
         AttemptToSpawnEnemy();
-        RaiseSecurityLevel();
+        RaiseSecurityLevel(currentSquare);
     }
 
     private void TrapsSpring()
@@ -75,12 +90,30 @@ public class MapData : MonoBehaviour
 
     private void AttemptToSpawnEnemy()
     {
-        Debug.Log("Attempt to Spawn an Enemy");
+        if (enemyHindrance > 0)
+        {
+            Debug.Log("Enemy percent spawn hindrance");
+            enemyHindrance--;
+        }
+        if (enemySpawnBlock > 0)
+        {
+            enemySpawnBlock--;
+            Debug.Log("Blocked spawning an enemy");
+        } else
+        {
+            Debug.Log("Spawn an Enemy");
+        }
     }
 
-    private void RaiseSecurityLevel()
+    private void RaiseSecurityLevel(MapSquare currentSquare)
     {
-        Debug.Log("Raise Security Level");
+        if (currentSquare.GetIsVentilationMapped())
+        {
+            Debug.Log("Player Using Vents, Less or No Security Penalty");
+        } else
+        {
+            Debug.Log("Raise Security Level");
+        }
     }
 
     public void SetUpMap()
@@ -203,5 +236,15 @@ public class MapData : MonoBehaviour
     public string GetMapType()
     {
         return mapType;
+    }
+
+    public void RaiseEnemyHindrance(int amount)
+    {
+        enemyHindrance += amount;
+    }
+
+    public void RaiseBlockEnemySpawn(int amount)
+    {
+        enemySpawnBlock += amount;
     }
 }

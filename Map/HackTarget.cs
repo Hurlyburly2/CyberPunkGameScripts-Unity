@@ -15,6 +15,10 @@ public class HackTarget : ScriptableObject
     const string blue = "blue";
     const string purple = "purple";
 
+    // if hackType is Transportation
+    string transportationType = null;
+    bool isStationOpen = false;
+
     // state
     int redPoints;
     int bluePoints;
@@ -38,7 +42,7 @@ public class HackTarget : ScriptableObject
     // METHOD FOR TESTING
     public void SetupHackTest()
     {
-        hackType = "Defense System";
+        hackType = "Transportation";
         redPoints = 500;
         bluePoints = 500;
         purplePoints = 500;
@@ -128,6 +132,8 @@ public class HackTarget : ScriptableObject
                 return databaseColors[count];
             case "Defense System":
                 return defenseSystemColors[count];
+            case "Transportation":
+                return transportationColors[count];
         }
         return "";
     }
@@ -144,6 +150,8 @@ public class HackTarget : ScriptableObject
                 return databaseOptions[count];
             case "Defense System":
                 return defenseSystemOptions[count];
+            case "Transportation":
+                return transportationOptions[count];
         }
         return "";
     }
@@ -160,6 +168,8 @@ public class HackTarget : ScriptableObject
                 return databaseCosts[count];
             case "Defense System":
                 return defenseSystemCosts[count];
+            case "Transportation":
+                return transportationCosts[count];
         }
         return 0;
     }
@@ -214,6 +224,19 @@ public class HackTarget : ScriptableObject
     };
     string[] defenseSystemColors = { blue, blue, blue, red, red, purple, purple };
     int[] defenseSystemCosts = { 20, 10, 15, 10, 20, 10, 20 };
+
+    string[] transportationOptions =
+    {
+        "Unlock This Metro Station",
+        "Unlock Remote Metro Station",
+        "Unlock All Metro Stations",
+        "Map Ventilation Systems",
+        "Co-Opt Stealth Tech",
+        "Hinder Enemy Movement",
+        "Stop Enemy Movement"
+    };
+    string[] transportationColors = { red, red, red, blue, blue, purple, purple };
+    int[] transportationCosts = { 5, 15, 30, 10, 20, 10, 20 };
 
     // ability usages
     public void UseAbility(MapSquare square, string description, string color, int cost)
@@ -312,6 +335,29 @@ public class HackTarget : ScriptableObject
                 break;
             case "Despawn a Strong Enemy":
                 DespawnAnEnemy(4, 3);
+                break;
+
+            // TRANSPORTATION
+            case "Unlock This Metro Station":
+                UnlockThisMetro(square);
+                break;
+            case "Unlock Remote Metro Station":
+                UnlockRemoteMetro(square);
+                break;
+            case "Unlock All Metro Stations":
+                UnlockAllMetroStations();
+                break;
+            case "Map Ventilation Systems":
+                MapVentilationSystem(square);
+                break;
+            case "Co-Opt Stealth Tech":
+                EngageStealthTech();
+                break;
+            case "Hinder Enemy Movement":
+                HinderEnemyMovement(3);
+                break;
+            case "Stop Enemy Movement":
+                StopEnemyMovement(1);
                 break;
         }
         switch (color)
@@ -544,5 +590,72 @@ public class HackTarget : ScriptableObject
                 count++;
         }
         Debug.Log("Found " + count + " enemies");
+    }
+
+    private void UnlockThisMetro(MapSquare currentSquare)
+    {
+        currentSquare.OpenMetroStation();
+    }
+
+    private void UnlockRemoteMetro(MapSquare currentSquare)
+    {
+        MapSquare[] allSquaresArray = FindObjectsOfType<MapSquare>();
+        List<MapSquare> allSquares = new List<MapSquare>();
+        allSquares.AddRange(allSquaresArray);
+
+        // We don't want to deal with transportation nodes on the current square
+        allSquares.Remove(currentSquare);
+
+        // find the active squares with a transportation hack target that has not been unlocked
+        List<MapSquare> squaresWithTransportation = new List<MapSquare>();
+        foreach (MapSquare square in allSquares)
+        {
+            if (square.IsActive() && square.DoesSquareHaveTransportationNode() && !square.GetIsTransportationNodeUnlocked())
+            {
+                squaresWithTransportation.Add(square);
+            }
+        }
+
+        if (squaresWithTransportation.Count > 0)
+            squaresWithTransportation[Random.Range(0, squaresWithTransportation.Count)].OpenMetroStation();
+    }
+
+    private void UnlockAllMetroStations()
+    {
+        MapSquare[] allSquaresArray = FindObjectsOfType<MapSquare>();
+
+        foreach (MapSquare square in allSquaresArray)
+        {
+            if (square.IsActive() && square.DoesSquareHaveTransportationNode() && !square.GetIsTransportationNodeUnlocked())
+            {
+                square.OpenMetroStation();
+            }
+        }
+    }
+
+    private void MapVentilationSystem(MapSquare currentSquare)
+    {
+        List<MapSquare> squares = currentSquare.GetAdjacentSquares();
+        squares.Add(currentSquare);
+
+        foreach (MapSquare square in squares)
+        {
+            square.MapVentilation();
+        }
+    }
+
+    private void EngageStealthTech()
+    {
+        FindObjectOfType<MapGrid>().RaiseStealthMovement(1);
+    }
+
+    private void HinderEnemyMovement(int amount)
+    {
+        FindObjectOfType<MapData>().RaiseEnemyHindrance(amount);
+    }
+
+    private void StopEnemyMovement(int amount)
+    {
+        FindObjectOfType<MapData>().RaiseBlockEnemySpawn(amount);
     }
 }

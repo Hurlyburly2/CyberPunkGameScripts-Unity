@@ -7,6 +7,7 @@ public class MapSquare : MonoBehaviour
     //config
     [SerializeField] int rowPosition; // 0-19 position in row
     [SerializeField] MapSquareRow parentRow;
+    [SerializeField] MetroButton metroButton;
     int minSquareRow = 0;
     int maxSquareRow = 19;
     int minSquareColumn = 0;
@@ -27,7 +28,10 @@ public class MapSquare : MonoBehaviour
     int poiScoutLevel;
     int enemyScoutLevel;
     float step;
-        // 1 = normal (default) no knowledge, 2 = know how many items, 3 = know what everything is
+    // 1 = normal (default) no knowledge, 2 = know how many items, 3 = know what everything is
+    bool hasTransportationNode = false;
+    bool isTransportationNodeUnlocked = false;
+    bool isVentilationMapped = false;
 
     // objects and hacks
     List<HackTarget> hackTargets;
@@ -73,6 +77,13 @@ public class MapSquare : MonoBehaviour
                 menu.InitializeMenu(this);
             }
         }
+    }
+
+    public void OpenMetroStation()
+    {
+        metroButton.gameObject.SetActive(true);
+        isTransportationNodeUnlocked = true;
+        Debug.Log("Open the metro station...");
     }
 
     public void ReopenHackMenu(HackTarget hackTarget)
@@ -194,6 +205,13 @@ public class MapSquare : MonoBehaviour
             {
                 HackTarget newHackTarget = ScriptableObject.CreateInstance<HackTarget>();
                 string newHackType = availableHackTypes[Random.Range(0, availableHackTypes.Count)];
+
+                if (newHackType == "Transportation")
+                {
+                    hasTransportationNode = true;
+                    parentRow.GetMapGrid().AddATransportationNode();
+                }
+
                 newHackTarget.SetupHackTarget(newHackType);
                 availableHackTypes.Remove(newHackType);
 
@@ -212,9 +230,22 @@ public class MapSquare : MonoBehaviour
         }
     }
 
+    public void SpawnTransportationNode()
+    {
+        HackTarget newHackTarget = ScriptableObject.CreateInstance<HackTarget>();
+        newHackTarget.SetupHackTarget("Transportation");
+        hackTargets.Add(newHackTarget);
+    }
+
     public void SpawnEnemy(string mapType)
     {
         enemy = FindObjectOfType<EnemyCollection>().GetAnEnemyByArea(mapType);
+        //EmptyEnemyForTesting();
+    }
+
+    private void EmptyEnemyForTesting()
+    {
+        enemy = null;
     }
 
     public void DespawnEnemy()
@@ -450,5 +481,25 @@ public class MapSquare : MonoBehaviour
     public MapSquareRow GetParentRow()
     {
         return parentRow;
+    }
+
+    public bool DoesSquareHaveTransportationNode()
+    {
+        return hasTransportationNode;
+    }
+
+    public bool GetIsTransportationNodeUnlocked()
+    {
+        return isTransportationNodeUnlocked;
+    }
+
+    public bool GetIsVentilationMapped()
+    {
+        return isVentilationMapped;
+    }
+
+    public void MapVentilation()
+    {
+        isVentilationMapped = true;
     }
 }
