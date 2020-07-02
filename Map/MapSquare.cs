@@ -31,6 +31,7 @@ public class MapSquare : MonoBehaviour
     // 1 = normal (default) no knowledge, 2 = know how many items, 3 = know what everything is
     bool hasTransportationNode = false;
     bool isTransportationNodeUnlocked = false;
+    bool isVentilationMapped = false;
 
     // objects and hacks
     List<HackTarget> hackTargets;
@@ -490,5 +491,15 @@ public class MapSquare : MonoBehaviour
     public bool GetIsTransportationNodeUnlocked()
     {
         return isTransportationNodeUnlocked;
+    }
+
+    public bool GetIsVentilationMapped()
+    {
+        return isVentilationMapped;
+    }
+
+    public void MapVentilation()
+    {
+        isVentilationMapped = true;
     }
 }

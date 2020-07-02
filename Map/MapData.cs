@@ -54,7 +54,8 @@ public class MapData : MonoBehaviour
         {
             StartBattle(currentSquare);
         }
-        PostMovementActions();
+        // TODO THIS MIGHT NOT HAPPEN IF BATTLE HAPPENS
+        PostMovementActions(currentSquare);
     }
 
     public void StartBattle(MapSquare currentSquare)
@@ -62,10 +63,10 @@ public class MapData : MonoBehaviour
         FindObjectOfType<SceneLoader>().LoadBattleFromMap(currentSquare);
     }
 
-    private void PostMovementActions()
+    private void PostMovementActions(MapSquare currentSquare)
     {
         AttemptToSpawnEnemy();
-        RaiseSecurityLevel();
+        RaiseSecurityLevel(currentSquare);
     }
 
     private void TrapsSpring()
@@ -78,9 +79,15 @@ public class MapData : MonoBehaviour
         Debug.Log("Attempt to Spawn an Enemy");
     }
 
-    private void RaiseSecurityLevel()
+    private void RaiseSecurityLevel(MapSquare currentSquare)
     {
-        Debug.Log("Raise Security Level");
+        if (currentSquare.GetIsVentilationMapped())
+        {
+            Debug.Log("Player Using Vents, Less or No Security Penalty");
+        } else
+        {
+            Debug.Log("Raise Security Level");
+        }
     }
 
     public void SetUpMap()

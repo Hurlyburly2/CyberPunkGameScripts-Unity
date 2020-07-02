@@ -348,7 +348,7 @@ public class HackTarget : ScriptableObject
                 UnlockAllMetroStations();
                 break;
             case "Map Ventilation Systems":
-                Debug.Log("Not yet implemented");
+                MapVentilationSystem(square);
                 break;
             case "Scan for Shortcuts":
                 Debug.Log("Not yet implemented");
@@ -630,6 +630,17 @@ public class HackTarget : ScriptableObject
             {
                 square.OpenMetroStation();
             }
+        }
+    }
+
+    private void MapVentilationSystem(MapSquare currentSquare)
+    {
+        List<MapSquare> squares = currentSquare.GetAdjacentSquares();
+        squares.Add(currentSquare);
+
+        foreach (MapSquare square in squares)
+        {
+            square.MapVentilation();
         }
     }
 }
