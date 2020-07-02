@@ -16,6 +16,8 @@ public class MapData : MonoBehaviour
 
     // state
     int securityLevel;
+    int enemyHindrance;
+        // enemyHindrance helps to hinder enemy spawn, each tick lowers the level by one
 
     // reward stuff
     int moneyEarned; // in match
@@ -86,6 +88,11 @@ public class MapData : MonoBehaviour
 
     private void AttemptToSpawnEnemy()
     {
+        if (enemyHindrance > 0)
+        {
+            Debug.Log("Enemy percent spawn hindrance");
+            enemyHindrance--;
+        }
         Debug.Log("Attempt to Spawn an Enemy");
     }
 
@@ -220,5 +227,10 @@ public class MapData : MonoBehaviour
     public string GetMapType()
     {
         return mapType;
+    }
+
+    public void RaiseEnemyHindrance(int amount)
+    {
+        enemyHindrance += amount;
     }
 }

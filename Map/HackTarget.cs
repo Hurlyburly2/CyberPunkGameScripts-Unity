@@ -42,7 +42,7 @@ public class HackTarget : ScriptableObject
     // METHOD FOR TESTING
     public void SetupHackTest()
     {
-        //hackType = "Transportation";
+        hackType = "Transportation";
         redPoints = 500;
         bluePoints = 500;
         purplePoints = 500;
@@ -354,7 +354,7 @@ public class HackTarget : ScriptableObject
                 EngageStealthTech();
                 break;
             case "Hinder Enemy Movement":
-                Debug.Log("Not yet implemented");
+                HinderEnemyMovement(3);
                 break;
             case "Stop Enemy Movement":
                 Debug.Log("Not yet implemented");
@@ -647,5 +647,10 @@ public class HackTarget : ScriptableObject
     private void EngageStealthTech()
     {
         FindObjectOfType<MapGrid>().RaiseStealthMovement(1);
+    }
+
+    private void HinderEnemyMovement(int amount)
+    {
+        FindObjectOfType<MapData>().RaiseEnemyHindrance(amount);
     }
 }
