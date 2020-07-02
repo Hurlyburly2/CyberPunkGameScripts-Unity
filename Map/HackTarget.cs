@@ -42,7 +42,7 @@ public class HackTarget : ScriptableObject
     // METHOD FOR TESTING
     public void SetupHackTest()
     {
-        hackType = "Transportation";
+        //hackType = "Transportation";
         redPoints = 500;
         bluePoints = 500;
         purplePoints = 500;
@@ -342,7 +342,7 @@ public class HackTarget : ScriptableObject
                 UnlockThisMetro(square);
                 break;
             case "Unlock Remote Metro Station":
-                Debug.Log("Not yet implemented");
+                UnlockRemoteMetro(square);
                 break;
             case "Unlock All Metro Stations":
                 Debug.Log("Not yet implemented");
@@ -595,5 +595,28 @@ public class HackTarget : ScriptableObject
     private void UnlockThisMetro(MapSquare currentSquare)
     {
         currentSquare.OpenMetroStation();
+    }
+
+    private void UnlockRemoteMetro(MapSquare currentSquare)
+    {
+        MapSquare[] allSquaresArray = FindObjectsOfType<MapSquare>();
+        List<MapSquare> allSquares = new List<MapSquare>();
+        allSquares.AddRange(allSquaresArray);
+
+        // We don't want to deal with transportation nodes on the current square
+        allSquares.Remove(currentSquare);
+
+        // find the active squares with a transportation hack target that has not been unlocked
+        List<MapSquare> squaresWithTransportation = new List<MapSquare>();
+        foreach (MapSquare square in allSquares)
+        {
+            if (square.IsActive() && square.DoesSquareHaveTransportationNode() && !square.GetIsTransportationNodeUnlocked())
+            {
+                squaresWithTransportation.Add(square);
+            }
+        }
+
+        if (squaresWithTransportation.Count > 0)
+            squaresWithTransportation[Random.Range(0, squaresWithTransportation.Count)].OpenMetroStation();
     }
 }

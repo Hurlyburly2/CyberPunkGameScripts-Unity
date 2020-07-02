@@ -30,6 +30,7 @@ public class MapSquare : MonoBehaviour
     float step;
     // 1 = normal (default) no knowledge, 2 = know how many items, 3 = know what everything is
     bool hasTransportationNode = false;
+    bool isTransportationNodeUnlocked = false;
 
     // objects and hacks
     List<HackTarget> hackTargets;
@@ -80,6 +81,7 @@ public class MapSquare : MonoBehaviour
     public void OpenMetroStation()
     {
         metroButton.gameObject.SetActive(true);
+        isTransportationNodeUnlocked = true;
         Debug.Log("Open the metro station...");
     }
 
@@ -483,5 +485,10 @@ public class MapSquare : MonoBehaviour
     public bool DoesSquareHaveTransportationNode()
     {
         return hasTransportationNode;
+    }
+
+    public bool GetIsTransportationNodeUnlocked()
+    {
+        return isTransportationNodeUnlocked;
     }
 }
