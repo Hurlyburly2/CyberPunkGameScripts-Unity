@@ -231,7 +231,7 @@ public class HackTarget : ScriptableObject
         "Unlock Remote Metro Station",
         "Unlock All Metro Stations",
         "Map Ventilation Systems",
-        "Scan for Shortcuts",
+        "Co-Opt Stealth Tech",
         "Hinder Enemy Movement",
         "Stop Enemy Movement"
     };
@@ -350,8 +350,8 @@ public class HackTarget : ScriptableObject
             case "Map Ventilation Systems":
                 MapVentilationSystem(square);
                 break;
-            case "Scan for Shortcuts":
-                Debug.Log("Not yet implemented");
+            case "Co-Opt Stealth Tech":
+                EngageStealthTech();
                 break;
             case "Hinder Enemy Movement":
                 Debug.Log("Not yet implemented");
@@ -642,5 +642,10 @@ public class HackTarget : ScriptableObject
         {
             square.MapVentilation();
         }
+    }
+
+    private void EngageStealthTech()
+    {
+        FindObjectOfType<MapGrid>().RaiseStealthMovement(1);
     }
 }

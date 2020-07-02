@@ -19,6 +19,9 @@ public class MapGrid : MonoBehaviour
     List<MapSquareRow> activeRows;
     bool isInitialized = false;
     int transportationNodeCount = 0; // amount of transportation nodes, needs to be either 0 or greater than 1
+    int stealthMovement = 0;
+        // each stack lets you avoid one combat, avoiding combat does not despawn enemy and moving
+        // back to that space will trigger another stack loss (or combat if this is zero)
 
     private void Awake()
     {
@@ -172,5 +175,20 @@ public class MapGrid : MonoBehaviour
     public void AddATransportationNode()
     {
         transportationNodeCount++;
+    }
+
+    public void RaiseStealthMovement(int amount)
+    {
+        stealthMovement += amount;
+    }
+
+    public void UseAStealthCharge()
+    {
+        stealthMovement--;
+    }
+
+    public int GetStealthMovement()
+    {
+        return stealthMovement;
     }
 }

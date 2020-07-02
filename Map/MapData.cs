@@ -49,13 +49,23 @@ public class MapData : MonoBehaviour
 
     public void PlayerFinishesMoving(MapSquare currentSquare)
     {
+        CheckMapGridExists();
         TrapsSpring();
-        if (currentSquare.GetEnemy() != null)
+        if (currentSquare.GetEnemy() != null && mapGrid.GetStealthMovement() < 1)
         {
             StartBattle(currentSquare);
+        } else if (currentSquare.GetEnemy() != null && mapGrid.GetStealthMovement() > 0)
+        {
+            mapGrid.UseAStealthCharge();
         }
         // TODO THIS MIGHT NOT HAPPEN IF BATTLE HAPPENS
         PostMovementActions(currentSquare);
+    }
+
+    private void CheckMapGridExists()
+    {
+        if (mapGrid == null)
+            mapGrid = FindObjectOfType<MapGrid>();
     }
 
     public void StartBattle(MapSquare currentSquare)

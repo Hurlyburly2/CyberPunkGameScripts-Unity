@@ -240,7 +240,7 @@ public class MapSquare : MonoBehaviour
     public void SpawnEnemy(string mapType)
     {
         enemy = FindObjectOfType<EnemyCollection>().GetAnEnemyByArea(mapType);
-        EmptyEnemyForTesting();
+        //EmptyEnemyForTesting();
     }
 
     private void EmptyEnemyForTesting()
