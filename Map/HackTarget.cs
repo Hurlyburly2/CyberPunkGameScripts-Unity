@@ -393,7 +393,7 @@ public class HackTarget : ScriptableObject
                 GainHealth(15);
                 break;
             case "Energy Infusion":
-                Debug.Log("Not yet implemented");
+                GainEnergy(15);
                 break;
             case "Heal and Gain Energy":
                 Debug.Log("Not yet implemented");
@@ -714,5 +714,10 @@ public class HackTarget : ScriptableObject
     private void GainHealth(int percentToGain)
     {
         FindObjectOfType<MapData>().GainHealth(percentToGain);
+    }
+
+    private void GainEnergy(int percentToGain)
+    {
+        FindObjectOfType<MapData>().GainEnergy(percentToGain);
     }
 }

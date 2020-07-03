@@ -300,4 +300,14 @@ public class MapData : MonoBehaviour
             amountToHeal = 1;
         runner.GainHealthOnMap(amountToHeal);
     }
+
+    public void GainEnergy(int percentToGain)
+    {
+        float maxEnergy = runner.GetMaximumEnergy();
+        float amount = (float)percentToGain / 100;
+        int amountToGain = Mathf.FloorToInt(maxEnergy * amount);
+        if (amountToGain < 1)
+            amountToGain = 1;
+        runner.GainEnergyOnMap(amountToGain);
+    }
 }
