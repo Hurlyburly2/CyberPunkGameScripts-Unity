@@ -36,7 +36,7 @@ public class HackTarget : ScriptableObject
         hackIsDone = false;
         hackType = newHackType;
         mapType = FindObjectOfType<MapData>().GetMapType();
-        SetupHackTest();
+        //SetupHackTest();
     }
 
     // METHOD FOR TESTING
@@ -251,7 +251,7 @@ public class HackTarget : ScriptableObject
         "Healing Boost",
         "Energy Infusion",
         "Heal and Gain Energy",
-        "Injest Stimulant"
+        "Injest Stimulants"
     };
     string[] medicalServerColors = { blue, blue, blue, red, red, purple, purple };
     int[] medicalServerCosts = { 10, 10, 10, 15, 15, 15, 15 };
@@ -396,10 +396,13 @@ public class HackTarget : ScriptableObject
                 GainEnergy(15);
                 break;
             case "Heal and Gain Energy":
-                Debug.Log("Not yet implemented");
+                GainHealth(10);
+                GainEnergy(10);
                 break;
-            case "Injest Stimulant":
-                Debug.Log("Not yet implemented");
+            case "Injest Stimulants":
+                BuffPlayerDodge(10, square);
+                BuffPlayerHandSize(1, square);
+                BuffPlayerCritChance(10, square);
                 break;
         }
         switch (color)
