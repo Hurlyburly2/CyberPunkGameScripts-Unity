@@ -36,13 +36,13 @@ public class HackTarget : ScriptableObject
         hackIsDone = false;
         hackType = newHackType;
         mapType = FindObjectOfType<MapData>().GetMapType();
-        SetupHackTest();
+        //SetupHackTest();
     }
 
     // METHOD FOR TESTING
     public void SetupHackTest()
     {
-        hackType = "Transportation";
+        hackType = "Medical Server";
         redPoints = 500;
         bluePoints = 500;
         purplePoints = 500;
@@ -134,6 +134,8 @@ public class HackTarget : ScriptableObject
                 return defenseSystemColors[count];
             case "Transportation":
                 return transportationColors[count];
+            case "Medical Server":
+                return medicalServerColors[count];
         }
         return "";
     }
@@ -152,6 +154,8 @@ public class HackTarget : ScriptableObject
                 return defenseSystemOptions[count];
             case "Transportation":
                 return transportationOptions[count];
+            case "Medical Server":
+                return medicalServerOptions[count];
         }
         return "";
     }
@@ -170,6 +174,8 @@ public class HackTarget : ScriptableObject
                 return defenseSystemCosts[count];
             case "Transportation":
                 return transportationCosts[count];
+            case "Medical Server":
+                return medicalServerCosts[count];
         }
         return 0;
     }
@@ -227,16 +233,28 @@ public class HackTarget : ScriptableObject
 
     string[] transportationOptions =
     {
+        "Map Ventilation Systems",
+        "Co-Opt Stealth Tech",
         "Unlock This Metro Station",
         "Unlock Remote Metro Station",
         "Unlock All Metro Stations",
-        "Map Ventilation Systems",
-        "Co-Opt Stealth Tech",
         "Hinder Enemy Movement",
         "Stop Enemy Movement"
     };
-    string[] transportationColors = { red, red, red, blue, blue, purple, purple };
-    int[] transportationCosts = { 5, 15, 30, 10, 20, 10, 20 };
+    string[] transportationColors = { blue, blue, red, red, red, purple, purple };
+    int[] transportationCosts = { 10, 20, 5, 15, 30, 10, 20 };
+
+    string[] medicalServerOptions = {
+        "Gain Health and Energy Regeneration",
+        "Sabotage Medicines",
+        "Upload and Sell Medical Research",
+        "Healing Boost",
+        "Energy Infusion",
+        "Heal and Gain Energy",
+        "Injest Stimulants"
+    };
+    string[] medicalServerColors = { blue, blue, blue, red, red, purple, purple };
+    int[] medicalServerCosts = { 10, 10, 10, 15, 15, 15, 15 };
 
     // ability usages
     public void UseAbility(MapSquare square, string description, string color, int cost)
@@ -358,6 +376,33 @@ public class HackTarget : ScriptableObject
                 break;
             case "Stop Enemy Movement":
                 StopEnemyMovement(1);
+                break;
+
+            // MEDICAL SERVER
+            case "Gain Health and Energy Regeneration":
+                GainHealthRegeneration(5);
+                GainEnergyRegeneration(5);
+                break;
+            case "Sabotage Medicines":
+                DotEnemies(4, square);
+                break;
+            case "Upload and Sell Medical Research":
+                GainMoney(600);
+                break;
+            case "Healing Boost":
+                GainHealth(15);
+                break;
+            case "Energy Infusion":
+                GainEnergy(15);
+                break;
+            case "Heal and Gain Energy":
+                GainHealth(10);
+                GainEnergy(10);
+                break;
+            case "Injest Stimulants":
+                BuffPlayerDodge(10, square);
+                BuffPlayerHandSize(1, square);
+                BuffPlayerCritChance(10, square);
                 break;
         }
         switch (color)
@@ -657,5 +702,25 @@ public class HackTarget : ScriptableObject
     private void StopEnemyMovement(int amount)
     {
         FindObjectOfType<MapData>().RaiseBlockEnemySpawn(amount);
+    }
+
+    private void GainHealthRegeneration(int duration)
+    {
+        FindObjectOfType<MapData>().AddDurationToHealthRegen(duration);
+    }
+
+    private void GainEnergyRegeneration(int duration)
+    {
+        FindObjectOfType<MapData>().AddDurationToEnergyRegen(duration);
+    }
+
+    private void GainHealth(int percentToGain)
+    {
+        FindObjectOfType<MapData>().GainHealth(percentToGain);
+    }
+
+    private void GainEnergy(int percentToGain)
+    {
+        FindObjectOfType<MapData>().GainEnergy(percentToGain);
     }
 }

@@ -28,7 +28,7 @@ public class EnemyHand : MonoBehaviour
         playingCards = false;
         enemyDeck = FindObjectOfType<EnemyDeck>();
         enemyDiscard = FindObjectOfType<EnemyDiscard>();
-        Debug.Log(handSize);
+        Debug.Log("enemy handsize: " + handSize);
         StartCoroutine(DrawHandTimer(handSize));
     }
 
