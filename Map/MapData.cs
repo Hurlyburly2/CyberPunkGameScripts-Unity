@@ -92,7 +92,7 @@ public class MapData : MonoBehaviour
         if (playerHealthRegenDuration > 0)
         {
             float maxHealth = runner.GetMaximumHealth();
-            int amountToHeal = Mathf.FloorToInt(maxHealth * 0.05f);
+            int amountToHeal = Mathf.FloorToInt(maxHealth * 0.10f);
             if (amountToHeal < 1)
             {
                 amountToHeal = 1;
@@ -289,5 +289,15 @@ public class MapData : MonoBehaviour
     public void AddDurationToEnergyRegen(int amount)
     {
         playerEnergyRegenDuration += amount;
+    }
+
+    public void GainHealth(int percentToGain)
+    {
+        float maxHealth = runner.GetMaximumHealth();
+        float amount = (float)percentToGain / 100;
+        int amountToHeal = Mathf.FloorToInt(maxHealth * amount);
+        if (amountToHeal < 1)
+            amountToHeal = 1;
+        runner.GainHealthOnMap(amountToHeal);
     }
 }

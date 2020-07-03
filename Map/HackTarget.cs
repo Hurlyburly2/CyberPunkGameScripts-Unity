@@ -384,13 +384,13 @@ public class HackTarget : ScriptableObject
                 GainEnergyRegeneration(5);
                 break;
             case "Sabotage Medicines":
-                Debug.Log("Not yet implemented");
+                DotEnemies(4, square);
                 break;
             case "Upload and Sell Medical Research":
-                Debug.Log("Not yet implemented");
+                GainMoney(600);
                 break;
             case "Healing Boost":
-                Debug.Log("Not yet implemented");
+                GainHealth(15);
                 break;
             case "Energy Infusion":
                 Debug.Log("Not yet implemented");
@@ -709,5 +709,10 @@ public class HackTarget : ScriptableObject
     private void GainEnergyRegeneration(int duration)
     {
         FindObjectOfType<MapData>().AddDurationToEnergyRegen(duration);
+    }
+
+    private void GainHealth(int percentToGain)
+    {
+        FindObjectOfType<MapData>().GainHealth(percentToGain);
     }
 }
