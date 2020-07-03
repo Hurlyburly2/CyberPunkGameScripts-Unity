@@ -114,6 +114,37 @@ public class CharacterData : ScriptableObject
         healthPipManager.ChangeValue(currentHealth);
     }
 
+    public void GainHealthOnMap(int amountToGain)
+    {
+        if (currentHealth + amountToGain > maximumHealth)
+        {
+            currentHealth = maximumHealth;
+        }
+        else
+        {
+            currentHealth += amountToGain;
+        }
+
+        MapConfig mapConfig = FindObjectOfType<MapConfig>();
+        mapConfig.GetHealthPipManager().ChangeValue(currentHealth);
+        SetHealthText();
+    }
+
+    public void GainEnergyOnMap(int amountToGain)
+    {
+        if (currentEnergy + amountToGain > maximumEnergy)
+        {
+            currentEnergy = maximumEnergy;
+        } else
+        {
+            currentEnergy += amountToGain;
+        }
+
+        MapConfig mapConfig = FindObjectOfType<MapConfig>();
+        mapConfig.GetEnergyPipManager().ChangeValue(currentEnergy);
+        SetEnergyText();
+    }
+
     public void GainEnergy(int amountToGain)
     {
         if (currentEnergy + amountToGain > maximumEnergy)

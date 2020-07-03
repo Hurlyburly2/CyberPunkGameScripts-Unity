@@ -112,4 +112,14 @@ public class MapConfig : MonoBehaviour
     {
         return securityPipManager;
     }
+
+    public PipManager GetHealthPipManager()
+    {
+        return healthPipManager;
+    }
+
+    public PipManager GetEnergyPipManager()
+    {
+        return energyPipManager;
+    }
 }

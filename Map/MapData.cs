@@ -20,6 +20,8 @@ public class MapData : MonoBehaviour
         // enemyHindrance helps to hinder enemy spawn, each tick lowers the level by one
     int enemySpawnBlock = 0;
         // enemySpawnBlock blocks a successful spawn, then goes down by one. If zero- doesn't function
+    int playerHealthRegenDuration = 0;
+    int playerEnergyRegenDuration = 0;
 
     // reward stuff
     int moneyEarned; // in match
@@ -55,6 +57,9 @@ public class MapData : MonoBehaviour
     {
         CheckMapGridExists();
         TrapsSpring();
+
+        PostMovementActions(currentSquare);
+
         if (currentSquare.GetEnemy() != null && mapGrid.GetStealthMovement() < 1)
         {
             StartBattle(currentSquare);
@@ -62,8 +67,6 @@ public class MapData : MonoBehaviour
         {
             mapGrid.UseAStealthCharge();
         }
-        // TODO THIS MIGHT NOT HAPPEN IF BATTLE HAPPENS
-        PostMovementActions(currentSquare);
     }
 
     private void CheckMapGridExists()
@@ -79,8 +82,38 @@ public class MapData : MonoBehaviour
 
     private void PostMovementActions(MapSquare currentSquare)
     {
+        CheckRegen();
         AttemptToSpawnEnemy();
         RaiseSecurityLevel(currentSquare);
+    }
+
+    private void CheckRegen()
+    {
+        if (playerHealthRegenDuration > 0)
+        {
+            float maxHealth = runner.GetMaximumHealth();
+            int amountToHeal = Mathf.FloorToInt(maxHealth * 0.05f);
+            if (amountToHeal < 1)
+            {
+                amountToHeal = 1;
+            }
+
+            runner.GainHealthOnMap(amountToHeal);
+            playerHealthRegenDuration--;
+        }
+
+        if (playerEnergyRegenDuration > 0)
+        {
+            float maxEnergy = runner.GetMaximumEnergy();
+            int amountToGain = Mathf.FloorToInt(maxEnergy * 0.05f);
+            if (amountToGain < 1)
+            {
+                amountToGain = 1;
+            }
+
+            runner.GainEnergyOnMap(amountToGain);
+            playerEnergyRegenDuration--;
+        }
     }
 
     private void TrapsSpring()
@@ -246,5 +279,15 @@ public class MapData : MonoBehaviour
     public void RaiseBlockEnemySpawn(int amount)
     {
         enemySpawnBlock += amount;
+    }
+
+    public void AddDurationToHealthRegen(int amount)
+    {
+        playerHealthRegenDuration += amount;
+    }
+
+    public void AddDurationToEnergyRegen(int amount)
+    {
+        playerEnergyRegenDuration += amount;
     }
 }
