@@ -22,6 +22,7 @@ public class BattleData : MonoBehaviour
     int enemyId;
     bool enemyLoaded = false;
     MapGrid mapGrid;
+    Sprite backgroundImage = null;
 
     // state
     bool actionDisabled = true;
@@ -53,6 +54,7 @@ public class BattleData : MonoBehaviour
 
     public void SetUpBattle()
     {
+        SetBackgroundImage();
         playerHand = FindObjectOfType<PlayerHand>();
         deck = FindObjectOfType<Deck>();
         discard = FindObjectOfType<Discard>();
@@ -316,5 +318,10 @@ public class BattleData : MonoBehaviour
     public MapSquare GetMapSquare()
     {
         return mapSquare;
+    }
+
+    public void SetBackgroundImage()
+    {
+        FindObjectOfType<BattleBackground>().SetImage(mapSquare.GetLocationImage());
     }
 }
