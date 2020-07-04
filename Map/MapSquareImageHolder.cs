@@ -43,6 +43,16 @@ public class MapSquareImageHolder : MonoBehaviour
         {
             case "Security Camera":
                 return hackAndPOITypeImages[2];
+            case "Combat Server":
+                return hackAndPOITypeImages[3];
+            case "Database":
+                return hackAndPOITypeImages[4];
+            case "Defense System":
+                return hackAndPOITypeImages[5];
+            case "Transportation":
+                return hackAndPOITypeImages[6];
+            case "Medical Server":
+                return hackAndPOITypeImages[7];
         }
         return hackAndPOITypeImages[0];
     }
