@@ -94,6 +94,7 @@ public class SceneLoader : MonoBehaviour
         }
         mapGrid.gameObject.SetActive(true);
         currentMap.SetUpMapFromBattle();
+        CenterCameraOnPlayer();
         DestroyExtraGrids();
     }
 
@@ -235,6 +236,7 @@ public class SceneLoader : MonoBehaviour
         mapGrid.gameObject.SetActive(true);
         currentHackTarget.SetPoints(redPoints, bluePoints, purplePoints);
         currentMap.SetUpMapFromHack(currentSquare, currentHackTarget);
+        CenterCameraOnPlayer();
         DestroyExtraGrids();
     }
 
@@ -273,5 +275,12 @@ public class SceneLoader : MonoBehaviour
     public void DisableObject()
     {
         Destroy(imageHolder.gameObject);
+    }
+
+    private void CenterCameraOnPlayer()
+    {
+        PlayerMarker player = FindObjectOfType<PlayerMarker>();
+        Vector3 newCameraPosition = new Vector3(player.transform.position.x, player.transform.position.y, Camera.main.transform.position.z);
+        Camera.main.transform.position = newCameraPosition;
     }
 }
