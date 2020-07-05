@@ -14,7 +14,13 @@ public class MenuPOIButton : MonoBehaviour
         mapObject = newMapObject;
         Image image = GetComponent<Image>();
         image.enabled = true;
-        GetComponent<Button>().enabled = true;
+        if (mapObject.GetIsActive())
+        {
+            GetComponent<Button>().enabled = true;
+        } else
+        {
+            GetComponent<Button>().enabled = false;
+        }
         image.sprite = FindObjectOfType<MapSquareImageHolder>().GetButtonImageByName(mapObject.GetObjectType(), mapObject.GetIsActive());
         textField.enabled = true;
         textField.text = mapObject.GetObjectType();

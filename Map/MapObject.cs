@@ -5,17 +5,64 @@ using UnityEngine;
 public class MapObject : ScriptableObject
 {
     string mapType;
-    string type;
-    // options are fed to it by mapSquare:
-    // "Trap", "Reward", "PowerUp", "Shop", "Upgrade", "First Aid Station"
+    string mapObjectType;
+        // options are fed to it by mapSquare:
+        // "Trap", "Reward", "PowerUp", "Shop", "Upgrade", "First Aid Station"
     bool isActive;
-    // IF IT IS A TRAP AND IT IS NOT ACTIVE IT SHOULDN'T TRIGGER
+        // IF IT IS A TRAP AND IT IS NOT ACTIVE IT SHOULDN'T TRIGGER
+
+    string trapType;
+    int damageDealt = 0;
 
     public void SetupMapObject(string newMapObjectType)
     {
         isActive = true;
-        type = newMapObjectType;
+        mapObjectType = newMapObjectType;
         mapType = FindObjectOfType<MapData>().GetMapType();
+        //SetupTestObject();
+
+        if (mapObjectType == "Trap")
+        {
+            SetupTrap();
+        }
+    }
+
+    private void SetupTestObject()
+    {
+        mapObjectType = "Trap";
+    }
+
+    public void TriggerTrap()
+    {
+        switch (trapType)
+        {
+            case "DirectDamage":
+                CharacterData runner = FindObjectOfType<MapData>().GetRunner();
+                float maxHealth = runner.GetMaximumHealth();
+                int damageToTake = Mathf.FloorToInt(maxHealth * 0.2f);
+                if (damageToTake < 1)
+                    damageToTake = 1;
+                damageDealt = damageToTake;
+                runner.TakeDamageFromMap(damageToTake);
+                isActive = false;
+                break;
+        }
+    }
+
+    public string GetTrapTextFromSquare()
+    {
+        switch (trapType)
+        {
+            case "DirectDamage":
+                return "Took " + damageDealt.ToString() + " damage.";
+        }
+        return "";
+    }
+
+    private void SetupTrap()
+    {
+        // TODO: EXPAND TRAP TYPES HERE
+        trapType = "DirectDamage";
     }
 
     public void SetIsActive(bool state)
@@ -25,7 +72,7 @@ public class MapObject : ScriptableObject
 
     public string GetObjectType()
     {
-        return type;
+        return mapObjectType;
     }
 
     public bool GetIsActive()

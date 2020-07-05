@@ -56,14 +56,24 @@ public class MapData : MonoBehaviour
     public void PlayerFinishesMoving(MapSquare currentSquare)
     {
         CheckMapGridExists();
-        TrapsSpring();
+        bool moveOnToBattle = PostMovementActions(currentSquare);
 
-        PostMovementActions(currentSquare);
+        if (moveOnToBattle)
+        {
+            StartBattleIfEnemyExists(currentSquare);
+        } else
+        {
+            mapConfig.GetTrapSpringMenu().OpenMenu(currentSquare);
+        }
+    }
 
+    public void StartBattleIfEnemyExists(MapSquare currentSquare)
+    {
         if (currentSquare.GetEnemy() != null && mapGrid.GetStealthMovement() < 1)
         {
             StartBattle(currentSquare);
-        } else if (currentSquare.GetEnemy() != null && mapGrid.GetStealthMovement() > 0)
+        }
+        else if (currentSquare.GetEnemy() != null && mapGrid.GetStealthMovement() > 0)
         {
             mapGrid.UseAStealthCharge();
         }
@@ -80,11 +90,20 @@ public class MapData : MonoBehaviour
         FindObjectOfType<SceneLoader>().LoadBattleFromMap(currentSquare);
     }
 
-    private void PostMovementActions(MapSquare currentSquare)
+    private bool PostMovementActions(MapSquare currentSquare)
     {
         CheckRegen();
         AttemptToSpawnEnemy();
         RaiseSecurityLevel(currentSquare);
+        bool didTrapsSpring = TrapsSpring(currentSquare);
+
+        if (didTrapsSpring)
+        {
+            return false;
+        } else
+        {
+            return true;
+        }
     }
 
     private void CheckRegen()
@@ -116,9 +135,18 @@ public class MapData : MonoBehaviour
         }
     }
 
-    private void TrapsSpring()
+    private bool TrapsSpring(MapSquare square)
     {
-        Debug.Log("Traps Spring!");
+        List<MapObject> mapObjects = square.GetMapObjects();
+        foreach (MapObject mapObject in mapObjects)
+        {
+            if (mapObject.GetObjectType() == "Trap" && mapObject.GetIsActive() == true)
+            {
+                mapObject.TriggerTrap();
+                return true;
+            }
+        }
+        return false;
     }
 
     private void AttemptToSpawnEnemy()
@@ -309,5 +337,10 @@ public class MapData : MonoBehaviour
         if (amountToGain < 1)
             amountToGain = 1;
         runner.GainEnergyOnMap(amountToGain);
+    }
+
+    public CharacterData GetRunner()
+    {
+        return runner;
     }
 }

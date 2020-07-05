@@ -9,6 +9,7 @@ public class MapConfig : MonoBehaviour
     [SerializeField] NeighboringNodeMenu neighboringNodeMenu;
     [SerializeField] CurrentNodeMenu currentNodeMenu;
     [SerializeField] MapHackMenu hackMenu;
+    [SerializeField] TrapSpringMenu trapSpringMenu;
 
     // pip manager config
     [SerializeField] string healthPipManagerName = "HealthPipManager";
@@ -121,5 +122,10 @@ public class MapConfig : MonoBehaviour
     public PipManager GetEnergyPipManager()
     {
         return energyPipManager;
+    }
+
+    public TrapSpringMenu GetTrapSpringMenu()
+    {
+        return trapSpringMenu;
     }
 }
