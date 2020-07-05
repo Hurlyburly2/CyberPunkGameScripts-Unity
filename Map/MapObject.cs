@@ -27,6 +27,23 @@ public class MapObject : ScriptableObject
         }
     }
 
+    public string DoObjectAction()
+    {
+        isActive = false;
+        return "blah blah blah blah blah";
+    }
+
+    public string GetObjectTypeNameForDisplay()
+    {
+        if (mapObjectType == "PowerUp")
+        {
+            return "Power Up";
+        } else
+        {
+            return mapObjectType;
+        }
+    }
+
     private void SetupTestObject()
     {
         mapObjectType = "Trap";
