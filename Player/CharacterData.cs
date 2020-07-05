@@ -130,6 +130,26 @@ public class CharacterData : ScriptableObject
         SetHealthText();
     }
 
+    public void TakeDamageFromMap(int amountToTake)
+    {
+        if (currentHealth - amountToTake < 0)
+        {
+            currentHealth = 0;
+        } else
+        {
+            currentHealth -= amountToTake;
+        }
+
+        MapConfig mapConfig = FindObjectOfType<MapConfig>();
+        mapConfig.GetHealthPipManager().ChangeValue(currentHealth);
+        SetHealthText();
+        // TODO IF PLAYER HEALTH <= 0 THEN PLAYER LOSES
+        if (currentHealth <= 0)
+        {
+            Debug.Log("Player is dead");
+        }
+    }
+
     public void GainEnergyOnMap(int amountToGain)
     {
         if (currentEnergy + amountToGain > maximumEnergy)

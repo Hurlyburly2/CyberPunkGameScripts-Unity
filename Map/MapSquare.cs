@@ -175,7 +175,7 @@ public class MapSquare : MonoBehaviour
         RemoveAdjacentShrouds();
     }
 
-    public void InitializeSquare(Sprite newImage, Sprite newLocationImage)
+    public void InitializeSquare(Sprite newImage, Sprite newLocationImage, bool isFirstSquare)
     {
         enemy = null;
         enemyScoutLevel = 1;
@@ -189,19 +189,19 @@ public class MapSquare : MonoBehaviour
         enemyBuffs = new List<int>();
         enemyDebuffs = new List<int>();
 
-        SetupHacksAndObjects();
+        SetupHacksAndObjects(isFirstSquare);
     }
 
-    private void SetupHacksAndObjects()
+    private void SetupHacksAndObjects(bool isFirstSquare)
     {
-        SetupHackObjectSpawnLists();
+        SetupHackObjectSpawnLists(isFirstSquare);
 
         // random 1-3
         int objectsToSpawn = Random.Range(1, 4);
         while (objectsToSpawn > 0)
         {
             int random = Random.Range(0, 100);
-            if (random <= 60)
+            if (random <= 45)
             {
                 HackTarget newHackTarget = ScriptableObject.CreateInstance<HackTarget>();
                 string newHackType = availableHackTypes[Random.Range(0, availableHackTypes.Count)];
@@ -217,7 +217,7 @@ public class MapSquare : MonoBehaviour
 
                 hackTargets.Add(newHackTarget);
                 objectsToSpawn--;
-            } else if (random > 60)
+            } else if (random > 45)
             {
                 MapObject newMapObject = ScriptableObject.CreateInstance<MapObject>();
                 string newMapObjectType = availableObjectTypes[Random.Range(0, availableObjectTypes.Count)];
@@ -253,7 +253,7 @@ public class MapSquare : MonoBehaviour
         enemy = null;
     }
 
-    private void SetupHackObjectSpawnLists()
+    private void SetupHackObjectSpawnLists(bool isFirstSquare)
     {
         hackTargets = new List<HackTarget>();
         mapObjects = new List<MapObject>();
@@ -265,6 +265,11 @@ public class MapSquare : MonoBehaviour
         availableObjectTypes = new List<string>();
         string[] objectTypes = { "Trap", "Reward", "PowerUp", "Shop", "Upgrade", "First Aid Station" };
         availableObjectTypes.AddRange(objectTypes);
+
+        if (isFirstSquare)
+        {
+            availableObjectTypes.Remove("Trap");
+        }
     }
 
     public void AddShroud()

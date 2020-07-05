@@ -38,7 +38,7 @@ public class MapSquareRow : MonoBehaviour
 
                     if (!adjacentSquare.IsActive() && Random.Range(0, 100) < percentChange + modifier)
                     {
-                        adjacentSquare.InitializeSquare(mapSquareImageHolder.GetSquareImage(mapType), mapSquareImageHolder.GetLocationImage(mapType));
+                        adjacentSquare.InitializeSquare(mapSquareImageHolder.GetSquareImage(mapType), mapSquareImageHolder.GetLocationImage(mapType), false);
                         newSquareCount++;
                         if (Random.Range(0, 100) < chanceToSpawnEnemy)
                         {
@@ -63,7 +63,8 @@ public class MapSquareRow : MonoBehaviour
         activeSquares.Add(mapSquares[squareNumber]);
 
         MapSquare firstSquare = mapSquares[squareNumber];
-        firstSquare.InitializeSquare(image, FindObjectOfType<MapSquareImageHolder>().GetLocationImage(mapGrid.GetMapType()));
+        // IUNNO
+        firstSquare.InitializeSquare(image, FindObjectOfType<MapSquareImageHolder>().GetLocationImage(mapGrid.GetMapType()), true);
         firstSquare.SetPlayerStart();
     }
 
