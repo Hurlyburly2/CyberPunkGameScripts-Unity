@@ -24,15 +24,15 @@ public class MapData : MonoBehaviour
     int playerEnergyRegenDuration = 0;
 
     // reward stuff
-    int moneyEarned; // in match
-    int moneyMultiplier; // percent multiplier added to money earned in round
+    int creditsEarned; // in match
+    int creditsMultiplier; // percent multiplier added to money earned in round
     int goalMultiplier; // percent multiplier added to money earned at end of round
 
     private void Awake()
     {
         int count = FindObjectsOfType<MapData>().Length;
-        moneyEarned = 0;
-        moneyMultiplier = 0;
+        creditsEarned = 0;
+        creditsMultiplier = 0;
         goalMultiplier = 0;
 
         if (count > 1)
@@ -266,14 +266,19 @@ public class MapData : MonoBehaviour
 
     public void ChangeMoney(int amount)
     {
-        float percentMultiplier = moneyMultiplier / 100;
+        float percentMultiplier = creditsMultiplier / 100;
         float multipliedAmount = amount * percentMultiplier;
-        moneyEarned += amount + Mathf.FloorToInt(multipliedAmount);
+        creditsEarned += amount + Mathf.FloorToInt(multipliedAmount);
+    }
+
+    public int GetEarnedMoneyAmount()
+    {
+        return creditsEarned;
     }
 
     public void ChangeMoneyMultiplier(int amount)
     {
-        moneyMultiplier += amount;
+        creditsMultiplier += amount;
     }
 
     public void ChangeGoalMultiplier(int amount)

@@ -9,6 +9,11 @@ public class MenuPOIButton : MonoBehaviour
     [SerializeField] TextMeshProUGUI textField;
     MapObject mapObject;
 
+    public void OpenMenu()
+    {
+        FindObjectOfType<MapConfig>().GetObjectNotificationMenu().OpenMenu(mapObject);
+    }
+
     public void SetupButton(MapObject newMapObject)
     {
         mapObject = newMapObject;
