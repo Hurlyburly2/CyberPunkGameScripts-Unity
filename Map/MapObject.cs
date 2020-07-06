@@ -19,7 +19,7 @@ public class MapObject : ScriptableObject
         isActive = true;
         mapObjectType = newMapObjectType;
         mapType = FindObjectOfType<MapData>().GetMapType();
-        //SetupTestObject();
+        SetupTestObject();
 
         if (mapObjectType == "Trap")
         {
@@ -27,10 +27,69 @@ public class MapObject : ScriptableObject
         }
     }
 
+    private void SetupTestObject()
+    {
+        mapObjectType = "Reward";
+    }
+
     public string DoObjectAction()
     {
         isActive = false;
-        return "blah blah blah blah blah";
+        switch (mapObjectType)
+        {
+            case "Trap":
+                return "This shouldn't have happened";
+            case "Reward":
+                return GainReward();
+            case "PowerUp":
+                return GainPowerUp();
+            case "Shop":
+                return Shop();
+            case "Upgrade":
+                return GainUpgrade();
+            case "First Aid Station":
+                return GainFirstAidStation();
+
+        }
+        return "Something went wrong";
+    }
+
+    private string GainReward()
+    {
+        string mapType = FindObjectOfType<MapGrid>().GetMapType();
+        int minRange = 0;
+        int maxRange = 0;
+        switch (mapType)
+        {
+            case "slums":
+                minRange = 100;
+                maxRange = 300;
+                break;
+        }
+
+        int rewardAmount = Mathf.FloorToInt(Random.Range(minRange, maxRange));
+        FindObjectOfType<MapData>().ChangeMoney(rewardAmount);
+        return "Gained " + rewardAmount.ToString() + " Credits";
+    }
+
+    private string GainPowerUp()
+    {
+        return "POWERUP GAINED";
+    }
+
+    private string Shop()
+    {
+        return "SHOP NOT YET IMPLEMENTED";
+    }
+
+    private string GainUpgrade()
+    {
+        return "GAINED UPGRADE";
+    }
+
+    private string GainFirstAidStation()
+    {
+        return "GAINED FIRST AID STATION";
     }
 
     public string GetObjectTypeNameForDisplay()
@@ -42,11 +101,6 @@ public class MapObject : ScriptableObject
         {
             return mapObjectType;
         }
-    }
-
-    private void SetupTestObject()
-    {
-        mapObjectType = "Trap";
     }
 
     public void TriggerTrap()
