@@ -19,7 +19,7 @@ public class MapObject : ScriptableObject
         isActive = true;
         mapObjectType = newMapObjectType;
         mapType = FindObjectOfType<MapData>().GetMapType();
-        //SetupTestObject();
+        SetupTestObject();
 
         if (mapObjectType == "Trap")
         {
@@ -29,7 +29,7 @@ public class MapObject : ScriptableObject
 
     private void SetupTestObject()
     {
-        mapObjectType = "PowerUp";
+        mapObjectType = "First Aid Station";
     }
 
     public string DoObjectAction()
@@ -93,12 +93,16 @@ public class MapObject : ScriptableObject
 
     private string GainUpgrade()
     {
-        return "GAINED UPGRADE";
+        return "PERMANENTLY GAIN NEW MOD: NOT IMPLEMENTED. RARE.";
     }
 
     private string GainFirstAidStation()
     {
-        return "GAINED FIRST AID STATION";
+        CharacterData runner = FindObjectOfType<MapData>().GetRunner();
+        float maxHealth = runner.GetMaximumHealth();
+        int healAmount = Mathf.FloorToInt(maxHealth * .2f);
+        runner.GainHealthOnMap(healAmount);
+        return "Gained "  + healAmount.ToString() + " health.";
     }
 
     public string GetObjectTypeNameForDisplay()
