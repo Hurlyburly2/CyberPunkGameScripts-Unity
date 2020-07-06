@@ -19,7 +19,7 @@ public class MapObject : ScriptableObject
         isActive = true;
         mapObjectType = newMapObjectType;
         mapType = FindObjectOfType<MapData>().GetMapType();
-        SetupTestObject();
+        //SetupTestObject();
 
         if (mapObjectType == "Trap")
         {
@@ -29,7 +29,7 @@ public class MapObject : ScriptableObject
 
     private void SetupTestObject()
     {
-        mapObjectType = "Reward";
+        mapObjectType = "PowerUp";
     }
 
     public string DoObjectAction()
@@ -74,7 +74,16 @@ public class MapObject : ScriptableObject
 
     private string GainPowerUp()
     {
-        return "POWERUP GAINED";
+        int random = Mathf.FloorToInt(Random.Range(1, 2));
+        string returnString = "";
+        switch (random)
+        {
+            case 1:
+                returnString = "Combat: Chance each turn to draw an extra card";
+                FindObjectOfType<MapData>().RaiseHandSizeBoostChance();
+                break;
+        }
+        return returnString;
     }
 
     private string Shop()

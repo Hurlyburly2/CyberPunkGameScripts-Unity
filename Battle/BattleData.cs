@@ -41,6 +41,9 @@ public class BattleData : MonoBehaviour
     int dotDamageToEnemy = 0;
     int enemyDamageDebuff = 0;
 
+    // buffs from powerups
+    int extraCardChanceFromMap = 0;
+
     private void Awake()
     {
         int count = FindObjectsOfType<BattleData>().Length;
@@ -218,6 +221,11 @@ public class BattleData : MonoBehaviour
         enemyLoaded = true;
     }
 
+    public void GetDataFromMapData(MapData mapData)
+    {
+        extraCardChanceFromMap = mapData.GetHandSizeBoostChance();
+    }
+
     private int GetEnemyIDFromMapSquare(MapSquare square)
     {
         Enemy prefabEnemy = square.GetEnemy();
@@ -323,5 +331,10 @@ public class BattleData : MonoBehaviour
     public void SetBackgroundImage()
     {
         FindObjectOfType<BattleBackground>().SetImage(mapSquare.GetLocationImage());
+    }
+
+    public int GetExtraCardDrawFromMapChance()
+    {
+        return extraCardChanceFromMap;
     }
 }
