@@ -28,6 +28,9 @@ public class MapData : MonoBehaviour
     int creditsMultiplier; // percent multiplier added to money earned in round
     int goalMultiplier; // percent multiplier added to money earned at end of round
 
+    // player powerups
+    int handSizeBoostChance = 0;
+
     private void Awake()
     {
         int count = FindObjectsOfType<MapData>().Length;
@@ -347,5 +350,23 @@ public class MapData : MonoBehaviour
     public CharacterData GetRunner()
     {
         return runner;
+    }
+
+    public void RaiseHandSizeBoostChance()
+    {
+        if (handSizeBoostChance <= 0)
+        {
+            handSizeBoostChance = 25;
+        } else
+        {
+            float boost = (float)handSizeBoostChance * 0.5f;
+            handSizeBoostChance = handSizeBoostChance + Mathf.FloorToInt(boost);
+        }
+        Debug.Log("Hand size boost chance: " + handSizeBoostChance.ToString());
+    }
+
+    public int GetHandSizeBoostChance()
+    {
+        return handSizeBoostChance;
     }
 }

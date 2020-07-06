@@ -45,10 +45,27 @@ public class PlayerHand : MonoBehaviour
 
     public void DrawStartingHand(int startingHandSize, float setupTimeInSeconds)
     {
-        int modifiedHandSize = startingHandSize + FindObjectOfType<BattleData>().GetPlayerHandMapBuff();
+        int modifiedHandSize = startingHandSize + battleData.GetPlayerHandMapBuff();
+
+        if (CheckPercentageChance(battleData.GetExtraCardDrawFromMapChance()))
+        {
+            modifiedHandSize++;
+        }
+
         float timePerCardDraw = setupTimeInSeconds / modifiedHandSize;
 
         StartCoroutine(DrawStartingHandCoroutine(modifiedHandSize, timePerCardDraw));
+    }
+
+    private bool CheckPercentageChance(int amount)
+    {
+        if (Random.Range(0, 100) <= amount)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
     }
 
     private IEnumerator DrawStartingHandCoroutine(int startingHandSize, float timePerCardDraw)
@@ -67,7 +84,12 @@ public class PlayerHand : MonoBehaviour
 
     public void DrawToMaxHandSize()
     {
-        int cardTarget = initialHandSize - playerHandDebuff + FindObjectOfType<BattleData>().GetPlayerHandMapBuff();
+        int cardTarget = initialHandSize - playerHandDebuff + battleData.GetPlayerHandMapBuff();
+        if (CheckPercentageChance(battleData.GetExtraCardDrawFromMapChance()))
+        {
+            cardTarget++;
+        }
+
         if (cardsInHand.Count < cardTarget)
         {
             DrawXCards(cardTarget - cardsInHand.Count);
