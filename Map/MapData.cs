@@ -58,6 +58,11 @@ public class MapData : MonoBehaviour
 
     public void PlayerFinishesMoving(MapSquare currentSquare)
     {
+        if (currentSquare.GetIsGoal())
+        {
+            Debug.Log("Reached Goal!!!");
+        }
+
         CheckMapGridExists();
         bool moveOnToBattle = PostMovementActions(currentSquare);
 

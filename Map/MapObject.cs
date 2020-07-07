@@ -19,7 +19,7 @@ public class MapObject : ScriptableObject
         isActive = true;
         mapObjectType = newMapObjectType;
         mapType = FindObjectOfType<MapData>().GetMapType();
-        SetupTestObject();
+        //SetupTestObject();
 
         if (mapObjectType == "Trap")
         {

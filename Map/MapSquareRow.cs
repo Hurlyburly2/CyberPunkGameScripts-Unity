@@ -58,7 +58,7 @@ public class MapSquareRow : MonoBehaviour
         newActiveSquares = new List<MapSquare>();
     }
 
-    public void InitializeFirstSquare(int squareNumber, Sprite image)
+    public MapSquare InitializeFirstSquare(int squareNumber, Sprite image)
     {
         activeSquares.Add(mapSquares[squareNumber]);
 
@@ -66,6 +66,8 @@ public class MapSquareRow : MonoBehaviour
         // IUNNO
         firstSquare.InitializeSquare(image, FindObjectOfType<MapSquareImageHolder>().GetLocationImage(mapGrid.GetMapType()), true);
         firstSquare.SetPlayerStart();
+        firstSquare.SetStartSquare();
+        return firstSquare;
     }
 
     public void AddInitializedSquareToList(MapSquare newlyInitializedSquare)
