@@ -14,41 +14,46 @@ public class PanZoomMap : MonoBehaviour
     float cameraRightLimit = 23f;
 
     bool cameraMoveOk = true;
+    MapConfig mapConfig;
 
     private void Start()
     {
+        mapConfig = FindObjectOfType<MapConfig>();
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (!mapConfig.GetIsAMenuOpen())
         {
-            touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        }
-        if (cameraMoveOk)
-        {
-            if (Input.touchCount == 2)
+            if (Input.GetMouseButtonDown(1))
             {
-                Touch touchZero = Input.GetTouch(0);
-                Touch touchOne = Input.GetTouch(1);
-
-                Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
-                Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
-
-                float prevMagnitude = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-                float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
-
-                float difference = currentMagnitude - prevMagnitude;
-                Zoom(difference * 0.01f);
+                touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
-            else if (Input.GetMouseButton(1) || Input.touchCount == 3)
+            if (cameraMoveOk)
             {
-                Vector3 direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Camera.main.transform.position += direction;
+                if (Input.touchCount == 2)
+                {
+                    Touch touchZero = Input.GetTouch(0);
+                    Touch touchOne = Input.GetTouch(1);
+
+                    Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+                    Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+
+                    float prevMagnitude = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+                    float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
+
+                    float difference = currentMagnitude - prevMagnitude;
+                    Zoom(difference * 0.01f);
+                }
+                else if (Input.GetMouseButton(1) || Input.touchCount == 3)
+                {
+                    Vector3 direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    Camera.main.transform.position += direction;
+                }
+                Zoom(Input.GetAxis("Mouse ScrollWheel"));
             }
-            Zoom(Input.GetAxis("Mouse ScrollWheel"));
+            ClampCamera();
         }
-        ClampCamera();
     }
 
     private void ClampCamera()

@@ -24,6 +24,7 @@ public class MapSquare : MonoBehaviour
     bool isActive;
     bool isGoal = false;
     bool isStart = false;
+    bool isExtraction = false;
     int temporaryDistanceMeasurement;
     string state;
     bool playerPresent;
@@ -553,5 +554,16 @@ public class MapSquare : MonoBehaviour
     public bool GetIsGoal()
     {
         return isGoal;
+    }
+
+    public void SetExtractionSquare()
+    {
+        isExtraction = true;
+        Debug.Log("Extraction Square is x: " + rowPosition.ToString() + ", y: " + parentRow.GetRowNumber());
+    }
+
+    public bool GetIsExtraction()
+    {
+        return isExtraction;
     }
 }

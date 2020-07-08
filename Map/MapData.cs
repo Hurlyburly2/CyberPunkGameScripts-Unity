@@ -25,7 +25,8 @@ public class MapData : MonoBehaviour
     bool hasGoalBeenReached = false;
         // remember if the player has or has not reached the goal
     bool wasPlayerOnGoalBeforeCombat = false;
-        // remember if the player was able to trigger the goal state before loading combat
+        // remember if the player was able to trigger the goal state before loading combat. Ditto for extraction
+    bool wasPlayerOnExtractionBeforeCombat = false;
 
     // reward stuff
     int creditsEarned; // in match
@@ -68,12 +69,16 @@ public class MapData : MonoBehaviour
         bool moveOnToBattle = PostMovementActions(currentSquare);
         bool trapSprung = false;
         bool goalReady = false;
+        bool extractionReady = false;
 
         if (moveOnToBattle)
         {
             if (currentSquare.GetIsGoal() && !hasGoalBeenReached)
             {
                 wasPlayerOnGoalBeforeCombat = true;
+            } else if (currentSquare.GetIsExtraction())
+            {
+                wasPlayerOnExtractionBeforeCombat = true;
             }
             StartBattleIfEnemyExists(currentSquare);
         } else
@@ -81,14 +86,20 @@ public class MapData : MonoBehaviour
             if (currentSquare.GetIsGoal() && !hasGoalBeenReached && currentSquare.GetEnemy() == null)
             {
                 goalReady = true;
+            } else if (currentSquare.GetIsExtraction() && currentSquare.GetEnemy() == null)
+            {
+                extractionReady = true;
             }
-            mapConfig.GetTrapSpringMenu().OpenMenu(currentSquare, goalReady);
+            mapConfig.GetTrapSpringMenu().OpenMenu(currentSquare, goalReady, extractionReady);
             trapSprung = true;
         }
 
         if (currentSquare.GetIsGoal() && !hasGoalBeenReached && currentSquare.GetEnemy() == null && !trapSprung)
         {
-            FindObjectOfType<MapConfig>().GetGoalWindow().OpenGoalWindow();
+            FindObjectOfType<MapConfig>().GetGoalWindow().OpenGoalWindow(currentSquare);
+        } else if (currentSquare.GetIsExtraction() && currentSquare.GetEnemy() == null && !trapSprung)
+        {
+            FindObjectOfType<MapConfig>().GetExtractionWindow().OpenExtractionWindow();
         }
     }
 
@@ -416,5 +427,15 @@ public class MapData : MonoBehaviour
     public void SetWasPlayerOnGoalBeforeCombat(bool newSetting)
     {
         wasPlayerOnGoalBeforeCombat = newSetting;
+    }
+
+    public void SetWasPlayerOnExtractionBeforeCombat(bool setting)
+    {
+        wasPlayerOnExtractionBeforeCombat = setting;
+    }
+
+    public bool GetShouldExtractionWindowOpenAfterCombat()
+    {
+        return wasPlayerOnExtractionBeforeCombat;
     }
 }

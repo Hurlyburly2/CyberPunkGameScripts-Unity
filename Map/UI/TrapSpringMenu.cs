@@ -11,8 +11,9 @@ public class TrapSpringMenu : MonoBehaviour
 
     // state
     bool goalAfterTrap = false;
+    bool extractAfterTrap = false;
 
-    public void OpenMenu(MapSquare newSquare, bool isGoalReady)
+    public void OpenMenu(MapSquare newSquare, bool isGoalReady, bool isExtractionReady)
     {
         gameObject.SetActive(true);
 
@@ -45,13 +46,20 @@ public class TrapSpringMenu : MonoBehaviour
         if (currentSquare.GetIsGoal() && !mapData.GetHasGoalBeenReached())
         {
             mapData.SetWasPlayerOnGoalBeforeCombat(true);
+        } else if (currentSquare.GetIsExtraction())
+        {
+            mapData.SetWasPlayerOnExtractionBeforeCombat(true);
         }
         mapData.StartBattleIfEnemyExists(currentSquare);
 
         if (goalAfterTrap)
         {
-            mapConfig.GetGoalWindow().OpenGoalWindow();
-        } else
+            mapConfig.GetGoalWindow().OpenGoalWindow(currentSquare);
+        }
+        else if (extractAfterTrap) {
+            mapConfig.GetExtractionWindow().OpenExtractionWindow();
+        }
+        else
         {
             FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);
         }

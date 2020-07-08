@@ -6,12 +6,14 @@ using TMPro;
 public class GoalWindow : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI descriptionText;
+    MapSquare currentSquare;
 
-    public void OpenGoalWindow()
+    public void OpenGoalWindow(MapSquare newSquare)
     {
         gameObject.SetActive(true);
         descriptionText.text = GenerateDescriptionText(FindObjectOfType<MapGrid>().GetMapType());
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(true);
+        currentSquare = newSquare;
     }
 
     private string GenerateDescriptionText(string mapType)
@@ -28,6 +30,43 @@ public class GoalWindow : MonoBehaviour
     {
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);
         FindObjectOfType<MapData>().SetHasGoalBeenReached(true);
+        SetExtractionPoint();
         gameObject.SetActive(false);
+    }
+
+    private void SetExtractionPoint()
+    {
+        MapSquare[] allSquares = FindObjectsOfType<MapSquare>();
+        List<MapSquare> activeSquares = new List<MapSquare>();
+
+        // get the distance for each square
+        foreach (MapSquare square in allSquares)
+        {
+            if (square.IsActive())
+            {
+                square.SetTemporaryPositionMeasurement(currentSquare.GetDistanceToTargetSquare(square));
+                activeSquares.Add(square);
+            }
+        }
+
+        activeSquares.Sort(SortByDistance);
+        int longestDistance = activeSquares[activeSquares.Count - 1].GetDistanceMeasurement();
+
+        // then narrow down our options to distance = the most, or distance = the most - 1
+        List<MapSquare> potentialExtractionSquares = new List<MapSquare>();
+        foreach (MapSquare square in activeSquares)
+        {
+            if (square.GetDistanceMeasurement() >= longestDistance - 1)
+            {
+                potentialExtractionSquares.Add(square);
+            }
+        }
+
+        potentialExtractionSquares[Random.Range(0, potentialExtractionSquares.Count)].SetExtractionSquare();
+    }
+
+    private int SortByDistance(MapSquare square1, MapSquare square2)
+    {
+        return square1.GetDistanceMeasurement().CompareTo(square2.GetDistanceMeasurement());
     }
 }

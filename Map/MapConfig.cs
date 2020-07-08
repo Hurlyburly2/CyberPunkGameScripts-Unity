@@ -12,6 +12,7 @@ public class MapConfig : MonoBehaviour
     [SerializeField] TrapSpringMenu trapSpringMenu;
     [SerializeField] ObjectNotification objectNotificationMenu;
     [SerializeField] GoalWindow goalWindow;
+    [SerializeField] ExtractionWindow extractionWindow;
 
     // pip manager config
     [SerializeField] string healthPipManagerName = "HealthPipManager";
@@ -139,5 +140,10 @@ public class MapConfig : MonoBehaviour
     public GoalWindow GetGoalWindow()
     {
         return goalWindow;
+    }
+
+    public ExtractionWindow GetExtractionWindow()
+    {
+        return extractionWindow;
     }
 }
