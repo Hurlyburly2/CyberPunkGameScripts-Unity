@@ -11,6 +11,7 @@ public class MapConfig : MonoBehaviour
     [SerializeField] MapHackMenu hackMenu;
     [SerializeField] TrapSpringMenu trapSpringMenu;
     [SerializeField] ObjectNotification objectNotificationMenu;
+    [SerializeField] GoalWindow goalWindow;
 
     // pip manager config
     [SerializeField] string healthPipManagerName = "HealthPipManager";
@@ -133,5 +134,10 @@ public class MapConfig : MonoBehaviour
     public ObjectNotification GetObjectNotificationMenu()
     {
         return objectNotificationMenu;
+    }
+
+    public GoalWindow GetGoalWindow()
+    {
+        return goalWindow;
     }
 }

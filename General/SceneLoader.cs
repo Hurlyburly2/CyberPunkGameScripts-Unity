@@ -96,6 +96,12 @@ public class SceneLoader : MonoBehaviour
         currentMap.SetUpMapFromBattle();
         CenterCameraOnPlayer();
         DestroyExtraGrids();
+
+        // if player landed on goal space, we open the goal window after the battle
+        if (FindObjectOfType<MapData>().ShouldGoalWindowOpenAfterCombat())
+        {
+            FindObjectOfType<MapConfig>().GetGoalWindow().OpenGoalWindow();
+        }
     }
 
     private void DestroyExtraGrids()

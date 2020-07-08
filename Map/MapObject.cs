@@ -29,7 +29,7 @@ public class MapObject : ScriptableObject
 
     private void SetupTestObject()
     {
-        mapObjectType = "First Aid Station";
+        mapObjectType = "Trap";
     }
 
     public string DoObjectAction()

@@ -22,6 +22,10 @@ public class MapData : MonoBehaviour
         // enemySpawnBlock blocks a successful spawn, then goes down by one. If zero- doesn't function
     int playerHealthRegenDuration = 0;
     int playerEnergyRegenDuration = 0;
+    bool hasGoalBeenReached = false;
+        // remember if the player has or has not reached the goal
+    bool wasPlayerOnGoalBeforeCombat = false;
+        // remember if the player was able to trigger the goal state before loading combat
 
     // reward stuff
     int creditsEarned; // in match
@@ -58,20 +62,33 @@ public class MapData : MonoBehaviour
 
     public void PlayerFinishesMoving(MapSquare currentSquare)
     {
-        if (currentSquare.GetIsGoal())
-        {
-            Debug.Log("Reached Goal!!!");
-        }
+        Debug.Log("current x/y: " + currentSquare.GetRowPosition() + ", " + currentSquare.GetParentRow().GetRowNumber());
 
         CheckMapGridExists();
         bool moveOnToBattle = PostMovementActions(currentSquare);
+        bool trapSprung = false;
+        bool goalReady = false;
 
         if (moveOnToBattle)
         {
+            if (currentSquare.GetIsGoal() && !hasGoalBeenReached)
+            {
+                wasPlayerOnGoalBeforeCombat = true;
+            }
             StartBattleIfEnemyExists(currentSquare);
         } else
         {
-            mapConfig.GetTrapSpringMenu().OpenMenu(currentSquare);
+            if (currentSquare.GetIsGoal() && !hasGoalBeenReached && currentSquare.GetEnemy() == null)
+            {
+                goalReady = true;
+            }
+            mapConfig.GetTrapSpringMenu().OpenMenu(currentSquare, goalReady);
+            trapSprung = true;
+        }
+
+        if (currentSquare.GetIsGoal() && !hasGoalBeenReached && currentSquare.GetEnemy() == null && !trapSprung)
+        {
+            FindObjectOfType<MapConfig>().GetGoalWindow().OpenGoalWindow();
         }
     }
 
@@ -373,5 +390,31 @@ public class MapData : MonoBehaviour
     public int GetHandSizeBoostChance()
     {
         return handSizeBoostChance;
+    }
+
+    public bool ShouldGoalWindowOpenAfterCombat()
+    {
+        if (!hasGoalBeenReached && wasPlayerOnGoalBeforeCombat)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    public void SetHasGoalBeenReached(bool newSetting)
+    {
+        hasGoalBeenReached = newSetting;
+    }
+
+    public bool GetHasGoalBeenReached()
+    {
+        return hasGoalBeenReached;
+    }
+
+    public void SetWasPlayerOnGoalBeforeCombat(bool newSetting)
+    {
+        wasPlayerOnGoalBeforeCombat = newSetting;
     }
 }
