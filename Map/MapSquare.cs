@@ -8,6 +8,7 @@ public class MapSquare : MonoBehaviour
     [SerializeField] int rowPosition; // 0-19 position in row
     [SerializeField] MapSquareRow parentRow;
     [SerializeField] MetroButton metroButton;
+    [SerializeField] SpriteRenderer extractionMarker;
     int minSquareRow = 0;
     int maxSquareRow = 19;
     int minSquareColumn = 0;
@@ -559,6 +560,7 @@ public class MapSquare : MonoBehaviour
     public void SetExtractionSquare()
     {
         isExtraction = true;
+        extractionMarker.gameObject.SetActive(true);
         Debug.Log("Extraction Square is x: " + rowPosition.ToString() + ", y: " + parentRow.GetRowNumber());
     }
 
