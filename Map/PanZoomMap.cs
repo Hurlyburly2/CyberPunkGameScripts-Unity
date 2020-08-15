@@ -15,6 +15,10 @@ public class PanZoomMap : MonoBehaviour
 
     bool cameraMoveOk = true;
     MapConfig mapConfig;
+    MapSquare targetSquare;
+
+    string state = "normal";
+    // possibilities: normal, moveTowardExtraction, returnToPlayerPos
 
     private void Start()
     {
@@ -23,7 +27,7 @@ public class PanZoomMap : MonoBehaviour
 
     private void Update()
     {
-        if (!mapConfig.GetIsAMenuOpen())
+        if (!mapConfig.GetIsAMenuOpen() && state == "normal")
         {
             if (Input.GetMouseButtonDown(1))
             {
@@ -53,7 +57,35 @@ public class PanZoomMap : MonoBehaviour
                 Zoom(Input.GetAxis("Mouse ScrollWheel"));
             }
             ClampCamera();
+        } else if (state == "moveTowardExtraction")
+        {
+            Vector3 newPosition = new Vector3(targetSquare.transform.position.x, targetSquare.transform.position.y, transform.position.z);
+            if (MoveTowardTarget(newPosition))
+            {
+                state = "normal";
+                StartCoroutine(SpawnExtractionPoint());
+            }
+        } else if (state == "returnToPlayerPos")
+        {
+            Vector3 newPosition = new Vector3(targetSquare.transform.position.x, targetSquare.transform.position.y, transform.position.z);
+            if (MoveTowardTarget(newPosition))
+            {
+                state = "normal";
+                FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);
+            }
         }
+    }
+
+    private bool MoveTowardTarget(Vector3 targetPosition)
+    {
+        float step = 10f * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
+
+        if (transform.position == targetPosition)
+        {
+            return true;
+        }
+        return false;
     }
 
     private void ClampCamera()
@@ -81,5 +113,26 @@ public class PanZoomMap : MonoBehaviour
     private void StopCameraMovement()
     {
         cameraMoveOk = false;
+    }
+
+    public void ShowExtractionSquare(MapSquare newTargetSquare)
+    {
+        targetSquare = newTargetSquare;
+        state = "moveTowardExtraction";
+    }
+
+    private IEnumerator SpawnExtractionPoint()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            yield return new WaitForSeconds(0.5f);
+            if (i == 1)
+            {
+                targetSquare.SetExtractionSquare();
+            }
+        }
+
+        targetSquare = FindObjectOfType<PlayerMarker>().GetCurrentSquare();
+        state = "returnToPlayerPos";
     }
 }

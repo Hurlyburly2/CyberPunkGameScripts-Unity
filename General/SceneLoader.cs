@@ -167,8 +167,9 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadBattleTestOne()
     {
-        currentRunner = TestData.SetTestCharacterOne();
-        currentHacker = TestData.SetTestHackerOne();
+        PlayerData playerData = FindObjectOfType<PlayerData>();
+        currentRunner = playerData.GetCurrentRunner();
+        currentHacker = playerData.GetCurrentHacker();
         LoadBattle();
     }
 

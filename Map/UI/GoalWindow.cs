@@ -30,11 +30,14 @@ public class GoalWindow : MonoBehaviour
     {
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);
         FindObjectOfType<MapData>().SetHasGoalBeenReached(true);
-        SetExtractionPoint();
+
+        MapSquare extractionSquare = SetExtractionPoint();
+        FindObjectOfType<PanZoomMap>().ShowExtractionSquare(extractionSquare);
+
         gameObject.SetActive(false);
     }
 
-    private void SetExtractionPoint()
+    private MapSquare SetExtractionPoint()
     {
         MapSquare[] allSquares = FindObjectsOfType<MapSquare>();
         List<MapSquare> activeSquares = new List<MapSquare>();
@@ -62,7 +65,8 @@ public class GoalWindow : MonoBehaviour
             }
         }
 
-        potentialExtractionSquares[Random.Range(0, potentialExtractionSquares.Count)].SetExtractionSquare();
+        MapSquare extractionSquare = potentialExtractionSquares[Random.Range(0, potentialExtractionSquares.Count)];
+        return extractionSquare;
     }
 
     private int SortByDistance(MapSquare square1, MapSquare square2)

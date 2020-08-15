@@ -330,7 +330,14 @@ public class BattleData : MonoBehaviour
 
     public void SetBackgroundImage()
     {
-        FindObjectOfType<BattleBackground>().SetImage(mapSquare.GetLocationImage());
+        BattleBackground battleBackground = FindObjectOfType<BattleBackground>();
+        if (mapSquare)
+        {
+            battleBackground.SetImage(mapSquare.GetLocationImage());
+        } else
+        {
+            battleBackground.SetImage(Resources.Load<Sprite>("LocationImages/City/Location1"));
+        }
     }
 
     public int GetExtraCardDrawFromMapChance()
