@@ -7,10 +7,7 @@ public class TestData : MonoBehaviour
     public static CharacterData SetTestCharacterOne()
     {
         CharacterData newCharacter = ScriptableObject.CreateInstance<CharacterData>();
-
-        string runnerName = "Runner";
-
-        newCharacter.SetupCharacter(runnerName, 30, 30, 10, 0, 3);
+        newCharacter.CreateNewRunnerByClassId(0);
 
         return newCharacter;
     }
@@ -18,9 +15,7 @@ public class TestData : MonoBehaviour
     public static HackerData SetTestHackerOne()
     {
         HackerData newHacker = ScriptableObject.CreateInstance<HackerData>();
-        string hackerName = "Hacker";
-
-        newHacker.SetupHacker(hackerName);
+        newHacker.CreateNewHackerByClassId(0);
 
         return newHacker;
     }

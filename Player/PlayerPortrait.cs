@@ -16,14 +16,28 @@ public class PlayerPortrait : MonoBehaviour
         GetComponent<Image>().sprite = images[0];
     }
 
-    public void SetPortrait(string characterName)
+    private void SetPortrait(Sprite image)
     {
-        if (characterName == "Runner")
+        GetComponent<Image>().sprite = image;
+    }
+
+    public void SetRunnerPortrait(int runnerId)
+    {
+        switch(runnerId)
         {
-            GetComponent<Image>().sprite = images[1];
-        } else if (characterName == "Hacker")
+            case 0:
+                SetPortrait(images[1]);
+                break;
+        }
+    }
+
+    public void SetHackerPortrait(int hackerId)
+    {
+        switch(hackerId)
         {
-            GetComponent<Image>().sprite = images[2];
+            case 0:
+                SetPortrait(images[2]);
+                break;
         }
     }
 }

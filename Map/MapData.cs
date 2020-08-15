@@ -281,11 +281,11 @@ public class MapData : MonoBehaviour
         {
             if (portrait.name == "RunnerPortrait")
             {
-                portrait.SetPortrait(runner.GetRunnerName());
+                portrait.SetRunnerPortrait(runner.getId());
             }
             else if (portrait.name == "HackerPortrait")
             {
-                portrait.SetPortrait(hacker.GetName());
+                portrait.SetHackerPortrait(hacker.GetId());
             }
         }
     }

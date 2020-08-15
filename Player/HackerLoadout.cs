@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class HackerLoadout : ScriptableObject
 {
-    string hackerName;
     // HOLD THREE PIECES OF EQUIPMENT, EACH PIECE HAS ABILITIES AND SLOTS, EACH SLOT HOLDS MODS WHICH HOLD CARDS
     HackerMod rig;
     HackerMod neuralImplant;
     HackerMod uplink;
+    int hackerId;
 
     List<HackerMod> allMods = new List<HackerMod>();
 
@@ -27,27 +27,32 @@ public class HackerLoadout : ScriptableObject
         return uplink;
     }
 
-    public void SetupInitialLoadout(string newHackerName)
+    public void SetupInitialLoadout(int newHackerId)
     {
-        hackerName = newHackerName;
+        hackerId = newHackerId;
 
-        rig = CreateInstance<HackerMod>();
-        rig.SetupMod("Basic Rig");
-        HackerModChip newSoftware = CreateInstance<HackerModChip>();
-        newSoftware.SetupChip("Cheap Ghost");
-        rig.InstallChip(newSoftware, 0);
+        switch(hackerId)
+        {
+            case 0:
+                rig = CreateInstance<HackerMod>();
+                rig.SetupMod("Basic Rig");
+                HackerModChip newSoftware = CreateInstance<HackerModChip>();
+                newSoftware.SetupChip("Cheap Ghost");
+                rig.InstallChip(newSoftware, 0);
 
-        neuralImplant = CreateInstance<HackerMod>();
-        neuralImplant.SetupMod("Basic Cranial Dock");
-        HackerModChip newWetware = CreateInstance<HackerModChip>();
-        newWetware.SetupChip("JuryRigged QwikThink");
-        neuralImplant.InstallChip(newWetware, 0);
+                neuralImplant = CreateInstance<HackerMod>();
+                neuralImplant.SetupMod("Basic Cranial Dock");
+                HackerModChip newWetware = CreateInstance<HackerModChip>();
+                newWetware.SetupChip("JuryRigged QwikThink");
+                neuralImplant.InstallChip(newWetware, 0);
 
-        uplink = CreateInstance<HackerMod>();
-        uplink.SetupMod("Basic Uplink");
-        HackerModChip newChipset = CreateInstance<HackerModChip>();
-        newChipset.SetupChip("Salvaged Router");
-        uplink.InstallChip(newChipset, 0);
+                uplink = CreateInstance<HackerMod>();
+                uplink.SetupMod("Basic Uplink");
+                HackerModChip newChipset = CreateInstance<HackerModChip>();
+                newChipset.SetupChip("Salvaged Router");
+                uplink.InstallChip(newChipset, 0);
+                break;
+        }
     }
 
     public List<int> GetCardIds()

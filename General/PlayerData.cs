@@ -22,14 +22,12 @@ public class PlayerData : MonoBehaviour
 
         // Setup default runner
         currentRunner = ScriptableObject.CreateInstance<CharacterData>();
-        string runnerName = "Runner";
-        currentRunner.SetupCharacter(runnerName, 30, 30, 10, 0, 3);
+        currentRunner.CreateNewRunnerByClassId(0);
         ownedRunners.Add(currentRunner);
 
         // Setup default hacker
         currentHacker = ScriptableObject.CreateInstance<HackerData>();
-        string hackerName = "Hacker";
-        currentHacker.SetupHacker(hackerName);
+        currentHacker.CreateNewHackerByClassId(0);
         ownedHackers.Add(currentHacker);
     }
 

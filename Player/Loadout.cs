@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Loadout : ScriptableObject
 {
-    string runnerName;
+    int runnerId;
 
     RunnerMod headMod;
     RunnerMod torsoMod;
@@ -15,33 +15,38 @@ public class Loadout : ScriptableObject
     RunnerMod rightLeg;
     RunnerMod weapon;
 
-    public void SetupInitialLoadout(string newRunnerName)
+    public void SetupInitialLoadout(int newRunnerId)
     {
-        runnerName = newRunnerName;
+        runnerId = newRunnerId;
 
-        headMod = CreateInstance<RunnerMod>();
-        headMod.SetupMod("Human Eyes");
+        switch(runnerId)
+        {
+            case 0:
+                headMod = CreateInstance<RunnerMod>();
+                headMod.SetupMod("Human Eyes");
 
-        torsoMod = CreateInstance<RunnerMod>();
-        torsoMod.SetupMod("Unmodded Torso");
+                torsoMod = CreateInstance<RunnerMod>();
+                torsoMod.SetupMod("Unmodded Torso");
 
-        exoskeletonMod = CreateInstance<RunnerMod>();
-        exoskeletonMod.SetupMod("Human Skin");
+                exoskeletonMod = CreateInstance<RunnerMod>();
+                exoskeletonMod.SetupMod("Human Skin");
 
-        leftArm = CreateInstance<RunnerMod>();
-        leftArm.SetupMod("Unmodded Arm");
+                leftArm = CreateInstance<RunnerMod>();
+                leftArm.SetupMod("Unmodded Arm");
 
-        rightArm = CreateInstance<RunnerMod>();
-        rightArm.SetupMod("Unmodded Arm");
+                rightArm = CreateInstance<RunnerMod>();
+                rightArm.SetupMod("Unmodded Arm");
 
-        leftLeg = CreateInstance<RunnerMod>();
-        leftLeg.SetupMod("Unmodded Leg");
+                leftLeg = CreateInstance<RunnerMod>();
+                leftLeg.SetupMod("Unmodded Leg");
 
-        rightLeg = CreateInstance<RunnerMod>();
-        rightLeg.SetupMod("Unmodded Leg");
+                rightLeg = CreateInstance<RunnerMod>();
+                rightLeg.SetupMod("Unmodded Leg");
 
-        weapon = CreateInstance<RunnerMod>();
-        weapon.SetupMod("Spanner");
+                weapon = CreateInstance<RunnerMod>();
+                weapon.SetupMod("Spanner");
+                break;
+        }
     }
 
     public List<int> GetAllCardIds()

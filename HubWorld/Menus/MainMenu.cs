@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] LoadoutMenu loadoutMenu;
+
     public void CloseMainMenu()
     {
         gameObject.SetActive(false);
+    }
+
+    public void OpenLoadoutMenu()
+    {
+        loadoutMenu.gameObject.SetActive(true);
     }
 
     public void QuitGame()

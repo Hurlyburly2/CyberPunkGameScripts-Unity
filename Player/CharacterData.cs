@@ -13,6 +13,9 @@ public class CharacterData : ScriptableObject
     int maximumEnergy;
     int currentEnergy;
     int startingHandSize;
+    int id;
+        // id should be used in lieu of runnerName, and is used to determine which runner class is created
+            // 0: Basic first Runner
 
     Loadout loadout;
 
@@ -42,8 +45,25 @@ public class CharacterData : ScriptableObject
         startingHandSize = 0;
     }
 
-    // Setup Character for Test
-    public void SetupCharacter(string newRunnerName, int newMaxHealth, int newCurrentHealth, int newMaxEnergy, int newCurrentEnergy, int newStartingHandSize)
+    public void CreateNewRunnerByClassId(int newId)
+    {
+        switch(newId)
+        {
+            case 0:
+                id = newId;
+                string newRunnerName = "FirstRunner";
+                int newMaxHealth = 30;
+                int newCurrentHealth = 30;
+                int newMaxEnergy = 10;
+                int newCurrentEnergy = 0;
+                int newStartingHandSize = 3;
+                SetupCharacter(newRunnerName, newMaxHealth, newCurrentHealth, newMaxEnergy, newCurrentEnergy, newStartingHandSize);
+                break;
+        }
+    }
+
+    // Setup Character
+    private void SetupCharacter(string newRunnerName, int newMaxHealth, int newCurrentHealth, int newMaxEnergy, int newCurrentEnergy, int newStartingHandSize)
     {
         runnerName = newRunnerName;
 
@@ -55,14 +75,14 @@ public class CharacterData : ScriptableObject
         startingHandSize = newStartingHandSize;
 
         loadout = CreateInstance<Loadout>();
-        loadout.SetupInitialLoadout(runnerName);
+        loadout.SetupInitialLoadout(id);
     }
 
     public void BattleSetup(float setupTimeInSeconds)
     {
         configData = FindObjectOfType<ConfigData>();
 
-        FindObjectOfType<PlayerPortrait>().SetPortrait(runnerName);
+        FindObjectOfType<PlayerPortrait>().SetRunnerPortrait(id);
 
         configData.SetupPipManagers(this);
         SetupHealthAndEnergyText();
@@ -230,6 +250,11 @@ public class CharacterData : ScriptableObject
     public Loadout GetLoadout()
     {
         return loadout;
+    }
+
+    public int getId()
+    {
+        return id;
     }
 
     // Debug Logging
