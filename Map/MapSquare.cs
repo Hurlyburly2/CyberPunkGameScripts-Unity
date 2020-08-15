@@ -8,6 +8,7 @@ public class MapSquare : MonoBehaviour
     [SerializeField] int rowPosition; // 0-19 position in row
     [SerializeField] MapSquareRow parentRow;
     [SerializeField] MetroButton metroButton;
+    [SerializeField] SpriteRenderer extractionMarker;
     int minSquareRow = 0;
     int maxSquareRow = 19;
     int minSquareColumn = 0;
@@ -22,6 +23,10 @@ public class MapSquare : MonoBehaviour
     //state
         // state can be normal, movingDown
     bool isActive;
+    bool isGoal = false;
+    bool isStart = false;
+    bool isExtraction = false;
+    int temporaryDistanceMeasurement;
     string state;
     bool playerPresent;
     bool shroud;
@@ -77,6 +82,18 @@ public class MapSquare : MonoBehaviour
                 menu.InitializeMenu(this);
             }
         }
+    }
+
+    public int GetDistanceToTargetSquare(MapSquare targetSquare)
+    {
+        int x = rowPosition;
+        int y = parentRow.GetRowNumber();
+
+        int targetX = targetSquare.GetRowPosition();
+        int targetY = targetSquare.GetParentRow().GetRowNumber();
+
+        int distance = Mathf.Abs(x - targetX) + Mathf.Abs(y - targetY);
+        return distance;
     }
 
     public void OpenMetroStation()
@@ -506,5 +523,49 @@ public class MapSquare : MonoBehaviour
     public void MapVentilation()
     {
         isVentilationMapped = true;
+    }
+
+    public int GetRowPosition()
+    {
+        return rowPosition;
+    }
+
+    public void SetTemporaryPositionMeasurement(int newMeasurement)
+    {
+        // used to measure and check position information, intended to be overwritten whenever
+        temporaryDistanceMeasurement = newMeasurement;
+    }
+
+    public int GetDistanceMeasurement()
+    {
+        return temporaryDistanceMeasurement;
+    }
+
+    public void SetStartSquare()
+    {
+        isStart = true;
+    }
+
+    public void SetGoalSquare()
+    {
+        isGoal = true;
+        Debug.Log("Goal Square is x: " + rowPosition.ToString() + ", y: " + parentRow.GetRowNumber());
+    }
+
+    public bool GetIsGoal()
+    {
+        return isGoal;
+    }
+
+    public void SetExtractionSquare()
+    {
+        isExtraction = true;
+        extractionMarker.gameObject.SetActive(true);
+        Debug.Log("Extraction Square is x: " + rowPosition.ToString() + ", y: " + parentRow.GetRowNumber());
+    }
+
+    public bool GetIsExtraction()
+    {
+        return isExtraction;
     }
 }

@@ -47,4 +47,9 @@ public class PlayerMarker : MonoBehaviour
     {
         currentSquare = newCurrentSquare;
     }
+
+    public MapSquare GetCurrentSquare()
+    {
+        return currentSquare;
+    }
 }

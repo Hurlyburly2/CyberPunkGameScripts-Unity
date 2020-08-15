@@ -83,10 +83,10 @@ public class SceneLoader : MonoBehaviour
 
         Destroy(previousBattle.gameObject);
 
-        StartCoroutine(WaitForMapToLoadFromBattle(mapGrid));
+        StartCoroutine(WaitForMapToLoadFromBattle(mapGrid, currentSquare));
     }
 
-    private IEnumerator WaitForMapToLoadFromBattle(MapGrid mapGrid)
+    private IEnumerator WaitForMapToLoadFromBattle(MapGrid mapGrid, MapSquare currentSquare)
     {
         while (SceneManager.GetActiveScene().name != mapSceneName)
         {
@@ -96,6 +96,16 @@ public class SceneLoader : MonoBehaviour
         currentMap.SetUpMapFromBattle();
         CenterCameraOnPlayer();
         DestroyExtraGrids();
+
+        // if player landed on goal or extraction spaces, we open the appropriate window after the battle
+        MapData mapData = FindObjectOfType<MapData>();
+        if (mapData.ShouldGoalWindowOpenAfterCombat())
+        {
+            FindObjectOfType<MapConfig>().GetGoalWindow().OpenGoalWindow(currentSquare);
+        } else if (mapData.GetShouldExtractionWindowOpenAfterCombat())
+        {
+            FindObjectOfType<MapConfig>().GetExtractionWindow().OpenExtractionWindow();
+        }
     }
 
     private void DestroyExtraGrids()
@@ -157,8 +167,9 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadBattleTestOne()
     {
-        currentRunner = TestData.SetTestCharacterOne();
-        currentHacker = TestData.SetTestHackerOne();
+        PlayerData playerData = FindObjectOfType<PlayerData>();
+        currentRunner = playerData.GetCurrentRunner();
+        currentHacker = playerData.GetCurrentHacker();
         LoadBattle();
     }
 

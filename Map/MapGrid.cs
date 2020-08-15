@@ -51,7 +51,7 @@ public class MapGrid : MonoBehaviour
         // initialize starting square in first row
         int activeSquares = 1;
         activeRows.Add(rows[startingRow]);
-        rows[startingRow].InitializeFirstSquare(startingSquare, mapSquareImageHolder.GetSquareImage(mapType));
+        MapSquare firstSquare = rows[startingRow].InitializeFirstSquare(startingSquare, mapSquareImageHolder.GetSquareImage(mapType));
 
         // then start spawning the rest
         int currentRow = startingRow;
@@ -83,6 +83,44 @@ public class MapGrid : MonoBehaviour
         }
 
         CheckNumberOfTransportationHacks();
+
+        SpawnGoal(firstSquare);
+    }
+
+    private void SpawnGoal(MapSquare firstSquare)
+    {
+        MapSquare[] allSquares = FindObjectsOfType<MapSquare>();
+        List<MapSquare> activeSquares = new List<MapSquare>();
+
+        // get the distance for each square
+        foreach (MapSquare square in allSquares)
+        {
+            if (square.IsActive())
+            {
+                square.SetTemporaryPositionMeasurement(firstSquare.GetDistanceToTargetSquare(square));
+                activeSquares.Add(square);
+            }
+        }
+
+        activeSquares.Sort(SortByDistance);
+        int longestDistance = activeSquares[activeSquares.Count - 1].GetDistanceMeasurement();
+
+        // then narrow down our options to distance = the most, or distance = the most - 1
+        List<MapSquare> potentialGoalSquares = new List<MapSquare>();
+        foreach (MapSquare square in activeSquares)
+        {
+            if (square.GetDistanceMeasurement() >= longestDistance - 1)
+            {
+                potentialGoalSquares.Add(square);
+            }
+        }
+
+        potentialGoalSquares[Random.Range(0, potentialGoalSquares.Count)].SetGoalSquare();
+    }
+
+    private int SortByDistance(MapSquare square1, MapSquare square2)
+    {
+        return square1.GetDistanceMeasurement().CompareTo(square2.GetDistanceMeasurement());
     }
 
     private void CheckNumberOfTransportationHacks()
