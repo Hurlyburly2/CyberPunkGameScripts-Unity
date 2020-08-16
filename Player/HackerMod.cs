@@ -2,38 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HackerMod : ScriptableObject
+public class HackerMod : Item
 {
-    string modName;
-    string type;
-        // Rig, Neural Implant, or Uplink
     int slots;
     int abilityUses;
     List<HackerModChip> modChips = new List<HackerModChip>();
 
     public void SetupMod(string newModName)
     {
-        modName = newModName;
+        itemName = newModName;
         GetModProperties();
     }
 
     private void GetModProperties()
     {
-        switch(modName)
+        switch(itemName)
         {
             case "Basic Rig":
                 slots = 1;
-                type = "Rig";
+                itemType = ItemTypes.Rig;
                 abilityUses = 1;
                 break;
             case "Basic Cranial Dock":
                 slots = 1;
-                type = "Neural Implant";
+                itemType = ItemTypes.NeuralImplant;
                 abilityUses = 1;
                 break;
             case "Basic Uplink":
                 slots = 1;
-                type = "Uplink";
+                itemType = ItemTypes.Uplink;
                 abilityUses = 2;
                 break;
             default:
@@ -65,23 +62,23 @@ public class HackerMod : ScriptableObject
     public void InstallChip(HackerModChip newHackerModChip, int slot)
     {
         // check we're installing the right kind of chip in the mod
-        string newChipType = newHackerModChip.GetChipType();
-        switch(type)
+        ItemTypes newChipType = newHackerModChip.GetItemType();
+        switch(itemType)
         {
-            case "Rig":
-                if (newChipType != "Software")
+            case ItemTypes.Rig:
+                if (newChipType != ItemTypes.Software)
                 {
                     Debug.LogError("Can only install software in Rig");
                 }
                 break;
-            case "Neural Implant":
-                if (newChipType != "Wetware")
+            case ItemTypes.NeuralImplant:
+                if (newChipType != ItemTypes.Wetware)
                 {
                     Debug.LogError("Can only install wetware in Neural Implant");
                 }
                 break;
-            case "Uplink":
-                if (newChipType != "Chipset")
+            case ItemTypes.Uplink:
+                if (newChipType != ItemTypes.Chipset)
                 {
                     Debug.LogError("Can only install chipsets in Uplink");
                 }
@@ -92,7 +89,7 @@ public class HackerMod : ScriptableObject
 
     public int GetActiveAbilityId()
     {
-        switch(modName)
+        switch(itemName)
         {
             case "Basic Rig":
                 return 0;
@@ -110,7 +107,7 @@ public class HackerMod : ScriptableObject
 
     public int GetActiveAbilityUses()
     {
-        switch (modName)
+        switch (itemName)
         {
             case "Basic Rig":
                 return 1;

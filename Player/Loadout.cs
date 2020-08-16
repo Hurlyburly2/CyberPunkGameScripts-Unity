@@ -67,4 +67,9 @@ public class Loadout : ScriptableObject
         RunnerMod[] allMods = new RunnerMod[] { headMod, torsoMod, exoskeletonMod, leftArm, rightArm, leftLeg, rightLeg, weapon };
         return allMods;
     }
+
+    public List<Item> GetModsAsItems()
+    {
+        return new List<Item>(GetAllMods());
+    }
 }
