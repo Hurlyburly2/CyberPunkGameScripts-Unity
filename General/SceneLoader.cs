@@ -16,6 +16,7 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] HackBattleData hackBattleData;
     [SerializeField] MapData mapData;
     [SerializeField] MusicPlayer musicPlayer;
+    [SerializeField] PlayerData playerData;
 
     // Scene names
     [SerializeField] string battleSceneName = "Battle";
@@ -167,7 +168,6 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadBattleTestOne()
     {
-        PlayerData playerData = FindObjectOfType<PlayerData>();
         currentRunner = playerData.GetCurrentRunner();
         currentHacker = playerData.GetCurrentHacker();
         LoadBattle();
@@ -175,15 +175,15 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadHackTestOne()
     {
-        currentRunner = TestData.SetTestCharacterOne();
-        currentHacker = TestData.SetTestHackerOne();
+        currentRunner = playerData.GetCurrentRunner();
+        currentHacker = playerData.GetCurrentHacker();
         LoadHack();
     }
 
     public void LoadMapTestOne()
     {
-        currentRunner = TestData.SetTestCharacterOne();
-        currentHacker = TestData.SetTestHackerOne();
+        currentRunner = playerData.GetCurrentRunner();
+        currentHacker = playerData.GetCurrentHacker();
         LoadMap("slums", 20);
     }
 

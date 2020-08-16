@@ -5,25 +5,39 @@ using UnityEngine.UI;
 
 public class PlayerPortrait : MonoBehaviour
 {
-    [SerializeField] Sprite[] images;
-    // 0 = default
-    // 1 = Runner
-    // 2 = Hacker
-
-    // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Image>().sprite = images[0];
+        //GetComponent<Image>().sprite = Resources.Load<Sprite>();
     }
 
-    public void SetPortrait(string characterName)
+    private void SetPortrait(string imageToLoad)
     {
-        if (characterName == "Runner")
+        GetComponent<Image>().sprite = Resources.Load<Sprite>(imageToLoad);
+    }
+
+    public void SetRunnerPortrait(int runnerId)
+    {
+        string resourceToLoad = "Characters/Runner";
+        switch(runnerId)
         {
-            GetComponent<Image>().sprite = images[1];
-        } else if (characterName == "Hacker")
+            case 0:
+                // First Runner
+                resourceToLoad += "0-Portrait";
+                SetPortrait(resourceToLoad);
+                break;
+        }
+    }
+
+    public void SetHackerPortrait(int hackerId)
+    {
+        string resourceToLoad = "Characters/Hacker";
+        switch(hackerId)
         {
-            GetComponent<Image>().sprite = images[2];
+            case 0:
+                // First Hacker
+                resourceToLoad += "0-Portrait";
+                SetPortrait(resourceToLoad);
+                break;
         }
     }
 }
