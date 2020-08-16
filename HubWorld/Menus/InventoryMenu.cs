@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class InventoryMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void SetupInventoryMenu()
     {
-        
+        // TODO
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CloseInventoryMenu()
     {
-        
+        gameObject.SetActive(false);
     }
 }

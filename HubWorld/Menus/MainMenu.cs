@@ -5,6 +5,7 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] LoadoutMenu loadoutMenu;
+    [SerializeField] InventoryMenu inventoryMenu;
 
     public void CloseMainMenu()
     {
@@ -15,6 +16,12 @@ public class MainMenu : MonoBehaviour
     {
         loadoutMenu.gameObject.SetActive(true);
         loadoutMenu.SetupLoadoutMenu();
+    }
+
+    public void OpenInventoryMenu()
+    {
+        inventoryMenu.gameObject.SetActive(true);
+        inventoryMenu.SetupInventoryMenu();
     }
 
     public void QuitGame()
