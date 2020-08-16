@@ -22,7 +22,7 @@ public class PlayerPortrait : MonoBehaviour
         {
             case 0:
                 // First Runner
-                resourceToLoad += "1-Portrait";
+                resourceToLoad += "0-Portrait";
                 SetPortrait(resourceToLoad);
                 break;
         }
@@ -35,7 +35,7 @@ public class PlayerPortrait : MonoBehaviour
         {
             case 0:
                 // First Hacker
-                resourceToLoad += "1-Portrait";
+                resourceToLoad += "0-Portrait";
                 SetPortrait(resourceToLoad);
                 break;
         }

@@ -14,6 +14,7 @@ public class MainMenu : MonoBehaviour
     public void OpenLoadoutMenu()
     {
         loadoutMenu.gameObject.SetActive(true);
+        loadoutMenu.SetupLoadoutMenu();
     }
 
     public void QuitGame()
