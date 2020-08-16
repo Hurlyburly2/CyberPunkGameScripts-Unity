@@ -257,6 +257,11 @@ public class CharacterData : ScriptableObject
         return id;
     }
 
+    public List<Item> GetListOfEquippedItems()
+    {
+        return loadout.GetModsAsItems();
+    }
+
     // Debug Logging
     public void LogCharacterData()
     {

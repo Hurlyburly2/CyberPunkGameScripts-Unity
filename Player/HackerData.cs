@@ -40,6 +40,11 @@ public class HackerData : ScriptableObject
         Debug.Log("Hacker Name: " + hackerName);
     }
 
+    public List<Item> GetListOfEquippedItems()
+    {
+        return hackerLoadout.GetAllEquippedModsAndChipsAsItems();
+    }
+
     public HackerLoadout GetHackerLoadout()
     {
         return hackerLoadout;

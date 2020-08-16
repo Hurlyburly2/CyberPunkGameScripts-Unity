@@ -86,4 +86,12 @@ public class HackerLoadout : ScriptableObject
 
         return modChips;
     }
+
+    public List<Item> GetAllEquippedModsAndChipsAsItems()
+    {
+        List<Item> allEquipped = new List<Item>();
+        allEquipped.AddRange(GetAllMods());
+        allEquipped.AddRange(GetAllModChips());
+        return allEquipped;
+    }
 }
