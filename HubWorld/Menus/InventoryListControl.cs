@@ -12,7 +12,7 @@ public class InventoryListControl : MonoBehaviour
         InventoryListItem listItem = Instantiate(itemTemplate);
         listItem.gameObject.SetActive(true);
 
-        listItem.GetComponent<InventoryListItem>().SetText(item.GetItemName());
+        listItem.GetComponent<InventoryListItem>().SetText(item);
         listItem.transform.SetParent(itemTemplate.transform.parent, false);
 
         return listItem;

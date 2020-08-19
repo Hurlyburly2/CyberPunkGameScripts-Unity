@@ -10,12 +10,13 @@ public class HackerModChip : Item
     {
         itemName = newChipName;
         SetChipProperties();
+        itemLevel = 1;
+        itemMaxLevel = 5;
+        hackerOrRunner = HackerRunner.Hacker;
     }
 
     private void SetChipProperties()
     {
-        hackerOrRunner = HackerRunner.Hacker;
-
         switch(itemName)
         {
             case "Cheap Ghost":
