@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InventoryListItem : MonoBehaviour
 {
-    [SerializeField] Text myText;
+    [SerializeField] TextMeshProUGUI itemName;
 
     public void SetText(string textString)
     {
-        myText.text = textString;
+        itemName.text = textString;
     }
 
     public void ClickButton()

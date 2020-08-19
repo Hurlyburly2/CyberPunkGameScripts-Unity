@@ -38,6 +38,11 @@ public class PlayerData : MonoBehaviour
         Debug.Log("Found " + ownedItems.Count + " items on hacker and runner");
     }
 
+    public List<Item> GetPlayerItems()
+    {
+        return ownedItems;
+    }
+
     public CharacterData GetCurrentRunner()
     {
         return currentRunner;

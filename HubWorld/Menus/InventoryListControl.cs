@@ -1,21 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class InventoryListControl : MonoBehaviour
 {
-    [SerializeField] GameObject buttonTemplate;
+    [SerializeField] InventoryListItem itemTemplate;
 
-    private void Start()
+    public InventoryListItem AddItemToList(Item item)
     {
-        for (int i = 1; i <= 20; i++)
-        {
-            GameObject button = Instantiate(buttonTemplate) as GameObject;
-            button.SetActive(true);
+        InventoryListItem listItem = Instantiate(itemTemplate);
+        listItem.gameObject.SetActive(true);
 
-            button.GetComponent<InventoryListItem>().SetText("Button #" + i);
+        listItem.GetComponent<InventoryListItem>().SetText(item.GetItemName());
+        listItem.transform.SetParent(itemTemplate.transform.parent, false);
 
-            button.transform.SetParent(buttonTemplate.transform.parent, false);
-        }
+        return listItem;
     }
 }

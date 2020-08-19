@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InventoryMenu : MonoBehaviour
 {
@@ -19,9 +20,21 @@ public class InventoryMenu : MonoBehaviour
     bool modFilterOn = true;
     bool installFilterOn = true;
 
+    // Fields
+    string[] fields = { "Name", "Type", "Lvl" };
+
+    [SerializeField] InventoryList inventoryList;
+
     public void SetupInventoryMenu()
     {
         SetFilterButtonImages();
+        SetupInventoryList();
+    }
+
+    private void SetupInventoryList()
+    {
+        List<Item> items = FindObjectOfType<PlayerData>().GetPlayerItems();
+        inventoryList.SetupInventoryList(fields, items);
     }
 
     public void CloseInventoryMenu()
