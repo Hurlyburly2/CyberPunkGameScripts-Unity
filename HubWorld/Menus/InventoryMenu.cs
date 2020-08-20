@@ -39,6 +39,7 @@ public class InventoryMenu : MonoBehaviour
 
     public void CloseInventoryMenu()
     {
+        inventoryList.DestroyListItems();
         gameObject.SetActive(false);
     }
 

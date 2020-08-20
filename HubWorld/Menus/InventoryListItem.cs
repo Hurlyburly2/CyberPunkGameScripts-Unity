@@ -6,13 +6,18 @@ using TMPro;
 
 public class InventoryListItem : MonoBehaviour
 {
+    [SerializeField] InventoryList parentInventoryList;
+
     [SerializeField] TextMeshProUGUI itemName;
     [SerializeField] TextMeshProUGUI itemType;
     [SerializeField] TextMeshProUGUI itemLevel;
     [SerializeField] Image runnerOrHackerIcon;
+    [SerializeField] Image highlight;
 
     [SerializeField] Sprite runnerIcon;
     [SerializeField] Sprite hackerIcon;
+
+    bool isHighlighted = false;
 
     public void SetText(Item item)
     {
@@ -28,8 +33,38 @@ public class InventoryListItem : MonoBehaviour
         }
     }
 
-    public void ClickButton()
+    public void SelectListItem()
     {
+        if (isHighlighted)
+        {
+            isHighlighted = false;
+        } else
+        {
+            isHighlighted = true;
+        }
+        UpdateHighlight();
+        parentInventoryList.handleSelectAndDeselect(this);
+    }
 
+    public void SetIsHighlighted(bool newIsHighlighted)
+    {
+        isHighlighted = newIsHighlighted;
+        UpdateHighlight();
+    }
+
+    private void UpdateHighlight()
+    {
+        if (isHighlighted)
+        {
+            highlight.gameObject.SetActive(true);
+        } else
+        {
+            highlight.gameObject.SetActive(false);
+        }
+    }
+
+    public bool GetIsHighlighted()
+    {
+        return isHighlighted;
     }
 }

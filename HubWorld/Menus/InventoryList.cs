@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class InventoryList : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI listHeaderOne;
     [SerializeField] TextMeshProUGUI listHeaderTwo;
     [SerializeField] TextMeshProUGUI listHeaderThree;
+    [SerializeField] Button detailsButton;
 
     [SerializeField] InventoryListControl inventoryListControl;
 
@@ -21,6 +23,41 @@ public class InventoryList : MonoBehaviour
         items = itemsToList;
         RefreshHeaders();
         ListItemData();
+        detailsButton.interactable = false;
+    }
+
+    public void handleSelectAndDeselect(InventoryListItem selectedItem)
+    {
+        bool isAnItemHighlighted = false;
+        foreach (InventoryListItem listItem in itemsInList)
+        {
+            if (listItem != selectedItem)
+            {
+                listItem.SetIsHighlighted(false);
+            } else
+            {
+                if (listItem.GetIsHighlighted())
+                {
+                    isAnItemHighlighted = true;
+                }
+            }
+        }
+
+        if (isAnItemHighlighted)
+        {
+            detailsButton.interactable = true;
+        } else
+        {
+            detailsButton.interactable = false;
+        }
+    }
+
+    public void DestroyListItems()
+    {
+        for (int i = 0; i < itemsInList.Count; i++)
+        {
+            Destroy(itemsInList[i].gameObject);
+        }
     }
 
     private void ListItemData()
