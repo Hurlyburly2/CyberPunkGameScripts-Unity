@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class InventoryList : MonoBehaviour
 {
+    [SerializeField] ItemDetailsMenu itemDetailsMenu;
+
     [SerializeField] TextMeshProUGUI listHeaderOne;
     [SerializeField] TextMeshProUGUI listHeaderTwo;
     [SerializeField] TextMeshProUGUI listHeaderThree;
@@ -75,5 +77,23 @@ public class InventoryList : MonoBehaviour
         listHeaderOne.text = headers[0];
         listHeaderTwo.text = headers[1];
         listHeaderThree.text = headers[2];
+    }
+
+    private Item GetSelectedItem()
+    {
+        foreach (InventoryListItem listItem in itemsInList)
+        {
+            if (listItem.GetIsHighlighted())
+            {
+                return listItem.GetItem();
+            }
+        }
+        return itemsInList[0].GetItem();
+    }
+
+    public void OpenDetailsMenu()
+    {
+        itemDetailsMenu.gameObject.SetActive(true);
+        itemDetailsMenu.SetupItemDetailMenu(ItemDetailsMenu.ItemDetailMenuContextType.Inventory, GetSelectedItem());
     }
 }

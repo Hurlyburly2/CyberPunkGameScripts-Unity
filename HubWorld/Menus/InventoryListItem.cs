@@ -18,9 +18,11 @@ public class InventoryListItem : MonoBehaviour
     [SerializeField] Sprite hackerIcon;
 
     bool isHighlighted = false;
+    Item item;
 
-    public void SetText(Item item)
+    public void SetText(Item newItem)
     {
+        item = newItem;
         itemName.text = item.GetItemName();
         itemType.text = item.GetItemTypeForDisplay();
         itemLevel.text = item.GetItemLevel() + "/" + item.GetItemMaxLevel();
@@ -66,5 +68,10 @@ public class InventoryListItem : MonoBehaviour
     public bool GetIsHighlighted()
     {
         return isHighlighted;
+    }
+
+    public Item GetItem()
+    {
+        return item;
     }
 }
