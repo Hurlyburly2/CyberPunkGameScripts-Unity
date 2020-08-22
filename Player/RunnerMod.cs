@@ -9,6 +9,9 @@ public class RunnerMod : Item
     public void SetupMod(string newModName)
     {
         GetMod(newModName);
+        itemLevel = 1;
+        itemMaxLevel = 5;
+        hackerOrRunner = HackerRunner.Runner;
     }
 
     private void GetMod(string newModName)
@@ -24,8 +27,6 @@ public class RunnerMod : Item
 
     private List<int> SetVariablesAndGetCards(string modName)
     {
-        hackerOrRunner = HackerRunner.Runner;
-
         List<int> newCardList = new List<int>();
         switch (modName)
         {
