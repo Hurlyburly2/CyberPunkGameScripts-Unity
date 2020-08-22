@@ -56,6 +56,9 @@ public class InventoryMenu : MonoBehaviour
     private void SetupInventoryList()
     {
         inventoryList.DestroyListItems();
+
+        CheckFilters();
+
         List<Item> items = FindObjectOfType<PlayerData>().GetPlayerItems();
         List<Item> filteredItems = new List<Item>();
         foreach (Item item in items)
@@ -66,6 +69,86 @@ public class InventoryMenu : MonoBehaviour
             }
         }
         inventoryList.SetupInventoryList(fields, filteredItems);
+    }
+
+    private void CheckFilters()
+    {
+        Item.ItemTypes[] types = {
+            Item.ItemTypes.Arm,
+            Item.ItemTypes.Chipset,
+            Item.ItemTypes.Exoskeleton,
+            Item.ItemTypes.Head,
+            Item.ItemTypes.Leg,
+            Item.ItemTypes.NeuralImplant,
+            Item.ItemTypes.Rig,
+            Item.ItemTypes.Software,
+            Item.ItemTypes.Torso,
+            Item.ItemTypes.Uplink,
+            Item.ItemTypes.Weapon,
+            Item.ItemTypes.Wetware
+        };
+        List<Item.ItemTypes> filters = new List<Item.ItemTypes>();
+        filters.AddRange(types);
+
+        if (!runnerFilterOn)
+        {
+            Item.ItemTypes[] runnerTypes = {
+                Item.ItemTypes.Arm,
+                Item.ItemTypes.Exoskeleton,
+                Item.ItemTypes.Head,
+                Item.ItemTypes.Leg,
+                Item.ItemTypes.Torso,
+                Item.ItemTypes.Weapon
+            };
+            filters = RemoveFromFilterIfExists(filters, runnerTypes);
+        }
+        if (!hackerFilterOn)
+        {
+            Item.ItemTypes[] hackerTypes = {
+                Item.ItemTypes.Chipset,
+                Item.ItemTypes.NeuralImplant,
+                Item.ItemTypes.Rig,
+                Item.ItemTypes.Software,
+                Item.ItemTypes.Uplink,
+                Item.ItemTypes.Wetware
+            };
+            filters = RemoveFromFilterIfExists(filters, hackerTypes);
+        }
+        if (!modFilterOn)
+        {
+            Item.ItemTypes[] modTypes = {
+                Item.ItemTypes.Arm,
+                Item.ItemTypes.Exoskeleton,
+                Item.ItemTypes.Head,
+                Item.ItemTypes.Leg,
+                Item.ItemTypes.NeuralImplant,
+                Item.ItemTypes.Rig,
+                Item.ItemTypes.Torso,
+                Item.ItemTypes.Uplink,
+                Item.ItemTypes.Weapon
+            };
+            filters = RemoveFromFilterIfExists(filters, modTypes);
+        }
+        if (!installFilterOn)
+        {
+            Item.ItemTypes[] installTypes = {
+                Item.ItemTypes.Chipset,
+                Item.ItemTypes.Software,
+                Item.ItemTypes.Wetware
+            };
+            filters = RemoveFromFilterIfExists(filters, installTypes);
+        }
+        currentFilters = filters;
+    }
+
+    private List<Item.ItemTypes> RemoveFromFilterIfExists(List<Item.ItemTypes> types, Item.ItemTypes[] typesToRemove)
+    {
+        foreach (Item.ItemTypes type in typesToRemove)
+        {
+            if (types.Contains(type))
+                types.Remove(type);
+        }
+        return types;
     }
 
     public void CloseInventoryMenu()
@@ -95,20 +178,9 @@ public class InventoryMenu : MonoBehaviour
 
     public void PressRunnerFilterBtn()
     {
-        List<Item.ItemTypes> filterModifiers = new List<Item.ItemTypes>();
         if (runnerFilterOn)
         {
             runnerFilterOn = false;
-            Item.ItemTypes[] typesArray = {
-                Item.ItemTypes.Arm,
-                Item.ItemTypes.Exoskeleton,
-                Item.ItemTypes.Head,
-                Item.ItemTypes.Leg,
-                Item.ItemTypes.Torso,
-                Item.ItemTypes.Weapon
-            };
-            filterModifiers.AddRange(typesArray);
-            RemoveFromFilters(filterModifiers);
         } else
         {
             runnerFilterOn = true;
@@ -122,12 +194,12 @@ public class InventoryMenu : MonoBehaviour
         if (hackerFilterOn)
         {
             hackerFilterOn = false;
-            installFilterOn = false;
         } else
         {
             hackerFilterOn = true;
         }
         SetFilterButtonImages();
+        SetupInventoryList();
     }
 
     public void PressModFilterBtn()
@@ -140,6 +212,7 @@ public class InventoryMenu : MonoBehaviour
             modFilterOn = true;
         }
         SetFilterButtonImages();
+        SetupInventoryList();
     }
 
     public void PressInstallFilterBtn()
@@ -150,9 +223,9 @@ public class InventoryMenu : MonoBehaviour
         } else
         {
             installFilterOn = true;
-            hackerFilterOn = true;
         }
         SetFilterButtonImages();
+        SetupInventoryList();
     }
 
     private void SetFilterButtonImages()
