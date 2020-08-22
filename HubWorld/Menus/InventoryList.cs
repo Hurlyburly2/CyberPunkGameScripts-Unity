@@ -17,7 +17,7 @@ public class InventoryList : MonoBehaviour
 
     string[] headers;
     List<Item> items;
-    List<InventoryListItem> itemsInList;
+    List<InventoryListItem> itemsInList = new List<InventoryListItem>();
 
     public void SetupInventoryList(string[] newHeaders, List<Item> itemsToList)
     {
@@ -56,6 +56,9 @@ public class InventoryList : MonoBehaviour
 
     public void DestroyListItems()
     {
+        if (itemsInList.Count == 0)
+            return;
+
         for (int i = 0; i < itemsInList.Count; i++)
         {
             Destroy(itemsInList[i].gameObject);
