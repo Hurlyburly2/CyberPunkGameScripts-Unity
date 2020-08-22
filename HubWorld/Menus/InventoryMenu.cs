@@ -22,7 +22,8 @@ public class InventoryMenu : MonoBehaviour
     List<Item.ItemTypes> currentFilters = new List<Item.ItemTypes>();
 
     // Fields
-    string[] fields = { "Name", "Type", "Lvl" };
+    public enum InventoryFields { None, Name, Type, Lvl };
+    InventoryFields[] fields = { InventoryFields.Name, InventoryFields.Type, InventoryFields.Lvl };
 
     [SerializeField] InventoryList inventoryList;
 
