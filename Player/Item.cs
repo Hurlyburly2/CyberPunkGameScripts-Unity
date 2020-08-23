@@ -11,6 +11,7 @@ public class Item : ScriptableObject
 
     protected int itemId = 1000;
     protected string itemName;
+    protected string itemDescription;
     protected HackerRunner hackerOrRunner;
         // potential types: hacker, runner
     protected ItemTypes itemType;
@@ -81,5 +82,10 @@ public class Item : ScriptableObject
                 return "Chipset";
         }
         return "";
+    }
+
+    public string GetItemDescription()
+    {
+        return itemDescription;
     }
 }
