@@ -10,6 +10,10 @@ public class ItemDetailsMenu : MonoBehaviour
     ItemDetailMenuContextType context;
     Item item;
 
+    [SerializeField] CardCarosel runnerCardCarosel;
+    [SerializeField] CardCarosel hackerCardCarosel;
+    CardCarosel currentCardCarosel;
+
     // General Context
     [SerializeField] TextMeshProUGUI itemNameField;
     [SerializeField] TextMeshProUGUI itemDescriptionField;
@@ -40,8 +44,9 @@ public class ItemDetailsMenu : MonoBehaviour
 
     private void SetupRunnerMenu()
     {
-        SetupGeneralInfo();
         runnerContextMenu.SetActive(true);
+        currentCardCarosel = runnerCardCarosel;
+        SetupGeneralInfo();
         switch(context)
         {
             case ItemDetailMenuContextType.Inventory:
@@ -54,10 +59,25 @@ public class ItemDetailsMenu : MonoBehaviour
                 runnerShopLoadoutContext.SetActive(true);
                 break;
         }
+        SetupCardCarosel();
+    }
+
+    private void SetupCardCarosel()
+    {
+        currentCardCarosel.ClearCardList();
+        RunnerMod runnerMod = item as RunnerMod;
+        List<int> cardIds = runnerMod.GetCardIds();
+        foreach (int id in cardIds)
+        {
+            Card card = Resources.Load<Card>("CardPrefabs/Player/Card" + id);
+            currentCardCarosel.AddCardToList(card);
+        }
+        currentCardCarosel.GenerateListItems();
     }
 
     private void SetupHackerMenu()
     {
+        currentCardCarosel = hackerCardCarosel;
         SetupGeneralInfo();
         Debug.Log("Setup Hacker Menu");
     }
