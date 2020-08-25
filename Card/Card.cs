@@ -17,6 +17,10 @@ public class Card : MonoBehaviour
     Discard discard;
 
     [SerializeField] TextMeshProUGUI cardText;
+    [SerializeField] SpriteRenderer leftCircuit;
+    [SerializeField] SpriteRenderer topCircuit;
+    [SerializeField] SpriteRenderer rightCircuit;
+    [SerializeField] SpriteRenderer bottomCircuit;
 
     float xPos;
     float yPos;
@@ -552,5 +556,25 @@ public class Card : MonoBehaviour
     public string GetCardText()
     {
         return cardText.text;
+    }
+
+    public Sprite GetLeftCircuitImage()
+    {
+        return leftCircuit.sprite;
+    }
+
+    public Sprite GetTopCircuitImage()
+    {
+        return topCircuit.sprite;
+    }
+
+    public Sprite GetRightCircuitImage()
+    {
+        return rightCircuit.sprite;
+    }
+
+    public Sprite GetBottomCircuitImage()
+    {
+        return bottomCircuit.sprite;
     }
 }
