@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Card : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class Card : MonoBehaviour
     StatusEffectHolder enemyCurrentStatusEffects;
     Deck deck;
     Discard discard;
+
+    [SerializeField] TextMeshProUGUI cardText;
 
     float xPos;
     float yPos;
@@ -162,12 +165,19 @@ public class Card : MonoBehaviour
     public void SetSortingOrder(int newSortingOrder)
     {
         SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        Canvas canvas = GetComponentInChildren<Canvas>();
+
         rememberSortingOrder = spriteRenderers[0].sortingOrder;
         int currentSortingOrder = newSortingOrder;
         foreach (SpriteRenderer spriteRenderer in spriteRenderers)
         {
             spriteRenderer.sortingOrder = currentSortingOrder;
             currentSortingOrder++;
+            if (spriteRenderer.name == "Image" && canvas != null)
+            {
+                canvas.sortingOrder = currentSortingOrder;
+                currentSortingOrder++;
+            }
         }
     }
 
@@ -537,5 +547,10 @@ public class Card : MonoBehaviour
         }
 
         return FindObjectOfType<AllCards>().GetCardById(0).GetComponentInChildren<SpriteRenderer>().sprite;
+    }
+
+    public string GetCardText()
+    {
+        return cardText.text;
     }
 }
