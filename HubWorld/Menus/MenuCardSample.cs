@@ -4,31 +4,28 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class CardCaroselCard : MonoBehaviour
+public class MenuCardSample : MonoBehaviour
 {
-    [SerializeField] MenuCardSample cardSample;
+    Card card;
+    HackCard hackCard;
 
-    // Battle Card Stuff
-    [SerializeField] GameObject cardBattleContextHolder;
-    [SerializeField] Image cardBattleImage;
-    [SerializeField] TextMeshProUGUI cardText;
-
-    // Circuits
+    // Runner Card Stuff
+    [SerializeField] GameObject runnerCard;
+    [SerializeField] Image cardImage;
     [SerializeField] Image leftCircuit;
     [SerializeField] Image topCircuit;
     [SerializeField] Image rightCircuit;
     [SerializeField] Image bottomCircuit;
+    [SerializeField] TextMeshProUGUI cardText;
 
-    Card card;
-
-    bool runnerMode = true;
-
-    public void SetupCard(Card newCard)
+    public void SetupCardSample(Card newCard)
     {
+        runnerCard.SetActive(true);
         card = newCard;
+
         string paddedCardId = "" + card.GetCardId().ToString("000");
         string imagePath = "CardParts/CardImages/CardImage" + paddedCardId;
-        cardBattleImage.sprite = Resources.Load<Sprite>(imagePath);
+        cardImage.sprite = Resources.Load<Sprite>(imagePath);
         leftCircuit.sprite = card.GetLeftCircuitImage();
         topCircuit.sprite = card.GetTopCircuitImage();
         rightCircuit.sprite = card.GetRightCircuitImage();
@@ -36,9 +33,14 @@ public class CardCaroselCard : MonoBehaviour
         cardText.text = card.GetCardText();
     }
 
-    public void OpenBigCardSample()
+    public void SetupCardSample(HackCard newHackCard)
     {
-        cardSample.gameObject.SetActive(true);
-        cardSample.SetupCardSample(card);
+        runnerCard.SetActive(false);
+        hackCard = newHackCard;
+    }
+
+    public void CloseCardSample()
+    {
+        gameObject.SetActive(false);
     }
 }
