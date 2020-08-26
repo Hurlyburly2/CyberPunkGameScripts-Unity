@@ -9,14 +9,15 @@ public class CardCarosel : MonoBehaviour
     List<Card> containedCards = new List<Card>();
     List<CardCaroselCard> containedCardObjects = new List<CardCaroselCard>();
 
+    bool showRunnerCards = true; // toggle to false to show hacker cards
+
     public void ClearCardList()
     {
+        showRunnerCards = true;
         if (containedCardObjects.Count > 0)
         {
-            Debug.Log("for loop: ");
             for (int i = 0; i < containedCardObjects.Count; i++)
             {
-                Debug.Log("for loop: " + i);
                 Destroy(containedCardObjects[i].gameObject);
             }
         }
@@ -42,5 +43,31 @@ public class CardCarosel : MonoBehaviour
             containedCardObjects.Add(cardItem);
             Debug.Log(containedCardObjects.Count);
         }
+    }
+
+    public void ToggleHackerOrRunner()
+    {
+        Debug.Log("Toggle it");
+        if (showRunnerCards)
+        {
+            ToggleToHackerCards();
+        } else
+        {
+            ToggleToRunnerCards();
+        }
+        showRunnerCards = !showRunnerCards;
+    }
+
+    private void ToggleToHackerCards()
+    {
+        foreach(CardCaroselCard cardCaroselCard in containedCardObjects)
+        {
+            cardCaroselCard.ToggleToHackCard();
+        }
+    }
+
+    private void ToggleToRunnerCards()
+    {
+
     }
 }
