@@ -58,6 +58,12 @@ public class CardCaroselCard : MonoBehaviour
         SetupSpikes(hackCard);
     }
 
+    public void ToggleToRunnerCard()
+    {
+        cardHackContextHolder.SetActive(false);
+        cardBattleContextHolder.SetActive(true);
+    }
+
     public void OpenBigCardSample()
     {
         cardSample.gameObject.SetActive(true);

@@ -65,6 +65,7 @@ public class ItemDetailsMenu : MonoBehaviour
     private void SetupCardCarosel()
     {
         currentCardCarosel.ClearCardList();
+        currentCardCarosel.InitializeToggle();
         RunnerMod runnerMod = item as RunnerMod;
         List<int> cardIds = runnerMod.GetCardIds();
         foreach (int id in cardIds)

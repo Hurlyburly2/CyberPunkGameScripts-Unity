@@ -1,15 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardCarosel : MonoBehaviour
 {
     [SerializeField] CardCaroselCard cardTemplate;
+    [SerializeField] Image rightButton;
+    [SerializeField] Image leftButton;
+    [SerializeField] Image battleTextImg;
+    [SerializeField] Image hackTextImg;
+
+    [SerializeField] Sprite buttonOn;
+    [SerializeField] Sprite buttonOff;
 
     List<Card> containedCards = new List<Card>();
     List<CardCaroselCard> containedCardObjects = new List<CardCaroselCard>();
 
     bool showRunnerCards = true; // toggle to false to show hacker cards
+
+    public void InitializeToggle()
+    {
+        rightButton.sprite = buttonOn;
+        leftButton.sprite = buttonOff;
+        battleTextImg.gameObject.SetActive(true);
+        hackTextImg.gameObject.SetActive(false);
+    }
 
     public void ClearCardList()
     {
@@ -47,7 +63,6 @@ public class CardCarosel : MonoBehaviour
 
     public void ToggleHackerOrRunner()
     {
-        Debug.Log("Toggle it");
         if (showRunnerCards)
         {
             ToggleToHackerCards();
@@ -60,7 +75,11 @@ public class CardCarosel : MonoBehaviour
 
     private void ToggleToHackerCards()
     {
-        foreach(CardCaroselCard cardCaroselCard in containedCardObjects)
+        rightButton.sprite = buttonOff;
+        leftButton.sprite = buttonOn;
+        battleTextImg.gameObject.SetActive(false);
+        hackTextImg.gameObject.SetActive(true);
+        foreach (CardCaroselCard cardCaroselCard in containedCardObjects)
         {
             cardCaroselCard.ToggleToHackCard();
         }
@@ -68,6 +87,13 @@ public class CardCarosel : MonoBehaviour
 
     private void ToggleToRunnerCards()
     {
-
+        rightButton.sprite = buttonOn;
+        leftButton.sprite = buttonOff;
+        battleTextImg.gameObject.SetActive(true);
+        hackTextImg.gameObject.SetActive(false);
+        foreach (CardCaroselCard cardCaroselCard in containedCardObjects)
+        {
+            cardCaroselCard.ToggleToRunnerCard();
+        }
     }
 }
