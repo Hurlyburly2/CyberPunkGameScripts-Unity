@@ -28,6 +28,7 @@ public class ItemDetailsMenu : MonoBehaviour
 
     // Hacker Context
     [SerializeField] GameObject hackerContextMenu;
+        
 
     public void SetupItemDetailMenu(ItemDetailMenuContextType newContext, Item newItem)
     {
@@ -44,6 +45,7 @@ public class ItemDetailsMenu : MonoBehaviour
 
     private void SetupRunnerMenu()
     {
+        hackerContextMenu.SetActive(false);
         runnerContextMenu.SetActive(true);
         currentCardCarosel = runnerCardCarosel;
         SetupGeneralInfo();
@@ -62,6 +64,23 @@ public class ItemDetailsMenu : MonoBehaviour
         SetupCardCarosel();
     }
 
+    private void SetupHackerMenu()
+    {
+        hackerContextMenu.SetActive(true);
+        runnerContextMenu.SetActive(true);
+        currentCardCarosel = hackerCardCarosel;
+        SetupGeneralInfo();
+        switch(context)
+        {
+            case ItemDetailMenuContextType.Inventory:
+                break;
+            case ItemDetailMenuContextType.Loadout:
+                break;
+            case ItemDetailMenuContextType.Shop:
+                break;
+        }
+    }
+
     private void SetupCardCarosel()
     {
         currentCardCarosel.ClearCardList();
@@ -74,13 +93,6 @@ public class ItemDetailsMenu : MonoBehaviour
             currentCardCarosel.AddCardToList(card);
         }
         currentCardCarosel.GenerateListItems();
-    }
-
-    private void SetupHackerMenu()
-    {
-        currentCardCarosel = hackerCardCarosel;
-        SetupGeneralInfo();
-        Debug.Log("Setup Hacker Menu");
     }
 
     private void SetupGeneralInfo()

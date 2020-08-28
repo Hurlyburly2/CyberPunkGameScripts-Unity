@@ -28,11 +28,13 @@ public class CardCaroselCard : MonoBehaviour
     [SerializeField] Image bottomCircuit;
 
     Card card;
+    HackCard hackCard;
 
     bool runnerMode = true;
 
     public void SetupCard(Card newCard)
     {
+        runnerMode = true;
         card = newCard;
         string paddedCardId = "" + card.GetCardId().ToString("000");
         string imagePath = "CardParts/CardImages/CardImage" + paddedCardId;
@@ -46,13 +48,15 @@ public class CardCaroselCard : MonoBehaviour
 
     public void ToggleToHackCard()
     {
+        runnerMode = false;
         cardBattleContextHolder.SetActive(false);
         cardHackContextHolder.SetActive(true);
 
         string paddedCardId = "" + card.GetCardId().ToString("000");
         string imagePath = "CardPrefabs/HackPlayer/HackCard" + paddedCardId;
-        HackCard hackCard = Resources.Load<HackCard>(imagePath);
+        HackCard newHackCard = Resources.Load<HackCard>(imagePath);
 
+        hackCard = newHackCard;
         cardHackImage.sprite = hackCard.GetCardImage();
 
         SetupSpikes(hackCard);
@@ -60,6 +64,7 @@ public class CardCaroselCard : MonoBehaviour
 
     public void ToggleToRunnerCard()
     {
+        runnerMode = true;
         cardHackContextHolder.SetActive(false);
         cardBattleContextHolder.SetActive(true);
     }
@@ -67,7 +72,13 @@ public class CardCaroselCard : MonoBehaviour
     public void OpenBigCardSample()
     {
         cardSample.gameObject.SetActive(true);
-        cardSample.SetupCardSample(card);
+        if (runnerMode)
+        {
+            cardSample.SetupCardSample(card);
+        } else
+        {
+            cardSample.SetupCardSample(hackCard, card, topLeftSpikeImage.sprite, topRightSpikeImage.sprite, bottomLeftSpikeImage.sprite, bottomRightSpikeImage.sprite);
+        }
     }
 
     private void SetupSpikes(HackCard hackCard)
