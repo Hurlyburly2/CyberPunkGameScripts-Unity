@@ -12,6 +12,7 @@ public class Item : ScriptableObject
     protected int itemId = 1000;
     protected string itemName;
     protected string itemDescription;
+    protected string itemAbilityDescription;
     protected HackerRunner hackerOrRunner;
         // potential types: hacker, runner
     protected ItemTypes itemType;
@@ -87,5 +88,10 @@ public class Item : ScriptableObject
     public string GetItemDescription()
     {
         return itemDescription;
+    }
+
+    public string GetItemAbilityDescription()
+    {
+        return itemAbilityDescription;
     }
 }

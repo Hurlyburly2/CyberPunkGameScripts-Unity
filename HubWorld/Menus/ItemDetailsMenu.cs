@@ -28,8 +28,17 @@ public class ItemDetailsMenu : MonoBehaviour
 
     // Hacker Context
     [SerializeField] GameObject hackerContextMenu;
+    // Hacker Mod
+    [SerializeField] GameObject hackerModContext;
+    [SerializeField] GameObject hackerModInventoryContext;
+    [SerializeField] GameObject hackerModLoadoutContext;
+    [SerializeField] GameObject hackerModShopContext;
+    [SerializeField] TextMeshProUGUI hackerModAbilityDescription;
+    [SerializeField] Image hackerModAbilityIcon;
+    [SerializeField] TextMeshProUGUI hackerModAbilityUseCount;
+    // Hacker Install
+    [SerializeField] GameObject hackerInstallContext;
         
-
     public void SetupItemDetailMenu(ItemDetailMenuContextType newContext, Item newItem)
     {
         context = newContext;
@@ -70,15 +79,54 @@ public class ItemDetailsMenu : MonoBehaviour
         runnerContextMenu.SetActive(true);
         currentCardCarosel = hackerCardCarosel;
         SetupGeneralInfo();
-        switch(context)
+        Item.ItemTypes[] modTypes = { Item.ItemTypes.NeuralImplant, Item.ItemTypes.Rig, Item.ItemTypes.Uplink };
+        List<Item.ItemTypes> modTypesList = new List<Item.ItemTypes>();
+        modTypesList.AddRange(modTypes);
+        if (modTypesList.Contains(item.GetItemType()))
         {
-            case ItemDetailMenuContextType.Inventory:
-                break;
-            case ItemDetailMenuContextType.Loadout:
-                break;
-            case ItemDetailMenuContextType.Shop:
-                break;
+            // Is a mod
+            hackerModContext.SetActive(true);
+            hackerInstallContext.SetActive(false);
+            switch (context)
+            {
+                case ItemDetailMenuContextType.Inventory:
+                    hackerModInventoryContext.SetActive(true);
+                    hackerModLoadoutContext.SetActive(false);
+                    hackerModShopContext.SetActive(false);
+                    break;
+                case ItemDetailMenuContextType.Loadout:
+                    break;
+                case ItemDetailMenuContextType.Shop:
+                    break;
+            }
+            SetupModActiveAbility();
+        } else
+        {
+            // Is an install
+            hackerInstallContext.SetActive(true);
+            hackerModContext.SetActive(false);
+            switch (context)
+            {
+                case ItemDetailMenuContextType.Inventory:
+                    break;
+                case ItemDetailMenuContextType.Loadout:
+                    break;
+                case ItemDetailMenuContextType.Shop:
+                    break;
+            }
         }
+    }
+
+    private void SetupModActiveAbility()
+    {
+        hackerModAbilityDescription.text = item.GetItemAbilityDescription();
+        HackerMod hackerMod = item as HackerMod;
+        string path = "Icons/ActiveAbilityIcons/Ability" + hackerMod.GetActiveAbilityId().ToString();
+        hackerModAbilityIcon.sprite = Resources.Load<Sprite>(path);
+        string uses = " use";
+        if (hackerMod.GetActiveAbilityUses() > 1)
+            uses = " uses";
+        hackerModAbilityUseCount.text = hackerMod.GetActiveAbilityUses().ToString() + uses;
     }
 
     private void SetupCardCarosel()

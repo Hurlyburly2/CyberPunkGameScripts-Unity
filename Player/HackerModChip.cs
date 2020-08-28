@@ -29,6 +29,7 @@ public class HackerModChip : Item
                 itemType = ItemTypes.Wetware;
                 cardIds.Add(16);    // QwikThink
                 cardIds.Add(17);    // Ad-Hoc Upgrade
+                itemDescription = "test test test test test test test test test test test test test test test test ";
                 break;
             case "Salvaged Router":
                 itemType = ItemTypes.Chipset;
