@@ -6,6 +6,8 @@ public class HackerMod : Item
 {
     int slots;
     int abilityUses;
+    int activeAbilityId;
+
     List<HackerModChip> modChips = new List<HackerModChip>();
 
     public void SetupMod(string newModName)
@@ -25,16 +27,25 @@ public class HackerMod : Item
                 slots = 1;
                 itemType = ItemTypes.Rig;
                 abilityUses = 1;
+                activeAbilityId = 0;
+                itemDescription = "Ol' reliable. Last decade's Cyris900 still gets the job done... usually.";
+                itemAbilityDescription = "Add one Red connection to your active card.";
                 break;
             case "Basic Cranial Dock":
                 slots = 1;
                 itemType = ItemTypes.NeuralImplant;
                 abilityUses = 1;
+                activeAbilityId = 1;
+                itemDescription = "One of the early cognition receiver models. Running it too long gives you a headache.";
+                itemAbilityDescription = "For your next action, pick from your top two cards. Discard the other.";
                 break;
             case "Basic Uplink":
                 slots = 1;
                 itemType = ItemTypes.Uplink;
+                activeAbilityId = 2;
                 abilityUses = 2;
+                itemDescription = "A salvaged crypto-crawler. It's a little bit jank.";
+                itemAbilityDescription = "Put the top card of your discard back onto the top of your deck.";
                 break;
             default:
                 break;
@@ -92,42 +103,21 @@ public class HackerMod : Item
 
     public int GetActiveAbilityId()
     {
-        switch(itemName)
-        {
-            case "Basic Rig":
-                return 0;
-                // 1: Add a R connection your active card
-            case "Basic Cranial Dock":
-                return 1;
-                // 1: For your next action, pick from your top two cards. Discard the other
-            case "Basic Uplink":
-                return 2;
-                // 2: add the top card of your discard to the top of your deck
-            default:
-                return -1;
-        }
+        return activeAbilityId;
     }
 
     public int GetActiveAbilityUses()
     {
-        switch (itemName)
-        {
-            case "Basic Rig":
-                return 1;
-                // 1: Add a R connection to your active card
-            case "Basic Cranial Dock":
-                return 1;
-                // 1: For your next action, pick from your top two cards. Discard the other
-            case "Basic Uplink":
-                return 2;
-                // 2: add the top card of your discard to the top of your deck
-            default:
-                return -1;
-        }
+        return abilityUses;
     }
 
     public List<HackerModChip> GetAttachedChips()
     {
         return modChips;
+    }
+
+    public int GetMaxSlotCount()
+    {
+        return slots;
     }
 }

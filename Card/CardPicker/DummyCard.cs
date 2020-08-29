@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class DummyCard : MonoBehaviour
 {
     Image selectedImage;
     [SerializeField] Sprite selectedImageSprite;
     [SerializeField] Sprite emptyImageSprite;
+    [SerializeField] TextMeshProUGUI cardText;
 
     // config
     int id;
@@ -22,6 +24,7 @@ public class DummyCard : MonoBehaviour
         selected = false;
         id = card.GetCardId();
         SetupImages(card);
+        cardText.text = card.GetCardText();
     }
 
     public void ToggleSelect()
