@@ -110,15 +110,15 @@ public class HackBattleData : MonoBehaviour
             {
                 case "rig":
                     HackerMod rigMod = currentLoadout.GetRigMod();
-                    abilityButton.SetupAbility(rigMod.GetActiveAbilityId(), rigMod.GetActiveAbilityUses());
+                    abilityButton.SetupAbility(rigMod);
                     break;
                 case "neuralImplant":
                     HackerMod neuralImplantMod = currentLoadout.GetNeuralImplantMod();
-                    abilityButton.SetupAbility(neuralImplantMod.GetActiveAbilityId(), neuralImplantMod.GetActiveAbilityUses());
+                    abilityButton.SetupAbility(neuralImplantMod);
                     break;
                 case "uplink":
                     HackerMod uplinkMod = currentLoadout.GetUplinkMod();
-                    abilityButton.SetupAbility(uplinkMod.GetActiveAbilityId(), uplinkMod.GetActiveAbilityUses());
+                    abilityButton.SetupAbility(uplinkMod);
                     break;
             }
         }

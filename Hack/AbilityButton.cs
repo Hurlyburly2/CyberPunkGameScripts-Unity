@@ -8,6 +8,7 @@ public class AbilityButton : MonoBehaviour
     [SerializeField] string whichAbility;
         // possibilities: rig, neuralImplant, uplink
     [SerializeField] Image abilityIcon;
+    HackerMod hackerMod;
 
     [SerializeField] Image abilityUsePip1;
     [SerializeField] Image abilityUsePip2;
@@ -16,14 +17,13 @@ public class AbilityButton : MonoBehaviour
     Color disabledColor;
     Color normalColor;
 
-    int abilityId;
     int maxAbilityUses;
     int currentAbilityUses;
 
-    public void SetupAbility(int newAbilityId, int newAbilityMaxUses)
+    public void SetupAbility(HackerMod newHackerMod)
     {
-        abilityId = newAbilityId;
-        maxAbilityUses = newAbilityMaxUses;
+        hackerMod = newHackerMod;
+        maxAbilityUses = hackerMod.GetActiveAbilityUses();
         currentAbilityUses = maxAbilityUses;
 
         Button button = GetComponent<Button>();
@@ -36,7 +36,7 @@ public class AbilityButton : MonoBehaviour
 
     private void SetAbilityIcon()
     {
-        abilityIcon.sprite = FindObjectOfType<AllHackAbilityIcons>().GetAbilityIconById(abilityId);
+        abilityIcon.sprite = FindObjectOfType<AllHackAbilityIcons>().GetAbilityIconById(hackerMod.GetActiveAbilityId());
     }
 
     public string GetWhichAbility()
@@ -77,55 +77,9 @@ public class AbilityButton : MonoBehaviour
     {
         if (currentAbilityUses > 0)
         {
-            switch (abilityId)
-            {
-                case 0:
-                    // Add a R connection to the active card
-                    AddConnectionsToActiveCard(1, "red");
-                    break;
-                case 1:
-                    //1: For your next action, pick from your top two cards.Discard the other
-                    SelectFromTopOfDeck(2, 1);
-                    break;
-                case 2:
-                    // 2: add the top card of your discard to the top of your deck
-                    MoveCardsFromDiscardToDeck(1);
-                    break;
-            }
+            hackerMod.UseAbility();
             currentAbilityUses--;
             SetCurrentUseIcons();
-        }
-    }
-
-    private void AddConnectionsToActiveCard(int number, string color)
-    {
-        HackDeck hackDeck = FindObjectOfType<HackDeck>();
-        if (hackDeck.GetCardCount() > 0)
-        {
-            hackDeck.AddConnectionsToActiveCard(number, color);
-        }
-    }
-
-    private void AddSpikesToActiveCard()
-    {
-        Debug.Log("Add spikes to active card");
-    }
-
-    private void MoveCardsFromDiscardToDeck(int numberOfCards)
-    {
-        FindObjectOfType<HackDiscard>().SendCardsFromDiscardToTopOfDeck(numberOfCards);
-    }
-
-    private void SelectFromTopOfDeck(int pickFromHowMany, int pickHowMany)
-    {
-        List<HackCard> cardsToPickFrom = FindObjectOfType<HackDeck>().GetTopXHackCards(pickFromHowMany);
-
-        if (cardsToPickFrom.Count > 0)
-        {
-            FindObjectOfType<CheckClickController>().SetTilePickerState();
-            HackTilePicker hackTilePicker = FindObjectOfType<HackHolder>().GetHackTilePicker();
-            hackTilePicker.gameObject.SetActive(true);
-            hackTilePicker.Initialize(cardsToPickFrom, pickHowMany, "pickAndDiscard");
         }
     }
 }

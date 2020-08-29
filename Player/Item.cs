@@ -12,7 +12,13 @@ public class Item : ScriptableObject
     protected int itemId = 1000;
     protected string itemName;
     protected string itemDescription;
-    protected string itemAbilityDescription;
+
+    protected string levelOneItemAbilityDescription;
+    protected string levelTwoItemAbilityDescription;
+    protected string levelThreeItemAbilityDescription;
+    protected string levelFourItemAbilityDescription;
+    protected string levelFiveItemAbilityDescription;
+
     protected HackerRunner hackerOrRunner;
         // potential types: hacker, runner
     protected ItemTypes itemType;
@@ -92,6 +98,45 @@ public class Item : ScriptableObject
 
     public string GetItemAbilityDescription()
     {
-        return itemAbilityDescription;
+        switch(itemLevel)
+        {
+            case 1:
+                return levelOneItemAbilityDescription;
+            case 2:
+                return levelTwoItemAbilityDescription;
+            case 3:
+                return levelThreeItemAbilityDescription;
+            case 4:
+                return levelFourItemAbilityDescription;
+            case 5:
+                return levelFiveItemAbilityDescription;
+            default:
+                return levelOneItemAbilityDescription;
+        }
+    }
+
+    public string GetLevelOneItemAbilityDescription()
+    {
+        return levelOneItemAbilityDescription;
+    }
+
+    public string GetLevelTwoItemAbilityDescription()
+    {
+        return levelTwoItemAbilityDescription;
+    }
+
+    public string GetLevelThreeItemAbilityDescription()
+    {
+        return levelThreeItemAbilityDescription;
+    }
+
+    public string GetLevelFourItemAbilityDescription()
+    {
+        return levelFourItemAbilityDescription;
+    }
+
+    public string GetLevelFiveItemAbilityDescription()
+    {
+        return levelFiveItemAbilityDescription;
     }
 }

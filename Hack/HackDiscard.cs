@@ -85,7 +85,7 @@ public class HackDiscard : MonoBehaviour
 
     private void SendTopCardToDeck()
     {
-        hackDeck.ReAttachTopCardFromDiscard();
+        hackDeck.ReAttachTopCardFromDiscard(cards[cards.Count - 1]);
         cards.RemoveAt(cards.Count - 1);
         UpdateTextFieldCounter();
         SetTopCard();

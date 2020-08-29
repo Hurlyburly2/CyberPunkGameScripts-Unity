@@ -125,18 +125,20 @@ public class HackDeck : MonoBehaviour
         SetTextFieldCount();
     }
 
-    public void ReAttachTopCardFromDiscard()
+    public void ReAttachTopCardFromDiscard(HackCard cardFromDiscard)
     {
+        // TODO: THIS NEEDS TO GET THE TOP CARD FROM DISCARD, NOT THE PREVIOUSLY PLAYED CARD
+        // TODO: THIS IS BAD!!!!!!
         // reattaching from discard works differently and the animation is handled by the discard
         // pile, so we need a separate method
         if (cards.Count > 0)
         {
             ShiftAllCardsDownOneInOrder();
-            cards[0] = previousTopHackCard;
+            cards[0] = cardFromDiscard;
             ReSetPrevModifiers();
         } else
         {
-            cards.Add(previousTopHackCard);
+            cards.Add(cardFromDiscard);
             ReSetPrevModifiers();
         }
 
@@ -193,6 +195,11 @@ public class HackDeck : MonoBehaviour
             SetTextFieldCount();
             SetAllImagesToEmpty();
         }
+    }
+
+    public void SetPreviousTopHackCard(HackCard card)
+    {
+        previousTopHackCard = card;
     }
 
     private void SetPreviousCardAndModifiers()
@@ -472,6 +479,7 @@ public class HackDeck : MonoBehaviour
         // save the current card so we can see if it changes or not
         HackCard currentTopCard = cards[0];
 
+        Debug.Log("keepordiscard count: " + cards.Count);
         // loop through the top X cards to check the lists for their ids
         for (int i = 0; i < amountOfCards; i++)
         {
