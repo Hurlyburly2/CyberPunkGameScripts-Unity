@@ -115,4 +115,9 @@ public class HackerMod : Item
     {
         return modChips;
     }
+
+    public int GetMaxSlotCount()
+    {
+        return slots;
+    }
 }

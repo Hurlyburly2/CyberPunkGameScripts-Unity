@@ -36,8 +36,14 @@ public class ItemDetailsMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI hackerModAbilityDescription;
     [SerializeField] Image hackerModAbilityIcon;
     [SerializeField] TextMeshProUGUI hackerModAbilityUseCount;
+    [SerializeField] TextMeshProUGUI slotsField;
     // Hacker Install
     [SerializeField] GameObject hackerInstallContext;
+    [SerializeField] GameObject hackerInstallInventoryContext;
+    [SerializeField] GameObject hackerInstallLoadoutContext;
+    [SerializeField] GameObject hackerInstallShopContext;
+    [SerializeField] TextMeshProUGUI hackerInstallSlotType;
+    [SerializeField] TextMeshProUGUI hackerInstallPassiveAbilityDescription;
         
     public void SetupItemDetailMenu(ItemDetailMenuContextType newContext, Item newItem)
     {
@@ -108,19 +114,46 @@ public class ItemDetailsMenu : MonoBehaviour
             switch (context)
             {
                 case ItemDetailMenuContextType.Inventory:
+                    hackerInstallInventoryContext.SetActive(true);
+                    hackerInstallLoadoutContext.SetActive(false);
+                    hackerInstallShopContext.SetActive(false);
                     break;
                 case ItemDetailMenuContextType.Loadout:
                     break;
                 case ItemDetailMenuContextType.Shop:
                     break;
             }
+            SetupInstallPassiveAbility();
+            SetupCardCarosel();
         }
+    }
+
+    private void SetupInstallPassiveAbility()
+    {
+        hackerInstallPassiveAbilityDescription.text = item.GetItemAbilityDescription();
+        hackerInstallSlotType.text = item.GetItemType().ToString();
     }
 
     private void SetupModActiveAbility()
     {
         hackerModAbilityDescription.text = item.GetItemAbilityDescription();
         HackerMod hackerMod = item as HackerMod;
+
+        string slotString = hackerMod.GetMaxSlotCount().ToString();
+        switch (hackerMod.GetItemType())
+        {
+            case Item.ItemTypes.NeuralImplant:
+                slotString += " Wetware";
+                break;
+            case Item.ItemTypes.Rig:
+                slotString += " Software";
+                break;
+            case Item.ItemTypes.Uplink:
+                slotString += " Chipsets";
+                break;
+        }
+        slotsField.text = slotString;
+
         string path = "Icons/ActiveAbilityIcons/Ability" + hackerMod.GetActiveAbilityId().ToString();
         hackerModAbilityIcon.sprite = Resources.Load<Sprite>(path);
         string uses = " use";
@@ -133,8 +166,17 @@ public class ItemDetailsMenu : MonoBehaviour
     {
         currentCardCarosel.ClearCardList();
         currentCardCarosel.InitializeToggle();
-        RunnerMod runnerMod = item as RunnerMod;
-        List<int> cardIds = runnerMod.GetCardIds();
+        List<int> cardIds = new List<int>();
+
+        if (item.GetHackerOrRunner() == Item.HackerRunner.Runner)
+        {
+            RunnerMod runnerMod = item as RunnerMod;
+            cardIds.AddRange(runnerMod.GetCardIds());
+        } else
+        {
+            HackerModChip hackerInstall = item as HackerModChip;
+            cardIds.AddRange(hackerInstall.GetCardIds());
+        }
         foreach (int id in cardIds)
         {
             Card card = Resources.Load<Card>("CardPrefabs/Player/Card" + id);
