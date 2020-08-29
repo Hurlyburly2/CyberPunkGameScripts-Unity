@@ -73,16 +73,67 @@ public class HackerMod : Item
         switch(itemName)
         {
             case "Basic Rig":
-                // Add a R connection to the active card
-                AddConnectionsToActiveCard(1, "red");
+                switch (itemLevel)
+                {
+                    case 1:
+                        // Add a R connection to the active card
+                        AddConnectionsToActiveCard(1, "red");
+                        break;
+                    case 2:
+                        AddConnectionsToActiveCard(1, "red");
+                        break;
+                    case 3:
+                        AddConnectionsToActiveCard(1, "red");
+                        break;
+                    case 4:
+                        AddConnectionsToActiveCard(1, "red");
+                        break;
+                    case 5:
+                        AddConnectionsToActiveCard(1, "red");
+                        break;
+                }
                 break;
             case "Basic Cranial Dock":
                 // For your next action, pick from your top two cards. Discard the other.
-                SelectFromTopOfDeck(2, 1);
+                switch (itemLevel)
+                {
+                    case 1:
+                        SelectFromTopOfDeck(2, 1);
+                        break;
+                    case 2:
+                        SelectFromTopOfDeck(2, 1);
+                        break;
+                    case 3:
+                        SelectFromTopOfDeck(2, 1);
+                        break;
+                    case 4:
+                        SelectFromTopOfDeck(2, 1);
+                        break;
+                    case 5:
+                        SelectFromTopOfDeck(2, 1);
+                        break;
+                }
                 break;
             case "Basic Uplink":
                 // Add the top card of your discard to the top of your deck
-                MoveCardsFromDiscardToDeck(1);
+                switch (itemLevel)
+                {
+                    case 1:
+                        MoveCardsFromDiscardToDeck(1);
+                        break;
+                    case 2:
+                        MoveCardsFromDiscardToDeck(1);
+                        break;
+                    case 3:
+                        MoveCardsFromDiscardToDeck(1);
+                        break;
+                    case 4:
+                        MoveCardsFromDiscardToDeck(1);
+                        break;
+                    case 5:
+                        MoveCardsFromDiscardToDeck(1);
+                        break;
+                }
                 break;
         }
     }

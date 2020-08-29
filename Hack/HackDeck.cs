@@ -479,7 +479,6 @@ public class HackDeck : MonoBehaviour
         // save the current card so we can see if it changes or not
         HackCard currentTopCard = cards[0];
 
-        Debug.Log("keepordiscard count: " + cards.Count);
         // loop through the top X cards to check the lists for their ids
         for (int i = 0; i < amountOfCards; i++)
         {

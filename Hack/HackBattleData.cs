@@ -147,7 +147,7 @@ public class HackBattleData : MonoBehaviour
     {
         foreach(PassiveAbility passiveAbility in passiveAbilities)
         {
-            if (passiveAbility.GetAbilityType() == "dangerZoneBuffer" && passiveAbility.GetRemainingUses() > 0)
+            if (passiveAbility.GetAbilityType() == PassiveAbility.PassiveAbilityType.dangerZoneBuffer && passiveAbility.GetRemainingUses() > 0)
             {
                 passiveAbility.UseOne();
                 return true;
@@ -283,7 +283,7 @@ public class HackBattleData : MonoBehaviour
     {
         foreach(PassiveAbility passiveAbility in passiveAbilities)
         {
-            if (passiveAbility.GetAbilityType() == "spikePointMultiplier" &&
+            if (passiveAbility.GetAbilityType() == PassiveAbility.PassiveAbilityType.spikePointMultiplier &&
                 (passiveAbility.GetColor() == color || passiveAbility.GetColor() == "any") &&
                 passiveAbility.GetConnectionType() == amount &&
                 passiveAbility.GetRemainingUses() > 0)  

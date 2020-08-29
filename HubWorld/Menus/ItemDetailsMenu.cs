@@ -6,6 +6,8 @@ using TMPro;
 
 public class ItemDetailsMenu : MonoBehaviour
 {
+    [SerializeField] UpgradesMenu upgradesMenu;
+
     public enum ItemDetailMenuContextType { Inventory, Loadout, Shop };
     ItemDetailMenuContextType context;
     Item item;
@@ -21,10 +23,10 @@ public class ItemDetailsMenu : MonoBehaviour
 
     // Runner Context
     [SerializeField] GameObject runnerContextMenu;
-        // Runner shop/loadout context
-        [SerializeField] GameObject runnerShopLoadoutContext;
-        // Runner inventory context
-        [SerializeField] GameObject runnerInventoryContext;
+    // Runner shop/loadout context
+    [SerializeField] GameObject runnerShopLoadoutContext;
+    // Runner inventory context
+    [SerializeField] GameObject runnerInventoryContext;
 
     // Hacker Context
     [SerializeField] GameObject hackerContextMenu;
@@ -201,5 +203,10 @@ public class ItemDetailsMenu : MonoBehaviour
         hackerContextMenu.SetActive(false);
 
         gameObject.SetActive(false);
+    }
+
+    public void OpenUpgradesMenu()
+    {
+        upgradesMenu.gameObject.SetActive(true);
     }
 }

@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class HackerModChip : Item
 {
-    List<int> cardIds = new List<int>();
+    List<int> levelOneCardIds = new List<int>();
+    List<int> levelTwoCardIds = new List<int>();
+    List<int> levelThreeCardIds = new List<int>();
+    List<int> levelFourCardIds = new List<int>();
+    List<int> levelFiveCardids = new List<int>();
 
     public void SetupChip(string newChipName)
     {
@@ -17,39 +21,94 @@ public class HackerModChip : Item
 
     private void SetChipProperties()
     {
+        // WHEN CREATING A NEW CARD, MUST ALSO ADD PASSIVE ABILITY FUNCTIONALITY BELOW
         switch(itemName)
         {
             case "Cheap Ghost":
                 itemType = ItemTypes.Software;
                 itemDescription = "Install this on a machine and, if you're lucky, it won't be detected before it starts funnelling you data";
                 levelOneItemAbilityDescription = "Your first two 2-Connection spikes each hack are worth +1.";
-                cardIds.Add(14);    // Hidden Trigger
-                cardIds.Add(14);    // Hidden Trigger
-                cardIds.Add(15);    // Too Obvious
+                levelTwoItemAbilityDescription = "Your first two 2-Connection spikes each hack are worth +1.";
+                levelThreeItemAbilityDescription = "Your first two 2-Connection spikes each hack are worth +1.";
+                levelFourItemAbilityDescription = "Your first two 2-Connection spikes each hack are worth +1.";
+                levelFiveItemAbilityDescription = "Your first two 2-Connection spikes each hack are worth +1.";
+
+                levelOneCardIds.Add(14);    // Hidden Trigger
+                levelOneCardIds.Add(14);    // Hidden Trigger
+                levelOneCardIds.Add(15);    // Too Obvious
+
+                levelTwoCardIds.Add(14);    // Hidden Trigger
+                levelTwoCardIds.Add(14);    // Hidden Trigger
+                levelTwoCardIds.Add(15);    // Too Obvious
+
+                levelThreeCardIds.Add(14);    // Hidden Trigger
+                levelThreeCardIds.Add(14);    // Hidden Trigger
+                levelThreeCardIds.Add(15);    // Too Obvious
+
+                levelFourCardIds.Add(14);    // Hidden Trigger
+                levelFourCardIds.Add(14);    // Hidden Trigger
+                levelFourCardIds.Add(15);    // Too Obvious
+
+                levelFiveCardids.Add(14);    // Hidden Trigger
+                levelFiveCardids.Add(14);    // Hidden Trigger
+                levelFiveCardids.Add(15);    // Too Obvious
                 break;
             case "JuryRigged QwikThink":
                 itemType = ItemTypes.Wetware;
                 itemDescription = "Salvaged QwikThink1000 wetware. It's an older model, and you fixed it up as best you could.";
                 levelOneItemAbilityDescription = "Your first 3-Connection spike is worth double the points.";
-                cardIds.Add(16);    // QwikThink
-                cardIds.Add(17);    // Ad-Hoc Upgrade
+                levelTwoItemAbilityDescription = "Your first 3-Connection spike is worth double the points.";
+                levelThreeItemAbilityDescription = "Your first 3-Connection spike is worth double the points.";
+                levelFourItemAbilityDescription = "Your first 3-Connection spike is worth double the points.";
+                levelFiveItemAbilityDescription = "Your first 3-Connection spike is worth double the points.";
+
+                levelOneCardIds.Add(16);    // QwikThink
+                levelOneCardIds.Add(17);    // Ad-Hoc Upgrade
+
+                levelTwoCardIds.Add(16);    // QwikThink
+                levelTwoCardIds.Add(17);    // Ad-Hoc Upgrade
+
+                levelThreeCardIds.Add(16);    // QwikThink
+                levelThreeCardIds.Add(17);    // Ad-Hoc Upgrade
+
+                levelFourCardIds.Add(16);    // QwikThink
+                levelFourCardIds.Add(17);    // Ad-Hoc Upgrade
+
+                levelFiveCardids.Add(16);    // QwikThink
+                levelFiveCardids.Add(17);    // Ad-Hoc Upgrade
                 break;
             case "Salvaged Router":
                 itemType = ItemTypes.Chipset;
                 itemDescription = "This would be fine for civilian use. You should replace it.";
                 levelOneItemAbilityDescription = "Each Hack: The first time you place a card outside the safe zone, it does not raise the security level.";
-                cardIds.Add(18);    // Failed Connection
-                cardIds.Add(18);    // Failed Connection
-                cardIds.Add(19);    // Cracked
+                levelTwoItemAbilityDescription = "Each Hack: The first time you place a card outside the safe zone, it does not raise the security level.";
+                levelThreeItemAbilityDescription = "Each Hack: The first time you place a card outside the safe zone, it does not raise the security level.";
+                levelFourItemAbilityDescription = "Each Hack: The first time you place a card outside the safe zone, it does not raise the security level.";
+                levelFiveItemAbilityDescription = "Each Hack: The first time you place a card outside the safe zone, it does not raise the security level.";
+
+                levelOneCardIds.Add(18);    // Failed Connection
+                levelOneCardIds.Add(18);    // Failed Connection
+                levelOneCardIds.Add(19);    // Cracked
+
+                levelTwoCardIds.Add(18);    // Failed Connection
+                levelTwoCardIds.Add(18);    // Failed Connection
+                levelTwoCardIds.Add(19);    // Cracked
+
+                levelThreeCardIds.Add(18);    // Failed Connection
+                levelThreeCardIds.Add(18);    // Failed Connection
+                levelThreeCardIds.Add(19);    // Cracked
+
+                levelFourCardIds.Add(18);    // Failed Connection
+                levelFourCardIds.Add(18);    // Failed Connection
+                levelFourCardIds.Add(19);    // Cracked
+
+                levelFiveCardids.Add(18);    // Failed Connection
+                levelFiveCardids.Add(18);    // Failed Connection
+                levelFiveCardids.Add(19);    // Cracked
                 break;
             default:
                 break;
         }
-    }
-
-    public List<int> GetCardIds()
-    {
-        return cardIds;
     }
 
     public PassiveAbility SetupPassiveAbility()
@@ -58,20 +117,88 @@ public class HackerModChip : Item
         switch(itemName)
         {
             case "Cheap Ghost":
-                newAbility.SetupPassiveAbility("spikePointMultiplier", 2, "any", 1, 2);
-                // Your first 2 two-connection spikes are worth double points
+                switch (itemLevel)
+                {
+                    case 1:
+                        // Your first 2 two-connection spikes are worth double points
+                        newAbility.SetupPassiveAbility(PassiveAbility.PassiveAbilityType.spikePointMultiplier, 2, "any", 1, 2);
+                        break;
+                    case 2:
+                        newAbility.SetupPassiveAbility(PassiveAbility.PassiveAbilityType.spikePointMultiplier, 2, "any", 1, 2);
+                        break;
+                    case 3:
+                        newAbility.SetupPassiveAbility(PassiveAbility.PassiveAbilityType.spikePointMultiplier, 2, "any", 1, 2);
+                        break;
+                    case 4:
+                        newAbility.SetupPassiveAbility(PassiveAbility.PassiveAbilityType.spikePointMultiplier, 2, "any", 1, 2);
+                        break;
+                    case 5:
+                        newAbility.SetupPassiveAbility(PassiveAbility.PassiveAbilityType.spikePointMultiplier, 2, "any", 1, 2);
+                        break;
+                }
                 break;
             case "JuryRigged QwikThink":
-                newAbility.SetupPassiveAbility("spikePointMultiplier", 1, "any", 3, 2);
-                // Your first 3 connection spike is worth double points
+                switch (itemLevel)
+                {
+                    case 1:
+                        // Your first 3 connection spike is worth double points
+                        newAbility.SetupPassiveAbility(PassiveAbility.PassiveAbilityType.spikePointMultiplier, 1, "any", 3, 2);
+                        break;
+                    case 2:
+                        newAbility.SetupPassiveAbility(PassiveAbility.PassiveAbilityType.spikePointMultiplier, 1, "any", 3, 2);
+                        break;
+                    case 3:
+                        newAbility.SetupPassiveAbility(PassiveAbility.PassiveAbilityType.spikePointMultiplier, 1, "any", 3, 2);
+                        break;
+                    case 4:
+                        newAbility.SetupPassiveAbility(PassiveAbility.PassiveAbilityType.spikePointMultiplier, 1, "any", 3, 2);
+                        break;
+                    case 5:
+                        newAbility.SetupPassiveAbility(PassiveAbility.PassiveAbilityType.spikePointMultiplier, 1, "any", 3, 2);
+                        break;
+                }
                 break;
             case "Salvaged Router":
-                newAbility.SetupPassiveAbility("dangerZoneBuffer", 1);
-                // The first time you place a card outside the safe zone each hack, it does
-                // not raise the security level
+                switch (itemLevel)
+                {
+                    case 1:
+                        // The first time you place a card outside the safe zone each hack, it does not raise the security level
+                        newAbility.SetupPassiveAbility(PassiveAbility.PassiveAbilityType.dangerZoneBuffer, 1);
+                        break;
+                    case 2:
+                        newAbility.SetupPassiveAbility(PassiveAbility.PassiveAbilityType.dangerZoneBuffer, 1);
+                        break;
+                    case 3:
+                        newAbility.SetupPassiveAbility(PassiveAbility.PassiveAbilityType.dangerZoneBuffer, 1);
+                        break;
+                    case 4:
+                        newAbility.SetupPassiveAbility(PassiveAbility.PassiveAbilityType.dangerZoneBuffer, 1);
+                        break;
+                    case 5:
+                        newAbility.SetupPassiveAbility(PassiveAbility.PassiveAbilityType.dangerZoneBuffer, 1);
+                        break;
+                }
                 break;
         }
-
         return newAbility;
+    }
+
+    public List<int> GetCardIds()
+    {
+        switch (itemLevel)
+        {
+            case 1:
+                return levelOneCardIds;
+            case 2:
+                return levelTwoCardIds;
+            case 3:
+                return levelThreeCardIds;
+            case 4:
+                return levelFourCardIds;
+            case 5:
+                return levelFiveCardids;
+            default:
+                return levelOneCardIds;
+        }
     }
 }
