@@ -40,7 +40,8 @@ public class InventoryList : MonoBehaviour
         if (sortBy == fieldToSortBy)
         {
             sortAscending = !sortAscending;
-        } else
+        }
+        else
         {
             sortBy = fieldToSortBy;
         }
@@ -63,7 +64,8 @@ public class InventoryList : MonoBehaviour
                 return item1.GetItemLevel().CompareTo(item2.GetItemLevel());
             else
                 return 0;
-        } else
+        }
+        else
         {
             if (sortBy == InventoryMenu.InventoryFields.Name)
                 return item2.GetItemName().CompareTo(item1.GetItemName());
@@ -84,7 +86,8 @@ public class InventoryList : MonoBehaviour
             if (listItem != selectedItem)
             {
                 listItem.SetIsHighlighted(false);
-            } else
+            }
+            else
             {
                 if (listItem.GetIsHighlighted())
                 {
@@ -96,7 +99,8 @@ public class InventoryList : MonoBehaviour
         if (isAnItemHighlighted)
         {
             detailsButton.interactable = true;
-        } else
+        }
+        else
         {
             detailsButton.interactable = false;
         }

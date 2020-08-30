@@ -208,5 +208,6 @@ public class ItemDetailsMenu : MonoBehaviour
     public void OpenUpgradesMenu()
     {
         upgradesMenu.gameObject.SetActive(true);
+        upgradesMenu.SetupUpgradesMenu(context, item);
     }
 }
