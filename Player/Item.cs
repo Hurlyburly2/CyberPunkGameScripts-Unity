@@ -139,4 +139,9 @@ public class Item : ScriptableObject
     {
         return levelFiveItemAbilityDescription;
     }
+
+    public int GetCurrentItemLevel()
+    {
+        return itemLevel;
+    }
 }

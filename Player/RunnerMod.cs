@@ -78,10 +78,8 @@ public class RunnerMod : Item
                 levelThreeCards.Add(4); // Weak Spot
 
                 levelFourCards.Add(3); // Deep Breath
-                levelFourCards.Add(4); // Weak Spot
 
                 levelFiveCards.Add(3); // Deep Breath
-                levelFiveCards.Add(4); // Weak Spot
                 break;
             case "Human Skin":
                 itemType = ItemTypes.Exoskeleton;

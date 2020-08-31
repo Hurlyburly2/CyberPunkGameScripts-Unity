@@ -149,4 +149,19 @@ public class HackerModChip : Item
                 return levelOneCardIds;
         }
     }
+
+    public List<int> GetLevelOneCardIds()
+    {
+        return levelOneCardIds;
+    }
+
+    public List<int> GetLevelTwoCardIds()
+    {
+        return levelTwoCardIds;
+    }
+
+    public List<int> GetLevelThreeCardIds()
+    {
+        return levelThreeCardIds;
+    }
 }

@@ -91,11 +91,36 @@ public class CardCaroselMultiple : MonoBehaviour
 
         lvl1containedCards = new List<Card>();
         lvl1containedCardObjects = new List<CardCaroselCard>();
+        lvl2containedCards = new List<Card>();
+        lvl2containedCardObjects = new List<CardCaroselCard>();
+        lvl3containedCards = new List<Card>();
+        lvl3containedCardObjects = new List<CardCaroselCard>();
+        lvl4containedCards = new List<Card>();
+        lvl4containedCardObjects = new List<CardCaroselCard>();
+        lvl5containedCards = new List<Card>();
+        lvl5containedCardObjects = new List<CardCaroselCard>();
     }
 
-    public void AddCardToList(Card newCard)
+    public void AddCardToList(Card newCard, int listNumber)
     {
-        lvl1containedCards.Add(newCard);
+        switch (listNumber)
+        {
+            case 1:
+                lvl1containedCards.Add(newCard);
+                break;
+            case 2:
+                lvl2containedCards.Add(newCard);
+                break;
+            case 3:
+                lvl3containedCards.Add(newCard);
+                break;
+            case 4:
+                lvl4containedCards.Add(newCard);
+                break;
+            case 5:
+                lvl5containedCards.Add(newCard);
+                break;
+        }
     }
 
     public void GenerateListItems()
@@ -108,7 +133,46 @@ public class CardCaroselMultiple : MonoBehaviour
             cardItem.transform.SetParent(lvl1CardTemplate.transform.parent, false);
             cardItem.SetupCard(card);
             lvl1containedCardObjects.Add(cardItem);
-            Debug.Log(lvl1containedCardObjects.Count);
+        }
+
+        foreach (Card card in lvl2containedCards)
+        {
+            CardCaroselCard cardItem = Instantiate(lvl2CardTemplate);
+            cardItem.gameObject.SetActive(true);
+
+            cardItem.transform.SetParent(lvl2CardTemplate.transform.parent, false);
+            cardItem.SetupCard(card);
+            lvl2containedCardObjects.Add(cardItem);
+        }
+
+        foreach (Card card in lvl3containedCards)
+        {
+            CardCaroselCard cardItem = Instantiate(lvl3CardTemplate);
+            cardItem.gameObject.SetActive(true);
+
+            cardItem.transform.SetParent(lvl3CardTemplate.transform.parent, false);
+            cardItem.SetupCard(card);
+            lvl3containedCardObjects.Add(cardItem);
+        }
+
+        foreach (Card card in lvl4containedCards)
+        {
+            CardCaroselCard cardItem = Instantiate(lvl4CardTemplate);
+            cardItem.gameObject.SetActive(true);
+
+            cardItem.transform.SetParent(lvl4CardTemplate.transform.parent, false);
+            cardItem.SetupCard(card);
+            lvl4containedCardObjects.Add(cardItem);
+        }
+
+        foreach (Card card in lvl5containedCards)
+        {
+            CardCaroselCard cardItem = Instantiate(lvl5CardTemplate);
+            cardItem.gameObject.SetActive(true);
+
+            cardItem.transform.SetParent(lvl5CardTemplate.transform.parent, false);
+            cardItem.SetupCard(card);
+            lvl5containedCardObjects.Add(cardItem);
         }
     }
 
@@ -131,7 +195,13 @@ public class CardCaroselMultiple : MonoBehaviour
         leftButton.sprite = buttonOn;
         battleTextImg.gameObject.SetActive(false);
         hackTextImg.gameObject.SetActive(true);
-        foreach (CardCaroselCard cardCaroselCard in lvl1containedCardObjects)
+        List<CardCaroselCard> allCards = new List<CardCaroselCard>();
+        allCards.AddRange(lvl1containedCardObjects);
+        allCards.AddRange(lvl2containedCardObjects);
+        allCards.AddRange(lvl3containedCardObjects);
+        allCards.AddRange(lvl4containedCardObjects);
+        allCards.AddRange(lvl5containedCardObjects);
+        foreach (CardCaroselCard cardCaroselCard in allCards)
         {
             cardCaroselCard.ToggleToHackCard();
         }
@@ -143,7 +213,13 @@ public class CardCaroselMultiple : MonoBehaviour
         leftButton.sprite = buttonOff;
         battleTextImg.gameObject.SetActive(true);
         hackTextImg.gameObject.SetActive(false);
-        foreach (CardCaroselCard cardCaroselCard in lvl1containedCardObjects)
+        List<CardCaroselCard> allCards = new List<CardCaroselCard>();
+        allCards.AddRange(lvl1containedCardObjects);
+        allCards.AddRange(lvl2containedCardObjects);
+        allCards.AddRange(lvl3containedCardObjects);
+        allCards.AddRange(lvl4containedCardObjects);
+        allCards.AddRange(lvl5containedCardObjects);
+        foreach (CardCaroselCard cardCaroselCard in allCards)
         {
             cardCaroselCard.ToggleToRunnerCard();
         }

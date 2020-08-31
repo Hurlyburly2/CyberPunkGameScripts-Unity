@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class HackerMod : Item
 {
-    int slots;
+    int level1Slots;
+    int level2Slots;
+    int level3Slots;
+    int level4Slots;
+    int level5Slots;
+
     int abilityUses;
     int activeAbilityId;
 
@@ -27,7 +32,11 @@ public class HackerMod : Item
             // TODO: MUST WRITE ALL FUNCTIONALITY FOR NEW ABILITIES IN THERE
             // TODO: PERHAPS WE CAN PASS A FUNCTION FROM HERE TO IT INSTEAD OF SEPARATING THINGS
             case "Basic Rig":
-                slots = 1;
+                level1Slots = 1;
+                level2Slots = 1;
+                level3Slots = 2;
+                level4Slots = 2;
+                level5Slots = 3;
                 itemType = ItemTypes.Rig;
                 abilityUses = 1;
                 activeAbilityId = 0;
@@ -39,7 +48,11 @@ public class HackerMod : Item
                 levelFiveItemAbilityDescription = "Add one Red connection to your active card.";
                 break;
             case "Basic Cranial Dock":
-                slots = 1;
+                level1Slots = 1;
+                level2Slots = 1;
+                level3Slots = 1;
+                level4Slots = 2;
+                level5Slots = 2;
                 itemType = ItemTypes.NeuralImplant;
                 abilityUses = 1;
                 activeAbilityId = 1;
@@ -51,7 +64,11 @@ public class HackerMod : Item
                 levelFiveItemAbilityDescription = "For your next action, pick from your top two cards. Discard the other.";
                 break;
             case "Basic Uplink":
-                slots = 1;
+                level1Slots = 1;
+                level2Slots = 1;
+                level3Slots = 2;
+                level4Slots = 2;
+                level5Slots = 3;
                 itemType = ItemTypes.Uplink;
                 activeAbilityId = 2;
                 abilityUses = 2;
@@ -150,7 +167,7 @@ public class HackerMod : Item
 
     private void SetupEmptyMods()
     {
-        for (int i = 0; i < slots; i++)
+        for (int i = 0; i < GetMaxSlotCount(); i++)
         {
             HackerModChip emptyMod = CreateInstance<HackerModChip>();
             emptyMod.SetupChip("Empty");
@@ -203,7 +220,21 @@ public class HackerMod : Item
 
     public int GetMaxSlotCount()
     {
-        return slots;
+        switch (itemLevel)
+        {
+            case 1:
+                return level1Slots;
+            case 2:
+                return level2Slots;
+            case 3:
+                return level3Slots;
+            case 4:
+                return level4Slots;
+            case 5:
+                return level5Slots;
+            default:
+                return level1Slots;
+        }
     }
 
     // HACK ABILITY FUNCTIONALITY
@@ -238,5 +269,30 @@ public class HackerMod : Item
             hackTilePicker.gameObject.SetActive(true);
             hackTilePicker.Initialize(cardsToPickFrom, pickHowMany, "pickAndDiscard");
         }
+    }
+
+    public int GetLevel1SlotCount()
+    {
+        return level1Slots;
+    }
+
+    public int GetLevel2SlotCount()
+    {
+        return level2Slots;
+    }
+
+    public int GetLevel3SlotCount()
+    {
+        return level3Slots;
+    }
+
+    public int GetLevel4SlotCount()
+    {
+        return level4Slots;
+    }
+
+    public int GetLevel5SlotCount()
+    {
+        return level5Slots;
     }
 }
