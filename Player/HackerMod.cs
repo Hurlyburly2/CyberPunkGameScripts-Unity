@@ -10,7 +10,12 @@ public class HackerMod : Item
     int level4Slots;
     int level5Slots;
 
-    int abilityUses;
+    int level1AbilityUses;
+    int level2AbilityUses;
+    int level3AbilityUses;
+    int level4AbilityUses;
+    int level5AbilityUses;
+
     int activeAbilityId;
 
     List<HackerModChip> modChips = new List<HackerModChip>();
@@ -19,7 +24,7 @@ public class HackerMod : Item
     {
         itemName = newModName;
         GetModProperties();
-        itemLevel = 1;
+        itemLevel = 3;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Hacker;
     }
@@ -38,7 +43,11 @@ public class HackerMod : Item
                 level4Slots = 2;
                 level5Slots = 3;
                 itemType = ItemTypes.Rig;
-                abilityUses = 1;
+                level1AbilityUses = 1;
+                level2AbilityUses = 1;
+                level3AbilityUses = 1;
+                level4AbilityUses = 2;
+                level5AbilityUses = 2;
                 activeAbilityId = 0;
                 itemDescription = "Ol' reliable. Last decade's Cyris900 still gets the job done... usually.";
                 levelOneItemAbilityDescription = "Add one Red connection to your active card.";
@@ -54,7 +63,11 @@ public class HackerMod : Item
                 level4Slots = 2;
                 level5Slots = 2;
                 itemType = ItemTypes.NeuralImplant;
-                abilityUses = 1;
+                level1AbilityUses = 1;
+                level2AbilityUses = 1;
+                level3AbilityUses = 2;
+                level4AbilityUses = 2;
+                level5AbilityUses = 3;
                 activeAbilityId = 1;
                 itemDescription = "One of the early cognition receiver models. Running it too long gives you a headache.";
                 levelOneItemAbilityDescription = "For your next action, pick from your top two cards. Discard the other.";
@@ -71,7 +84,11 @@ public class HackerMod : Item
                 level5Slots = 3;
                 itemType = ItemTypes.Uplink;
                 activeAbilityId = 2;
-                abilityUses = 2;
+                level1AbilityUses = 2;
+                level2AbilityUses = 2;
+                level3AbilityUses = 2;
+                level4AbilityUses = 2;
+                level5AbilityUses = 3;
                 itemDescription = "A salvaged crypto-crawler. It's a little bit jank.";
                 levelOneItemAbilityDescription = "Put the top card of your discard back onto the top of your deck.";
                 levelTwoItemAbilityDescription = "Put the top card of your discard back onto the top of your deck.";
@@ -210,7 +227,7 @@ public class HackerMod : Item
 
     public int GetActiveAbilityUses()
     {
-        return abilityUses;
+        return level1AbilityUses;
     }
 
     public List<HackerModChip> GetAttachedChips()
@@ -294,5 +311,30 @@ public class HackerMod : Item
     public int GetLevel5SlotCount()
     {
         return level5Slots;
+    }
+
+    public int GetLevel1AbilityUses()
+    {
+        return level1AbilityUses;
+    }
+
+    public int GetLevel2AbilityUses()
+    {
+        return level2AbilityUses;
+    }
+
+    public int GetLevel3AbilityUses()
+    {
+        return level3AbilityUses;
+    }
+
+    public int GetLevel4AbilityUses()
+    {
+        return level4AbilityUses;
+    }
+
+    public int GetLevel5AbilityUses()
+    {
+        return level5AbilityUses;
     }
 }

@@ -19,6 +19,12 @@ public class CardCaroselMultiple : MonoBehaviour
     [SerializeField] Sprite buttonOn;
     [SerializeField] Sprite buttonOff;
 
+    [SerializeField] Image lvl1Overlay;
+    [SerializeField] Image lvl2Overlay;
+    [SerializeField] Image lvl3Overlay;
+    [SerializeField] Image lvl4Overlay;
+    [SerializeField] Image lvl5Overlay;
+
     List<Card> lvl1containedCards = new List<Card>();
     List<CardCaroselCard> lvl1containedCardObjects = new List<CardCaroselCard>();
     List<Card> lvl2containedCards = new List<Card>();
@@ -123,8 +129,25 @@ public class CardCaroselMultiple : MonoBehaviour
         }
     }
 
-    public void GenerateListItems()
+    public void GenerateListItems(int currentItemLevel)
     {
+        lvl1Overlay.gameObject.SetActive(true);
+        lvl2Overlay.gameObject.SetActive(true);
+        lvl3Overlay.gameObject.SetActive(true);
+        lvl4Overlay.gameObject.SetActive(true);
+        lvl5Overlay.gameObject.SetActive(true);
+
+        if (currentItemLevel <= 1)
+            lvl1Overlay.gameObject.SetActive(false);
+        if (currentItemLevel <= 2)
+            lvl2Overlay.gameObject.SetActive(false);
+        if (currentItemLevel <= 3)
+            lvl3Overlay.gameObject.SetActive(false);
+        if (currentItemLevel <= 4)
+            lvl4Overlay.gameObject.SetActive(false);
+        if (currentItemLevel <= 5)
+            lvl5Overlay.gameObject.SetActive(false);
+
         foreach (Card card in lvl1containedCards)
         {
             CardCaroselCard cardItem = Instantiate(lvl1CardTemplate);

@@ -16,10 +16,17 @@ public class UpgradesMenu : MonoBehaviour
     // Hacker
     [SerializeField] GameObject hackerContext;
     [SerializeField] GameObject hackerModContext;
+    // Hacker Mod
     [SerializeField] Image hackerModChipsetSlots;
     [SerializeField] Image hackerModSoftwareSlots;
     [SerializeField] Image hackerModWetwareSlots;
     [SerializeField] TextMeshProUGUI slotCountText;
+    [SerializeField] UpgradeMenuActiveAbilityHolder activeAbilityHolder1;
+    [SerializeField] UpgradeMenuActiveAbilityHolder activeAbilityHolder2;
+    [SerializeField] UpgradeMenuActiveAbilityHolder activeAbilityHolder3;
+    [SerializeField] UpgradeMenuActiveAbilityHolder activeAbilityHolder4;
+    [SerializeField] UpgradeMenuActiveAbilityHolder activeAbilityHolder5;
+    // Hacker Install
     [SerializeField] GameObject hackerInstallContext;
 
     // Runner
@@ -96,7 +103,7 @@ public class UpgradesMenu : MonoBehaviour
             //HackerModChip hackerInstall = item as HackerModChip;
             //lvl1CardIds.AddRange(hackerInstall.GetCardIds());
         }
-        currentCardCarosel.GenerateListItems();
+        currentCardCarosel.GenerateListItems(item.GetCurrentItemLevel());
     }
 
     private void SetupLevelMarkers()
@@ -212,12 +219,62 @@ public class UpgradesMenu : MonoBehaviour
                     break;
             }
             slotCountText.text = GenerateSlotDisplayString();
+            SetupActiveAbilityHolders();
         } else
         {
             // Is an install
             hackerInstallContext.SetActive(true);
             hackerModContext.SetActive(false);
             // TODO THIS STUFF
+        }
+    }
+
+    private void SetupActiveAbilityHolders()
+    {
+        UpgradeMenuActiveAbilityHolder[] abilities = { activeAbilityHolder1, activeAbilityHolder2, activeAbilityHolder3, activeAbilityHolder4, activeAbilityHolder5 };
+        List<UpgradeMenuActiveAbilityHolder> abilityHolders = new List<UpgradeMenuActiveAbilityHolder>();
+        abilityHolders.AddRange(abilities);
+
+        int counter = 0;
+        HackerMod hackerMod = item as HackerMod;
+        foreach (UpgradeMenuActiveAbilityHolder abilityHolder in abilityHolders)
+        {
+            counter++; // start off with #1
+            string abilityDescription = "";
+            int abilityUses = 0;
+
+            bool isCurrentLevel = false;
+            if (counter == hackerMod.GetCurrentItemLevel())
+                isCurrentLevel = true;
+
+            switch (counter)
+            {
+                case 1:
+                    abilityDescription = hackerMod.GetLevelOneItemAbilityDescription();
+                    abilityUses = hackerMod.GetLevel1AbilityUses();
+                    break;
+                case 2:
+                    abilityDescription = hackerMod.GetLevelTwoItemAbilityDescription();
+                    abilityUses = hackerMod.GetLevel2AbilityUses();
+                    break;
+                case 3:
+                    abilityDescription = hackerMod.GetLevelThreeItemAbilityDescription();
+                    abilityUses = hackerMod.GetLevel3AbilityUses();
+                    break;
+                case 4:
+                    abilityDescription = hackerMod.GetLevelFourItemAbilityDescription();
+                    abilityUses = hackerMod.GetLevel4AbilityUses();
+                    break;
+                case 5:
+                    abilityDescription = hackerMod.GetLevelFiveItemAbilityDescription();
+                    abilityUses = hackerMod.GetLevel5AbilityUses();
+                    break;
+            }
+
+            string path = "Icons/ActiveAbilityIcons/Ability" + hackerMod.GetActiveAbilityId().ToString();
+            Sprite hackerAbilityIcon = Resources.Load<Sprite>(path);
+
+            abilityHolder.SetupAbilityHolder(hackerAbilityIcon, item.GetCurrentItemLevel(), counter, isCurrentLevel, abilityDescription, abilityUses);
         }
     }
 
