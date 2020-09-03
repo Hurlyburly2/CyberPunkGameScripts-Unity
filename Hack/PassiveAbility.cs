@@ -5,7 +5,8 @@ using UnityEngine;
 public class PassiveAbility : ScriptableObject
 {
     // GENERAL CONFIG
-    string abilityType;
+    public enum PassiveAbilityType { spikePointMultiplier, dangerZoneBuffer };
+    PassiveAbilityType abilityType;
         // spikePointMultiplier multiplies points from certain kinds/colors of spikes
         // dangerZoneBuffer = You get X chances to place cards in danger zone until security level raises
     int maxUses;
@@ -16,14 +17,14 @@ public class PassiveAbility : ScriptableObject
     int connectionType; // 1, 3, 9
     int multiplier;
 
-    public void SetupPassiveAbility(string newAbilityType, int newMaxUses)
+    public void SetupPassiveAbility(PassiveAbilityType newAbilityType, int newMaxUses)
     {
         abilityType = newAbilityType;
         maxUses = newMaxUses;
         remainingUses = maxUses;
     }
 
-    public void SetupPassiveAbility(string newAbilityType, int newMaxUses, string newColor, int newConnectionType, int newMultiplier)
+    public void SetupPassiveAbility(PassiveAbilityType newAbilityType, int newMaxUses, string newColor, int newConnectionType, int newMultiplier)
     {
         abilityType = newAbilityType;
         maxUses = newMaxUses;
@@ -33,7 +34,7 @@ public class PassiveAbility : ScriptableObject
         multiplier = newMultiplier;
     }
 
-    public string GetAbilityType()
+    public PassiveAbilityType GetAbilityType()
     {
         return abilityType;
     }

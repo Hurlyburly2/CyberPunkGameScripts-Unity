@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class RunnerMod : Item
 {
-    List<int> cardIds = new List<int>();
+    List<int> levelOneCards = new List<int>();
+    List<int> levelTwoCards = new List<int>();
+    List<int> levelThreeCards = new List<int>();
+    List<int> levelFourCards = new List<int>();
+    List<int> levelFiveCards = new List<int>();
 
     public void SetupMod(string newModName)
     {
         GetMod(newModName);
-        itemLevel = 1;
+        itemLevel = 3;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Runner;
     }
@@ -17,63 +21,187 @@ public class RunnerMod : Item
     private void GetMod(string newModName)
     {
         itemName = newModName;
-        cardIds = SetVariablesAndGetCards(itemName);
+        SetVariablesAndGetCards(itemName);
     }
 
     public List<int> GetCardIds()
     {
-        return cardIds;
+        switch (itemLevel)
+        {
+            case 1:
+                return levelOneCards;
+            case 2:
+                return levelTwoCards;
+            case 3:
+                return levelThreeCards;
+            case 4:
+                return levelFourCards;
+            case 5:
+                return levelFiveCards;
+            default:
+                return levelOneCards;
+        }
     }
 
     private List<int> SetVariablesAndGetCards(string modName)
     {
-        List<int> newCardList = new List<int>();
         switch (modName)
         {
             case "Human Eyes":
                 itemType = ItemTypes.Head;
                 itemDescription = "Unmodified human eyes.";
-                newCardList.Add(1); // Awareness
-                newCardList.Add(2); // Observer
+                levelOneCards.Add(1); // Awareness
+                levelOneCards.Add(2); // Observer
+
+                levelTwoCards.Add(1); // Awareness
+                levelTwoCards.Add(2); // Observer
+
+                levelThreeCards.Add(1); // Awareness
+                levelThreeCards.Add(2); // Observer
+
+                levelFourCards.Add(1); // Awareness
+                levelFourCards.Add(2); // Observer
+
+                levelFiveCards.Add(1); // Awareness
+                levelFiveCards.Add(2); // Observer
                 break;
             case "Unmodded Torso":
                 itemType = ItemTypes.Torso;
                 itemDescription = "Unmodified human torso.";
-                newCardList.Add(3); // Deep Breath
-                newCardList.Add(4); // Weak Spot
+                levelOneCards.Add(3); // Deep Breath
+                levelOneCards.Add(4); // Weak Spot
+
+                levelTwoCards.Add(3); // Deep Breath
+                levelTwoCards.Add(4); // Weak Spot
+
+                levelThreeCards.Add(3); // Deep Breath
+                levelThreeCards.Add(4); // Weak Spot
+
+                levelFourCards.Add(3); // Deep Breath
+
+                levelFiveCards.Add(3); // Deep Breath
                 break;
             case "Human Skin":
                 itemType = ItemTypes.Exoskeleton;
                 itemDescription = "Unmodified human skin.";
-                newCardList.Add(5); // Shake Off
-                newCardList.Add(6); // Brace
+                levelOneCards.Add(5); // Shake Off
+                levelOneCards.Add(6); // Brace
+
+                levelTwoCards.Add(5); // Shake Off
+                levelTwoCards.Add(6); // Brace
+
+                levelThreeCards.Add(5); // Shake Off
+                levelThreeCards.Add(6); // Brace
+
+                levelFourCards.Add(5); // Shake Off
+                levelFourCards.Add(6); // Brace
+
+                levelFiveCards.Add(5); // Shake Off
+                levelFiveCards.Add(6); // Brace
                 break;
             case "Unmodded Arm":
                 itemType = ItemTypes.Arm;
                 itemDescription = "Unmodified human arm.";
-                newCardList.Add(7); // Punch
-                newCardList.Add(7); // Punch
-                newCardList.Add(8); // Quickdraw
+                levelOneCards.Add(7); // Punch
+                levelOneCards.Add(7); // Punch
+                levelOneCards.Add(8); // Quickdraw
+
+                levelTwoCards.Add(7); // Punch
+                levelTwoCards.Add(7); // Punch
+                levelTwoCards.Add(8); // Quickdraw
+
+                levelThreeCards.Add(7); // Punch
+                levelThreeCards.Add(7); // Punch
+                levelThreeCards.Add(8); // Quickdraw
+
+                levelFourCards.Add(7); // Punch
+                levelFourCards.Add(7); // Punch
+                levelFourCards.Add(8); // Quickdraw
+
+                levelFiveCards.Add(7); // Punch
+                levelFiveCards.Add(7); // Punch
+                levelFiveCards.Add(8); // Quickdraw
                 break;
             case "Unmodded Leg":
                 itemType = ItemTypes.Leg;
                 itemDescription = "Unmodified human leg.";
-                newCardList.Add(9); // Kick
-                newCardList.Add(9); // Kick
-                newCardList.Add(10);    // Sprint
+                levelOneCards.Add(9); // Kick
+                levelOneCards.Add(9); // Kick
+                levelOneCards.Add(10);    // Sprint
+
+                levelTwoCards.Add(9); // Kick
+                levelTwoCards.Add(9); // Kick
+                levelTwoCards.Add(10);    // Sprint
+
+                levelThreeCards.Add(9); // Kick
+                levelThreeCards.Add(9); // Kick
+                levelThreeCards.Add(10);    // Sprint
+
+                levelFourCards.Add(9); // Kick
+                levelFourCards.Add(9); // Kick
+                levelFourCards.Add(10);    // Sprint
+
+                levelFiveCards.Add(9); // Kick
+                levelFiveCards.Add(9); // Kick
+                levelFiveCards.Add(10);    // Sprint
                 break;
             case "Spanner":
                 itemType = ItemTypes.Weapon;
                 itemDescription = "Heavy wrench. It'll do in a pinch, until you find something better.";
-                newCardList.Add(11);    // Whack
-                newCardList.Add(11);    // Whack
-                newCardList.Add(12);    // Kneecap
-                newCardList.Add(13);    // Bruise
+                levelOneCards.Add(11);    // Whack
+                levelOneCards.Add(11);    // Whack
+                levelOneCards.Add(12);    // Kneecap
+                levelOneCards.Add(13);    // Bruise
+
+                levelTwoCards.Add(11);    // Whack
+                levelTwoCards.Add(11);    // Whack
+                levelTwoCards.Add(12);    // Kneecap
+                levelTwoCards.Add(13);    // Bruise
+
+                levelThreeCards.Add(11);    // Whack
+                levelThreeCards.Add(11);    // Whack
+                levelThreeCards.Add(12);    // Kneecap
+                levelThreeCards.Add(13);    // Bruise
+
+                levelFourCards.Add(11);    // Whack
+                levelFourCards.Add(11);    // Whack
+                levelFourCards.Add(12);    // Kneecap
+                levelFourCards.Add(13);    // Bruise
+
+                levelFiveCards.Add(11);    // Whack
+                levelFiveCards.Add(11);    // Whack
+                levelFiveCards.Add(12);    // Kneecap
+                levelFiveCards.Add(13);    // Bruise
                 break;
             default:
                 break;
         }
 
-        return newCardList;
+        return levelOneCards;
+    }
+
+    public List<int> GetLevelOneCardIds()
+    {
+        return levelOneCards;
+    }
+
+    public List<int> GetLevelTwoCardIds()
+    {
+        return levelTwoCards;
+    }
+
+    public List<int> GetLevelThreeCardIds()
+    {
+        return levelThreeCards;
+    }
+
+    public List<int> GetLevelFourCardIds()
+    {
+        return levelFourCards;
+    }
+
+    public List<int> GetLevelFiveCardIds()
+    {
+        return levelFiveCards;
     }
 }
