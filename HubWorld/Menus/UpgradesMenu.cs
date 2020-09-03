@@ -28,6 +28,14 @@ public class UpgradesMenu : MonoBehaviour
     [SerializeField] UpgradeMenuActiveAbilityHolder activeAbilityHolder5;
     // Hacker Install
     [SerializeField] GameObject hackerInstallContext;
+    [SerializeField] CardCaroselMultiple hackerInstallCardCarosel;
+    [SerializeField] GameObject hackerLevel1Marker;
+    [SerializeField] Image hackerLevel1MarkerSelected;
+    [SerializeField] GameObject hackerLevel2Marker;
+    [SerializeField] Image hackerLevel2MarkerSelected;
+    [SerializeField] GameObject hackerLevel3Marker;
+    [SerializeField] Image hackerLevel3MarkerSelected;
+    [SerializeField] TextMeshProUGUI hackerPassiveAbilityText;
 
     // Runner
     [SerializeField] GameObject runnerContext;
@@ -88,6 +96,7 @@ public class UpgradesMenu : MonoBehaviour
     {
         currentCardCarosel.ClearCardLists();
         currentCardCarosel.InitializeToggle();
+        currentCardCarosel.SetHackerOrRunner(item.GetHackerOrRunner());
 
         if (item.GetHackerOrRunner() == Item.HackerRunner.Runner)
         {
@@ -102,6 +111,10 @@ public class UpgradesMenu : MonoBehaviour
         {
             //HackerModChip hackerInstall = item as HackerModChip;
             //lvl1CardIds.AddRange(hackerInstall.GetCardIds());
+            HackerModChip hackerInstall = item as HackerModChip;
+            AddCardIdsToCaroselHolder(hackerInstall.GetLevelOneCardIds(), 1);
+            AddCardIdsToCaroselHolder(hackerInstall.GetLevelTwoCardIds(), 2);
+            AddCardIdsToCaroselHolder(hackerInstall.GetLevelThreeCardIds(), 3);
         }
         currentCardCarosel.GenerateListItems(item.GetCurrentItemLevel());
     }
@@ -136,19 +149,30 @@ public class UpgradesMenu : MonoBehaviour
         switch (count)
         {
             case 1:
-                runnerLevel1MarkerSelected.gameObject.SetActive(activate);
+                if (item.GetHackerOrRunner() == Item.HackerRunner.Runner)
+                    runnerLevel1MarkerSelected.gameObject.SetActive(activate);
+                else
+                    hackerLevel1MarkerSelected.gameObject.SetActive(activate);
                 break;
             case 2:
-                runnerLevel2MarkerSelected.gameObject.SetActive(activate);
+                if (item.GetHackerOrRunner() == Item.HackerRunner.Runner)
+                    runnerLevel2MarkerSelected.gameObject.SetActive(activate);
+                else
+                    hackerLevel2MarkerSelected.gameObject.SetActive(activate);
                 break;
             case 3:
-                runnerLevel3MarkerSelected.gameObject.SetActive(activate);
+                if (item.GetHackerOrRunner() == Item.HackerRunner.Runner)
+                    runnerLevel3MarkerSelected.gameObject.SetActive(activate);
+                else
+                    hackerLevel3MarkerSelected.gameObject.SetActive(activate);
                 break;
             case 4:
-                runnerLevel4MarkerSelected.gameObject.SetActive(activate);
+                if (item.GetHackerOrRunner() == Item.HackerRunner.Runner)
+                    runnerLevel4MarkerSelected.gameObject.SetActive(activate);
                 break;
             case 5:
-                runnerLevel5MarkerSelected.gameObject.SetActive(activate);
+                if (item.GetHackerOrRunner() == Item.HackerRunner.Runner)
+                    runnerLevel5MarkerSelected.gameObject.SetActive(activate);
                 break;
         }
     }
@@ -164,6 +188,8 @@ public class UpgradesMenu : MonoBehaviour
                 break;
             case Item.HackerRunner.Hacker:
                 // TODO: FILL IN THIS NONSENSE
+                GameObject[] findMarkers2 = { hackerLevel1Marker, hackerLevel2Marker, hackerLevel3Marker };
+                levelMarkers.AddRange(findMarkers2);
                 break;
         }
 
@@ -222,10 +248,14 @@ public class UpgradesMenu : MonoBehaviour
             SetupActiveAbilityHolders();
         } else
         {
+            currentCardCarosel = hackerInstallCardCarosel;
             // Is an install
             hackerInstallContext.SetActive(true);
             hackerModContext.SetActive(false);
-            // TODO THIS STUFF
+            SetupCardCarosels();
+            SetupLevelMarkers();
+            HackerModChip chip = item as HackerModChip;
+            hackerPassiveAbilityText.text = chip.GetPassiveAbilityStringByLevel(item.GetItemLevel());
         }
     }
 

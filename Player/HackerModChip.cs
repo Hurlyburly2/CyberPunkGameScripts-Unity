@@ -8,11 +8,15 @@ public class HackerModChip : Item
     List<int> levelTwoCardIds = new List<int>();
     List<int> levelThreeCardIds = new List<int>();
 
+    string passiveAbilityString1;
+    string passiveAbilityString2;
+    string passiveAbilityString3;
+
     public void SetupChip(string newChipName)
     {
         itemName = newChipName;
         SetChipProperties();
-        itemLevel = 1;
+        itemLevel = 2;
         itemMaxLevel = 3;
         hackerOrRunner = HackerRunner.Hacker;
     }
@@ -25,9 +29,13 @@ public class HackerModChip : Item
             case "Cheap Ghost":
                 itemType = ItemTypes.Software;
                 itemDescription = "Install this on a machine and, if you're lucky, it won't be detected before it starts funnelling you data";
-                levelOneItemAbilityDescription = "Your first two 2-Connection spikes each hack are worth +1.";
-                levelTwoItemAbilityDescription = "Your first two 2-Connection spikes each hack are worth +1.";
-                levelThreeItemAbilityDescription = "Your first two 2-Connection spikes each hack are worth +1.";
+                levelOneItemAbilityDescription = "Your first 2 Two-Connection spikes each hack are worth +1.";
+                levelTwoItemAbilityDescription = "Your first 2 Two-Connection spikes each hack are worth +2.";
+                levelThreeItemAbilityDescription = "Your first 3 Two-Connection spikes each hack are worth +2.";
+
+                passiveAbilityString1 = "Your first 2<color=#593757>/2/3</color> Two-connection spikes each hack are worth +1<color=#593757>/+1/+2</color>";
+                passiveAbilityString2 = "Your first <color=#593757>2/</color>2<color=#593757>/3</color> Two-connection spikes each hack are worth <color=#593757>+1/</color>+2<color=#593757>/+2</color>";
+                passiveAbilityString3 = "Your first <color=#593757>2/2/</color>3 Two-connection spikes each hack are worth <color=#593757>+1/+2/</color>+2"; ;
 
                 levelOneCardIds.Add(14);    // Hidden Trigger
                 levelOneCardIds.Add(14);    // Hidden Trigger
@@ -46,7 +54,11 @@ public class HackerModChip : Item
                 itemDescription = "Salvaged QwikThink1000 wetware. It's an older model, and you fixed it up as best you could.";
                 levelOneItemAbilityDescription = "Your first 3-Connection spike is worth double the points.";
                 levelTwoItemAbilityDescription = "Your first 3-Connection spike is worth double the points.";
-                levelThreeItemAbilityDescription = "Your first 3-Connection spike is worth double the points.";
+                levelThreeItemAbilityDescription = "Your first 3-Connection spike is worth triple the points.";
+
+                passiveAbilityString1 = "Your first 3-Connection spike is worth double<color=#593757>/double/triple</color> the points";
+                passiveAbilityString2 = "Your first 3-Connection spike is worth <color=#593757>double/</color>double<color=#593757>/triple</color> the points";
+                passiveAbilityString3 = "Your first 3-Connection spike is worth <color=#593757>double/double/</color>triple the points";
 
                 levelOneCardIds.Add(16);    // QwikThink
                 levelOneCardIds.Add(17);    // Ad-Hoc Upgrade
@@ -60,9 +72,13 @@ public class HackerModChip : Item
             case "Salvaged Router":
                 itemType = ItemTypes.Chipset;
                 itemDescription = "This would be fine for civilian use. You should replace it.";
-                levelOneItemAbilityDescription = "Each Hack: The first time you place a card outside the safe zone, it does not raise the security level.";
-                levelTwoItemAbilityDescription = "Each Hack: The first time you place a card outside the safe zone, it does not raise the security level.";
-                levelThreeItemAbilityDescription = "Each Hack: The first time you place a card outside the safe zone, it does not raise the security level.";
+                levelOneItemAbilityDescription = "The first time you place a card outside the safe zone, it does not raise the security level.";
+                levelTwoItemAbilityDescription = "The first time you place a card outside the safe zone, it does not raise the security level.";
+                levelThreeItemAbilityDescription = "The first time you place a card outside the safe zone, it does not raise the security level.";
+
+                passiveAbilityString1 = "The first 1<color=#593757>/2/2</color> times you place a card outside the safe zone, it does not raise the security level.";
+                passiveAbilityString2 = "The first <color=#593757>1/</color>2<color=#593757>/2</color> times you place a card outside the safe zone, it does not raise the security level.";
+                passiveAbilityString3 = "The first <color=#593757>1/2/</color>2 times you place a card outside the safe zone, it does not raise the security level.";
 
                 levelOneCardIds.Add(18);    // Failed Connection
                 levelOneCardIds.Add(18);    // Failed Connection
@@ -133,6 +149,20 @@ public class HackerModChip : Item
                 break;
         }
         return newAbility;
+    }
+
+    public string GetPassiveAbilityStringByLevel(int level)
+    {
+        switch (level)
+        {
+            case 1:
+                return passiveAbilityString1;
+            case 2:
+                return passiveAbilityString2;
+            case 3:
+                return passiveAbilityString3;
+        }
+        return "";
     }
 
     public List<int> GetCardIds()

@@ -37,6 +37,7 @@ public class CardCaroselMultiple : MonoBehaviour
     List<CardCaroselCard> lvl5containedCardObjects = new List<CardCaroselCard>();
 
     bool showRunnerCards = true; // toggle to false to show hacker cards
+    Item.HackerRunner hackerOrRunner;
 
     public void InitializeToggle()
     {
@@ -52,9 +53,15 @@ public class CardCaroselMultiple : MonoBehaviour
         hackTextImg.gameObject.SetActive(false);
     }
 
+    public void SetHackerOrRunner(Item.HackerRunner newHackerOrRunner)
+    {
+        hackerOrRunner = newHackerOrRunner;
+    }
+
     public void ClearCardLists()
     {
         showRunnerCards = true;
+
         if (lvl1containedCardObjects.Count > 0)
         {
             for (int i = 0; i < lvl1containedCardObjects.Count; i++)
@@ -134,8 +141,6 @@ public class CardCaroselMultiple : MonoBehaviour
         lvl1Overlay.gameObject.SetActive(true);
         lvl2Overlay.gameObject.SetActive(true);
         lvl3Overlay.gameObject.SetActive(true);
-        lvl4Overlay.gameObject.SetActive(true);
-        lvl5Overlay.gameObject.SetActive(true);
 
         if (currentItemLevel <= 1)
             lvl1Overlay.gameObject.SetActive(false);
@@ -143,10 +148,6 @@ public class CardCaroselMultiple : MonoBehaviour
             lvl2Overlay.gameObject.SetActive(false);
         if (currentItemLevel <= 3)
             lvl3Overlay.gameObject.SetActive(false);
-        if (currentItemLevel <= 4)
-            lvl4Overlay.gameObject.SetActive(false);
-        if (currentItemLevel <= 5)
-            lvl5Overlay.gameObject.SetActive(false);
 
         foreach (Card card in lvl1containedCards)
         {
@@ -178,24 +179,37 @@ public class CardCaroselMultiple : MonoBehaviour
             lvl3containedCardObjects.Add(cardItem);
         }
 
-        foreach (Card card in lvl4containedCards)
+        // Runner card-holding items have two more levels than Hacker ones, we keep
+        // the runner-specific login in here...
+        if (hackerOrRunner == Item.HackerRunner.Runner)
         {
-            CardCaroselCard cardItem = Instantiate(lvl4CardTemplate);
-            cardItem.gameObject.SetActive(true);
+            lvl4Overlay.gameObject.SetActive(true);
+            lvl5Overlay.gameObject.SetActive(true);
 
-            cardItem.transform.SetParent(lvl4CardTemplate.transform.parent, false);
-            cardItem.SetupCard(card);
-            lvl4containedCardObjects.Add(cardItem);
-        }
+            if (currentItemLevel <= 4)
+                lvl4Overlay.gameObject.SetActive(false);
+            if (currentItemLevel <= 5)
+                lvl5Overlay.gameObject.SetActive(false);
 
-        foreach (Card card in lvl5containedCards)
-        {
-            CardCaroselCard cardItem = Instantiate(lvl5CardTemplate);
-            cardItem.gameObject.SetActive(true);
+            foreach (Card card in lvl4containedCards)
+            {
+                CardCaroselCard cardItem = Instantiate(lvl4CardTemplate);
+                cardItem.gameObject.SetActive(true);
 
-            cardItem.transform.SetParent(lvl5CardTemplate.transform.parent, false);
-            cardItem.SetupCard(card);
-            lvl5containedCardObjects.Add(cardItem);
+                cardItem.transform.SetParent(lvl4CardTemplate.transform.parent, false);
+                cardItem.SetupCard(card);
+                lvl4containedCardObjects.Add(cardItem);
+            }
+
+            foreach (Card card in lvl5containedCards)
+            {
+                CardCaroselCard cardItem = Instantiate(lvl5CardTemplate);
+                cardItem.gameObject.SetActive(true);
+
+                cardItem.transform.SetParent(lvl5CardTemplate.transform.parent, false);
+                cardItem.SetupCard(card);
+                lvl5containedCardObjects.Add(cardItem);
+            }
         }
     }
 
