@@ -16,6 +16,8 @@ public class CharacterData : ScriptableObject
     int id;
         // id should be used in lieu of runnerName, and is used to determine which runner class is created
             // 0: Basic first Runner
+    string bio;
+    bool locked = true; // Is true if the player has unlocked this character
 
     Loadout loadout;
 
@@ -57,13 +59,36 @@ public class CharacterData : ScriptableObject
                 int newMaxEnergy = 10;
                 int newCurrentEnergy = 0;
                 int newStartingHandSize = 3;
-                SetupCharacter(newRunnerName, newMaxHealth, newCurrentHealth, newMaxEnergy, newCurrentEnergy, newStartingHandSize);
+                string newBio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+                SetupCharacter(newRunnerName, newMaxHealth, newCurrentHealth, newMaxEnergy, newCurrentEnergy, newStartingHandSize, newBio);
+                break;
+            case 1:
+                id = newId;
+                newRunnerName = "Locked Runner1";
+                newMaxHealth = 100;
+                newCurrentHealth = 100;
+                newMaxEnergy = 100;
+                newCurrentEnergy = 100;
+                newStartingHandSize = 9;
+                newBio = "Character 1 not implemented.";
+                SetupCharacter(newRunnerName, newMaxHealth, newCurrentHealth, newMaxEnergy, newCurrentEnergy, newStartingHandSize, newBio);
+                break;
+            case 2:
+                id = newId;
+                newRunnerName = "Locked Runner2";
+                newMaxHealth = 100;
+                newCurrentHealth = 100;
+                newMaxEnergy = 100;
+                newCurrentEnergy = 100;
+                newStartingHandSize = 9;
+                newBio = "Character 2 not implemented.";
+                SetupCharacter(newRunnerName, newMaxHealth, newCurrentHealth, newMaxEnergy, newCurrentEnergy, newStartingHandSize, newBio);
                 break;
         }
     }
 
     // Setup Character
-    private void SetupCharacter(string newRunnerName, int newMaxHealth, int newCurrentHealth, int newMaxEnergy, int newCurrentEnergy, int newStartingHandSize)
+    private void SetupCharacter(string newRunnerName, int newMaxHealth, int newCurrentHealth, int newMaxEnergy, int newCurrentEnergy, int newStartingHandSize, string newBio)
     {
         runnerName = newRunnerName;
 
@@ -71,6 +96,7 @@ public class CharacterData : ScriptableObject
         currentHealth = newCurrentHealth;
         maximumEnergy = newMaxEnergy;
         currentEnergy = newCurrentEnergy;
+        bio = newBio;
 
         startingHandSize = newStartingHandSize;
 
@@ -260,6 +286,16 @@ public class CharacterData : ScriptableObject
     public List<Item> GetListOfEquippedItems()
     {
         return loadout.GetModsAsItems();
+    }
+
+    public string GetBio()
+    {
+        return bio;
+    }
+
+    public void UnlockRunner()
+    {
+        locked = false;
     }
 
     // Debug Logging
