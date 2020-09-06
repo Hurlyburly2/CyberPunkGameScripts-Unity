@@ -11,6 +11,8 @@ public class LoadoutMenu : MonoBehaviour
     [SerializeField] Image hackerPortraitImage;
     [SerializeField] TextMeshProUGUI hackerName;
 
+    [SerializeField] CharacterSelectMenu characterSelectMenu;
+
     PlayerData playerData;
     CharacterData currentRunner;
     HackerData currentHacker;
@@ -33,6 +35,22 @@ public class LoadoutMenu : MonoBehaviour
         string hackerImagePath = "Characters/Hacker" + currentHacker.GetId() + "-Full";
         hackerPortraitImage.sprite = Resources.Load<Sprite>(hackerImagePath);
         hackerName.text = currentHacker.GetName();
+    }
+
+    private void OpenCharacterSelectMenu(Item.HackerRunner hackerRunner)
+    {
+        characterSelectMenu.gameObject.SetActive(true);
+        characterSelectMenu.SetupCharacterSelectMenu(hackerRunner);
+    }
+
+    public void OpenCharacterSelectMenuHacker()
+    {
+        OpenCharacterSelectMenu(Item.HackerRunner.Hacker);
+    }
+
+    public void OpenCharacterSelectMenuRunner()
+    {
+        OpenCharacterSelectMenu(Item.HackerRunner.Runner);
     }
 
     public void CloseLoadoutMenu()

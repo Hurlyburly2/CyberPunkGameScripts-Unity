@@ -6,6 +6,7 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] LoadoutMenu loadoutMenu;
     [SerializeField] InventoryMenu inventoryMenu;
+    [SerializeField] ShopMenu shopMenu;
 
     public void CloseMainMenu()
     {
@@ -22,6 +23,12 @@ public class MainMenu : MonoBehaviour
     {
         inventoryMenu.gameObject.SetActive(true);
         inventoryMenu.SetupInventoryMenu();
+    }
+
+    public void OpenShopMenu()
+    {
+        shopMenu.gameObject.SetActive(true);
+        shopMenu.SetupShopMenu();
     }
 
     public void QuitGame()
