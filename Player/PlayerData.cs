@@ -78,4 +78,14 @@ public class PlayerData : MonoBehaviour
     {
         return ownedHackers;
     }
+
+    public void SetCurrentRunner(CharacterData newRunner)
+    {
+        currentRunner = newRunner;
+    }
+
+    public void SetCurrentHacker(HackerData newHacker)
+    {
+        currentHacker = newHacker;
+    }
 }

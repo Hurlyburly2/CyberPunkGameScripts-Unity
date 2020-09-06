@@ -298,6 +298,11 @@ public class CharacterData : ScriptableObject
         locked = false;
     }
 
+    public bool GetIsLocked()
+    {
+        return locked;
+    }
+
     // Debug Logging
     public void LogCharacterData()
     {

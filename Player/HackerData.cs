@@ -79,4 +79,9 @@ public class HackerData : ScriptableObject
     {
         locked = false;
     }
+
+    public bool GetIsLocked()
+    {
+        return locked;
+    }
 }

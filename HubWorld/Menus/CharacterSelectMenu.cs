@@ -7,6 +7,7 @@ using TMPro;
 public class CharacterSelectMenu : MonoBehaviour
 {
     [SerializeField] LoadoutMenu loadoutMenu;
+    [SerializeField] Button selectButton;
     Item.HackerRunner hackerOrRunner;
 
     [SerializeField] Sprite selectHackerSprite;
@@ -66,15 +67,21 @@ public class CharacterSelectMenu : MonoBehaviour
 
     public void UpdateDisplayedCharacter()
     {
+        selectButton.interactable = true;
+
         switch (hackerOrRunner)
         {
             case Item.HackerRunner.Runner:
                 characterBio.text = shownRunner.GetBio();
                 characterName.text = shownRunner.GetRunnerName();
+                if (shownRunner.GetIsLocked())
+                    selectButton.interactable = false;
                 break;
             case Item.HackerRunner.Hacker:
                 characterBio.text = shownHacker.GetBio();
                 characterName.text = shownHacker.GetName();
+                if (shownHacker.GetIsLocked())
+                    selectButton.interactable = false;
                 break;
         }
         LoadCharacterPortrait();
@@ -151,7 +158,16 @@ public class CharacterSelectMenu : MonoBehaviour
 
     public void ConfirmSelectBtnPress()
     {
-        // TODO CHARACTER SELECT STUFF IN HERE....
+        PlayerData playerData = FindObjectOfType<PlayerData>();
+        switch (hackerOrRunner)
+        {
+            case Item.HackerRunner.Runner:
+                playerData.SetCurrentRunner(shownRunner);
+                break;
+            case Item.HackerRunner.Hacker:
+                playerData.SetCurrentHacker(shownHacker);
+                break;
+        }
         CloseCharacterSelectMenu();
     }
 
