@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Loadout : ScriptableObject
 {
+    public enum LeftOrRight { None, Left, Right };
     int runnerId;
 
     RunnerMod headMod;

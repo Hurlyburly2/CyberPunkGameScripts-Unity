@@ -6,6 +6,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
 {
     [SerializeField] GameObject runnerContext;
     [SerializeField] GameObject hackerContext;
+    [SerializeField] List<LoadoutSlotBtn> loadoutSlotBtns;
 
     Item.HackerRunner hackerOrRunner;
 
@@ -24,6 +25,21 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                 runnerContext.SetActive(false);
                 hackerContext.SetActive(true);
                 break;
+        }
+        foreach (LoadoutSlotBtn button in loadoutSlotBtns)
+        {
+            button.SetupButton();
+        }
+    }
+
+    public void HandlePressedSlotButton(Item.ItemTypes itemTypeOnButton, Loadout.LeftOrRight leftOrRight)
+    {
+        foreach (LoadoutSlotBtn button in loadoutSlotBtns)
+        {
+            if (itemTypeOnButton != button.GetItemType() || leftOrRight != button.GetLeftOrRight())
+            {
+                button.SetInactive();
+            }
         }
     }
 
