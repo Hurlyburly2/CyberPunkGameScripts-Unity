@@ -41,6 +41,7 @@ public class LoadoutSlotBtn : MonoBehaviour
         if (active)
         {
             SetInactive();
+            parentMenu.HandlePressedSlotButton(itemType, leftOrRight);
         } else
         {
             SetActive();
@@ -56,5 +57,10 @@ public class LoadoutSlotBtn : MonoBehaviour
     public Loadout.LeftOrRight GetLeftOrRight()
     {
         return leftOrRight;
+    }
+
+    public bool GetIsActive()
+    {
+        return active;
     }
 }

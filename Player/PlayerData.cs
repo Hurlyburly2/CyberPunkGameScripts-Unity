@@ -12,6 +12,9 @@ public class PlayerData : MonoBehaviour
     CharacterData currentRunner;
     HackerData currentHacker;
 
+    // item id is used to compare uniqueness of items, for example - two leg slot items
+    int currentItemId;
+
     private void Start()
     {
         SetupNewGame();
@@ -19,6 +22,8 @@ public class PlayerData : MonoBehaviour
 
     private void SetupNewGame()
     {
+        currentItemId = 0;
+
         ownedRunners = new List<CharacterData>();
         ownedHackers = new List<HackerData>();
         ownedItems = new List<Item>();
@@ -87,5 +92,11 @@ public class PlayerData : MonoBehaviour
     public void SetCurrentHacker(HackerData newHacker)
     {
         currentHacker = newHacker;
+    }
+
+    public int GetAndIncrementItemId()
+    {
+        currentItemId++;
+        return currentItemId - 1;
     }
 }

@@ -9,7 +9,7 @@ public class Item : ScriptableObject
     public enum HackerRunner { Hacker, Runner };
     public enum ItemTypes { Head, Torso, Exoskeleton, Arm, Leg, Weapon, Rig, NeuralImplant, Uplink, Software, Wetware, Chipset };
 
-    protected int itemId = 1000;
+    protected int itemId;
     protected string itemName;
     protected string itemDescription;
 
@@ -143,5 +143,15 @@ public class Item : ScriptableObject
     public int GetCurrentItemLevel()
     {
         return itemLevel;
+    }
+
+    public void CreateItemId()
+    {
+        itemId = FindObjectOfType<PlayerData>().GetAndIncrementItemId();
+    }
+
+    public int GetItemId()
+    {
+        return itemId;
     }
 }

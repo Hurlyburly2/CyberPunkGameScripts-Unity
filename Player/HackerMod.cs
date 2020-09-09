@@ -27,6 +27,7 @@ public class HackerMod : Item
         itemLevel = 3;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Hacker;
+        CreateItemId();
     }
 
     private void GetModProperties()

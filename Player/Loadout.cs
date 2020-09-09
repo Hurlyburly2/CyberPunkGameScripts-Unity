@@ -34,9 +34,11 @@ public class Loadout : ScriptableObject
 
                 leftArm = CreateInstance<RunnerMod>();
                 leftArm.SetupMod("Unmodded Arm");
+                Debug.Log("left arm id: " + leftArm.GetInstanceID());
 
                 rightArm = CreateInstance<RunnerMod>();
                 rightArm.SetupMod("Unmodded Arm");
+                Debug.Log("right arm id: " + rightArm.GetInstanceID());
 
                 leftLeg = CreateInstance<RunnerMod>();
                 leftLeg.SetupMod("Unmodded Leg");
@@ -72,5 +74,32 @@ public class Loadout : ScriptableObject
     public List<Item> GetModsAsItems()
     {
         return new List<Item>(GetAllMods());
+    }
+
+    public RunnerMod GetEquippedModByItemType(Item.ItemTypes itemType, Loadout.LeftOrRight leftOrRight)
+    {
+        switch (itemType)
+        {
+            case Item.ItemTypes.Arm:
+                if (leftOrRight == Loadout.LeftOrRight.Left)
+                    return leftArm;
+                else
+                    return rightArm;
+            case Item.ItemTypes.Exoskeleton:
+                return exoskeletonMod;
+            case Item.ItemTypes.Head:
+                return headMod;
+            case Item.ItemTypes.Leg:
+                if (leftOrRight == Loadout.LeftOrRight.Left)
+                    return leftLeg;
+                else
+                    return rightLeg;
+            case Item.ItemTypes.Torso:
+                return torsoMod;
+            case Item.ItemTypes.Weapon:
+                return weapon;
+        }
+        // we shouldn't ever hit this...
+        return weapon;
     }
 }

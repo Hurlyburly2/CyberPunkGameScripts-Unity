@@ -69,7 +69,7 @@ public class InventoryMenu : MonoBehaviour
                 filteredItems.Add(item);
             }
         }
-        inventoryList.SetupInventoryList(fields, filteredItems);
+        inventoryList.SetupInventoryList(fields, filteredItems, ItemDetailsMenu.ItemDetailMenuContextType.Inventory);
     }
 
     private void CheckFilters()
