@@ -52,6 +52,31 @@ public class Loadout : ScriptableObject
         }
     }
 
+    public void EquipItem(RunnerMod newMod)
+    {
+        switch (newMod.GetItemType())
+        {
+            case Item.ItemTypes.Arm:
+                // TODO: DO THIS DIFFERENTLY IN AN OVERLOADED FUNCTION
+                break;
+            case Item.ItemTypes.Exoskeleton:
+                exoskeletonMod = newMod;
+                break;
+            case Item.ItemTypes.Head:
+                headMod = newMod;
+                break;
+            case Item.ItemTypes.Leg:
+                // TODO: DO THIS DIFFERENTLY IN AN OVERLOADED FUNCTION WITH LEFT/RIGHT
+                break;
+            case Item.ItemTypes.Torso:
+                torsoMod = newMod;
+                break;
+            case Item.ItemTypes.Weapon:
+                weapon = newMod;
+                break;
+        }
+    }
+
     public List<int> GetAllCardIds()
     {
         RunnerMod[] allMods = GetAllMods();
@@ -101,5 +126,16 @@ public class Loadout : ScriptableObject
         }
         // we shouldn't ever hit this...
         return weapon;
+    }
+
+    public bool IsItemEquipped(RunnerMod modToCheck)
+    {
+        RunnerMod[] runnerMods = GetAllMods();
+        foreach (RunnerMod mod in runnerMods)
+        {
+            if (mod.GetInstanceID() == modToCheck.GetInstanceID())
+                return true;
+        }
+        return false;
     }
 }

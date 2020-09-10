@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class LoadoutEquipmentMenu : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
     [SerializeField] GameObject hackerContext;
 
     Item.HackerRunner hackerOrRunner;
+    [SerializeField] Button runnerEquipButton;
 
     CharacterData runner;
     HackerData hacker;
@@ -25,10 +27,13 @@ public class LoadoutEquipmentMenu : MonoBehaviour
     List<Item.ItemTypes> currentFilters;
 
     Item selectedItem;
+    bool recentlyEquippedItem = false;
 
     private void DoSetup()
     {
         InitialFilterSetup();
+        runnerEquipButton.interactable = false;
+        // TODO HACKER EQUIP BUTTON
         switch (hackerOrRunner)
         {
             case Item.HackerRunner.Runner:
@@ -54,6 +59,22 @@ public class LoadoutEquipmentMenu : MonoBehaviour
         SetupInventoryList();
     }
 
+    public void EquipItem()
+    {
+        switch (hackerOrRunner)
+        {
+            case Item.HackerRunner.Runner:
+                Loadout runnerLoadout = FindObjectOfType<PlayerData>().GetCurrentRunner().GetLoadout();
+                runnerLoadout.EquipItem(selectedItem as RunnerMod);
+                recentlyEquippedItem = true;
+                break;
+            case Item.HackerRunner.Hacker:
+                // TODO: DO IT FOR HACKER TOO
+                break;
+        }
+        SetupInventoryList();
+    }
+
     public void HandleSelectedItem(Item newItem, bool isSelected)
     {
         if (isSelected)
@@ -66,6 +87,33 @@ public class LoadoutEquipmentMenu : MonoBehaviour
         if (selectedItem != null)
         {
             SetupCardCarosel(selectedItem);
+        }
+        EnableOrDisableEquipButtonBasedOnSelection();
+    }
+
+    private void EnableOrDisableEquipButtonBasedOnSelection()
+    {
+        if (selectedItem == null)
+        {
+            // TODO: hacker too
+            runnerEquipButton.interactable = false;
+        }
+        switch (selectedItem.GetHackerOrRunner())
+        {
+            case Item.HackerRunner.Runner:
+                Loadout runnerLoadout = FindObjectOfType<PlayerData>().GetCurrentRunner().GetLoadout();
+                RunnerMod mod = selectedItem as RunnerMod;
+                if (runnerLoadout.IsItemEquipped(mod))
+                {
+                    runnerEquipButton.interactable = false;
+                } else
+                {
+                    runnerEquipButton.interactable = true;
+                }
+                break;
+            case Item.HackerRunner.Hacker:
+                // TODO: OF COURSE
+                break;
         }
     }
 
@@ -137,6 +185,20 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                     }
                     break;
                 case Item.HackerRunner.Hacker:
+                    // TODO: HACKER STUFF
+                    break;
+            }
+        } else if (recentlyEquippedItem == true)
+        {
+            recentlyEquippedItem = false;
+            switch (hackerOrRunner)
+            {
+                case Item.HackerRunner.Runner:
+                    RunnerMod currentMod = selectedItem as RunnerMod;
+                    runnerInventoryList.SelectParticularItem(currentMod);
+                    break;
+                case Item.HackerRunner.Hacker:
+                    // TODO: HACKER STUFF
                     break;
             }
         }

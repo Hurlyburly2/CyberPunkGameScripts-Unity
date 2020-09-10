@@ -134,7 +134,7 @@ public class InventoryList : MonoBehaviour
         // add list items to the viewer, and store references to them here for destroying later
         foreach (Item item in items)
         {
-            itemsInList.Add(inventoryListControl.AddItemToList(item));
+            itemsInList.Add(inventoryListControl.AddItemToList(item, context));
         }
     }
 
@@ -171,7 +171,7 @@ public class InventoryList : MonoBehaviour
     public void OpenDetailsMenu()
     {
         itemDetailsMenu.gameObject.SetActive(true);
-        itemDetailsMenu.SetupItemDetailMenu(ItemDetailsMenu.ItemDetailMenuContextType.Inventory, GetSelectedItem());
+        itemDetailsMenu.SetupItemDetailMenu(context, GetSelectedItem());
     }
 
     public void ClickHeaderOne()
