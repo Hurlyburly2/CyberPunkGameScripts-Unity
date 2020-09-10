@@ -65,8 +65,27 @@ public class LoadoutEquipmentMenu : MonoBehaviour
         {
             case Item.HackerRunner.Runner:
                 Loadout runnerLoadout = FindObjectOfType<PlayerData>().GetCurrentRunner().GetLoadout();
-                runnerLoadout.EquipItem(selectedItem as RunnerMod);
-                recentlyEquippedItem = true;
+
+                if (selectedItem.GetItemType() == Item.ItemTypes.Arm || selectedItem.GetItemType() == Item.ItemTypes.Leg)
+                {
+                    // Do we have an arm or leg slot selected? If so, equip to that one
+                    foreach (LoadoutSlotBtn loadoutSlot in runnerLoadoutSlotBtns)
+                    {
+                        if (loadoutSlot.GetItemType() == selectedItem.GetItemType() && loadoutSlot.GetIsActive())
+                        {
+                            runnerLoadout.EquipItem(selectedItem as RunnerMod, loadoutSlot.GetLeftOrRight());
+                            recentlyEquippedItem = true;
+                        }
+                    }
+                    if (recentlyEquippedItem == false)
+                    {
+                        // If not disable other inputs, play an animation indicating one or the other should be clicked
+                    }
+                } else
+                {
+                    runnerLoadout.EquipItem(selectedItem as RunnerMod);
+                    recentlyEquippedItem = true;
+                }
                 break;
             case Item.HackerRunner.Hacker:
                 // TODO: DO IT FOR HACKER TOO
@@ -97,23 +116,26 @@ public class LoadoutEquipmentMenu : MonoBehaviour
         {
             // TODO: hacker too
             runnerEquipButton.interactable = false;
-        }
-        switch (selectedItem.GetHackerOrRunner())
+        } else
         {
-            case Item.HackerRunner.Runner:
-                Loadout runnerLoadout = FindObjectOfType<PlayerData>().GetCurrentRunner().GetLoadout();
-                RunnerMod mod = selectedItem as RunnerMod;
-                if (runnerLoadout.IsItemEquipped(mod))
-                {
-                    runnerEquipButton.interactable = false;
-                } else
-                {
-                    runnerEquipButton.interactable = true;
-                }
-                break;
-            case Item.HackerRunner.Hacker:
-                // TODO: OF COURSE
-                break;
+            switch (selectedItem.GetHackerOrRunner())
+            {
+                case Item.HackerRunner.Runner:
+                    Loadout runnerLoadout = FindObjectOfType<PlayerData>().GetCurrentRunner().GetLoadout();
+                    RunnerMod mod = selectedItem as RunnerMod;
+                    if (runnerLoadout.IsItemEquipped(mod))
+                    {
+                        runnerEquipButton.interactable = false;
+                    }
+                    else
+                    {
+                        runnerEquipButton.interactable = true;
+                    }
+                    break;
+                case Item.HackerRunner.Hacker:
+                    // TODO: OF COURSE
+                    break;
+            }
         }
     }
 
@@ -206,6 +228,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
 
     private void InitialFilterSetup()
     {
+        currentFilters = new List<Item.ItemTypes>();
         switch (hackerOrRunner)
         {
             case Item.HackerRunner.Runner:
@@ -247,10 +270,14 @@ public class LoadoutEquipmentMenu : MonoBehaviour
         }
         if (currentFilters.Count != 1 || currentFilters.Count == 1 && currentFilters[0] != itemTypeOnButton)
         {
+            Debug.Log("Hit this guy");
             UpdateFilters(itemTypeOnButton, leftOrRight);
             SetupInventoryList();
         } else
         {
+            Debug.Log("Hit that guy");
+            UpdateFilters(itemTypeOnButton, leftOrRight);
+            SetupInventoryList();
             SelectEquippedItemInList();
         }
     }
@@ -265,10 +292,12 @@ public class LoadoutEquipmentMenu : MonoBehaviour
         }
         if (foundActiveBtn)
         {
+            Debug.Log("Found active button");
             currentFilters = new List<Item.ItemTypes>();
             currentFilters.Add(clickedBtnType);
         } else
         {
+            Debug.Log("Did not find active button");
             InitialFilterSetup();
         }
     }

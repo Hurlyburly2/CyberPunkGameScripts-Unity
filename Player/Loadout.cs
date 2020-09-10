@@ -77,6 +77,25 @@ public class Loadout : ScriptableObject
         }
     }
 
+    public void EquipItem(RunnerMod newMod, LeftOrRight leftOrRight)
+    {
+        switch (newMod.GetItemType())
+        {
+            case Item.ItemTypes.Arm:
+                if (leftOrRight == LeftOrRight.Left)
+                    leftArm = newMod;
+                else if (leftOrRight == LeftOrRight.Right)
+                    rightArm = newMod;
+                break;
+            case Item.ItemTypes.Leg:
+                if (leftOrRight == LeftOrRight.Left)
+                    leftLeg = newMod;
+                else if (leftOrRight == LeftOrRight.Right)
+                    rightLeg = newMod;
+                break;
+        }
+    }
+
     public List<int> GetAllCardIds()
     {
         RunnerMod[] allMods = GetAllMods();
