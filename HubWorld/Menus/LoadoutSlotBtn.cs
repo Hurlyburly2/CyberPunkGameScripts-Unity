@@ -10,6 +10,7 @@ public class LoadoutSlotBtn : MonoBehaviour
 
     [SerializeField] LoadoutEquipmentMenu parentMenu;
     [SerializeField] Loadout.LeftOrRight leftOrRight;
+    [SerializeField] int slotNumber; // 1, 2, or 3. 0 is default for things without slots.
 
     [SerializeField] Item.ItemTypes itemType;
 

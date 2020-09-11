@@ -24,7 +24,7 @@ public class HackerMod : Item
     {
         itemName = newModName;
         GetModProperties();
-        itemLevel = 3;
+        itemLevel = 1;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Hacker;
         CreateItemId();
@@ -287,6 +287,24 @@ public class HackerMod : Item
             hackTilePicker.gameObject.SetActive(true);
             hackTilePicker.Initialize(cardsToPickFrom, pickHowMany, "pickAndDiscard");
         }
+    }
+
+    public int GetCurrentLevelSlotCount()
+    {
+        switch (itemLevel)
+        {
+            case 1:
+                return level1Slots;
+            case 2:
+                return level2Slots;
+            case 3:
+                return level3Slots;
+            case 4:
+                return level4Slots;
+            case 5:
+                return level5Slots;
+        }
+        return 0;
     }
 
     public int GetLevel1SlotCount()

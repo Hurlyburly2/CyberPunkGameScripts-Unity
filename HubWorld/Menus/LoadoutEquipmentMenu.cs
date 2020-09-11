@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class LoadoutEquipmentMenu : MonoBehaviour
 {
-    // Runner stuff
+    [Header("Runner Stuff")]
     [SerializeField] GameObject runnerContext;
     [SerializeField] List<LoadoutSlotBtn> runnerLoadoutSlotBtns;
     [SerializeField] TextMeshProUGUI runnerName;
@@ -14,9 +14,31 @@ public class LoadoutEquipmentMenu : MonoBehaviour
     [SerializeField] InventoryList runnerInventoryList;
     [SerializeField] CardCarosel runnerCardCarosel;
 
-    // Hacker Stuff
+    [Header("Hacker Stuff")]
     [SerializeField] GameObject hackerContext;
+    [SerializeField] TextMeshProUGUI hackerName;
+    [SerializeField] TextMeshProUGUI hackerDescription;
+    List<LoadoutSlotBtn> activeHackerSlotBtns;
+    [SerializeField] GameObject wetware1SlotHolder;
+    [SerializeField] List<LoadoutSlotBtn> wetware1Slots;
+    [SerializeField] GameObject wetware2SlotHolder;
+    [SerializeField] List<LoadoutSlotBtn> wetware2Slots;
+    [SerializeField] GameObject wetware3SlotHolder;
+    [SerializeField] List<LoadoutSlotBtn> wetware3Slots;
+    [SerializeField] GameObject software1SlotHolder;
+    [SerializeField] List<LoadoutSlotBtn> software1Slots;
+    [SerializeField] GameObject software2SlotHolder;
+    [SerializeField] List<LoadoutSlotBtn> software2Slots;
+    [SerializeField] GameObject software3SlotHolder;
+    [SerializeField] List<LoadoutSlotBtn> software3Slots;
+    [SerializeField] GameObject chipset1SlotHolder;
+    [SerializeField] List<LoadoutSlotBtn> chipset1Slots;
+    [SerializeField] GameObject chipset2SlotHolder;
+    [SerializeField] List<LoadoutSlotBtn> chipset2Slots;
+    [SerializeField] GameObject chipset3SlotHolder;
+    [SerializeField] List<LoadoutSlotBtn> chipset3Slots;
 
+    [Header("General Stuff")]
     Item.HackerRunner hackerOrRunner;
     [SerializeField] Button runnerEquipButton;
 
@@ -46,9 +68,10 @@ public class LoadoutEquipmentMenu : MonoBehaviour
             case Item.HackerRunner.Hacker:
                 runnerContext.SetActive(false);
                 hackerContext.SetActive(true);
-                // setup hacker name
-                // setup hacker description (if necessary)
+                hackerName.text = hacker.GetName();
+                hackerDescription.text = hacker.GetBio();
                 // setup hacker card carosel (if applicable)
+                SetupActiveHackerSlots();
                 break;
         }
         foreach (LoadoutSlotBtn button in runnerLoadoutSlotBtns)
@@ -92,6 +115,81 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                 break;
         }
         SetupInventoryList();
+    }
+
+    private void SetupActiveHackerSlots()
+    {
+        activeHackerSlotBtns = new List<LoadoutSlotBtn>();
+        HackerLoadout hackerLoadout = FindObjectOfType<PlayerData>().GetCurrentHacker().GetHackerLoadout();
+        HackerMod neuralImplant = hackerLoadout.GetNeuralImplantMod();
+        switch (neuralImplant.GetCurrentLevelSlotCount())
+        {
+            case 1:
+                wetware1SlotHolder.SetActive(true);
+                wetware2SlotHolder.SetActive(false);
+                wetware3SlotHolder.SetActive(false);
+                activeHackerSlotBtns.AddRange(wetware1Slots);
+                break;
+            case 2:
+                wetware1SlotHolder.SetActive(false);
+                wetware2SlotHolder.SetActive(true);
+                wetware3SlotHolder.SetActive(false);
+                activeHackerSlotBtns.AddRange(wetware2Slots);
+                break;
+            case 3:
+                wetware1SlotHolder.SetActive(false);
+                wetware2SlotHolder.SetActive(false);
+                wetware3SlotHolder.SetActive(true);
+                activeHackerSlotBtns.AddRange(wetware3Slots);
+                break;
+        }
+
+        HackerMod rig = hackerLoadout.GetRigMod();
+        switch (rig.GetCurrentLevelSlotCount())
+        {
+            case 1:
+                software1SlotHolder.SetActive(true);
+                software2SlotHolder.SetActive(false);
+                software3SlotHolder.SetActive(false);
+                activeHackerSlotBtns.AddRange(software1Slots);
+                break;
+            case 2:
+                software1SlotHolder.SetActive(false);
+                software2SlotHolder.SetActive(true);
+                software3SlotHolder.SetActive(false);
+                activeHackerSlotBtns.AddRange(software2Slots);
+                break;
+            case 3:
+                software1SlotHolder.SetActive(false);
+                software2SlotHolder.SetActive(false);
+                software3SlotHolder.SetActive(true);
+                activeHackerSlotBtns.AddRange(software3Slots);
+                break;
+        }
+
+        HackerMod uplink = hackerLoadout.GetUplinkMod();
+        switch (uplink.GetCurrentLevelSlotCount())
+        {
+            case 1:
+                chipset1SlotHolder.SetActive(true);
+                chipset2SlotHolder.SetActive(false);
+                chipset3SlotHolder.SetActive(false);
+                activeHackerSlotBtns.AddRange(chipset1Slots);
+                break;
+            case 2:
+                chipset1SlotHolder.SetActive(false);
+                chipset2SlotHolder.SetActive(true);
+                chipset3SlotHolder.SetActive(false);
+                activeHackerSlotBtns.AddRange(chipset2Slots);
+                break;
+            case 3:
+                chipset1SlotHolder.SetActive(false);
+                chipset2SlotHolder.SetActive(false);
+                chipset3SlotHolder.SetActive(true);
+                activeHackerSlotBtns.AddRange(chipset3Slots);
+                break;
+        }
+        Debug.Log("found " + activeHackerSlotBtns.Count + " active hacker slot buttons");
     }
 
     public void HandleSelectedItem(Item newItem, bool isSelected)
@@ -270,12 +368,10 @@ public class LoadoutEquipmentMenu : MonoBehaviour
         }
         if (currentFilters.Count != 1 || currentFilters.Count == 1 && currentFilters[0] != itemTypeOnButton)
         {
-            Debug.Log("Hit this guy");
             UpdateFilters(itemTypeOnButton, leftOrRight);
             SetupInventoryList();
         } else
         {
-            Debug.Log("Hit that guy");
             UpdateFilters(itemTypeOnButton, leftOrRight);
             SetupInventoryList();
             SelectEquippedItemInList();
