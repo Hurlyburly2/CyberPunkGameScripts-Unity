@@ -104,6 +104,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
             button.ClearWaitingForInput();
         }
         waitingToEquip = false;
+        ReverseDisableAllOtherInputs();
     }
 
     public void EquipItem()
@@ -136,6 +137,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                             }
                         }
                         waitingToEquip = true;
+                        DisableAllOtherInputs();
                         // TODO: DISABLE OTHER INPUTS SOMEHOW
                     }
                 } else
@@ -173,12 +175,53 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                             }
                         }
                         waitingToEquip = true;
+                        DisableAllOtherInputs();
                         // TODO: DISABLE OTHER INPUTS SOMEHOW
                     }
                 }
                 break;
         }
         SetupInventoryList();
+    }
+
+    private void DisableAllOtherInputs()
+    {
+        List<LoadoutSlotBtn> buttons = new List<LoadoutSlotBtn>();
+        if (hackerOrRunner == Item.HackerRunner.Runner)
+            buttons.AddRange(runnerLoadoutSlotBtns);
+        else
+            buttons.AddRange(activeHackerSlotBtns);
+
+        foreach (LoadoutSlotBtn button in buttons)
+        {
+            if (button.GetItemType() != selectedItem.GetItemType())
+            {
+                Button[] buttonComponents = button.GetComponentsInChildren<Button>();
+                foreach (Button buttonComponent in buttonComponents)
+                    buttonComponent.interactable = false;
+            }
+        }
+        hackerEquipButton.interactable = false;
+        runnerEquipButton.interactable = false;
+    }
+
+    private void ReverseDisableAllOtherInputs()
+    {
+        List<LoadoutSlotBtn> buttons = new List<LoadoutSlotBtn>();
+        if (hackerOrRunner == Item.HackerRunner.Runner)
+            buttons.AddRange(runnerLoadoutSlotBtns);
+        else
+            buttons.AddRange(activeHackerSlotBtns);
+
+        foreach (LoadoutSlotBtn button in buttons)
+        {
+            Button[] buttonComponents = button.GetComponentsInChildren<Button>();
+            foreach (Button buttonComponent in buttonComponents)
+                buttonComponent.interactable = true;
+        }
+
+        hackerEquipButton.interactable = true;
+        runnerEquipButton.interactable = true;
     }
 
     private void SetupActiveHackerSlots()
