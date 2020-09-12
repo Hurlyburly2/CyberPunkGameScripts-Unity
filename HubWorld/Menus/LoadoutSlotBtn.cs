@@ -42,11 +42,11 @@ public class LoadoutSlotBtn : MonoBehaviour
         if (active)
         {
             SetInactive();
-            parentMenu.HandlePressedSlotButton(itemType, leftOrRight);
+            parentMenu.HandlePressedSlotButton(itemType, leftOrRight, slotNumber);
         } else
         {
             SetActive();
-            parentMenu.HandlePressedSlotButton(itemType, leftOrRight);
+            parentMenu.HandlePressedSlotButton(itemType, leftOrRight, slotNumber);
         }
     }
 
@@ -63,5 +63,10 @@ public class LoadoutSlotBtn : MonoBehaviour
     public bool GetIsActive()
     {
         return active;
+    }
+
+    public int GetSlotNumber()
+    {
+        return slotNumber;
     }
 }

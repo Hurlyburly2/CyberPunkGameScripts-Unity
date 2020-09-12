@@ -154,4 +154,22 @@ public class Item : ScriptableObject
     {
         return itemId;
     }
+
+    public bool IsHackerMod()
+    {
+        if (itemType == ItemTypes.NeuralImplant || itemType == ItemTypes.Rig || itemType == ItemTypes.Uplink)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsHackerChipset()
+    {
+        if (itemType == ItemTypes.Chipset || itemType == ItemTypes.Software || itemType == ItemTypes.Wetware)
+        {
+            return true;
+        }
+        return false;
+    }
 }

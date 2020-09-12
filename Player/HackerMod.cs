@@ -236,6 +236,11 @@ public class HackerMod : Item
         return modChips;
     }
 
+    public HackerModChip GetChipBySlot(int slotNumber)
+    {
+        return modChips[slotNumber - 1];
+    }
+
     public int GetMaxSlotCount()
     {
         switch (itemLevel)

@@ -157,11 +157,11 @@ public class InventoryList : MonoBehaviour
         return itemsInList[0].GetItem();
     }
 
-    public void SelectParticularItem(RunnerMod runnerModToSelect)
+    public void SelectParticularItem(Item itemToSelect)
     {
         foreach (InventoryListItem listItem in itemsInList)
         {
-            if (listItem.GetItem().GetInstanceID() == runnerModToSelect.GetInstanceID())
+            if (listItem.GetItem().GetInstanceID() == itemToSelect.GetInstanceID())
             {
                 listItem.SelectListItem();
             }

@@ -94,4 +94,48 @@ public class HackerLoadout : ScriptableObject
         allEquipped.AddRange(GetAllModChips());
         return allEquipped;
     }
+
+    public bool IsItemEquipped(Item item)
+    {
+        List<Item> equippedItems = new List<Item>();
+        equippedItems.AddRange(GetAllMods());
+        equippedItems.AddRange(GetAllModChips());
+        foreach (Item equippedItem in equippedItems)
+        {
+            if (equippedItem.GetInstanceID() == item.GetInstanceID())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public HackerMod GetEquippedModByItemType(Item.ItemTypes itemType)
+    {
+        switch (itemType)
+        {
+            case Item.ItemTypes.NeuralImplant:
+                return neuralImplant;
+            case Item.ItemTypes.Rig:
+                return rig;
+            case Item.ItemTypes.Uplink:
+                return uplink;
+        }
+        // This should never happen:
+        return neuralImplant;
+    }
+
+    public HackerModChip GetEquippedInstallByItemTypeAndSlotNumber(Item.ItemTypes itemType, int slotNumber)
+    {
+        switch (itemType)
+        {
+            case Item.ItemTypes.Chipset:
+                return uplink.GetChipBySlot(slotNumber);
+            case Item.ItemTypes.Software:
+                return rig.GetChipBySlot(slotNumber);
+            case Item.ItemTypes.Wetware:
+                return neuralImplant.GetChipBySlot(slotNumber);
+        }
+        return uplink.GetChipBySlot(0); // this will break, as intended. We shouldn't reach this.
+    }
 }

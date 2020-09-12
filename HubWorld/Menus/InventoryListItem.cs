@@ -62,7 +62,8 @@ public class InventoryListItem : MonoBehaviour
                 return runnerLoadout.IsItemEquipped(currentMod);
             case Item.HackerRunner.Hacker:
                 // TODO: FILL THIS SHIT IN FOR HACKER
-                break;
+                HackerLoadout hackerLoadout = FindObjectOfType<PlayerData>().GetCurrentHacker().GetHackerLoadout();
+                return hackerLoadout.IsItemEquipped(item);
         }
         return false;
     }

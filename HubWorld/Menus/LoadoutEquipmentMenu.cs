@@ -18,6 +18,8 @@ public class LoadoutEquipmentMenu : MonoBehaviour
     [SerializeField] GameObject hackerContext;
     [SerializeField] TextMeshProUGUI hackerName;
     [SerializeField] TextMeshProUGUI hackerDescription;
+    [SerializeField] CardCarosel hackerCardCarosel;
+    [SerializeField] InventoryList hackerInventoryList;
     List<LoadoutSlotBtn> activeHackerSlotBtns;
     [SerializeField] GameObject wetware1SlotHolder;
     [SerializeField] List<LoadoutSlotBtn> wetware1Slots;
@@ -37,6 +39,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
     [SerializeField] List<LoadoutSlotBtn> chipset2Slots;
     [SerializeField] GameObject chipset3SlotHolder;
     [SerializeField] List<LoadoutSlotBtn> chipset3Slots;
+    [SerializeField] List<LoadoutSlotBtn> hackerModSlots;
 
     [Header("General Stuff")]
     Item.HackerRunner hackerOrRunner;
@@ -45,6 +48,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
     CharacterData runner;
     HackerData hacker;
     CardCarosel currentCardCarosel;
+    InventoryList currentInventoryList;
     InventoryMenu.InventoryFields[] fields = { InventoryMenu.InventoryFields.Name, InventoryMenu.InventoryFields.Type, InventoryMenu.InventoryFields.Lvl };
     List<Item.ItemTypes> currentFilters;
 
@@ -64,20 +68,27 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                 runnerName.text = runner.GetRunnerName();
                 runnerDescription.text = runner.GetBio();
                 currentCardCarosel = runnerCardCarosel;
+                currentInventoryList = runnerInventoryList;
+                foreach (LoadoutSlotBtn button in runnerLoadoutSlotBtns)
+                {
+                    button.SetupButton();
+                }
                 break;
             case Item.HackerRunner.Hacker:
                 runnerContext.SetActive(false);
                 hackerContext.SetActive(true);
                 hackerName.text = hacker.GetName();
                 hackerDescription.text = hacker.GetBio();
-                // setup hacker card carosel (if applicable)
+                currentCardCarosel = hackerCardCarosel;
                 SetupActiveHackerSlots();
+                currentInventoryList = hackerInventoryList;
+                foreach (LoadoutSlotBtn button in activeHackerSlotBtns)
+                {
+                    button.SetupButton();
+                }
                 break;
         }
-        foreach (LoadoutSlotBtn button in runnerLoadoutSlotBtns)
-        {
-            button.SetupButton();
-        }
+        
         currentCardCarosel.InitializeToggle();
         SetupInventoryList();
     }
@@ -120,6 +131,8 @@ public class LoadoutEquipmentMenu : MonoBehaviour
     private void SetupActiveHackerSlots()
     {
         activeHackerSlotBtns = new List<LoadoutSlotBtn>();
+        activeHackerSlotBtns.AddRange(hackerModSlots); // Always need these three
+
         HackerLoadout hackerLoadout = FindObjectOfType<PlayerData>().GetCurrentHacker().GetHackerLoadout();
         HackerMod neuralImplant = hackerLoadout.GetNeuralImplantMod();
         switch (neuralImplant.GetCurrentLevelSlotCount())
@@ -249,7 +262,11 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                 cardIds.AddRange(runnerMod.GetCardIds());
                 break;
             case Item.HackerRunner.Hacker:
-                // Fill this only if the appropriate type of hacker item is selected
+                if (item.IsHackerChipset())
+                {
+                    HackerModChip hackerModChip = item as HackerModChip;
+                    cardIds.AddRange(hackerModChip.GetCardIds());
+                }
                 break;
         }
 
@@ -263,7 +280,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
 
     private void SetupInventoryList()
     {
-        runnerInventoryList.DestroyListItems();
+        currentInventoryList.DestroyListItems();
 
         List<Item> items = FindObjectOfType<PlayerData>().GetPlayerItems();
         List<Item> filteredItems = new List<Item>();
@@ -276,7 +293,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
             }
         }
 
-        runnerInventoryList.SetupInventoryList(fields, filteredItems, ItemDetailsMenu.ItemDetailMenuContextType.Loadout);
+        currentInventoryList.SetupInventoryList(fields, filteredItems, ItemDetailsMenu.ItemDetailMenuContextType.Loadout);
 
         SelectEquippedItemInList();
     }
@@ -300,12 +317,30 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                             itemType = button.GetItemType();
                             leftOrRight = button.GetLeftOrRight();
                             RunnerMod equippedMod = playerData.GetCurrentRunner().GetLoadout().GetEquippedModByItemType(itemType, leftOrRight);
-                            runnerInventoryList.SelectParticularItem(equippedMod);
+                            currentInventoryList.SelectParticularItem(equippedMod);
                         }
                     }
                     break;
                 case Item.HackerRunner.Hacker:
-                    // TODO: HACKER STUFF
+                    foreach (LoadoutSlotBtn button in activeHackerSlotBtns)
+                    {
+                        if (button.GetIsActive())
+                        {
+                            // do for mod
+                            itemType = button.GetItemType();
+                            if (button.GetItemType() == Item.ItemTypes.NeuralImplant || button.GetItemType() == Item.ItemTypes.Rig || button.GetItemType() == Item.ItemTypes.Uplink)
+                            {
+                                HackerMod equippedMod = playerData.GetCurrentHacker().GetHackerLoadout().GetEquippedModByItemType(itemType);
+                                currentInventoryList.SelectParticularItem(equippedMod);
+                            } else
+                            {
+                                // do for install
+                                int slotNumber = button.GetSlotNumber();
+                                HackerModChip hackerModChip = playerData.GetCurrentHacker().GetHackerLoadout().GetEquippedInstallByItemTypeAndSlotNumber(itemType, slotNumber);
+                                currentInventoryList.SelectParticularItem(hackerModChip);
+                            }
+                        }
+                    }
                     break;
             }
         } else if (recentlyEquippedItem == true)
@@ -315,7 +350,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
             {
                 case Item.HackerRunner.Runner:
                     RunnerMod currentMod = selectedItem as RunnerMod;
-                    runnerInventoryList.SelectParticularItem(currentMod);
+                    currentInventoryList.SelectParticularItem(currentMod);
                     break;
                 case Item.HackerRunner.Hacker:
                     // TODO: HACKER STUFF
@@ -357,31 +392,41 @@ public class LoadoutEquipmentMenu : MonoBehaviour
         }
     }
 
-    public void HandlePressedSlotButton(Item.ItemTypes itemTypeOnButton, Loadout.LeftOrRight leftOrRight)
+    public void HandlePressedSlotButton(Item.ItemTypes itemTypeOnButton, Loadout.LeftOrRight leftOrRight, int slotNumber)
     {
-        foreach (LoadoutSlotBtn button in runnerLoadoutSlotBtns)
+        List<LoadoutSlotBtn> currentLoadoutSlotBtns = GetCurrentLoadoutSlotBtns();
+        foreach (LoadoutSlotBtn button in currentLoadoutSlotBtns)
         {
-            if (itemTypeOnButton != button.GetItemType() || leftOrRight != button.GetLeftOrRight())
+            if (itemTypeOnButton != button.GetItemType() || leftOrRight != button.GetLeftOrRight() || slotNumber != button.GetSlotNumber())
             {
                 button.SetInactive();
             }
         }
         if (currentFilters.Count != 1 || currentFilters.Count == 1 && currentFilters[0] != itemTypeOnButton)
         {
-            UpdateFilters(itemTypeOnButton, leftOrRight);
+            UpdateFilters(itemTypeOnButton, leftOrRight, slotNumber);
             SetupInventoryList();
         } else
         {
-            UpdateFilters(itemTypeOnButton, leftOrRight);
+            UpdateFilters(itemTypeOnButton, leftOrRight, slotNumber);
             SetupInventoryList();
             SelectEquippedItemInList();
         }
     }
 
-    private void UpdateFilters(Item.ItemTypes clickedBtnType, Loadout.LeftOrRight leftOrRight)
+    private List<LoadoutSlotBtn> GetCurrentLoadoutSlotBtns()
     {
+        if (hackerOrRunner == Item.HackerRunner.Runner)
+            return runnerLoadoutSlotBtns;
+        else
+            return activeHackerSlotBtns;
+    }
+
+    private void UpdateFilters(Item.ItemTypes clickedBtnType, Loadout.LeftOrRight leftOrRight, int slotNumber)
+    {
+        List<LoadoutSlotBtn> currentButtons = GetCurrentLoadoutSlotBtns();
         bool foundActiveBtn = false;
-        foreach (LoadoutSlotBtn button in runnerLoadoutSlotBtns)
+        foreach (LoadoutSlotBtn button in currentButtons)
         {
             if (button.GetIsActive())
                 foundActiveBtn = true;
