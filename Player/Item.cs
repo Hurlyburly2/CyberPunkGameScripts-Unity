@@ -7,9 +7,9 @@ public class Item : ScriptableObject
     // items can be hackermods, hackerModInstalls, or runnermods
     // this class is for assistance with inventory screens and such, holding common information that all items have
     public enum HackerRunner { Hacker, Runner };
-    public enum ItemTypes { Head, Torso, Exoskeleton, Arm, Leg, Weapon, Rig, NeuralImplant, Uplink, Software, Wetware, Chipset };
+    public enum ItemTypes { Head, Torso, Exoskeleton, Arm, Leg, Weapon, Rig, NeuralImplant, Uplink, Software, Wetware, Chipset, None };
 
-    protected int itemId = 1000;
+    protected int itemId;
     protected string itemName;
     protected string itemDescription;
 
@@ -32,6 +32,11 @@ public class Item : ScriptableObject
     public void PrintItemId()
     {
         Debug.Log("Item Id: " + itemId);
+    }
+
+    public void SetItemLevel(int newLevel)
+    {
+        itemLevel = newLevel;
     }
 
     public HackerRunner GetHackerOrRunner()
@@ -143,5 +148,33 @@ public class Item : ScriptableObject
     public int GetCurrentItemLevel()
     {
         return itemLevel;
+    }
+
+    public void CreateItemId()
+    {
+        itemId = FindObjectOfType<PlayerData>().GetAndIncrementItemId();
+    }
+
+    public int GetItemId()
+    {
+        return itemId;
+    }
+
+    public bool IsHackerMod()
+    {
+        if (itemType == ItemTypes.NeuralImplant || itemType == ItemTypes.Rig || itemType == ItemTypes.Uplink)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsHackerChipset()
+    {
+        if (itemType == ItemTypes.Chipset || itemType == ItemTypes.Software || itemType == ItemTypes.Wetware)
+        {
+            return true;
+        }
+        return false;
     }
 }

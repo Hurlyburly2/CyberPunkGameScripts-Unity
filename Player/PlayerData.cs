@@ -12,6 +12,9 @@ public class PlayerData : MonoBehaviour
     CharacterData currentRunner;
     HackerData currentHacker;
 
+    // item id is used to compare uniqueness of items, for example - two leg slot items
+    int currentItemId;
+
     private void Start()
     {
         SetupNewGame();
@@ -19,6 +22,8 @@ public class PlayerData : MonoBehaviour
 
     private void SetupNewGame()
     {
+        currentItemId = 0;
+
         ownedRunners = new List<CharacterData>();
         ownedHackers = new List<HackerData>();
         ownedItems = new List<Item>();
@@ -52,6 +57,32 @@ public class PlayerData : MonoBehaviour
         HackerData lockedHackerTwo = ScriptableObject.CreateInstance<HackerData>();
         lockedHackerTwo.CreateNewHackerByClassId(2);
         ownedHackers.Add(lockedHackerTwo);
+
+        RunnerMod extraHeadMod = ScriptableObject.CreateInstance<RunnerMod>();
+        extraHeadMod.SetupMod("Human Eyes");
+        ownedItems.Add(extraHeadMod);
+
+        RunnerMod extraArmMod = ScriptableObject.CreateInstance<RunnerMod>();
+        extraArmMod.SetupMod("Unmodded Arm");
+        ownedItems.Add(extraArmMod);
+
+        HackerMod anotherRig = ScriptableObject.CreateInstance<HackerMod>();
+        anotherRig.SetupMod("Basic Rig");
+        anotherRig.SetItemLevel(3);
+        ownedItems.Add(anotherRig);
+
+        HackerMod aThirdRig = ScriptableObject.CreateInstance<HackerMod>();
+        aThirdRig.SetupMod("Basic Rig");
+        aThirdRig.SetItemLevel(5);
+        ownedItems.Add(aThirdRig);
+
+        // Create 5 software chips to futz around with on equip window
+        for (int i = 0; i < 5; i++)
+        {
+            HackerModChip newSoftware = ScriptableObject.CreateInstance<HackerModChip>();
+            newSoftware.SetupChip("Cheap Ghost");
+            ownedItems.Add(newSoftware);
+        }
     }
 
     public List<Item> GetPlayerItems()
@@ -87,5 +118,16 @@ public class PlayerData : MonoBehaviour
     public void SetCurrentHacker(HackerData newHacker)
     {
         currentHacker = newHacker;
+    }
+
+    public int GetAndIncrementItemId()
+    {
+        currentItemId++;
+        return currentItemId - 1;
+    }
+
+    public void AddToOwnedItems(Item item)
+    {
+        ownedItems.Add(item);
     }
 }

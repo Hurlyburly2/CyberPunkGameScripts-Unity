@@ -24,9 +24,10 @@ public class HackerMod : Item
     {
         itemName = newModName;
         GetModProperties();
-        itemLevel = 3;
+        itemLevel = 1;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Hacker;
+        CreateItemId();
     }
 
     private void GetModProperties()
@@ -192,8 +193,20 @@ public class HackerMod : Item
         }
     }
 
+    private void FillExtraSlotsWithEmptyMods()
+    {
+        for (int i = modChips.Count; i < GetMaxSlotCount(); i++)
+        {
+            HackerModChip emptyMod = CreateInstance<HackerModChip>();
+            emptyMod.SetupChip("Empty");
+            modChips.Add(emptyMod);
+        }
+    }
+
     public void InstallChip(HackerModChip newHackerModChip, int slot)
     {
+        FillExtraSlotsWithEmptyMods();
+        Debug.Log(newHackerModChip.GetItemType().ToString());
         // check we're installing the right kind of chip in the mod
         ItemTypes newChipType = newHackerModChip.GetItemType();
         switch(itemType)
@@ -232,7 +245,18 @@ public class HackerMod : Item
 
     public List<HackerModChip> GetAttachedChips()
     {
-        return modChips;
+        List<HackerModChip> filteredOutEmptyMods = new List<HackerModChip>();
+        foreach (HackerModChip chip in modChips)
+        {
+            if (chip.GetItemType() != ItemTypes.None)
+                filteredOutEmptyMods.Add(chip);
+        }
+        return filteredOutEmptyMods;
+    }
+
+    public HackerModChip GetChipBySlot(int slotNumber)
+    {
+        return modChips[slotNumber - 1];
     }
 
     public int GetMaxSlotCount()
@@ -286,6 +310,24 @@ public class HackerMod : Item
             hackTilePicker.gameObject.SetActive(true);
             hackTilePicker.Initialize(cardsToPickFrom, pickHowMany, "pickAndDiscard");
         }
+    }
+
+    public int GetCurrentLevelSlotCount()
+    {
+        switch (itemLevel)
+        {
+            case 1:
+                return level1Slots;
+            case 2:
+                return level2Slots;
+            case 3:
+                return level3Slots;
+            case 4:
+                return level4Slots;
+            case 5:
+                return level5Slots;
+        }
+        return 0;
     }
 
     public int GetLevel1SlotCount()

@@ -6,6 +6,8 @@ using TMPro;
 
 public class LoadoutMenu : MonoBehaviour
 {
+    [SerializeField] LoadoutEquipmentMenu loadoutEquipmentMenu;
+
     [SerializeField] Image runnerPortraitImage;
     [SerializeField] TextMeshProUGUI runnerName;
     [SerializeField] Image hackerPortraitImage;
@@ -56,5 +58,17 @@ public class LoadoutMenu : MonoBehaviour
     public void CloseLoadoutMenu()
     {
         gameObject.SetActive(false);
+    }
+
+    public void OpenLoadoutEquipmentMenuRunner()
+    {
+        loadoutEquipmentMenu.gameObject.SetActive(true);
+        loadoutEquipmentMenu.SetupLoadoutEquipmentMenu(currentRunner);
+    }
+
+    public void OpenLoadoutEquipmentMenuHacker()
+    {
+        loadoutEquipmentMenu.gameObject.SetActive(true);
+        loadoutEquipmentMenu.SetupLoadoutEquipmentMenu(currentHacker);
     }
 }

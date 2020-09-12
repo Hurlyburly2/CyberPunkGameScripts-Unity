@@ -25,6 +25,8 @@ public class ItemDetailsMenu : MonoBehaviour
     [SerializeField] GameObject runnerContextMenu;
     // Runner shop/loadout context
     [SerializeField] GameObject runnerShopLoadoutContext;
+    [SerializeField] GameObject runnerShopContext;
+    [SerializeField] GameObject runnerLoadoutContext;
     // Runner inventory context
     [SerializeField] GameObject runnerInventoryContext;
 
@@ -70,12 +72,19 @@ public class ItemDetailsMenu : MonoBehaviour
         {
             case ItemDetailMenuContextType.Inventory:
                 runnerInventoryContext.SetActive(true);
+                runnerShopLoadoutContext.SetActive(false);
                 break;
             case ItemDetailMenuContextType.Loadout:
+                runnerInventoryContext.SetActive(false);
                 runnerShopLoadoutContext.SetActive(true);
+                runnerLoadoutContext.SetActive(true);
+                runnerShopContext.SetActive(false);
                 break;
             case ItemDetailMenuContextType.Shop:
+                runnerInventoryContext.SetActive(false);
                 runnerShopLoadoutContext.SetActive(true);
+                runnerLoadoutContext.SetActive(false);
+                runnerShopContext.SetActive(true);
                 break;
         }
         SetupCardCarosel();
@@ -103,6 +112,9 @@ public class ItemDetailsMenu : MonoBehaviour
                     hackerModShopContext.SetActive(false);
                     break;
                 case ItemDetailMenuContextType.Loadout:
+                    hackerModInventoryContext.SetActive(false);
+                    hackerModLoadoutContext.SetActive(true);
+                    hackerModShopContext.SetActive(false);
                     break;
                 case ItemDetailMenuContextType.Shop:
                     break;
@@ -121,6 +133,9 @@ public class ItemDetailsMenu : MonoBehaviour
                     hackerInstallShopContext.SetActive(false);
                     break;
                 case ItemDetailMenuContextType.Loadout:
+                    hackerInstallInventoryContext.SetActive(false);
+                    hackerInstallLoadoutContext.SetActive(true);
+                    hackerInstallShopContext.SetActive(false);
                     break;
                 case ItemDetailMenuContextType.Shop:
                     break;

@@ -57,7 +57,6 @@ public class CardCarosel : MonoBehaviour
             cardItem.transform.SetParent(cardTemplate.transform.parent, false);
             cardItem.SetupCard(card);
             containedCardObjects.Add(cardItem);
-            Debug.Log(containedCardObjects.Count);
         }
     }
 

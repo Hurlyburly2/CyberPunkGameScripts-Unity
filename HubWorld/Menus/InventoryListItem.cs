@@ -20,18 +20,60 @@ public class InventoryListItem : MonoBehaviour
     bool isHighlighted = false;
     Item item;
 
-    public void SetText(Item newItem)
+    ItemDetailsMenu.ItemDetailMenuContextType context;
+
+    public void SetText(Item newItem, ItemDetailsMenu.ItemDetailMenuContextType newContext)
     {
+        context = newContext;
         item = newItem;
         itemName.text = item.GetItemName();
         itemType.text = item.GetItemTypeForDisplay();
         itemLevel.text = item.GetItemLevel() + "/" + item.GetItemMaxLevel();
+
+        switch (context)
+        {
+            default:
+                if (IsItemEquipped())
+                {
+                    Color tempColor = runnerOrHackerIcon.color;
+                    tempColor.a = 1f;
+                    runnerOrHackerIcon.color = tempColor;
+                    runnerOrHackerIcon.sprite = GetRunnerOrHackerIcon();
+                } else
+                {
+                    Color tempColor = runnerOrHackerIcon.color;
+                    tempColor.a = 0f;
+                    runnerOrHackerIcon.color = tempColor;
+                }
+                break;
+        }
+    }
+
+    private bool IsItemEquipped()
+    {
+        switch (item.GetHackerOrRunner())
+        {
+            case Item.HackerRunner.Runner:
+                Loadout runnerLoadout = FindObjectOfType<PlayerData>().GetCurrentRunner().GetLoadout();
+                RunnerMod currentMod = item as RunnerMod;
+                return runnerLoadout.IsItemEquipped(currentMod);
+            case Item.HackerRunner.Hacker:
+                // TODO: FILL THIS SHIT IN FOR HACKER
+                HackerLoadout hackerLoadout = FindObjectOfType<PlayerData>().GetCurrentHacker().GetHackerLoadout();
+                return hackerLoadout.IsItemEquipped(item);
+        }
+        return false;
+    }
+
+    private Sprite GetRunnerOrHackerIcon()
+    {
         if (item.GetHackerOrRunner() == Item.HackerRunner.Hacker)
         {
-            runnerOrHackerIcon.sprite = hackerIcon;
-        } else
+            return hackerIcon;
+        }
+        else
         {
-            runnerOrHackerIcon.sprite = runnerIcon;
+            return runnerIcon;
         }
     }
 

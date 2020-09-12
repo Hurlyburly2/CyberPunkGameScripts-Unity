@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class InventoryList : MonoBehaviour
 {
     [SerializeField] ItemDetailsMenu itemDetailsMenu;
+    [SerializeField] LoadoutEquipmentMenu loadoutEquipmentMenu;
 
     [SerializeField] TextMeshProUGUI listHeaderOne;
     [SerializeField] TextMeshProUGUI listHeaderTwo;
@@ -21,9 +22,11 @@ public class InventoryList : MonoBehaviour
     InventoryMenu.InventoryFields[] headers;
     List<Item> items;
     List<InventoryListItem> itemsInList = new List<InventoryListItem>();
+    ItemDetailsMenu.ItemDetailMenuContextType context;
 
-    public void SetupInventoryList(InventoryMenu.InventoryFields[] newHeaders, List<Item> itemsToList)
+    public void SetupInventoryList(InventoryMenu.InventoryFields[] newHeaders, List<Item> itemsToList, ItemDetailsMenu.ItemDetailMenuContextType newContext)
     {
+        context = newContext;
         if (sortBy == InventoryMenu.InventoryFields.None)
             sortBy = newHeaders[0];
 
@@ -104,6 +107,13 @@ public class InventoryList : MonoBehaviour
         {
             detailsButton.interactable = false;
         }
+
+        switch (context)
+        {
+            case ItemDetailsMenu.ItemDetailMenuContextType.Loadout:
+                loadoutEquipmentMenu.HandleSelectedItem(selectedItem.GetItem(), selectedItem.GetIsHighlighted());
+                break;
+        }
     }
 
     public void DestroyListItems()
@@ -124,7 +134,7 @@ public class InventoryList : MonoBehaviour
         // add list items to the viewer, and store references to them here for destroying later
         foreach (Item item in items)
         {
-            itemsInList.Add(inventoryListControl.AddItemToList(item));
+            itemsInList.Add(inventoryListControl.AddItemToList(item, context));
         }
     }
 
@@ -147,10 +157,21 @@ public class InventoryList : MonoBehaviour
         return itemsInList[0].GetItem();
     }
 
+    public void SelectParticularItem(Item itemToSelect)
+    {
+        foreach (InventoryListItem listItem in itemsInList)
+        {
+            if (listItem.GetItem().GetInstanceID() == itemToSelect.GetInstanceID())
+            {
+                listItem.SelectListItem();
+            }
+        }
+    }
+
     public void OpenDetailsMenu()
     {
         itemDetailsMenu.gameObject.SetActive(true);
-        itemDetailsMenu.SetupItemDetailMenu(ItemDetailsMenu.ItemDetailMenuContextType.Inventory, GetSelectedItem());
+        itemDetailsMenu.SetupItemDetailMenu(context, GetSelectedItem());
     }
 
     public void ClickHeaderOne()
