@@ -163,6 +163,7 @@ public class InventoryList : MonoBehaviour
         {
             if (listItem.GetItem().GetInstanceID() == itemToSelect.GetInstanceID())
             {
+                Debug.Log("Found a match!");
                 listItem.SelectListItem();
             }
         }

@@ -65,6 +65,24 @@ public class PlayerData : MonoBehaviour
         RunnerMod extraArmMod = ScriptableObject.CreateInstance<RunnerMod>();
         extraArmMod.SetupMod("Unmodded Arm");
         ownedItems.Add(extraArmMod);
+
+        HackerMod anotherRig = ScriptableObject.CreateInstance<HackerMod>();
+        anotherRig.SetupMod("Basic Rig");
+        anotherRig.SetItemLevel(3);
+        ownedItems.Add(anotherRig);
+
+        HackerMod aThirdRig = ScriptableObject.CreateInstance<HackerMod>();
+        aThirdRig.SetupMod("Basic Rig");
+        aThirdRig.SetItemLevel(5);
+        ownedItems.Add(aThirdRig);
+
+        HackerModChip anotherSoftware = ScriptableObject.CreateInstance<HackerModChip>();
+        anotherSoftware.SetupChip("Cheap Ghost");
+        ownedItems.Add(anotherSoftware);
+
+        HackerModChip aThirdSoftware = ScriptableObject.CreateInstance<HackerModChip>();
+        aThirdSoftware.SetupChip("Cheap Ghost");
+        ownedItems.Add(aThirdSoftware);
     }
 
     public List<Item> GetPlayerItems()
@@ -106,5 +124,10 @@ public class PlayerData : MonoBehaviour
     {
         currentItemId++;
         return currentItemId - 1;
+    }
+
+    public void AddToOwnedItems(Item item)
+    {
+        ownedItems.Add(item);
     }
 }

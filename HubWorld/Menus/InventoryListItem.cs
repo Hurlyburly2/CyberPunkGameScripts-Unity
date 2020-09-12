@@ -32,7 +32,7 @@ public class InventoryListItem : MonoBehaviour
 
         switch (context)
         {
-            case ItemDetailsMenu.ItemDetailMenuContextType.Loadout:
+            default:
                 if (IsItemEquipped())
                 {
                     Color tempColor = runnerOrHackerIcon.color;
@@ -45,9 +45,6 @@ public class InventoryListItem : MonoBehaviour
                     tempColor.a = 0f;
                     runnerOrHackerIcon.color = tempColor;
                 }
-                break;
-            default:
-                runnerOrHackerIcon.sprite = GetRunnerOrHackerIcon();
                 break;
         }
     }

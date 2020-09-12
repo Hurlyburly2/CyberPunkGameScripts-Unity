@@ -94,6 +94,7 @@ public class HackerModChip : Item
                 levelThreeCardIds.Add(19);    // Cracked
                 break;
             default:
+                itemType = ItemTypes.None;
                 break;
         }
     }

@@ -7,7 +7,7 @@ public class Item : ScriptableObject
     // items can be hackermods, hackerModInstalls, or runnermods
     // this class is for assistance with inventory screens and such, holding common information that all items have
     public enum HackerRunner { Hacker, Runner };
-    public enum ItemTypes { Head, Torso, Exoskeleton, Arm, Leg, Weapon, Rig, NeuralImplant, Uplink, Software, Wetware, Chipset };
+    public enum ItemTypes { Head, Torso, Exoskeleton, Arm, Leg, Weapon, Rig, NeuralImplant, Uplink, Software, Wetware, Chipset, None };
 
     protected int itemId;
     protected string itemName;
@@ -32,6 +32,11 @@ public class Item : ScriptableObject
     public void PrintItemId()
     {
         Debug.Log("Item Id: " + itemId);
+    }
+
+    public void SetItemLevel(int newLevel)
+    {
+        itemLevel = newLevel;
     }
 
     public HackerRunner GetHackerOrRunner()

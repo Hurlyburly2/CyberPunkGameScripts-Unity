@@ -36,6 +36,8 @@ public class UpgradesMenu : MonoBehaviour
     [SerializeField] GameObject hackerLevel3Marker;
     [SerializeField] Image hackerLevel3MarkerSelected;
     [SerializeField] TextMeshProUGUI hackerPassiveAbilityText;
+    [SerializeField] GameObject hackerModShopContext;
+    [SerializeField] GameObject hackerInstallShopContext;
 
     // Runner
     [SerializeField] GameObject runnerContext;
@@ -226,6 +228,18 @@ public class UpgradesMenu : MonoBehaviour
             // Is a mod
             hackerModContext.SetActive(true);
             hackerInstallContext.SetActive(false);
+            switch (context)
+            {
+                case ItemDetailsMenu.ItemDetailMenuContextType.Inventory:
+                    hackerModShopContext.SetActive(false);
+                    break;
+                case ItemDetailsMenu.ItemDetailMenuContextType.Loadout:
+                    hackerModShopContext.SetActive(false);
+                    break;
+                case ItemDetailsMenu.ItemDetailMenuContextType.Shop:
+                    hackerModShopContext.SetActive(true);
+                    break;
+            }
             switch (item.GetItemType())
             {
                 case Item.ItemTypes.NeuralImplant:
@@ -249,6 +263,18 @@ public class UpgradesMenu : MonoBehaviour
         } else
         {
             currentCardCarosel = hackerInstallCardCarosel;
+            switch (context)
+            {
+                case ItemDetailsMenu.ItemDetailMenuContextType.Inventory:
+                    hackerInstallShopContext.SetActive(false);
+                    break;
+                case ItemDetailsMenu.ItemDetailMenuContextType.Loadout:
+                    hackerInstallShopContext.SetActive(false);
+                    break;
+                case ItemDetailsMenu.ItemDetailMenuContextType.Shop:
+                    hackerInstallShopContext.SetActive(true);
+                    break;
+            }
             // Is an install
             hackerInstallContext.SetActive(true);
             hackerModContext.SetActive(false);

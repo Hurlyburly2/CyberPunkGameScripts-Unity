@@ -112,6 +112,9 @@ public class ItemDetailsMenu : MonoBehaviour
                     hackerModShopContext.SetActive(false);
                     break;
                 case ItemDetailMenuContextType.Loadout:
+                    hackerModInventoryContext.SetActive(false);
+                    hackerModLoadoutContext.SetActive(true);
+                    hackerModShopContext.SetActive(false);
                     break;
                 case ItemDetailMenuContextType.Shop:
                     break;
@@ -130,6 +133,9 @@ public class ItemDetailsMenu : MonoBehaviour
                     hackerInstallShopContext.SetActive(false);
                     break;
                 case ItemDetailMenuContextType.Loadout:
+                    hackerInstallInventoryContext.SetActive(false);
+                    hackerInstallLoadoutContext.SetActive(true);
+                    hackerInstallShopContext.SetActive(false);
                     break;
                 case ItemDetailMenuContextType.Shop:
                     break;
