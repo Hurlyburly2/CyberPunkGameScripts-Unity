@@ -55,6 +55,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
 
     Item selectedItem;
     bool recentlyEquippedItem = false;
+    bool waitingToEquip = false;
 
     private void DoSetup()
     {
@@ -90,8 +91,24 @@ public class LoadoutEquipmentMenu : MonoBehaviour
         SetupInventoryList();
     }
 
+    private void ClearWaitingForInputOnButtons()
+    {
+        //List<LoadoutSlotBtn> currentButtons = new List<LoadoutSlotBtn>();
+        //if (hackerOrRunner == Item.HackerRunner.Runner)
+        //    currentButtons = runnerLoadoutSlotBtns;
+        //else
+        //    currentButtons = activeHackerSlotBtns;
+
+        foreach (LoadoutSlotBtn button in runnerLoadoutSlotBtns)
+        {
+            button.ClearWaitingForInput();
+        }
+        waitingToEquip = false;
+    }
+
     public void EquipItem()
     {
+        ClearWaitingForInputOnButtons();
         switch (hackerOrRunner)
         {
             case Item.HackerRunner.Runner:
@@ -105,11 +122,21 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                         if (loadoutSlot.GetItemType() == selectedItem.GetItemType() && loadoutSlot.GetIsActive())
                         {
                             runnerLoadout.EquipItem(selectedItem as RunnerMod, loadoutSlot.GetLeftOrRight());
+                            Debug.Log("Equip arm item...?");
                             recentlyEquippedItem = true;
                         }
                     }
                     if (recentlyEquippedItem == false)
                     {
+                        // get and activate the appropriate buttons
+                        foreach (LoadoutSlotBtn loadoutSlot in runnerLoadoutSlotBtns)
+                        {
+                            if (loadoutSlot.GetItemType() == selectedItem.GetItemType())
+                            {
+                                loadoutSlot.SetButtonToAskForInput();
+                            }
+                        }
+                        waitingToEquip = true;
                         // TODO: If not disable other inputs, play an animation indicating one or the other should be clicked
                     }
                 } else
@@ -129,6 +156,17 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                 } else if (selectedItem.IsHackerChipset())
                 {
                     // TODO: equip a chipset (do the same thing for left/right arms up above ughhh
+                    foreach (LoadoutSlotBtn loadoutSlot in activeHackerSlotBtns)
+                    {
+                        if (loadoutSlot.GetItemType() == selectedItem.GetItemType() && loadoutSlot.GetIsActive())
+                        {
+                            hackerLoadout.EquipItem(selectedItem as HackerModChip, loadoutSlot.GetSlotNumber() - 1);
+                        }
+                    }
+                    if (recentlyEquippedItem == false)
+                    {
+                        // TODO: IF NOT DISABLE OTHER INPUTS PLAY AN ANIMATION INDICATING A SLOT SHOULD BE CLICKED
+                    }
                 }
                 break;
         }
@@ -306,7 +344,13 @@ public class LoadoutEquipmentMenu : MonoBehaviour
 
         currentInventoryList.SetupInventoryList(fields, filteredItems, ItemDetailsMenu.ItemDetailMenuContextType.Loadout);
 
-        SelectEquippedItemInList();
+        if (!waitingToEquip)
+        {
+            SelectEquippedItemInList();
+        } else
+        {
+            currentInventoryList.SelectParticularItem(selectedItem);
+        }
     }
 
     private void SelectEquippedItemInList()
@@ -414,12 +458,10 @@ public class LoadoutEquipmentMenu : MonoBehaviour
         }
         if (currentFilters.Count != 1 || currentFilters.Count == 1 && currentFilters[0] != itemTypeOnButton)
         {
-            Debug.Log("What are we doing here");
             UpdateFilters(itemTypeOnButton, leftOrRight, slotNumber);
             SetupInventoryList();
         } else
         {
-            Debug.Log("What are we doing there....");
             UpdateFilters(itemTypeOnButton, leftOrRight, slotNumber);
             SetupInventoryList();
             //SelectEquippedItemInList();
@@ -445,12 +487,10 @@ public class LoadoutEquipmentMenu : MonoBehaviour
         }
         if (foundActiveBtn)
         {
-            Debug.Log("Found active button");
             currentFilters = new List<Item.ItemTypes>();
             currentFilters.Add(clickedBtnType);
         } else
         {
-            Debug.Log("Did not find active button");
             InitialFilterSetup();
         }
     }

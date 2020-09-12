@@ -139,6 +139,22 @@ public class HackerLoadout : ScriptableObject
         return uplink.GetChipBySlot(0); // this will break, as intended. We shouldn't reach this.
     }
 
+    public void EquipItem(HackerModChip newModChip, int slotNumber)
+    {
+        switch (newModChip.GetItemType())
+        {
+            case Item.ItemTypes.Chipset:
+                GetUplinkMod().InstallChip(newModChip, slotNumber);
+                break;
+            case Item.ItemTypes.Software:
+                GetRigMod().InstallChip(newModChip, slotNumber);
+                break;
+            case Item.ItemTypes.Wetware:
+                GetNeuralImplantMod().InstallChip(newModChip, slotNumber);
+                break;
+        }
+    }
+
     public void EquipItem(HackerMod hackerMod)
     {
         Debug.Log("Hackermod stuff");

@@ -76,13 +76,13 @@ public class PlayerData : MonoBehaviour
         aThirdRig.SetItemLevel(5);
         ownedItems.Add(aThirdRig);
 
-        HackerModChip anotherSoftware = ScriptableObject.CreateInstance<HackerModChip>();
-        anotherSoftware.SetupChip("Cheap Ghost");
-        ownedItems.Add(anotherSoftware);
-
-        HackerModChip aThirdSoftware = ScriptableObject.CreateInstance<HackerModChip>();
-        aThirdSoftware.SetupChip("Cheap Ghost");
-        ownedItems.Add(aThirdSoftware);
+        // Create 5 software chips to futz around with on equip window
+        for (int i = 0; i < 5; i++)
+        {
+            HackerModChip newSoftware = ScriptableObject.CreateInstance<HackerModChip>();
+            newSoftware.SetupChip("Cheap Ghost");
+            ownedItems.Add(newSoftware);
+        }
     }
 
     public List<Item> GetPlayerItems()

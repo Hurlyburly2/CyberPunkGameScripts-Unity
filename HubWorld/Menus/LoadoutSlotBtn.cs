@@ -15,12 +15,24 @@ public class LoadoutSlotBtn : MonoBehaviour
     [SerializeField] Item.ItemTypes itemType;
 
     bool active;
+    bool waitingForInput;
 
     public void SetupButton()
     {
         active = false;
+        waitingForInput = false;
         inactiveButton.gameObject.SetActive(true);
         activeButton.gameObject.SetActive(false);
+    }
+
+    public void SetButtonToAskForInput()
+    {
+        waitingForInput = true;
+    }
+
+    public void ClearWaitingForInput()
+    {
+        waitingForInput = false;
     }
 
     public void SetActive()
@@ -39,14 +51,26 @@ public class LoadoutSlotBtn : MonoBehaviour
 
     public void PressButton()
     {
-        if (active)
+        if (!waitingForInput)
         {
-            SetInactive();
-            parentMenu.HandlePressedSlotButton(itemType, leftOrRight, slotNumber);
+            // Normal State
+            if (active)
+            {
+                SetInactive();
+                parentMenu.HandlePressedSlotButton(itemType, leftOrRight, slotNumber);
+            }
+            else
+            {
+                SetActive();
+                parentMenu.HandlePressedSlotButton(itemType, leftOrRight, slotNumber);
+            }
         } else
         {
+            // Tried to equip an arm/leg/install without having selected a slot
+            waitingForInput = false;
             SetActive();
             parentMenu.HandlePressedSlotButton(itemType, leftOrRight, slotNumber);
+            parentMenu.EquipItem();
         }
     }
 
