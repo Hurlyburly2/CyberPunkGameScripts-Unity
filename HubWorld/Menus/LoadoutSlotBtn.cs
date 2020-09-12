@@ -27,6 +27,7 @@ public class LoadoutSlotBtn : MonoBehaviour
 
     public void SetButtonToAskForInput()
     {
+        // TODO: Play an animation indicating one or the other should be clicked
         waitingForInput = true;
     }
 

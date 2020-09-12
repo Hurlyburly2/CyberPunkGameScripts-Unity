@@ -93,13 +93,13 @@ public class LoadoutEquipmentMenu : MonoBehaviour
 
     private void ClearWaitingForInputOnButtons()
     {
-        //List<LoadoutSlotBtn> currentButtons = new List<LoadoutSlotBtn>();
-        //if (hackerOrRunner == Item.HackerRunner.Runner)
-        //    currentButtons = runnerLoadoutSlotBtns;
-        //else
-        //    currentButtons = activeHackerSlotBtns;
+        List<LoadoutSlotBtn> currentButtons = new List<LoadoutSlotBtn>();
+        if (hackerOrRunner == Item.HackerRunner.Runner)
+            currentButtons.AddRange(runnerLoadoutSlotBtns);
+        else
+            currentButtons.AddRange(activeHackerSlotBtns);
 
-        foreach (LoadoutSlotBtn button in runnerLoadoutSlotBtns)
+        foreach (LoadoutSlotBtn button in currentButtons)
         {
             button.ClearWaitingForInput();
         }
@@ -122,7 +122,6 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                         if (loadoutSlot.GetItemType() == selectedItem.GetItemType() && loadoutSlot.GetIsActive())
                         {
                             runnerLoadout.EquipItem(selectedItem as RunnerMod, loadoutSlot.GetLeftOrRight());
-                            Debug.Log("Equip arm item...?");
                             recentlyEquippedItem = true;
                         }
                     }
@@ -137,7 +136,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                             }
                         }
                         waitingToEquip = true;
-                        // TODO: If not disable other inputs, play an animation indicating one or the other should be clicked
+                        // TODO: DISABLE OTHER INPUTS SOMEHOW
                     }
                 } else
                 {
@@ -155,17 +154,26 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                     SetupActiveHackerSlots();
                 } else if (selectedItem.IsHackerChipset())
                 {
-                    // TODO: equip a chipset (do the same thing for left/right arms up above ughhh
                     foreach (LoadoutSlotBtn loadoutSlot in activeHackerSlotBtns)
                     {
                         if (loadoutSlot.GetItemType() == selectedItem.GetItemType() && loadoutSlot.GetIsActive())
                         {
                             hackerLoadout.EquipItem(selectedItem as HackerModChip, loadoutSlot.GetSlotNumber() - 1);
+                            recentlyEquippedItem = true;
                         }
                     }
                     if (recentlyEquippedItem == false)
                     {
-                        // TODO: IF NOT DISABLE OTHER INPUTS PLAY AN ANIMATION INDICATING A SLOT SHOULD BE CLICKED
+                        // get and activate the appropriate buttons
+                        foreach (LoadoutSlotBtn loadoutSlot in activeHackerSlotBtns)
+                        {
+                            if (loadoutSlot.GetItemType() == selectedItem.GetItemType())
+                            {
+                                loadoutSlot.SetButtonToAskForInput();
+                            }
+                        }
+                        waitingToEquip = true;
+                        // TODO: DISABLE OTHER INPUTS SOMEHOW
                     }
                 }
                 break;
