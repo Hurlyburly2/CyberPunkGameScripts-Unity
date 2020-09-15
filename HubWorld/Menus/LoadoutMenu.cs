@@ -39,12 +39,10 @@ public class LoadoutMenu : MonoBehaviour
         currentRunner = playerData.GetCurrentRunner();
         currentHacker = playerData.GetCurrentHacker();
 
-        string runnerImagePath = "Characters/Runner" + currentRunner.getId() + "-Full";
-        runnerPortraitImage.sprite = Resources.Load<Sprite>(runnerImagePath);
+        runnerPortraitImage.sprite = currentRunner.GetRunnerPortraitFull();
         runnerName.text = currentRunner.GetRunnerName();
 
-        string hackerImagePath = "Characters/Hacker" + currentHacker.GetId() + "-Full";
-        hackerPortraitImage.sprite = Resources.Load<Sprite>(hackerImagePath);
+        hackerPortraitImage.sprite = currentHacker.GetHackerPortraitFull();
         hackerName.text = currentHacker.GetName();
     }
 

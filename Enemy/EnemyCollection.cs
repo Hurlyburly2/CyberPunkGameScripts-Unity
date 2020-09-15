@@ -11,11 +11,11 @@ public class EnemyCollection : MonoBehaviour
         return allEnemies;
     }
 
-    public Enemy GetAnEnemyByArea(string area)
+    public Enemy GetAnEnemyByArea(Job.JobArea area)
     {
         switch (area)
         {
-            case "slums":
+            case Job.JobArea.Slums:
                 List<Enemy> slumEnemies = GetSlumEnemies();
                 return slumEnemies[Random.Range(0, slumEnemies.Count)];
         }

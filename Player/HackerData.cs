@@ -45,6 +45,18 @@ public class HackerData : ScriptableObject
         hackerLoadout.SetupInitialLoadout(id);
     }
 
+    public Sprite GetHackerPortraitFull()
+    {
+        string runnerImagePath = "Characters/Hacker" + id + "-Full";
+        return Resources.Load<Sprite>(runnerImagePath);
+    }
+
+    public Sprite GetHackerPortraitSmall()
+    {
+        string runnerImagePath = "Characters/Hacker" + id + "-Portrait";
+        return Resources.Load<Sprite>(runnerImagePath);
+    }
+
     public string GetName()
     {
         return hackerName;

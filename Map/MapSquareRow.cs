@@ -22,7 +22,7 @@ public class MapSquareRow : MonoBehaviour
         mapSquareImageHolder = FindObjectOfType<MapSquareImageHolder>();
     }
 
-    public int AttemptToSpawnSquares(string mapType, int percentChange, int remainingSquaresToSpawn, int verticalModifer, int chanceToSpawnEnemy)
+    public int AttemptToSpawnSquares(Job.JobArea mapType, int percentChange, int remainingSquaresToSpawn, int verticalModifer, int chanceToSpawnEnemy)
     {
         int newSquareCount = 0;
         foreach (MapSquare square in activeSquares)

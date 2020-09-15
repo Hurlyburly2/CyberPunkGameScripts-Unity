@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerData : MonoBehaviour
 {
+    int playerLevel;
+    // This is a hidden value that the user will never see, it will be used to determine:
+    //      available jobs, job rewards, items available in shop
+    //      you increase playerLevel by playing story missions   
+
     List<CharacterData> ownedRunners;
     List<HackerData> ownedHackers;
 
@@ -22,6 +27,7 @@ public class PlayerData : MonoBehaviour
 
     private void SetupNewGame()
     {
+        playerLevel = 0;
         currentItemId = 0;
 
         ownedRunners = new List<CharacterData>();

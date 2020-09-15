@@ -8,10 +8,13 @@ public class JobSelectMenu : MonoBehaviour
     [SerializeField] Image runnerPortrait;
     [SerializeField] Image hackerPortrait;
     [SerializeField] LoadoutMenu loadoutMenu;
+    [SerializeField] List<JobSelectSquare> jobSelectSquares;
 
     public void SetupMenu()
     {
-        Debug.Log("setup job select menu...");
+        PlayerData playerData = FindObjectOfType<PlayerData>();
+        runnerPortrait.sprite = playerData.GetCurrentRunner().GetRunnerPortraitSmall();
+        hackerPortrait.sprite = playerData.GetCurrentHacker().GetHackerPortraitSmall();
     }
 
     public void LaunchMission()

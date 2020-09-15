@@ -7,8 +7,7 @@ public class MapData : MonoBehaviour
     // config
     CharacterData runner;
     HackerData hacker;
-    string mapType;
-        // possible: "slums"
+    Job.JobArea mapType;
     MapConfig mapConfig;
     [SerializeField] float setupTimeInSeconds = 1f;
     MapGrid mapGrid;
@@ -265,7 +264,7 @@ public class MapData : MonoBehaviour
         currentSquare.ReopenHackMenu(currentHackTarget);
     }
 
-    public void SetMapData(CharacterData characterToSet, HackerData hackerToSet, string newMapType, int newSecurityLevel, int newMapSize)
+    public void SetMapData(CharacterData characterToSet, HackerData hackerToSet, Job.JobArea newMapType, int newSecurityLevel, int newMapSize)
     {
         runner = characterToSet;
         hacker = hackerToSet;
@@ -335,7 +334,7 @@ public class MapData : MonoBehaviour
         return setupTimeInSeconds;
     }
 
-    public string GetMapType()
+    public Job.JobArea GetMapType()
     {
         return mapType;
     }

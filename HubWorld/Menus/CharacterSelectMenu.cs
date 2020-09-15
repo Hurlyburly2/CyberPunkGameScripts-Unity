@@ -148,10 +148,10 @@ public class CharacterSelectMenu : MonoBehaviour
         switch (hackerOrRunner)
         {
             case Item.HackerRunner.Runner:
-                currentSelectionPortrait.sprite = Resources.Load<Sprite>("Characters/Runner" + shownRunner.getId() + "-Full");
+                currentSelectionPortrait.sprite = shownRunner.GetRunnerPortraitFull();
                 break;
             case Item.HackerRunner.Hacker:
-                currentSelectionPortrait.sprite = Resources.Load<Sprite>("Characters/Hacker" + shownHacker.GetId() + "-Full");
+                currentSelectionPortrait.sprite = shownHacker.GetHackerPortraitFull();
                 break;
         }
     }

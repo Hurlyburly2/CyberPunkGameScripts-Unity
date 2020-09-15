@@ -5,7 +5,7 @@ using UnityEngine;
 public class HackTarget : ScriptableObject
 {
     // config
-    string mapType;
+    Job.JobArea mapType;
     string hackType;
     // options are fed to it by mapSquare:
     // "Security Camera", "Combat Server", "Database", "Defense System", "Transportation", "Medical Server"

@@ -157,12 +157,12 @@ public class MapSquareImageHolder : MonoBehaviour
         return menuIcons[0];
     }
 
-    public Sprite GetSquareImage(string mapType)
+    public Sprite GetSquareImage(Job.JobArea mapType)
     {
         string locationString = "Squares";
         switch (mapType)
         {
-            case "slums":
+            case Job.JobArea.Slums:
                 locationString += "/City/Square";
                 locationString += GetRandomSquareId().ToString();
                 return Resources.Load<Sprite>(locationString);
@@ -178,12 +178,12 @@ public class MapSquareImageHolder : MonoBehaviour
         return currentId;
     }
 
-    public Sprite GetLocationImage(string mapType)
+    public Sprite GetLocationImage(Job.JobArea mapType)
     {
         string locationString = "LocationImages";
         switch(mapType)
         {
-            case "slums":
+            case Job.JobArea.Slums:
                 locationString += "/Slums/Location";
                 locationString += GetRandomLocationId().ToString();
                 return Resources.Load<Sprite>(locationString);
@@ -200,11 +200,11 @@ public class MapSquareImageHolder : MonoBehaviour
         return currentId;
     }
 
-    public void InitializeMapSquareImageHolder(string mapType)
+    public void InitializeMapSquareImageHolder(Job.JobArea mapType)
     {
         switch (mapType)
         {
-            case "slums":
+            case Job.JobArea.Slums:
                 InitializeLists(maxSlumLocations, maxCitySquares);
                 break;
         }

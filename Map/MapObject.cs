@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MapObject : ScriptableObject
 {
-    string mapType;
+    Job.JobArea mapType;
     string mapObjectType;
         // options are fed to it by mapSquare:
         // "Trap", "Reward", "PowerUp", "Shop", "Upgrade", "First Aid Station"
@@ -56,12 +56,12 @@ public class MapObject : ScriptableObject
 
     private string GainReward()
     {
-        string mapType = FindObjectOfType<MapGrid>().GetMapType();
+        Job.JobArea mapType = FindObjectOfType<MapGrid>().GetMapType();
         int minRange = 0;
         int maxRange = 0;
         switch (mapType)
         {
-            case "slums":
+            case Job.JobArea.Slums:
                 minRange = 100;
                 maxRange = 300;
                 break;

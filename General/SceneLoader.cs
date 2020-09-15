@@ -60,13 +60,13 @@ public class SceneLoader : MonoBehaviour
         currentScene = SceneManager.GetActiveScene().buildIndex;
     }
 
-    public void LoadMap(string mapType, int mapSize)
+    public void LoadMap(Job.JobArea mapType, int mapSize)
     {
         currentRunner = TestData.SetTestCharacterOne();
         currentHacker = TestData.SetTestHackerOne();
         currentMap = Instantiate(mapData);
         currentMap.SetMapData(currentRunner, currentHacker, mapType, 10, mapSize);
-        ChangeMusicTrack("slums");
+        ChangeMusicTrack(Job.JobArea.Slums);
 
         SceneManager.LoadScene(mapSceneName);
 
@@ -184,7 +184,7 @@ public class SceneLoader : MonoBehaviour
     {
         currentRunner = playerData.GetCurrentRunner();
         currentHacker = playerData.GetCurrentHacker();
-        LoadMap("slums", 20);
+        LoadMap(Job.JobArea.Slums, 20);
     }
 
     public void LoadHack()
@@ -258,7 +258,7 @@ public class SceneLoader : MonoBehaviour
 
     }
 
-    private void ChangeMusicTrack(string trackName)
+    private void ChangeMusicTrack(Job.JobArea trackName)
     {
         musicPlayer.ChangeTrack(trackName);
     }
