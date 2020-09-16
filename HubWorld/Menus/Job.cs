@@ -21,6 +21,10 @@ public class Job : ScriptableObject
         jobArea = GenerateJobArea(playerLevel);
         jobType = GenerateJobType(playerLevel);
         GenerateJobNameAndDescription();
+        jobDifficulty = GenerateJobDifficulty(playerLevel);
+
+        rewardItem = GetRandomItemType();
+        rewardMoney = GetRewardMoneyAmount();
     }
 
     private void GenerateJobNameAndDescription()
@@ -64,6 +68,55 @@ public class Job : ScriptableObject
                 break;
         }
         FillInTheBlanks();
+    }
+
+    private int GetRewardMoneyAmount()
+    {
+        switch (jobDifficulty)
+        {
+            case 1:
+                return Random.Range(500, 1001);
+            case 2:
+                return Random.Range(1000, 1501);
+            case 3:
+                return Random.Range(1500, 3001);
+            case 4:
+                return Random.Range(3000, 4501);
+            case 5:
+                return Random.Range(5000, 7001);
+            default:
+                return 0;
+        }
+    }
+
+    private Item.ItemTypes GetRandomItemType()
+    {
+        Item.ItemTypes[] itemTypes =
+        {
+            Item.ItemTypes.Arm,
+            Item.ItemTypes.Chipset,
+            Item.ItemTypes.Exoskeleton,
+            Item.ItemTypes.Head,
+            Item.ItemTypes.Leg,
+            Item.ItemTypes.NeuralImplant,
+            Item.ItemTypes.Rig,
+            Item.ItemTypes.Software,
+            Item.ItemTypes.Torso,
+            Item.ItemTypes.Uplink,
+            Item.ItemTypes.Weapon,
+            Item.ItemTypes.Wetware
+        };
+
+        return itemTypes[Random.Range(0, itemTypes.Length)];
+    }
+
+    private int GenerateJobDifficulty(int playerLevel)
+    {
+        int maxDifficulty = 0;
+        if (playerLevel > 0)
+            maxDifficulty++;
+
+        return Random.Range(1, maxDifficulty + 1);
     }
 
     private JobArea GenerateJobArea(int playerLevel)
@@ -138,5 +191,42 @@ public class Job : ScriptableObject
     {
         // TODO: NAME GENERATION (do this by area)
         return "The Clowns";
+    }
+
+    // Getters
+
+    public string GetJobName()
+    {
+        return jobName;
+    }
+
+    public string GetJobDescription()
+    {
+        return jobDescription;
+    }
+
+    public JobType GetJobType()
+    {
+        return jobType;
+    }
+
+    public JobArea GetJobArea()
+    {
+        return jobArea;
+    }
+
+    public int GetJobDifficulty()
+    {
+        return jobDifficulty;
+    }
+
+    public Item.ItemTypes GetRewardItemType()
+    {
+        return rewardItem;
+    }
+
+    public int GetRewardMoney()
+    {
+        return rewardMoney;
     }
 }
