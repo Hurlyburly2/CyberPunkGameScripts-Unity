@@ -34,11 +34,9 @@ public class Loadout : ScriptableObject
 
                 leftArm = CreateInstance<RunnerMod>();
                 leftArm.SetupMod("Unmodded Arm");
-                Debug.Log("left arm id: " + leftArm.GetInstanceID());
 
                 rightArm = CreateInstance<RunnerMod>();
                 rightArm.SetupMod("Unmodded Arm");
-                Debug.Log("right arm id: " + rightArm.GetInstanceID());
 
                 leftLeg = CreateInstance<RunnerMod>();
                 leftLeg.SetupMod("Unmodded Leg");

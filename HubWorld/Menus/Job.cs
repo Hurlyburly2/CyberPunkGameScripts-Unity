@@ -146,26 +146,26 @@ public class Job : ScriptableObject
         if (jobName.Contains("%personName%") || jobDescription.Contains("%personName%"))
         {
             string personName = GenerateName();
-            jobName.Replace("%personName%", personName);
-            jobDescription.Replace("%personName%", personName);
+            jobName = jobName.Replace("%personName%", personName);
+            jobDescription = jobDescription.Replace("%personName%", personName);
         }
         if (jobName.Contains("%gangName%") || jobDescription.Contains("%gangName%"))
         {
             string gangName = GenerateGangName();
-            jobName.Replace("%gangName%", gangName);
-            jobDescription.Replace("%gangName%", gangName);
+            jobName = jobName.Replace("%gangName%", gangName);
+            jobDescription = jobDescription.Replace("%gangName%", gangName);
         }
         if (jobName.Contains("%drugName%") || jobDescription.Contains("%drugName%"))
         {
             string drugName = GenerateDrugName();
-            jobName.Replace("%drugName%", drugName);
-            jobDescription.Replace("%drugName%", drugName);
+            jobName = jobName.Replace("%drugName%", drugName);
+            jobDescription = jobDescription.Replace("%drugName%", drugName);
         }
         if (jobName.Contains("%modName%") || jobDescription.Contains("%modName%"))
         {
             string modName = GenerateModName();
-            jobName.Replace("%modName%", modName);
-            jobDescription.Replace("%modName%", modName);
+            jobName = jobName.Replace("%modName%", modName);
+            jobDescription = jobDescription.Replace("%modName%", modName);
         }
     }
 

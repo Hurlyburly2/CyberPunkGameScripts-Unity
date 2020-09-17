@@ -25,6 +25,11 @@ public class JobSelectSquare : MonoBehaviour
         jobIcon.sprite = job.GetJobIcon();
     }
 
+    public Job GetJob()
+    {
+        return job;
+    }
+
     public void ButtonPress()
     {
         isSelected = !isSelected;
