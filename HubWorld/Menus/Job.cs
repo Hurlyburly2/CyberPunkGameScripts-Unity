@@ -15,6 +15,7 @@ public class Job : ScriptableObject
 
     Item.ItemTypes rewardItem;
     int rewardMoney;
+    int mapSize;
 
     public void GenerateJob(int playerLevel)
     {
@@ -22,6 +23,7 @@ public class Job : ScriptableObject
         jobType = GenerateJobType(playerLevel);
         GenerateJobNameAndDescription();
         jobDifficulty = GenerateJobDifficulty(playerLevel);
+        mapSize = GenerateMapSize();
 
         rewardItem = GetRandomItemType();
         rewardMoney = GetRewardMoneyAmount();
@@ -68,6 +70,35 @@ public class Job : ScriptableObject
                 break;
         }
         FillInTheBlanks();
+    }
+
+    private int GenerateMapSize()
+    {
+        int minimumSquares = 20;
+        int maximumSquares = 25;
+        switch (jobDifficulty)
+        {
+            case 1:
+                // defaults already set above
+                break;
+            case 2:
+                minimumSquares = 20;
+                maximumSquares = 30;
+                break;
+            case 3:
+                minimumSquares = 25;
+                maximumSquares = 35;
+                break;
+            case 4:
+                minimumSquares = 30;
+                maximumSquares = 40;
+                break;
+            case 5:
+                minimumSquares = 40;
+                maximumSquares = 50;
+                break;
+        }
+        return Random.Range(minimumSquares, maximumSquares);
     }
 
     private int GetRewardMoneyAmount()
@@ -234,5 +265,10 @@ public class Job : ScriptableObject
     public int GetRewardMoney()
     {
         return rewardMoney;
+    }
+
+    public int GetMapSize()
+    {
+        return mapSize;
     }
 }

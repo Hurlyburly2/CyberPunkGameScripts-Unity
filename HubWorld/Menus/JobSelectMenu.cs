@@ -36,8 +36,19 @@ public class JobSelectMenu : MonoBehaviour
 
     public void LaunchMission()
     {
-        // triggers when 'launch' button is pressed
-        Debug.Log("Launch Mission!");
+        SceneLoader sceneLoader = FindObjectOfType<SceneLoader>();
+        Job selectedJob = GetSelectedJob();
+        sceneLoader.LoadMap(selectedJob.GetJobArea(), selectedJob.GetMapSize());
+    }
+
+    private Job GetSelectedJob()
+    {
+        foreach (JobSelectSquare jobSelectSquare in jobSelectSquares)
+        {
+            if (jobSelectSquare.GetIsSelected())
+                return jobSelectSquare.GetJob();
+        }
+        return ScriptableObject.CreateInstance<Job>();
     }
 
     public void OpenLoadoutMenu()

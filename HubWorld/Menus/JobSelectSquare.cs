@@ -66,4 +66,9 @@ public class JobSelectSquare : MonoBehaviour
             stars[i].color = starColor;
         }
     }
+
+    public bool GetIsSelected()
+    {
+        return isSelected;
+    }
 }
