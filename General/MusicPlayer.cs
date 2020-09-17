@@ -39,17 +39,17 @@ public class MusicPlayer : MonoBehaviour
         }
     }
 
-    public void ChangeTrack(string name)
+    public void ChangeTrack(Job.JobArea name)
     {
         switch (name)
         {
-            case "homeBase":
+            case Job.JobArea.HomeBase:
                 audioSource.clip = homeBase;
                 audioSource.loop = true;
                 currentTrack = "homeBase";
                 audioSource.Play();
                 break;
-            case "slums":
+            case Job.JobArea.Slums:
                 audioSource.clip = slumsIntro;
                 audioSource.loop = false;
                 currentTrack = "slumsPreLoop";

@@ -7,6 +7,7 @@ using TMPro;
 public class LoadoutMenu : MonoBehaviour
 {
     [SerializeField] LoadoutEquipmentMenu loadoutEquipmentMenu;
+    [SerializeField] JobSelectMenu jobSelectMenu;
 
     [SerializeField] Image runnerPortraitImage;
     [SerializeField] TextMeshProUGUI runnerName;
@@ -19,9 +20,17 @@ public class LoadoutMenu : MonoBehaviour
     CharacterData currentRunner;
     HackerData currentHacker;
 
+    ItemDetailsMenu.ItemDetailMenuContextType context;
+
     public void SetupLoadoutMenu()
     {
         RefreshPlayerData();
+    }
+
+    public void SetupLoadoutMenu(ItemDetailsMenu.ItemDetailMenuContextType newContext)
+    {
+        context = newContext;
+        SetupLoadoutMenu();
     }
 
     private void RefreshPlayerData()
@@ -30,12 +39,10 @@ public class LoadoutMenu : MonoBehaviour
         currentRunner = playerData.GetCurrentRunner();
         currentHacker = playerData.GetCurrentHacker();
 
-        string runnerImagePath = "Characters/Runner" + currentRunner.getId() + "-Full";
-        runnerPortraitImage.sprite = Resources.Load<Sprite>(runnerImagePath);
+        runnerPortraitImage.sprite = currentRunner.GetRunnerPortraitFull();
         runnerName.text = currentRunner.GetRunnerName();
 
-        string hackerImagePath = "Characters/Hacker" + currentHacker.GetId() + "-Full";
-        hackerPortraitImage.sprite = Resources.Load<Sprite>(hackerImagePath);
+        hackerPortraitImage.sprite = currentHacker.GetHackerPortraitFull();
         hackerName.text = currentHacker.GetName();
     }
 
@@ -58,6 +65,11 @@ public class LoadoutMenu : MonoBehaviour
     public void CloseLoadoutMenu()
     {
         gameObject.SetActive(false);
+        if (context == ItemDetailsMenu.ItemDetailMenuContextType.JobSelect)
+        {
+            context = ItemDetailsMenu.ItemDetailMenuContextType.Inventory;
+            jobSelectMenu.SetupMenu();
+        }
     }
 
     public void OpenLoadoutEquipmentMenuRunner()

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] JobSelectMenu jobSelectMenu;
     [SerializeField] LoadoutMenu loadoutMenu;
     [SerializeField] InventoryMenu inventoryMenu;
     [SerializeField] ShopMenu shopMenu;
@@ -11,6 +12,12 @@ public class MainMenu : MonoBehaviour
     public void CloseMainMenu()
     {
         gameObject.SetActive(false);
+    }
+
+    public void OpenJobSelectMenu()
+    {
+        jobSelectMenu.gameObject.SetActive(true);
+        jobSelectMenu.SetupMenu();
     }
 
     public void OpenLoadoutMenu()

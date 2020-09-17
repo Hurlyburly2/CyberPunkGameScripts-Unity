@@ -13,7 +13,7 @@ public class MapGrid : MonoBehaviour
     int startingSquare = 9;
     MapSquareImageHolder mapSquareImageHolder;
     int percentChanceForSpawn = 10;
-    string mapType;
+    Job.JobArea mapType;
 
     // state
     List<MapSquareRow> activeRows;
@@ -34,7 +34,7 @@ public class MapGrid : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void SetupGrid(string newMapType, int mapSize)
+    public void SetupGrid(Job.JobArea newMapType, int mapSize)
     {
         mapType = newMapType;
         isInitialized = true;
@@ -46,7 +46,7 @@ public class MapGrid : MonoBehaviour
         SetupMap(mapType, mapSize, GetVerticalModifier(mapType), GetInitialEnemySpawnChance(mapType));
     }
 
-    private void SetupMap(string mapType, int mapSize, int mapSquareChanceForVerticalModifier, int percentEnemySpawn)
+    private void SetupMap(Job.JobArea mapType, int mapSize, int mapSquareChanceForVerticalModifier, int percentEnemySpawn)
     {
         // initialize starting square in first row
         int activeSquares = 1;
@@ -180,21 +180,21 @@ public class MapGrid : MonoBehaviour
         return playerMarkerPrefab;
     }
 
-    private int GetVerticalModifier(string mapType)
+    private int GetVerticalModifier(Job.JobArea mapType)
     {
         switch (mapType)
         {
-            case "slums":
+            case Job.JobArea.Slums:
                 return 35;
             default:
                 return 35;
         }
     }
 
-    private int GetInitialEnemySpawnChance(string mapType)
+    private int GetInitialEnemySpawnChance(Job.JobArea mapType)
     {
         switch (mapType) {
-            case "slums":
+            case Job.JobArea.Slums:
                 return 66;
         }
         return 0;
@@ -205,7 +205,7 @@ public class MapGrid : MonoBehaviour
         return isInitialized;
     }
 
-    public string GetMapType()
+    public Job.JobArea GetMapType()
     {
         return mapType;
     }

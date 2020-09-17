@@ -242,6 +242,18 @@ public class CharacterData : ScriptableObject
         healthPipManager.ChangeValue(currentHealth);
     }
 
+    public Sprite GetRunnerPortraitFull()
+    {
+        string runnerImagePath = "Characters/Runner" + id + "-Full";
+        return Resources.Load<Sprite>(runnerImagePath);
+    }
+
+    public Sprite GetRunnerPortraitSmall()
+    {
+        string runnerImagePath = "Characters/Runner" + id + "-Portrait";
+        return Resources.Load<Sprite>(runnerImagePath);
+    }
+
     // Getters
     public string GetRunnerName()
     {

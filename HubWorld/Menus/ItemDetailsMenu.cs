@@ -8,7 +8,7 @@ public class ItemDetailsMenu : MonoBehaviour
 {
     [SerializeField] UpgradesMenu upgradesMenu;
 
-    public enum ItemDetailMenuContextType { Inventory, Loadout, Shop };
+    public enum ItemDetailMenuContextType { Inventory, Loadout, Shop, JobSelect };
     ItemDetailMenuContextType context;
     Item item;
 

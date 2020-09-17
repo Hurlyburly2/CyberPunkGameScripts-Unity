@@ -16,11 +16,11 @@ public class GoalWindow : MonoBehaviour
         currentSquare = newSquare;
     }
 
-    private string GenerateDescriptionText(string mapType)
+    private string GenerateDescriptionText(Job.JobArea mapType)
     {
         switch (mapType)
         {
-            case "slums":
+            case Job.JobArea.Slums:
                 return "You have obtained the item. Flavor & Story text will go here. Enemies are on high alert. Hurry to the extraction point!";
         }
         return "";

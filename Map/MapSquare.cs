@@ -254,7 +254,7 @@ public class MapSquare : MonoBehaviour
         hackTargets.Add(newHackTarget);
     }
 
-    public void SpawnEnemy(string mapType)
+    public void SpawnEnemy(Job.JobArea mapType)
     {
         enemy = FindObjectOfType<EnemyCollection>().GetAnEnemyByArea(mapType);
         //EmptyEnemyForTesting();

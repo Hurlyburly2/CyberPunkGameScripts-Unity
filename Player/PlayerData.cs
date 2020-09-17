@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerData : MonoBehaviour
 {
+    int playerLevel;
+    // This is a hidden value that the user will never see, it will be used to determine:
+    //      available jobs, job rewards, items available in shop
+    //      you increase playerLevel by playing story missions   
+
     List<CharacterData> ownedRunners;
     List<HackerData> ownedHackers;
 
@@ -15,6 +20,8 @@ public class PlayerData : MonoBehaviour
     // item id is used to compare uniqueness of items, for example - two leg slot items
     int currentItemId;
 
+    List<Job> currentJobOptions;
+
     private void Start()
     {
         SetupNewGame();
@@ -22,6 +29,7 @@ public class PlayerData : MonoBehaviour
 
     private void SetupNewGame()
     {
+        playerLevel = 0;
         currentItemId = 0;
 
         ownedRunners = new List<CharacterData>();
@@ -83,6 +91,21 @@ public class PlayerData : MonoBehaviour
             newSoftware.SetupChip("Cheap Ghost");
             ownedItems.Add(newSoftware);
         }
+        GenerateJobOptions();
+    }
+
+    private void GenerateJobOptions()
+    {
+        // this should be run once upon every return to the hub world
+        currentJobOptions = new List<Job>();
+        for (int i = 0; i < 3; i++)
+        {
+            Job newJob = ScriptableObject.CreateInstance<Job>();
+            newJob.GenerateJob(playerLevel);
+            currentJobOptions.Add(newJob);
+            Debug.Log(newJob.GetInstanceID());
+        }
+        Debug.Log("jobs generated: " + currentJobOptions.Count);
     }
 
     public List<Item> GetPlayerItems()
@@ -129,5 +152,10 @@ public class PlayerData : MonoBehaviour
     public void AddToOwnedItems(Item item)
     {
         ownedItems.Add(item);
+    }
+
+    public List<Job> GetCurrentJobsList()
+    {
+        return currentJobOptions;
     }
 }
