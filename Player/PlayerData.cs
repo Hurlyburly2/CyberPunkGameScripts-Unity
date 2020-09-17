@@ -20,6 +20,8 @@ public class PlayerData : MonoBehaviour
     // item id is used to compare uniqueness of items, for example - two leg slot items
     int currentItemId;
 
+    List<Job> currentJobOptions;
+
     private void Start()
     {
         SetupNewGame();
@@ -89,6 +91,21 @@ public class PlayerData : MonoBehaviour
             newSoftware.SetupChip("Cheap Ghost");
             ownedItems.Add(newSoftware);
         }
+        GenerateJobOptions();
+    }
+
+    private void GenerateJobOptions()
+    {
+        // this should be run once upon every return to the hub world
+        currentJobOptions = new List<Job>();
+        for (int i = 0; i < 3; i++)
+        {
+            Job newJob = ScriptableObject.CreateInstance<Job>();
+            newJob.GenerateJob(playerLevel);
+            currentJobOptions.Add(newJob);
+            Debug.Log(newJob.GetInstanceID());
+        }
+        Debug.Log("jobs generated: " + currentJobOptions.Count);
     }
 
     public List<Item> GetPlayerItems()
@@ -135,5 +152,10 @@ public class PlayerData : MonoBehaviour
     public void AddToOwnedItems(Item item)
     {
         ownedItems.Add(item);
+    }
+
+    public List<Job> GetCurrentJobsList()
+    {
+        return currentJobOptions;
     }
 }

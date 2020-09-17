@@ -15,6 +15,18 @@ public class JobSelectMenu : MonoBehaviour
         PlayerData playerData = FindObjectOfType<PlayerData>();
         runnerPortrait.sprite = playerData.GetCurrentRunner().GetRunnerPortraitSmall();
         hackerPortrait.sprite = playerData.GetCurrentHacker().GetHackerPortraitSmall();
+
+        SetupJobButtons(playerData.GetCurrentJobsList());
+    }
+
+    private void SetupJobButtons(List<Job> currentJobsList)
+    {
+        int counter = 0;
+        foreach (JobSelectSquare jobSelectSquare in jobSelectSquares)
+        {
+            jobSelectSquare.SetupJobSelectSquare(currentJobsList[counter]);
+            counter++;
+        }
     }
 
     public void LaunchMission()
@@ -27,6 +39,17 @@ public class JobSelectMenu : MonoBehaviour
     {
         loadoutMenu.gameObject.SetActive(true);
         loadoutMenu.SetupLoadoutMenu(ItemDetailsMenu.ItemDetailMenuContextType.JobSelect);
+    }
+
+    public void HandleJobSquareButtonPress(JobSelectSquare pressedSquare)
+    {
+        foreach (JobSelectSquare square in jobSelectSquares)
+        {
+            if (pressedSquare != square)
+            {
+                square.SetInactive();
+            }
+        }
     }
 
     public void CloseJobSelectMenu()

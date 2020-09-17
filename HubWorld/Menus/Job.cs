@@ -169,6 +169,12 @@ public class Job : ScriptableObject
         }
     }
 
+    public Sprite GetJobIcon()
+    {
+        Sprite icon = Resources.Load<Sprite>("Icons/JobIcons/" + jobType.ToString());
+        return icon;
+    }
+
     private string GenerateModName()
     {
         // TODO: NAME GENERATION (do this by area)
