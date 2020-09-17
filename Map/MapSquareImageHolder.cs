@@ -172,7 +172,15 @@ public class MapSquareImageHolder : MonoBehaviour
 
     private int GetRandomSquareId()
     {
-        int currentId = unusedSquareIds[Random.Range(0, unusedSquareIds.Count - 1)];
+        if (unusedSquareIds.Count == 0)
+        {
+            unusedSquareIds = new List<int>();
+            unusedSquareIds.AddRange(usedSquareIds);
+            usedSquareIds = new List<int>();
+        }
+
+        int index = Random.Range(0, unusedSquareIds.Count - 1);
+        int currentId = unusedSquareIds[index];
         usedSquareIds.Add(currentId);
         unusedSquareIds.Remove(currentId);
         return currentId;

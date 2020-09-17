@@ -82,9 +82,54 @@ public class MapGrid : MonoBehaviour
             activeSquareAccurateCount += row.CountActiveSquares();
         }
 
-        CheckNumberOfTransportationHacks();
+        // This is just for debug purposes
+        //CheckNumberOfTransportationHacks();
 
         SpawnGoal(firstSquare);
+    }
+
+    public void AttemptToSpawnAnEnemy(int securityLevel)
+    {
+        List<MapSquare> squares = new List<MapSquare>();
+        foreach (MapSquareRow row in rows)
+        {
+            squares.AddRange(row.GetMapSquares());
+        }
+
+        List<MapSquare> unexploredEnemylessSquares = new List<MapSquare>();
+        List<MapSquare> exploredEnemylessSquare = new List<MapSquare>();
+
+        int enemyCount = 0;
+        foreach (MapSquare square in squares)
+        {
+            if (square.IsActive())
+            {
+                if (square.GetEnemy() == null && square.GetIsExplored())
+                {
+                    exploredEnemylessSquare.Add(square);
+                } else if (square.GetEnemy() == null && !square.GetIsExplored())
+                {
+                    unexploredEnemylessSquares.Add(square);
+                } else
+                {
+                    enemyCount++;
+                }
+            }
+        }
+
+        // We add the unexplored ones twice, so there's double the chance of an unexplored
+        // space spawning an enemy
+        List<MapSquare> possibleGenerationSquares = new List<MapSquare>();
+        possibleGenerationSquares.AddRange(exploredEnemylessSquare);
+        possibleGenerationSquares.AddRange(unexploredEnemylessSquares);
+        possibleGenerationSquares.AddRange(unexploredEnemylessSquares);
+
+        if (possibleGenerationSquares.Count > 0)
+        {
+            MapSquare squareToSpawn = possibleGenerationSquares[Random.Range(0, possibleGenerationSquares.Count - 1)];
+            squareToSpawn.SpawnEnemy(mapType);
+            Debug.Log("Spawned a new enemy");
+        }
     }
 
     private void SpawnGoal(MapSquare firstSquare)
@@ -195,7 +240,7 @@ public class MapGrid : MonoBehaviour
     {
         switch (mapType) {
             case Job.JobArea.Slums:
-                return 66;
+                return 50;
         }
         return 0;
     }

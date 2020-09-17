@@ -16,7 +16,8 @@ public class MapData : MonoBehaviour
     // state
     int securityLevel;
     int enemyHindrance = 0;
-        // enemyHindrance helps to hinder enemy spawn, each tick lowers the level by one
+        // enemyHindrance helps to hinder enemy spawn, each tick lowers the level by one.
+        // Capped at 40%. Spawn chance minimum 5% so matter what this value is
     int enemySpawnBlock = 0;
         // enemySpawnBlock blocks a successful spawn, then goes down by one. If zero- doesn't function
     int playerHealthRegenDuration = 0;
@@ -62,8 +63,6 @@ public class MapData : MonoBehaviour
 
     public void PlayerFinishesMoving(MapSquare currentSquare)
     {
-        Debug.Log("current x/y: " + currentSquare.GetRowPosition() + ", " + currentSquare.GetParentRow().GetRowNumber());
-
         CheckMapGridExists();
         bool moveOnToBattle = PostMovementActions(currentSquare);
         bool trapSprung = false;
@@ -186,18 +185,36 @@ public class MapData : MonoBehaviour
 
     private void AttemptToSpawnEnemy()
     {
+        int enemySpawnChance = securityLevel;
         if (enemyHindrance > 0)
         {
             Debug.Log("Enemy percent spawn hindrance");
+            enemySpawnChance -= enemyHindrance;
+            if (enemySpawnChance < 5)
+            {
+                // We cap the reductions to spawn chance at 5% for now...
+                enemySpawnChance = 5;
+            }
             enemyHindrance--;
         }
-        if (enemySpawnBlock > 0)
+
+        if (Random.Range(0, 100) <= enemySpawnChance)
         {
-            enemySpawnBlock--;
-            Debug.Log("Blocked spawning an enemy");
+            // WRAP THIS IN A % CHANCE CHECK
+            if (enemySpawnBlock > 0)
+            {
+                enemySpawnBlock--;
+                Debug.Log("Blocked spawning an enemy");
+            }
+            else
+            {
+                Debug.Log("Spawn an Enemy");
+                mapGrid.AttemptToSpawnAnEnemy(securityLevel);
+                // TODO: Spawn an enemy?
+            }
         } else
         {
-            Debug.Log("Spawn an Enemy");
+            Debug.Log("Enemy spawn failed...");
         }
     }
 
@@ -206,9 +223,11 @@ public class MapData : MonoBehaviour
         if (currentSquare.GetIsVentilationMapped())
         {
             Debug.Log("Player Using Vents, Less or No Security Penalty");
+            // TODO: THIS???
         } else
         {
             Debug.Log("Raise Security Level");
+            AdjustSecurityLevel(5);
         }
     }
 
@@ -342,6 +361,11 @@ public class MapData : MonoBehaviour
     public void RaiseEnemyHindrance(int amount)
     {
         enemyHindrance += amount;
+        // We max this value out at 40% for now
+        if (enemyHindrance > 40)
+        {
+            enemyHindrance = 40;
+        }
     }
 
     public void RaiseBlockEnemySpawn(int amount)

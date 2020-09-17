@@ -112,4 +112,9 @@ public class MapSquareRow : MonoBehaviour
     {
         return activeSquares.Count;
     }
+
+    public MapSquare[] GetMapSquares()
+    {
+        return mapSquares;
+    }
 }
