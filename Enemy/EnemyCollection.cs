@@ -28,30 +28,26 @@ public class EnemyCollection : MonoBehaviour
         {
             case Job.JobArea.Slums:
                 int[] slumEnemyIds = { 0 };
+                enemyIds.AddRange(slumEnemyIds);
                 break;
         }
 
-        //List<Job.EnemyType> jobEnemyTypes = job.GetEnemyTypes();
-        //List<Enemy> enemyPossibilities = new List<Enemy>();
-        //Debug.Log("jobenemytypes count: " + jobEnemyTypes.Count);
-        //foreach (int id in enemyIds)
-        //{
-        //    //Enemy newEnemy = Resources.Load<Enemy>("Enemies/Enemy" + id.ToString());
-        //    Enemy newEnemy = Resources.Load<Enemy>("Enemies/Enemy0");
-        //    Debug.Log("enemy name: " + newEnemy.GetEnemyName());
-        //    foreach (Job.EnemyType type in jobEnemyTypes)
-        //    {
-        //        if (newEnemy.GetEnemyTypes().Contains(type))
-        //        {
-        //            Debug.Log("does this happen");
-        //            enemyPossibilities.Add(newEnemy);
-        //            break;
-        //        }
-        //    }
-        //}
+        List<Job.EnemyType> jobEnemyTypes = job.GetEnemyTypes();
+        List<Enemy> enemyPossibilities = new List<Enemy>();
+        foreach (int id in enemyIds)
+        {
+            //Enemy newEnemy = Resources.Load<Enemy>("Enemies/Enemy" + id.ToString());
+            Enemy newEnemy = Resources.Load<Enemy>("Enemies/Enemy0");
+            foreach (Job.EnemyType type in jobEnemyTypes)
+            {
+                if (newEnemy.GetEnemyTypes().Contains(type))
+                {
+                    enemyPossibilities.Add(newEnemy);
+                    break;
+                }
+            }
+        }
 
-        //Debug.Log("enemypossibilities count: " + enemyPossibilities.Count);
-        //return enemyPossibilities[Random.Range(0, enemyPossibilities.Count - 1)];
-        return Resources.Load<Enemy>("Enemies/Enemy0");
+        return enemyPossibilities[Random.Range(0, enemyPossibilities.Count - 1)];
     }
 }
