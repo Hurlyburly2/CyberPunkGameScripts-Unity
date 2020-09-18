@@ -42,7 +42,8 @@ public class MapSquareRow : MonoBehaviour
                         newSquareCount++;
                         if (Random.Range(0, 100) < chanceToSpawnEnemy)
                         {
-                            adjacentSquare.SpawnEnemy(mapType);
+                            MapData mapData = FindObjectOfType<MapData>();
+                            adjacentSquare.SpawnEnemy(mapType, mapData.GetSecurityLevel(), mapData.GetJob());
                         }
                     }
                 }

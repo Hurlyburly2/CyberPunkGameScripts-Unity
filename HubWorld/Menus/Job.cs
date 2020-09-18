@@ -6,11 +6,13 @@ public class Job : ScriptableObject
 {
     public enum JobType { GetItem, Assassination };
     public enum JobArea { Slums, HomeBase };
+    public enum EnemyType { Gang };
 
     string jobName;
     string jobDescription;
     JobType jobType;
     JobArea jobArea;
+    List<EnemyType> enemyTypes;
     int jobDifficulty; // 1-5 stars
 
     Item.ItemTypes rewardItem;
@@ -19,6 +21,8 @@ public class Job : ScriptableObject
 
     public void GenerateJob(int playerLevel)
     {
+        enemyTypes = new List<EnemyType>();
+
         jobArea = GenerateJobArea(playerLevel);
         jobType = GenerateJobType(playerLevel);
         GenerateJobNameAndDescription();
@@ -50,6 +54,7 @@ public class Job : ScriptableObject
                         int index = Random.Range(0, slumAssassinationJobNames.Length);
                         jobName = slumAssassinationJobNames[index];
                         jobDescription = slumAssassinationJobDescriptions[index];
+                        enemyTypes.Add(EnemyType.Gang);
                         break; ;
                     case JobType.GetItem:
                         string[] slumGetItemJobNames =
@@ -65,6 +70,7 @@ public class Job : ScriptableObject
                         index = Random.Range(0, slumGetItemJobNames.Length);
                         jobName = slumGetItemJobNames[index];
                         jobDescription = slumGetItemJobDescriptions[index];
+                        enemyTypes.Add(EnemyType.Gang);
                         break;
                 }
                 break;
@@ -270,5 +276,10 @@ public class Job : ScriptableObject
     public int GetMapSize()
     {
         return mapSize;
+    }
+
+    public List<EnemyType> GetEnemyTypes()
+    {
+        return enemyTypes;
     }
 }

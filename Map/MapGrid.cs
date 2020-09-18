@@ -127,7 +127,8 @@ public class MapGrid : MonoBehaviour
         if (possibleGenerationSquares.Count > 0)
         {
             MapSquare squareToSpawn = possibleGenerationSquares[Random.Range(0, possibleGenerationSquares.Count - 1)];
-            squareToSpawn.SpawnEnemy(mapType);
+            MapData mapData = FindObjectOfType<MapData>();
+            squareToSpawn.SpawnEnemy(mapType, mapData.GetSecurityLevel(), mapData.GetJob());
             Debug.Log("Spawned a new enemy");
         }
     }

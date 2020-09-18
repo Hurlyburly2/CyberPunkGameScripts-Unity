@@ -60,12 +60,12 @@ public class SceneLoader : MonoBehaviour
         currentScene = SceneManager.GetActiveScene().buildIndex;
     }
 
-    public void LoadMap(Job.JobArea mapType, int mapSize)
+    public void LoadMap(Job.JobArea mapType, int mapSize, Job job)
     {
         currentRunner = TestData.SetTestCharacterOne();
         currentHacker = TestData.SetTestHackerOne();
         currentMap = Instantiate(mapData);
-        currentMap.SetMapData(currentRunner, currentHacker, mapType, 10, mapSize);
+        currentMap.SetMapData(currentRunner, currentHacker, mapType, 10, mapSize, job);
         ChangeMusicTrack(Job.JobArea.Slums);
 
         SceneManager.LoadScene(mapSceneName);
@@ -107,6 +107,8 @@ public class SceneLoader : MonoBehaviour
         {
             FindObjectOfType<MapConfig>().GetExtractionWindow().OpenExtractionWindow();
         }
+
+        FindObjectOfType<MapData>().AdjustSecurityLevel(5);
     }
 
     private void DestroyExtraGrids()
@@ -184,7 +186,9 @@ public class SceneLoader : MonoBehaviour
     {
         currentRunner = playerData.GetCurrentRunner();
         currentHacker = playerData.GetCurrentHacker();
-        LoadMap(Job.JobArea.Slums, 20);
+        Job job = ScriptableObject.CreateInstance<Job>();
+        job.GenerateJob(0);
+        LoadMap(Job.JobArea.Slums, 20, job);
     }
 
     public void LoadHack()

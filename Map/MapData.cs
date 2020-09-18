@@ -12,6 +12,7 @@ public class MapData : MonoBehaviour
     [SerializeField] float setupTimeInSeconds = 1f;
     MapGrid mapGrid;
     int mapSize;
+    Job job;
 
     // state
     int securityLevel;
@@ -283,13 +284,14 @@ public class MapData : MonoBehaviour
         currentSquare.ReopenHackMenu(currentHackTarget);
     }
 
-    public void SetMapData(CharacterData characterToSet, HackerData hackerToSet, Job.JobArea newMapType, int newSecurityLevel, int newMapSize)
+    public void SetMapData(CharacterData characterToSet, HackerData hackerToSet, Job.JobArea newMapType, int newSecurityLevel, int newMapSize, Job newJob)
     {
         runner = characterToSet;
         hacker = hackerToSet;
         mapType = newMapType;
         securityLevel = newSecurityLevel;
         mapSize = newMapSize;
+        job = newJob;
     }
 
     private void SetupPlayerPortraits()
@@ -460,5 +462,15 @@ public class MapData : MonoBehaviour
     public bool GetShouldExtractionWindowOpenAfterCombat()
     {
         return wasPlayerOnExtractionBeforeCombat;
+    }
+
+    public int GetSecurityLevel()
+    {
+        return securityLevel;
+    }
+
+    public Job GetJob()
+    {
+        return job;
     }
 }

@@ -258,10 +258,10 @@ public class MapSquare : MonoBehaviour
         hackTargets.Add(newHackTarget);
     }
 
-    public void SpawnEnemy(Job.JobArea mapType)
+    public void SpawnEnemy(Job.JobArea mapType, int securityLevel, Job job)
     {
         // TODO: THIS SHOULD ALSO TAKE INTO ACCOUNT DIFFICULTY AND SECURITY LEVEL
-        enemy = FindObjectOfType<EnemyCollection>().GetAnEnemyByArea(mapType);
+        enemy = FindObjectOfType<EnemyCollection>().GetAnEnemyByArea(mapType, securityLevel, job);
         //EmptyEnemyForTesting();
     }
 
