@@ -372,7 +372,7 @@ public class HackTarget : ScriptableObject
                 EngageStealthTech();
                 break;
             case "Hinder Enemy Movement":
-                HinderEnemyMovement(3);
+                HinderEnemyMovement(5);
                 break;
             case "Stop Enemy Movement":
                 StopEnemyMovement(1);

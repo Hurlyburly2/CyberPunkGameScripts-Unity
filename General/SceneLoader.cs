@@ -22,6 +22,7 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] string battleSceneName = "Battle";
     [SerializeField] string hackSceneName = "Hack";
     [SerializeField] string mapSceneName = "Map";
+    [SerializeField] string hubSceneName = "HubWorld";
 
     // Character/h@cker
     CharacterData currentRunner;
@@ -60,12 +61,12 @@ public class SceneLoader : MonoBehaviour
         currentScene = SceneManager.GetActiveScene().buildIndex;
     }
 
-    public void LoadMap(Job.JobArea mapType, int mapSize)
+    public void LoadMap(Job.JobArea mapType, int mapSize, Job job)
     {
         currentRunner = TestData.SetTestCharacterOne();
         currentHacker = TestData.SetTestHackerOne();
         currentMap = Instantiate(mapData);
-        currentMap.SetMapData(currentRunner, currentHacker, mapType, 10, mapSize);
+        currentMap.SetMapData(currentRunner, currentHacker, mapType, 10, mapSize, job);
         ChangeMusicTrack(Job.JobArea.Slums);
 
         SceneManager.LoadScene(mapSceneName);
@@ -78,6 +79,9 @@ public class SceneLoader : MonoBehaviour
         MapGrid mapGrid = FindObjectOfType<BattleData>().GetMapGrid();
         SceneManager.LoadScene(mapSceneName);
         BattleData previousBattle = FindObjectOfType<BattleData>();
+
+        mapData = FindObjectOfType<MapData>();
+        mapData.TrackDefeatedEnemy();
 
         MapSquare currentSquare = previousBattle.GetMapSquare();
         currentSquare.DespawnEnemy();
@@ -107,6 +111,8 @@ public class SceneLoader : MonoBehaviour
         {
             FindObjectOfType<MapConfig>().GetExtractionWindow().OpenExtractionWindow();
         }
+
+        FindObjectOfType<MapData>().AdjustSecurityLevel(5);
     }
 
     private void DestroyExtraGrids()
@@ -184,7 +190,9 @@ public class SceneLoader : MonoBehaviour
     {
         currentRunner = playerData.GetCurrentRunner();
         currentHacker = playerData.GetCurrentHacker();
-        LoadMap(Job.JobArea.Slums, 20);
+        Job job = ScriptableObject.CreateInstance<Job>();
+        job.GenerateJob(0);
+        LoadMap(Job.JobArea.Slums, 20, job);
     }
 
     public void LoadHack()
@@ -233,6 +241,9 @@ public class SceneLoader : MonoBehaviour
         MapGrid mapGrid = FindObjectOfType<HackBattleData>().GetMapGrid();
         SceneManager.LoadScene(mapSceneName);
 
+        mapData = FindObjectOfType<MapData>();
+        mapData.TrackCompletedHack();
+
         HackBattleData previousHack = FindObjectOfType<HackBattleData>();
         Destroy(previousHack.gameObject);
 
@@ -252,10 +263,41 @@ public class SceneLoader : MonoBehaviour
         DestroyExtraGrids();
     }
 
-    private void SetupRunnerAndHacker()
+    public void LoadHubFromCompletedMap(Job job, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted)
     {
-        // TODO THIS METHOD IS FOR USE ONLY UNTIL SOME OUT OF BATTLE SETUP IS READY
+        // TODO: THIS
+        SceneManager.LoadScene(hubSceneName);
+        StartCoroutine(WaitForHubToLoadFromMap(job, creditsEarned, goalModifier, enemiesDefeated, hacksCompleted));
+    }
 
+    private IEnumerator WaitForHubToLoadFromMap(Job job, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted)
+    {
+        while (SceneManager.GetActiveScene().name != hubSceneName)
+        {
+            yield return null;
+        }
+
+        ReturnToHubWorld(job, creditsEarned, goalModifier, enemiesDefeated, hacksCompleted);
+    }
+
+    private void ReturnToHubWorld(Job job, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted)
+    {
+        musicPlayer.ChangeTrack(Job.JobArea.HomeBase);
+
+        Destroy(FindObjectOfType<MapGrid>().gameObject);
+        Destroy(FindObjectOfType<MapData>().gameObject);
+
+        MissionCompleteMenu missionCompleteMenu = FindObjectOfType<HubMenuButton>().GetMissionCompleteMenu();
+        missionCompleteMenu.gameObject.SetActive(true);
+        missionCompleteMenu.SetupMissionCompleteMenu();
+
+
+        // TODO: DISPLAY MISSION END WINDOW
+        // TODO: GENERATE NEW MISSIONS
+        // TODO: GENERATE NEW SHOP ITEMS
+        // TODO: CHANGE MUSIC
+        // TODO: SAVE EARNED MONEY
+        // TODO: GENERATE REWARD ITEM
     }
 
     private void ChangeMusicTrack(Job.JobArea trackName)

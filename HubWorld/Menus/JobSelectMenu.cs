@@ -38,7 +38,7 @@ public class JobSelectMenu : MonoBehaviour
     {
         SceneLoader sceneLoader = FindObjectOfType<SceneLoader>();
         Job selectedJob = GetSelectedJob();
-        sceneLoader.LoadMap(selectedJob.GetJobArea(), selectedJob.GetMapSize());
+        sceneLoader.LoadMap(selectedJob.GetJobArea(), selectedJob.GetMapSize(), selectedJob);
     }
 
     private Job GetSelectedJob()

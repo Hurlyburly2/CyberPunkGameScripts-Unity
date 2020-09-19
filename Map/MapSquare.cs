@@ -38,6 +38,8 @@ public class MapSquare : MonoBehaviour
     bool isTransportationNodeUnlocked = false;
     bool isVentilationMapped = false;
 
+    bool explored = false; // has player visited this square? Used primarily to determine enemy spawns
+
     // objects and hacks
     List<HackTarget> hackTargets;
     List<MapObject> mapObjects;
@@ -185,7 +187,9 @@ public class MapSquare : MonoBehaviour
 
     public void SetPlayerPosition()
     {
+        Debug.Log("player present()");
         playerPresent = true;
+        explored = true;
         enemyScoutLevel = 3;
         poiScoutLevel = 3;
         RemoveShroud();
@@ -254,9 +258,10 @@ public class MapSquare : MonoBehaviour
         hackTargets.Add(newHackTarget);
     }
 
-    public void SpawnEnemy(Job.JobArea mapType)
+    public void SpawnEnemy(Job.JobArea mapType, int securityLevel, Job job)
     {
-        enemy = FindObjectOfType<EnemyCollection>().GetAnEnemyByArea(mapType);
+        // TODO: THIS SHOULD ALSO TAKE INTO ACCOUNT DIFFICULTY AND SECURITY LEVEL
+        enemy = FindObjectOfType<EnemyCollection>().GetAnEnemyByArea(mapType, securityLevel, job);
         //EmptyEnemyForTesting();
     }
 
@@ -567,5 +572,10 @@ public class MapSquare : MonoBehaviour
     public bool GetIsExtraction()
     {
         return isExtraction;
+    }
+
+    public bool GetIsExplored()
+    {
+        return explored;
     }
 }

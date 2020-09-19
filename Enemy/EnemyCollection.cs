@@ -11,28 +11,43 @@ public class EnemyCollection : MonoBehaviour
         return allEnemies;
     }
 
-    public Enemy GetAnEnemyByArea(Job.JobArea area)
+    public Enemy GetAnEnemyByArea(Job.JobArea area, int securityLevel, Job job)
     {
         switch (area)
         {
             case Job.JobArea.Slums:
-                List<Enemy> slumEnemies = GetSlumEnemies();
-                return slumEnemies[Random.Range(0, slumEnemies.Count)];
+                return GetEnemy(area, securityLevel, job);
         }
         return allEnemies[0];
     }
 
-    private List<Enemy> GetSlumEnemies()
+    private Enemy GetEnemy(Job.JobArea area, int securityLevel, Job job)
     {
-        // indices of all enemies who belong to slums
-        int[] slumIndexArray = { 0 };
-        List<Enemy> slumEnemies = new List<Enemy>();
-
-        foreach (int index in slumIndexArray)
+        List<int> enemyIds = new List<int>();
+        switch (area)
         {
-            slumEnemies.Add(allEnemies[index]);
+            case Job.JobArea.Slums:
+                int[] slumEnemyIds = { 0 };
+                enemyIds.AddRange(slumEnemyIds);
+                break;
         }
 
-        return slumEnemies;
+        List<Job.EnemyType> jobEnemyTypes = job.GetEnemyTypes();
+        List<Enemy> enemyPossibilities = new List<Enemy>();
+        foreach (int id in enemyIds)
+        {
+            //Enemy newEnemy = Resources.Load<Enemy>("Enemies/Enemy" + id.ToString());
+            Enemy newEnemy = Resources.Load<Enemy>("Enemies/Enemy0");
+            foreach (Job.EnemyType type in jobEnemyTypes)
+            {
+                if (newEnemy.GetEnemyTypes().Contains(type))
+                {
+                    enemyPossibilities.Add(newEnemy);
+                    break;
+                }
+            }
+        }
+
+        return enemyPossibilities[Random.Range(0, enemyPossibilities.Count - 1)];
     }
 }

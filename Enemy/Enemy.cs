@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] Sprite tinyMapImage;
     [SerializeField] int starRating;
         // star rating represents enemy difficulty and ranges from 0-5
+    [SerializeField] List<Job.EnemyType> enemyTypes;
 
     // config
     GameObject currentHealthText;
@@ -162,5 +163,10 @@ public class Enemy : MonoBehaviour
     public int GetStarRating()
     {
         return starRating;
+    }
+
+    public List<Job.EnemyType> GetEnemyTypes()
+    {
+        return enemyTypes;
     }
 }

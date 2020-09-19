@@ -16,6 +16,15 @@ public class MusicPlayer : MonoBehaviour
         // homeBase
         // slumsPreLoop, slumsPostLoop
 
+    private void Awake()
+    {
+        int count = FindObjectsOfType<MusicPlayer>().Length;
+        if (count > 1)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
