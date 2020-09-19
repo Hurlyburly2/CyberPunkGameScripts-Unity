@@ -33,6 +33,8 @@ public class MapData : MonoBehaviour
     int creditsEarned; // in match
     int creditsMultiplier; // percent multiplier added to money earned in round
     int goalMultiplier; // percent multiplier added to money earned at end of round
+    int enemiesDefeated = 0;
+    int hacksCompleted = 0;
 
     // player powerups
     int handSizeBoostChance = 0;
@@ -43,6 +45,8 @@ public class MapData : MonoBehaviour
         creditsEarned = 0;
         creditsMultiplier = 0;
         goalMultiplier = 0;
+        enemiesDefeated = 0;
+        hacksCompleted = 0;
 
         if (count > 1)
         {
@@ -227,7 +231,6 @@ public class MapData : MonoBehaviour
             // TODO: THIS???
         } else
         {
-            Debug.Log("Raise Security Level");
             AdjustSecurityLevel(5);
         }
     }
@@ -472,5 +475,30 @@ public class MapData : MonoBehaviour
     public Job GetJob()
     {
         return job;
+    }
+
+    public void TrackCompletedHack()
+    {
+        hacksCompleted++;
+    }
+
+    public int GetCompletedHackCount()
+    {
+        return hacksCompleted;
+    }
+
+    public void TrackDefeatedEnemy()
+    {
+        enemiesDefeated++;
+    }
+
+    public int GetDefeatedEnemyCount()
+    {
+        return enemiesDefeated;
+    }
+
+    public int GetGoalModifier()
+    {
+        return goalMultiplier;
     }
 }

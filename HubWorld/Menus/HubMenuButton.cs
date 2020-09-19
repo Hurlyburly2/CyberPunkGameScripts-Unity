@@ -6,6 +6,7 @@ using TMPro;
 public class HubMenuButton : MonoBehaviour
 {
     [SerializeField] MainMenu mainMenu;
+    [SerializeField] MissionCompleteMenu missionCompleteMenu;
 
     [SerializeField] private AnimationCurve fadeCurve;
     [SerializeField] TextMeshProUGUI text1;
@@ -29,5 +30,10 @@ public class HubMenuButton : MonoBehaviour
     public void OpenMainMenu()
     {
         mainMenu.gameObject.SetActive(true);
+    }
+
+    public MissionCompleteMenu GetMissionCompleteMenu()
+    {
+        return missionCompleteMenu;
     }
 }

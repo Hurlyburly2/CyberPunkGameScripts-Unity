@@ -19,9 +19,12 @@ public class Job : ScriptableObject
     int rewardMoney;
     int mapSize;
 
+    bool isStoryMission;
+
     public void GenerateJob(int playerLevel)
     {
         enemyTypes = new List<EnemyType>();
+        isStoryMission = false;
 
         jobArea = GenerateJobArea(playerLevel);
         jobType = GenerateJobType(playerLevel);
@@ -281,5 +284,10 @@ public class Job : ScriptableObject
     public List<EnemyType> GetEnemyTypes()
     {
         return enemyTypes;
+    }
+
+    public bool GetIsStoryMission()
+    {
+        return isStoryMission;
     }
 }
