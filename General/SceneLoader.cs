@@ -52,6 +52,12 @@ public class SceneLoader : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        int sceneLoaderCount = FindObjectsOfType<SceneLoader>().Length;
+        if (sceneLoaderCount > 1)
+        {
+            Destroy(gameObject);
+        }
         DontDestroyOnLoad(gameObject);
     }
 
@@ -80,8 +86,8 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(mapSceneName);
         BattleData previousBattle = FindObjectOfType<BattleData>();
 
-        mapData = FindObjectOfType<MapData>();
-        mapData.TrackDefeatedEnemy();
+        currentMap = FindObjectOfType<MapData>();
+        currentMap.TrackDefeatedEnemy();
 
         MapSquare currentSquare = previousBattle.GetMapSquare();
         currentSquare.DespawnEnemy();
@@ -241,8 +247,8 @@ public class SceneLoader : MonoBehaviour
         MapGrid mapGrid = FindObjectOfType<HackBattleData>().GetMapGrid();
         SceneManager.LoadScene(mapSceneName);
 
-        mapData = FindObjectOfType<MapData>();
-        mapData.TrackCompletedHack();
+        currentMap = FindObjectOfType<MapData>();
+        currentMap.TrackCompletedHack();
 
         HackBattleData previousHack = FindObjectOfType<HackBattleData>();
         Destroy(previousHack.gameObject);
@@ -285,7 +291,7 @@ public class SceneLoader : MonoBehaviour
         musicPlayer.ChangeTrack(Job.JobArea.HomeBase);
 
         Destroy(FindObjectOfType<MapGrid>().gameObject);
-        Destroy(FindObjectOfType<MapData>().gameObject);
+        Destroy(currentMap);
 
         MissionCompleteMenu missionCompleteMenu = FindObjectOfType<HubMenuButton>().GetMissionCompleteMenu();
         missionCompleteMenu.gameObject.SetActive(true);
