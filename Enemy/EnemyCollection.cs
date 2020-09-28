@@ -27,7 +27,7 @@ public class EnemyCollection : MonoBehaviour
         switch (area)
         {
             case Job.JobArea.Slums:
-                int[] slumEnemyIds = { 0 };
+                int[] slumEnemyIds = { 0, 1 };
                 enemyIds.AddRange(slumEnemyIds);
                 break;
         }
@@ -37,7 +37,7 @@ public class EnemyCollection : MonoBehaviour
         foreach (int id in enemyIds)
         {
             //Enemy newEnemy = Resources.Load<Enemy>("Enemies/Enemy" + id.ToString());
-            Enemy newEnemy = Resources.Load<Enemy>("Enemies/Enemy0");
+            Enemy newEnemy = Resources.Load<Enemy>("Enemies/Enemy" + id.ToString());
             foreach (Job.EnemyType type in jobEnemyTypes)
             {
                 if (newEnemy.GetEnemyTypes().Contains(type))
@@ -47,7 +47,6 @@ public class EnemyCollection : MonoBehaviour
                 }
             }
         }
-
-        return enemyPossibilities[Random.Range(0, enemyPossibilities.Count - 1)];
+        return enemyPossibilities[Random.Range(0, enemyPossibilities.Count)];
     }
 }
