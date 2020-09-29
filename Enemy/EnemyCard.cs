@@ -185,6 +185,14 @@ public class EnemyCard : MonoBehaviour
                     BuffHandSize(1);
                     destroyOnPlay = true;
                     break;
+                case 4: // Lit Fuse
+                    break;
+                case 5: // Burning Fuse
+                    break;
+                case 6:
+                    DealDamage(15);
+                    SelfDamage(15);
+                    break;
                 default:
                     Debug.Log("Card not implemented");
                     break;
