@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] Sprite tinyMapImage;
     [SerializeField] int starRating;
         // star rating represents enemy difficulty and ranges from 0-5
+    [SerializeField] bool shuffleDeck = true;
+        // set to false for enemies where you should NOT shuffle the deck
     [SerializeField] List<Job.EnemyType> enemyTypes;
 
     // config
@@ -41,7 +43,7 @@ public class Enemy : MonoBehaviour
         SetupHealthAndEnergyText();
 
         enemyDeck = FindObjectOfType<EnemyDeck>();
-        enemyDeck.SetupDeck();
+        enemyDeck.SetupDeck(shuffleDeck);
 
         enemyDiscard = FindObjectOfType<EnemyDiscard>();
         enemyHand = FindObjectOfType<EnemyHand>();

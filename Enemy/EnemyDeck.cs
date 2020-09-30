@@ -7,10 +7,17 @@ public class EnemyDeck : MonoBehaviour
     [SerializeField] List<EnemyCard> cards = new List<EnemyCard>();
     EnemyDiscard enemyDiscard;
 
-    public void SetupDeck()
+    bool shouldShuffle;
+
+    public void SetupDeck(bool newShouldShuffle)
     {
         enemyDiscard = FindObjectOfType<EnemyDiscard>();
-        ShuffleDeck();
+        shouldShuffle = newShouldShuffle;
+
+        if (shouldShuffle)
+        {
+            ShuffleDeck();
+        }
     }
 
     public EnemyCard DrawTopCard()
