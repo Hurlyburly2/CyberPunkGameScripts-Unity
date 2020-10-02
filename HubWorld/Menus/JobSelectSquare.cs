@@ -32,7 +32,10 @@ public class JobSelectSquare : MonoBehaviour
 
     public void ButtonPress()
     {
-        isSelected = !isSelected;
+        if (!isSelected)
+        {
+            isSelected = true;
+        }
         UpdateHolderImage();
         parentMenu.HandleJobSquareButtonPress(this);
     }

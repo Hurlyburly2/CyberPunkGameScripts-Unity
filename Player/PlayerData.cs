@@ -94,7 +94,7 @@ public class PlayerData : MonoBehaviour
         GenerateJobOptions();
     }
 
-    private void GenerateJobOptions()
+    public void GenerateJobOptions()
     {
         // this should be run once upon every return to the hub world
         currentJobOptions = new List<Job>();
