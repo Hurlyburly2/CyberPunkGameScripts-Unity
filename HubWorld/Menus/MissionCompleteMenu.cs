@@ -23,7 +23,7 @@ public class MissionCompleteMenu : MonoBehaviour
         hacksCompletedField.text = hacksCompleted.ToString();
         baseWageField.text = oldJob.GetRewardMoney().ToString();
 
-        int totalWages = 0;
+        int totalWages;
         if (goalModifier != 0)
         {
             multiplierField.text = "+" + goalModifier.ToString() + "%";
@@ -38,10 +38,14 @@ public class MissionCompleteMenu : MonoBehaviour
         bonusCreditsField.text = creditsEarned.ToString();
 
         // Generate New Jobs
-        FindObjectOfType<PlayerData>().GenerateJobOptions();
+        PlayerData playerData = FindObjectOfType<PlayerData>();
+        playerData.GenerateJobOptions();
 
-        // TODO: GENERATE NEW SHOP ITEMS
-        // TODO: SAVE EARNED MONEY
+        // Save earned money
+        playerData.CreditsGain(totalWages);
+        playerData.CreditsGain(creditsEarned);
+
+        // TODO: GENERATE NEW SHOP ITEMS - This will be handled on playerData
         // TODO: GENERATE REWARD ITEM
     }
 

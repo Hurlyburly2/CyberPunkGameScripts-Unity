@@ -17,10 +17,9 @@ public class PlayerData : MonoBehaviour
     CharacterData currentRunner;
     HackerData currentHacker;
 
-    // item id is used to compare uniqueness of items, for example - two leg slot items
-    int currentItemId;
-
     List<Job> currentJobOptions;
+
+    int currentCredits;
 
     private void Start()
     {
@@ -30,7 +29,7 @@ public class PlayerData : MonoBehaviour
     private void SetupNewGame()
     {
         playerLevel = 0;
-        currentItemId = 0;
+        currentCredits = 0;
 
         ownedRunners = new List<CharacterData>();
         ownedHackers = new List<HackerData>();
@@ -143,12 +142,6 @@ public class PlayerData : MonoBehaviour
         currentHacker = newHacker;
     }
 
-    public int GetAndIncrementItemId()
-    {
-        currentItemId++;
-        return currentItemId - 1;
-    }
-
     public void AddToOwnedItems(Item item)
     {
         ownedItems.Add(item);
@@ -157,5 +150,22 @@ public class PlayerData : MonoBehaviour
     public List<Job> GetCurrentJobsList()
     {
         return currentJobOptions;
+    }
+
+    public void CreditsGain(int amount)
+    {
+        currentCredits += amount;
+    }
+
+    public void CreditsLose(int amount)
+    {
+        currentCredits -= amount;
+        if (currentCredits < 0)
+            currentCredits = 0;
+    }
+
+    public int GetCreditsAmount()
+    {
+        return currentCredits;
     }
 }
