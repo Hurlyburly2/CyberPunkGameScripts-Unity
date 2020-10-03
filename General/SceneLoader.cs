@@ -295,15 +295,7 @@ public class SceneLoader : MonoBehaviour
 
         MissionCompleteMenu missionCompleteMenu = FindObjectOfType<HubMenuButton>().GetMissionCompleteMenu();
         missionCompleteMenu.gameObject.SetActive(true);
-        missionCompleteMenu.SetupMissionCompleteMenu();
-
-
-        // TODO: DISPLAY MISSION END WINDOW
-        // TODO: GENERATE NEW MISSIONS
-        // TODO: GENERATE NEW SHOP ITEMS
-        // TODO: CHANGE MUSIC
-        // TODO: SAVE EARNED MONEY
-        // TODO: GENERATE REWARD ITEM
+        missionCompleteMenu.SetupMissionCompleteMenu(job, creditsEarned, goalModifier, enemiesDefeated, hacksCompleted);
     }
 
     private void ChangeMusicTrack(Job.JobArea trackName)

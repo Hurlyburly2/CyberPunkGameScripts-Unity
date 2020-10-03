@@ -150,16 +150,6 @@ public class Item : ScriptableObject
         return itemLevel;
     }
 
-    public void CreateItemId()
-    {
-        itemId = FindObjectOfType<PlayerData>().GetAndIncrementItemId();
-    }
-
-    public int GetItemId()
-    {
-        return itemId;
-    }
-
     public bool IsHackerMod()
     {
         if (itemType == ItemTypes.NeuralImplant || itemType == ItemTypes.Rig || itemType == ItemTypes.Uplink)

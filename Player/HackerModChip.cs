@@ -19,7 +19,6 @@ public class HackerModChip : Item
         itemLevel = 2;
         itemMaxLevel = 3;
         hackerOrRunner = HackerRunner.Hacker;
-        CreateItemId();
     }
 
     private void SetChipProperties()
