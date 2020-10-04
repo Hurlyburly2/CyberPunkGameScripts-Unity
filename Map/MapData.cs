@@ -245,6 +245,8 @@ public class MapData : MonoBehaviour
 
         mapGrid = FindObjectOfType<MapGrid>();
         mapGrid.SetupGrid(mapType, mapSize);
+
+        FindObjectOfType<MapCanvas>().GetMissionStartMenu().SetupMissionStartMenu();
     }
 
     public void SetUpMapFromBattle()

@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class MapCanvas : MonoBehaviour
 {
-    // Start is called before the first frame update
-    private void Awake()
-    {
-        MapCanvas[] mapCanvas = FindObjectsOfType<MapCanvas>();
+    [SerializeField] MissionStartMenu missionStartMenu;
 
-        if (mapCanvas.Length > 1)
-        {
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);
+    public MissionStartMenu GetMissionStartMenu()
+    {
+        return missionStartMenu;
     }
 }
