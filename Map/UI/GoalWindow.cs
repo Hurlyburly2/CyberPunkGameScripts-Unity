@@ -11,19 +11,14 @@ public class GoalWindow : MonoBehaviour
     public void OpenGoalWindow(MapSquare newSquare)
     {
         gameObject.SetActive(true);
-        descriptionText.text = GenerateDescriptionText(FindObjectOfType<MapGrid>().GetMapType());
+        descriptionText.text = GenerateDescriptionText();
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(true);
         currentSquare = newSquare;
     }
 
-    private string GenerateDescriptionText(Job.JobArea mapType)
+    private string GenerateDescriptionText()
     {
-        switch (mapType)
-        {
-            case Job.JobArea.Slums:
-                return "You have obtained the item. Flavor & Story text will go here. Enemies are on high alert. Hurry to the extraction point!";
-        }
-        return "";
+        return FindObjectOfType<MapData>().GetJob().GetJobMiddleTextTwo();
     }
 
     public void CloseGoalWindow()

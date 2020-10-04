@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ExtractionWindow : MonoBehaviour
 {
+    [SerializeField] TextMeshProUGUI extractionText;
+
     public void PressExtractionButton()
     {
         MapData mapData = FindObjectOfType<MapData>();
@@ -20,6 +23,7 @@ public class ExtractionWindow : MonoBehaviour
     public void OpenExtractionWindow()
     {
         gameObject.SetActive(true);
+        extractionText.text = FindObjectOfType<MapData>().GetJob().GetJobEndText();
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(true);
     }
 }
