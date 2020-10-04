@@ -15,6 +15,11 @@ public class Job : ScriptableObject
     List<EnemyType> enemyTypes;
     int jobDifficulty; // 1-5 stars
 
+    string jobIntroText = ""; // Displayed at beginning of mission
+    string jobMiddleTextOne = ""; // Displayed pre-battle, used for assassination missions where the boss is special
+    string jobMiddleTextTwo = ""; // Displayed post-battle
+    string jobEndText = ""; // Displayed upon job completion
+
     Item.ItemTypes rewardItem;
     int rewardMoney;
     int mapSize;
@@ -58,7 +63,12 @@ public class Job : ScriptableObject
                         jobName = slumAssassinationJobNames[index];
                         jobDescription = slumAssassinationJobDescriptions[index];
                         enemyTypes.Add(EnemyType.Gang);
-                        break; ;
+
+                        jobIntroText = "You've arrived in %gangName%' territory. Kill their leader and get out quick, before they're onto you.";
+                        jobMiddleTextOne = "After making your way through %gangName% streets, you finally come across their leader, %personName%. Time to take them down.";
+                        jobMiddleTextTwo = "%personName% is dead. Your client will no doubt be thrilled to hear the news. Proceed to extraction.";
+                        jobEndText = "You know the power vacuum left by %personName%'s death will be quickly filled, but for now the chaos you've left behind you indicates a job well done. Time to get paid.";
+                        break;
                     case JobType.GetItem:
                         string[] slumGetItemJobNames =
                         {
@@ -67,13 +77,29 @@ public class Job : ScriptableObject
                         };
                         string[] slumGetItemJobDescriptions =
                         {
-                            "%gangName% have gotten their hands on a valuable %modName%. Take it off their hands.",
+                            "The %gangName% have gotten their hands on a valuable %modName%. Take it off their hands.",
                             "An incoming shipment of %drugName% will flood the market and cut into our profits. Destroy it so we remain the only source."
                         };
                         index = Random.Range(0, slumGetItemJobNames.Length);
                         jobName = slumGetItemJobNames[index];
                         jobDescription = slumGetItemJobDescriptions[index];
                         enemyTypes.Add(EnemyType.Gang);
+
+                        switch (index)
+                        {
+                            case 0: // steal black marked mod
+                                jobIntroText = "Your contact has said the %gangName% are keeping the %modName% mod in this area. They're attempting to reverse engineer it, steal it back before their clumsy attempts ruin it for good.";
+                                jobMiddleTextOne = ""; // LEFT BLANK
+                                jobMiddleTextTwo = "The %gangName% are on high alert as you locate the %modName% mod deep in their territory. Get it to extraction before they're able to muster enough forces to take it back.";
+                                jobEndText = "You don't know if your client wants to study it, copy it, or destroy it, but that doesn't matter. You've delivered the black market mod and earned your payment.";
+                                break;
+                            case 1: // obtain drug shipment
+                                jobIntroText = "The shipment of %drugName% will be passing through this area. Intercept and destroy it.";
+                                jobMiddleTextOne = ""; // LEFT BLANK
+                                jobMiddleTextTwo = "You've found the shipment and after some quick work the pallettes of product are set ablaze. The %gangName% won't be cutting into your client's business anytime soon. Get to extraction with the news.";  
+                                jobEndText = "Your client is satisfied with the work you've done. After deliverying payment they hint that you may be able to earn a place in their organization. You know it's just a way to get more out of you for less, and tactfully refuse.";
+                                break;
+                        }
                         break;
                 }
                 break;
@@ -183,30 +209,27 @@ public class Job : ScriptableObject
 
     private void FillInTheBlanks()
     {
-        if (jobName.Contains("%personName%") || jobDescription.Contains("%personName%"))
+        // Process the job strings to fill in the blanks like mad libs!
+        string[] jobTextFields = { jobName, jobDescription, jobIntroText, jobMiddleTextOne, jobMiddleTextTwo, jobEndText };
+
+        for (int i = 0; i < jobTextFields.Length; i++)
         {
             string personName = GenerateName();
-            jobName = jobName.Replace("%personName%", personName);
-            jobDescription = jobDescription.Replace("%personName%", personName);
-        }
-        if (jobName.Contains("%gangName%") || jobDescription.Contains("%gangName%"))
-        {
+            jobTextFields[i] = jobTextFields[i].Replace("%personName%", personName);
             string gangName = GenerateGangName();
-            jobName = jobName.Replace("%gangName%", gangName);
-            jobDescription = jobDescription.Replace("%gangName%", gangName);
-        }
-        if (jobName.Contains("%drugName%") || jobDescription.Contains("%drugName%"))
-        {
+            jobTextFields[i] = jobTextFields[i].Replace("%gangName%", gangName);
             string drugName = GenerateDrugName();
-            jobName = jobName.Replace("%drugName%", drugName);
-            jobDescription = jobDescription.Replace("%drugName%", drugName);
-        }
-        if (jobName.Contains("%modName%") || jobDescription.Contains("%modName%"))
-        {
+            jobTextFields[i] = jobTextFields[i].Replace("%drugName%", drugName);
             string modName = GenerateModName();
-            jobName = jobName.Replace("%modName%", modName);
-            jobDescription = jobDescription.Replace("%modName%", modName);
+            jobTextFields[i] = jobTextFields[i].Replace("%modName%", modName);
         }
+
+        jobName = jobTextFields[0];
+        jobDescription = jobTextFields[1];
+        jobIntroText = jobTextFields[2];
+        jobMiddleTextOne = jobTextFields[3];
+        jobMiddleTextTwo = jobTextFields[4];
+        jobEndText = jobTextFields[5];
     }
 
     public Sprite GetJobIcon()
@@ -236,7 +259,7 @@ public class Job : ScriptableObject
     private string GenerateGangName()
     {
         // TODO: NAME GENERATION (do this by area)
-        return "The Clowns";
+        return "Clowns";
     }
 
     // Getters
@@ -289,5 +312,25 @@ public class Job : ScriptableObject
     public bool GetIsStoryMission()
     {
         return isStoryMission;
+    }
+
+    public string GetJobIntroText()
+    {
+        return jobIntroText;
+    }
+
+    public string GetJobMiddleTextOne()
+    {
+        return jobMiddleTextOne;
+    }
+
+    public string GetJobMiddleTextTwo()
+    {
+        return jobMiddleTextTwo;
+    }
+
+    public string GetJobEndText()
+    {
+        return jobEndText;
     }
 }
