@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] bool shuffleDeck = true;
         // set to false for enemies where you should NOT shuffle the deck
     [SerializeField] List<Job.EnemyType> enemyTypes;
+    [SerializeField] bool isBoss = false;
 
     // config
     GameObject currentHealthText;
@@ -170,5 +171,10 @@ public class Enemy : MonoBehaviour
     public List<Job.EnemyType> GetEnemyTypes()
     {
         return enemyTypes;
+    }
+
+    public bool GetIsBoss()
+    {
+        return isBoss;
     }
 }
