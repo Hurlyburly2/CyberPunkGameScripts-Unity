@@ -39,6 +39,9 @@ public class MapData : MonoBehaviour
     // player powerups
     int handSizeBoostChance = 0;
 
+    bool hasBossTextBeenRead = false;
+        // this is used to determine if the boss text has been read in the StartBattleIfEnemyExists method
+
     private void Awake()
     {
         int count = FindObjectsOfType<MapData>().Length;
@@ -108,6 +111,12 @@ public class MapData : MonoBehaviour
 
     public void StartBattleIfEnemyExists(MapSquare currentSquare)
     {
+        if (currentSquare.GetEnemy() != null && currentSquare.GetEnemy().GetIsBoss() && !hasBossTextBeenRead)
+        {
+            hasBossTextBeenRead = true;
+            FindObjectOfType<MapCanvas>().GetPreBossGoalWindow().OpenPreBossGoalWindow(job);
+            return;
+        }
         if (currentSquare.GetEnemy() != null && mapGrid.GetStealthMovement() < 1)
         {
             StartBattle(currentSquare);
