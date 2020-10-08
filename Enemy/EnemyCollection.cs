@@ -11,23 +11,23 @@ public class EnemyCollection : MonoBehaviour
         return allEnemies;
     }
 
-    public Enemy GetAnEnemyByArea(Job.JobArea area, int securityLevel, Job job)
+    public Enemy GetAnEnemyByArea(Job.JobArea area, int securityLevel, Job job, bool isBoss)
     {
         switch (area)
         {
             case Job.JobArea.Slums:
-                return GetEnemy(area, securityLevel, job);
+                return GetEnemy(area, securityLevel, job, isBoss);
         }
         return allEnemies[0];
     }
 
-    private Enemy GetEnemy(Job.JobArea area, int securityLevel, Job job)
+    private Enemy GetEnemy(Job.JobArea area, int securityLevel, Job job, bool isBoss)
     {
         List<int> enemyIds = new List<int>();
         switch (area)
         {
             case Job.JobArea.Slums:
-                int[] slumEnemyIds = { 0, 1 };
+                int[] slumEnemyIds = { 0, 1, 2 };
                 enemyIds.AddRange(slumEnemyIds);
                 break;
         }
@@ -40,7 +40,7 @@ public class EnemyCollection : MonoBehaviour
             Enemy newEnemy = Resources.Load<Enemy>("Enemies/Enemy" + id.ToString());
             foreach (Job.EnemyType type in jobEnemyTypes)
             {
-                if (newEnemy.GetEnemyTypes().Contains(type))
+                if (newEnemy.GetEnemyTypes().Contains(type) && newEnemy.GetIsBoss() == isBoss)
                 {
                     enemyPossibilities.Add(newEnemy);
                     break;

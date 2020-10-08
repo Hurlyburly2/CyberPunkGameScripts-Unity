@@ -258,10 +258,10 @@ public class MapSquare : MonoBehaviour
         hackTargets.Add(newHackTarget);
     }
 
-    public void SpawnEnemy(Job.JobArea mapType, int securityLevel, Job job)
+    public void SpawnEnemy(Job.JobArea mapType, int securityLevel, Job job, bool isBoss=false)
     {
         // TODO: THIS SHOULD ALSO TAKE INTO ACCOUNT DIFFICULTY AND SECURITY LEVEL
-        enemy = FindObjectOfType<EnemyCollection>().GetAnEnemyByArea(mapType, securityLevel, job);
+        enemy = FindObjectOfType<EnemyCollection>().GetAnEnemyByArea(mapType, securityLevel, job, isBoss);
         //EmptyEnemyForTesting();
     }
 
@@ -555,6 +555,14 @@ public class MapSquare : MonoBehaviour
     {
         isGoal = true;
         Debug.Log("Goal Square is x: " + rowPosition.ToString() + ", y: " + parentRow.GetRowNumber());
+
+        // Spawn a boss enemy if the mission is of assassination type
+        MapData mapData = FindObjectOfType<MapData>();
+        Job job = mapData.GetJob();
+        if (job.GetJobType() == Job.JobType.Assassination)
+        {
+            SpawnEnemy(job.GetJobArea(), mapData.GetSecurityLevel(), job, true);
+        }
     }
 
     public bool GetIsGoal()
