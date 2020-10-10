@@ -35,6 +35,8 @@ public class Enemy : MonoBehaviour
     EnemyHand enemyHand;
     EnemyDiscard enemyDiscard;
 
+    int incrementorOne = 0;
+
     public void BattleSetup(float setupTimeInSeconds)
     {
         configData = FindObjectOfType<ConfigData>();
@@ -176,5 +178,32 @@ public class Enemy : MonoBehaviour
     public bool GetIsBoss()
     {
         return isBoss;
+    }
+
+    public void SetIncrementor()
+    {
+        // Used if the incrementor should start at a not 0 value
+        // Currently unused...
+    }
+
+    public void AddToIncrementor(int whichIncrementor, int amount)
+    {
+        switch (whichIncrementor)
+        {
+            case 1:
+                incrementorOne += amount;
+                break;
+        }
+    }
+
+    public int GetIncrementor(int whichIncrementor)
+    {
+        switch (whichIncrementor)
+        {
+            case 1:
+                return incrementorOne;
+            default:
+                return incrementorOne;
+        }
     }
 }

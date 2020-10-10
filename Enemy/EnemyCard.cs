@@ -189,15 +189,46 @@ public class EnemyCard : MonoBehaviour
                     break;
                 case 5: // Burning Fuse
                     break;
-                case 6:
+                case 6: // BOOM
                     DealDamage(15);
                     SelfDamage(15);
+                    break;
+                case 7: // Charged Assault
+                    int increment = GetIncrementor(1);
+                    DealDamage(1 + increment);
+                    ChangeIncrementor(1, 1);
+                    break;
+                case 8: // High Voltage
+                    // Deal 3 damage, 6 if enemy is vulnerable
+                    int damage = 3;
+                    if (FindObjectOfType<ConfigData>().GetPlayerStatusEffects().GetVulnerableStacks() > 0)
+                        damage = 6;
+                    DealDamage(damage);
+                    break;
+                case 9: // Underhanded
+                    InflictStatus("Vulnerable", 1);
                     break;
                 default:
                     Debug.Log("Card not implemented");
                     break;
             }
         }
+    }
+
+    private void InflictStatus(string whichStatus, int amountOfStacks)
+    {
+        StatusEffectHolder playerStatusEffects = FindObjectOfType<ConfigData>().GetPlayerStatusEffects();
+        playerStatusEffects.InflictStatus(whichStatus, 1, playerOrEnemy);
+    }
+
+    private int GetIncrementor(int whichIncrementor)
+    {
+        return FindObjectOfType<Enemy>().GetIncrementor(1);
+    }
+
+    private void ChangeIncrementor(int whichIncrementor, int amount)
+    {
+        FindObjectOfType<Enemy>().AddToIncrementor(whichIncrementor, amount);
     }
 
     private void SelfDamage(int amount)
