@@ -193,4 +193,15 @@ public class HackCard : MonoBehaviour
 
         return FindObjectOfType<AllHackCards>().GetCardById(0).GetComponentInChildren<SpriteRenderer>().sprite;
     }
+
+    public int GetImageId()
+    {
+        switch (cardId)
+        {
+            case 20:
+                return 1;
+            default:
+                return cardId;
+        }
+    }
 }
