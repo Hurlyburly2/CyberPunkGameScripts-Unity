@@ -386,6 +386,9 @@ public class Card : MonoBehaviour
             case 20: // AWARENESS 2
                 GainStatus("Dodge", 2);
                 break;
+            case 21: // AWARENESS 3
+                GainStatus("Dodge", 3);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -400,6 +403,7 @@ public class Card : MonoBehaviour
         switch(cardId)
         {
             case 20:
+            case 21:
                 return 1;
             default:
                 return cardId;

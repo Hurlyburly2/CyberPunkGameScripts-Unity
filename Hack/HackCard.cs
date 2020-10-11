@@ -199,6 +199,7 @@ public class HackCard : MonoBehaviour
         switch (cardId)
         {
             case 20:
+            case 21:
                 return 1;
             default:
                 return cardId;

@@ -64,7 +64,7 @@ public class RunnerMod : Item
                 levelFourCards.Add(20); // Awareness 2
                 levelFourCards.Add(2); // Observer
 
-                levelFiveCards.Add(1); // Awareness
+                levelFiveCards.Add(21); // Awareness 3
                 levelFiveCards.Add(2); // Observer
                 break;
             case "Unmodded Torso":
