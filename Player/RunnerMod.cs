@@ -13,7 +13,9 @@ public class RunnerMod : Item
     public void SetupMod(string newModName)
     {
         GetMod(newModName);
-        itemLevel = 3;
+        itemLevel = 1;
+        if (newModName == "Human Eyes")
+            itemLevel = 3;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Runner;
     }
@@ -50,19 +52,19 @@ public class RunnerMod : Item
             case "Human Eyes":
                 itemType = ItemTypes.Head;
                 itemDescription = "Unmodified human eyes.";
-                levelOneCards.Add(1); // Awareness
+                levelOneCards.Add(1); // Awareness 1
                 levelOneCards.Add(2); // Observer
 
-                levelTwoCards.Add(1); // Awareness
+                levelTwoCards.Add(1); // Awareness 1
                 levelTwoCards.Add(2); // Observer
 
-                levelThreeCards.Add(1); // Awareness
+                levelThreeCards.Add(20); // Awareness 2
                 levelThreeCards.Add(2); // Observer
 
-                levelFourCards.Add(1); // Awareness
+                levelFourCards.Add(20); // Awareness 2
                 levelFourCards.Add(2); // Observer
 
-                levelFiveCards.Add(1); // Awareness
+                levelFiveCards.Add(21); // Awareness 3
                 levelFiveCards.Add(2); // Observer
                 break;
             case "Unmodded Torso":

@@ -36,7 +36,7 @@ public class CardCaroselCard : MonoBehaviour
     {
         runnerMode = true;
         card = newCard;
-        string paddedCardId = "" + card.GetCardId().ToString("000");
+        string paddedCardId = "" + card.GetCardImageId().ToString("000");
         string imagePath = "CardParts/CardImages/CardImage" + paddedCardId;
         cardBattleImage.sprite = Resources.Load<Sprite>(imagePath);
         leftCircuit.sprite = card.GetLeftCircuitImage();
@@ -100,7 +100,7 @@ public class CardCaroselCard : MonoBehaviour
             topRightSpikeImage.sprite = Resources.Load<Sprite>(topRightSpikePath);
         } else
         {
-            topLeftSpikeImage.sprite = Resources.Load<Sprite>(emptyImagePath);
+            topRightSpikeImage.sprite = Resources.Load<Sprite>(emptyImagePath);
         }
 
         if (hackCard.GetBottomLeftSpike().GetSpikeColor() != "none")
@@ -109,7 +109,7 @@ public class CardCaroselCard : MonoBehaviour
             bottomLeftSpikeImage.sprite = Resources.Load<Sprite>(bottomLeftSpikePath);
         } else
         {
-            topLeftSpikeImage.sprite = Resources.Load<Sprite>(emptyImagePath);
+            bottomLeftSpikeImage.sprite = Resources.Load<Sprite>(emptyImagePath);
         }
 
         if (hackCard.GetbottomRightSpike().GetSpikeColor() != "none")
@@ -118,7 +118,7 @@ public class CardCaroselCard : MonoBehaviour
             bottomRightSpikeImage.sprite = Resources.Load<Sprite>(bottomRightSpikePath);
         } else
         {
-            topLeftSpikeImage.sprite = Resources.Load<Sprite>(emptyImagePath);
+            bottomRightSpikeImage.sprite = Resources.Load<Sprite>(emptyImagePath);
         }
     }
 }

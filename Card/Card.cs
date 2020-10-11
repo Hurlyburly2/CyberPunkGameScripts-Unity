@@ -311,7 +311,7 @@ public class Card : MonoBehaviour
             case 0: // DUMMY CARD
                 Debug.Log("This is a dummy card, it doesn't actually do anything");
                 break;
-            case 1: // AWARENESS
+            case 1: // AWARENESS 1
                 GainStatus("Dodge", 1);
                 break;
             case 2: // OBSERVE
@@ -383,9 +383,30 @@ public class Card : MonoBehaviour
             case 19: // CRACKED
                 PowerupStatus("buffs", 2, 1);
                 break;
+            case 20: // AWARENESS 2
+                GainStatus("Dodge", 2);
+                break;
+            case 21: // AWARENESS 3
+                GainStatus("Dodge", 3);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
+        }
+    }
+
+    public int GetCardImageId()
+    {
+        // This method is for loading card images of cards that use the same image
+        // For example, upgraded cards.
+        // If a card uses the same image id as another, it must be converted here when getting images
+        switch(cardId)
+        {
+            case 20:
+            case 21:
+                return 1;
+            default:
+                return cardId;
         }
     }
 

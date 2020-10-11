@@ -36,7 +36,7 @@ public class MenuCardSample : MonoBehaviour
         hackerCard.SetActive(false);
         card = newCard;
 
-        string paddedCardId = "" + card.GetCardId().ToString("000");
+        string paddedCardId = "" + card.GetCardImageId().ToString("000");
         string imagePath = "CardParts/CardImages/CardImage" + paddedCardId;
         cardImage.sprite = Resources.Load<Sprite>(imagePath);
         leftCircuit.sprite = card.GetLeftCircuitImage();
