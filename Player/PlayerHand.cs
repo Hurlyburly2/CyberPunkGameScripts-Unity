@@ -12,6 +12,7 @@ public class PlayerHand : MonoBehaviour
     float cardGap = 0;
     [SerializeField] float maxCardGap;
     bool centered = false;
+    bool isDrawing = false; // set to true when drawing x cards
 
     // config
     AllCards allCards;
@@ -79,6 +80,7 @@ public class PlayerHand : MonoBehaviour
 
     public void DrawXCards(int amountOfCards)
     {
+        isDrawing = true;
         StartCoroutine(DrawXCardsCoroutine(amountOfCards));
     }
 
@@ -119,6 +121,7 @@ public class PlayerHand : MonoBehaviour
             DrawCard();
             yield return new WaitForSeconds(.05f);
         }
+        isDrawing = false;
     }
 
     public void DrawCard()
@@ -251,6 +254,26 @@ public class PlayerHand : MonoBehaviour
         maxWidth = configData.GetHandEndPos() - configData.GetHandStartPos();
     }
 
+    public void DiscardCardsWithTag(string whichTag)
+    {
+        List<Card> cardsToDiscard = new List<Card>();
+        foreach (Card card in cardsInHand)
+        {
+            foreach (string keyword in card.GetKeywords())
+            {
+                if (keyword == whichTag)
+                {
+                    cardsToDiscard.Add(card);
+                }
+            }
+        }
+
+        for (int i = 0; i < cardsToDiscard.Count; i++)
+        {
+            cardsToDiscard[i].DiscardFromHand();
+        }
+    }
+
     private float CalculateInitialRotation(float rotationStep)
     {
         float currentRotation = configData.MaxCardInHandAngle();
@@ -295,5 +318,10 @@ public class PlayerHand : MonoBehaviour
     public List<Card> GetCardsInHand()
     {
         return cardsInHand;
+    }
+
+    public bool GetIsDrawing()
+    {
+        return isDrawing;
     }
 }

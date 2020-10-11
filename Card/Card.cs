@@ -105,10 +105,13 @@ public class Card : MonoBehaviour
 
     public void PlayCard()
     {
-        PlayCardActions();
+        bool furtherAction = PlayCardActions();
         DiscardCard();
         playerHand.RemoveFromHand(this);
-        Destroy(gameObject);
+        if (!furtherAction)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void DiscardFromHand()
@@ -304,8 +307,9 @@ public class Card : MonoBehaviour
 
     // PLAY CARD ACTIONS
 
-    private void PlayCardActions()
+    private bool PlayCardActions()
     {
+        // Return true if further actions need to happen
         switch (cardId)
         {
             case 0: // DUMMY CARD
@@ -389,10 +393,38 @@ public class Card : MonoBehaviour
             case 21: // AWARENESS 3
                 GainStatus("Dodge", 3);
                 break;
+            case 22: // OBSERVE 2
+            case 23: // OBSERVE 3
+                LoadCardPicker(deck.GetTopXCardsWithoutDraw(4), 1);
+                break;
+            case 24: // OBSERVE 4
+                LoadCardPicker(deck.GetTopXCardsWithoutDraw(5), 1);
+                break;
+            case 25: // OBSERVE 5
+                LoadCardPicker(deck.GetTopXCardsWithoutDraw(5), 2);
+                break;
+            case 26: // DEEP BREATH 2
+                DrawXCards(6);
+                GainStatus("Vulnerable", 1);
+                SkipEndTurnDiscard(true);
+                EndTurn();
+                break;
+            case 27: // DEEP BREATH 3
+                DrawXCards(6);
+                SkipEndTurnDiscard(true);
+                EndTurn();
+                break;
+            case 28: // DEEP BREATH 4
+                DrawXCards(6);
+                SkipEndTurnDiscard(true);
+                StartCoroutine(WaitForSomethingToFinish("drawingCards"));
+                // After all cards draw, discard the weaknesses
+                return true;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
         }
+        return false;
     }
 
     public int GetCardImageId()
@@ -400,14 +432,54 @@ public class Card : MonoBehaviour
         // This method is for loading card images of cards that use the same image
         // For example, upgraded cards.
         // If a card uses the same image id as another, it must be converted here when getting images
-        switch(cardId)
+        switch (cardId)
         {
             case 20:
             case 21:
                 return 1;
+            case 22:
+            case 23:
+            case 24:
+            case 25:
+                return 2;
+            case 26:
+            case 27:
+            case 28:
+                return 3;
             default:
                 return cardId;
         }
+    }
+
+    private void AfterWaitAction()
+    {
+        switch (cardId)
+        {
+            case 28:
+                DiscardCardsWithTag("Weakness");
+                EndTurn();
+                break;
+        }
+        // NOW we can destroy the gameobject
+        Destroy(gameObject);
+    }
+
+    private IEnumerator WaitForSomethingToFinish(string finishWhat)
+    {
+        if (finishWhat == "drawingCards")
+        {
+            PlayerHand playerHand = FindObjectOfType<PlayerHand>();
+            while (playerHand.GetIsDrawing() == true)
+            {
+                yield return null;
+            }
+        }
+        AfterWaitAction();
+    }
+
+    private void DiscardCardsWithTag(string tagName)
+    {
+        FindObjectOfType<PlayerHand>().DiscardCardsWithTag(tagName);
     }
 
     private void ShuffleCardsIntoEnemyDeck(List<int> cardsToAddIds)

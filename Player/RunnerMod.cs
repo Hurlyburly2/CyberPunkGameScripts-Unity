@@ -13,9 +13,7 @@ public class RunnerMod : Item
     public void SetupMod(string newModName)
     {
         GetMod(newModName);
-        itemLevel = 1;
-        if (newModName == "Human Eyes")
-            itemLevel = 3;
+        itemLevel = 5;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Runner;
     }
@@ -53,19 +51,19 @@ public class RunnerMod : Item
                 itemType = ItemTypes.Head;
                 itemDescription = "Unmodified human eyes.";
                 levelOneCards.Add(1); // Awareness 1
-                levelOneCards.Add(2); // Observer
+                levelOneCards.Add(2); // Observe
 
                 levelTwoCards.Add(1); // Awareness 1
-                levelTwoCards.Add(2); // Observer
+                levelTwoCards.Add(22); // Observe 2
 
                 levelThreeCards.Add(20); // Awareness 2
-                levelThreeCards.Add(2); // Observer
+                levelThreeCards.Add(23); // Observe 3
 
                 levelFourCards.Add(20); // Awareness 2
-                levelFourCards.Add(2); // Observer
+                levelFourCards.Add(24); // Observe
 
                 levelFiveCards.Add(21); // Awareness 3
-                levelFiveCards.Add(2); // Observer
+                levelFiveCards.Add(25); // Observe
                 break;
             case "Unmodded Torso":
                 itemType = ItemTypes.Torso;
@@ -73,15 +71,15 @@ public class RunnerMod : Item
                 levelOneCards.Add(3); // Deep Breath
                 levelOneCards.Add(4); // Weak Spot
 
-                levelTwoCards.Add(3); // Deep Breath
+                levelTwoCards.Add(26); // Deep Breath 2
                 levelTwoCards.Add(4); // Weak Spot
 
-                levelThreeCards.Add(3); // Deep Breath
+                levelThreeCards.Add(27); // Deep Breath 3
                 levelThreeCards.Add(4); // Weak Spot
 
-                levelFourCards.Add(3); // Deep Breath
+                levelFourCards.Add(27); // Deep Breath 3
 
-                levelFiveCards.Add(3); // Deep Breath
+                levelFiveCards.Add(28); // Deep Breath 4
                 break;
             case "Human Skin":
                 itemType = ItemTypes.Exoskeleton;
