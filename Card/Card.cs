@@ -426,6 +426,34 @@ public class Card : MonoBehaviour
             case 30: // WEAK SPOT 3
                 GainExtraDamageModifier(1.25f);
                 break;
+            case 31: // SHAKE OFF 2
+                GainHealth(Random.Range(2, 4));
+                HealDebuff(1);
+                break;
+            case 32: // SHAKE OFF 3
+                GainHealth(Random.Range(2, 5));
+                HealDebuff(1);
+                break;
+            case 33: // SHAKE OFF 4
+                GainHealth(Random.Range(3, 6));
+                HealDebuff(1);
+                break;
+            case 34: // SHAKE OFF 5
+                GainHealth(Random.Range(3, 7));
+                HealDebuff(1);
+                break;
+            case 35: // BRACE 2
+                GainStatus("Damage Resist", 1, 2);
+                DrawXCards(1);
+                break;
+            case 36: // BRACE 3
+                GainStatus("Damage Resist", 1, 2);
+                DrawXCards(1);
+                break;
+            case 37: // BRACE 4
+                GainStatus("Damage Resist", 2, 2);
+                DrawXCards(1);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -455,6 +483,15 @@ public class Card : MonoBehaviour
             case 29:
             case 30:
                 return 4;
+            case 31:
+            case 32:
+            case 33:
+            case 34:
+                return 5;
+            case 35:
+            case 36:
+            case 37:
+                return 6;
             default:
                 return cardId;
         }

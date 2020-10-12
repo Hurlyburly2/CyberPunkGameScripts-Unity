@@ -13,7 +13,7 @@ public class RunnerMod : Item
     public void SetupMod(string newModName)
     {
         GetMod(newModName);
-        itemLevel = 3;
+        itemLevel = 5;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Runner;
     }
@@ -89,17 +89,17 @@ public class RunnerMod : Item
                 levelOneCards.Add(5); // Shake Off
                 levelOneCards.Add(6); // Brace
 
-                levelTwoCards.Add(5); // Shake Off
+                levelTwoCards.Add(31); // Shake Off 2
                 levelTwoCards.Add(6); // Brace
 
-                levelThreeCards.Add(5); // Shake Off
-                levelThreeCards.Add(6); // Brace
+                levelThreeCards.Add(32); // Shake Off
+                levelThreeCards.Add(35); // Brace 2
 
-                levelFourCards.Add(5); // Shake Off
-                levelFourCards.Add(6); // Brace
+                levelFourCards.Add(33); // Shake Off
+                levelFourCards.Add(36); // Brace 3
 
-                levelFiveCards.Add(5); // Shake Off
-                levelFiveCards.Add(6); // Brace
+                levelFiveCards.Add(34); // Shake Off
+                levelFiveCards.Add(37); // Brace 4
                 break;
             case "Unmodded Arm":
                 itemType = ItemTypes.Arm;
