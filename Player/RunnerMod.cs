@@ -108,21 +108,21 @@ public class RunnerMod : Item
                 levelOneCards.Add(7); // Punch
                 levelOneCards.Add(8); // Quickdraw
 
-                levelTwoCards.Add(7); // Punch
-                levelTwoCards.Add(7); // Punch
+                levelTwoCards.Add(38); // Punch 2
+                levelTwoCards.Add(38); // Punch 2
                 levelTwoCards.Add(8); // Quickdraw
 
-                levelThreeCards.Add(7); // Punch
-                levelThreeCards.Add(7); // Punch
-                levelThreeCards.Add(8); // Quickdraw
+                levelThreeCards.Add(39); // Punch 3
+                levelThreeCards.Add(39); // Punch 3
+                levelThreeCards.Add(42); // Quickdraw 2
 
-                levelFourCards.Add(7); // Punch
-                levelFourCards.Add(7); // Punch
-                levelFourCards.Add(8); // Quickdraw
+                levelFourCards.Add(40); // Punch 4
+                levelFourCards.Add(40); // Punch 4
+                levelFourCards.Add(43); // Quickdraw 3
 
-                levelFiveCards.Add(7); // Punch
-                levelFiveCards.Add(7); // Punch
-                levelFiveCards.Add(8); // Quickdraw
+                levelFiveCards.Add(41); // Punch 5
+                levelFiveCards.Add(41); // Punch 5
+                levelFiveCards.Add(44); // Quickdraw 4
                 break;
             case "Unmodded Leg":
                 itemType = ItemTypes.Leg;

@@ -454,6 +454,44 @@ public class Card : MonoBehaviour
                 GainStatus("Damage Resist", 2, 2);
                 DrawXCards(1);
                 break;
+            case 38: // PUNCH 2
+                DealDamage(2);
+                if (PercentChance(15))
+                {
+                    DrawXCards(1);
+                }
+                break;
+            case 39: // PUNCH 3
+                DealDamage(3);
+                if (PercentChance(15))
+                {
+                    DrawXCards(1);
+                }
+                break;
+            case 40: // PUNCH 4
+                DealDamage(3);
+                if (PercentChance(20))
+                {
+                    DrawXCards(1);
+                }
+                break;
+            case 41: // PUNCH 5
+                DealDamage(3);
+                if (PercentChance(25))
+                {
+                    DrawXCards(1);
+                }
+                break;
+            case 42: // QUICKDRAW 2
+            case 43: // QUICKDRAW 3
+                DealDamage(1);
+                DrawRandomCardFromDeck("Weapon");
+                break;
+            case 44:
+                DealDamage(1);
+                DrawRandomCardFromDeck("Weapon");
+                DrawRandomCardFromDeck("Weapon");
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -492,6 +530,15 @@ public class Card : MonoBehaviour
             case 36:
             case 37:
                 return 6;
+            case 38:
+            case 39:
+            case 40:
+            case 41:
+                return 7;
+            case 42:
+            case 43:
+            case 44:
+                return 8;
             default:
                 return cardId;
         }
