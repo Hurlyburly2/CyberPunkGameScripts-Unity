@@ -13,7 +13,7 @@ public class RunnerMod : Item
     public void SetupMod(string newModName)
     {
         GetMod(newModName);
-        itemLevel = 5;
+        itemLevel = 3;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Runner;
     }
@@ -72,14 +72,16 @@ public class RunnerMod : Item
                 levelOneCards.Add(4); // Weak Spot
 
                 levelTwoCards.Add(26); // Deep Breath 2
-                levelTwoCards.Add(4); // Weak Spot
+                levelTwoCards.Add(29); // Weak Spot
 
                 levelThreeCards.Add(27); // Deep Breath 3
-                levelThreeCards.Add(4); // Weak Spot
+                levelThreeCards.Add(30); // Weak Spot
 
                 levelFourCards.Add(27); // Deep Breath 3
+                levelFourCards.Add(6); // Brace 1
 
                 levelFiveCards.Add(28); // Deep Breath 4
+                levelFiveCards.Add(6); // Brace 1
                 break;
             case "Human Skin":
                 itemType = ItemTypes.Exoskeleton;

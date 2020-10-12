@@ -38,6 +38,9 @@ public class CharacterData : ScriptableObject
     // map config
     MapConfig mapConfig;
 
+    // state
+    float takeExtraDamageMultiplier = 0; // Multiplier used to inflict extra damage to player
+
     // Start is called before the first frame update
     void Start()
     {
@@ -228,6 +231,12 @@ public class CharacterData : ScriptableObject
 
     public void TakeDamage(int amountToTake)
     {
+        if (takeExtraDamageMultiplier != 0)
+        {
+            amountToTake = (int)(amountToTake * takeExtraDamageMultiplier);
+            takeExtraDamageMultiplier = 0;
+        }
+
         if (currentHealth - amountToTake > 0)
         {
             currentHealth -= amountToTake;
@@ -319,6 +328,11 @@ public class CharacterData : ScriptableObject
     public void LogCharacterData()
     {
         Debug.Log("Name: " + runnerName + ".\n Max Health: " + maximumHealth + ".\n Current Health: " + currentHealth);
+    }
+
+    public void SetExtraDamageMultiplier(float amount)
+    {
+        takeExtraDamageMultiplier = amount;
     }
 }
 

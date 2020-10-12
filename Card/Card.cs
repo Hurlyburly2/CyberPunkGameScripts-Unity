@@ -327,8 +327,8 @@ public class Card : MonoBehaviour
                 SkipEndTurnDiscard(true);
                 EndTurn();
                 break;
-            case 4: // WEAK SPOT
-                InflictStatus("CritUp", 1);
+            case 4: // WEAK SPOT 1
+                GainExtraDamageModifier(2f);
                 break;
             case 5: // SHAKE OFF
                 GainHealth(2);
@@ -420,6 +420,12 @@ public class Card : MonoBehaviour
                 StartCoroutine(WaitForSomethingToFinish("drawingCards"));
                 // After all cards draw, discard the weaknesses
                 return true;
+            case 29: // WEAK SPOT 2
+                GainExtraDamageModifier(1.5f);
+                break;
+            case 30: // WEAK SPOT 3
+                GainExtraDamageModifier(1.25f);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -446,6 +452,9 @@ public class Card : MonoBehaviour
             case 27:
             case 28:
                 return 3;
+            case 29:
+            case 30:
+                return 4;
             default:
                 return cardId;
         }
@@ -475,6 +484,11 @@ public class Card : MonoBehaviour
             }
         }
         AfterWaitAction();
+    }
+
+    private void GainExtraDamageModifier(float amount)
+    {
+        FindObjectOfType<CharacterData>().SetExtraDamageMultiplier(amount);
     }
 
     private void DiscardCardsWithTag(string tagName)
