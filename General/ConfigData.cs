@@ -71,7 +71,7 @@ public class ConfigData : MonoBehaviour
         cardSizeMultiplier = halfWidth * 0.19f;
         handMiddlePos = halfHeight / 1.48f;
 
-        cardWidth = allCards.GetRandomCard().GetComponentInChildren<SpriteRenderer>().bounds.size.x * cardSizeMultiplier;
+        cardWidth = allCards.GetSampleCard().GetComponentInChildren<SpriteRenderer>().bounds.size.x * cardSizeMultiplier;
 
         float margin = halfWidth / 15.72f;
         handStartPos = Camera.main.transform.position.x - halfWidth + margin + (cardWidth / cardSizeMultiplier / 2);

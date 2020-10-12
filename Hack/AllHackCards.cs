@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class AllHackCards : MonoBehaviour
 {
-    [SerializeField] HackCard[] allHackCards;
-
     public HackCard GetCardById(int cardId)
     {
-        return allHackCards[cardId];
+        string paddedCardId = "" + cardId.ToString("000");
+        string imagePath = "CardPrefabs/HackPlayer/HackCard" + paddedCardId;
+        HackCard newHackCard = Resources.Load<HackCard>(imagePath);
+
+        return newHackCard;
     }
 }
