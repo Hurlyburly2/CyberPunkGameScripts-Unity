@@ -14,8 +14,6 @@ public class RunnerMod : Item
     {
         GetMod(newModName);
         itemLevel = 1;
-        if (newModName == "Human Eyes")
-            itemLevel = 3;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Runner;
     }
@@ -53,19 +51,19 @@ public class RunnerMod : Item
                 itemType = ItemTypes.Head;
                 itemDescription = "Unmodified human eyes.";
                 levelOneCards.Add(1); // Awareness 1
-                levelOneCards.Add(2); // Observer
+                levelOneCards.Add(2); // Observe
 
                 levelTwoCards.Add(1); // Awareness 1
-                levelTwoCards.Add(2); // Observer
+                levelTwoCards.Add(22); // Observe 2
 
                 levelThreeCards.Add(20); // Awareness 2
-                levelThreeCards.Add(2); // Observer
+                levelThreeCards.Add(23); // Observe 3
 
                 levelFourCards.Add(20); // Awareness 2
-                levelFourCards.Add(2); // Observer
+                levelFourCards.Add(24); // Observe
 
                 levelFiveCards.Add(21); // Awareness 3
-                levelFiveCards.Add(2); // Observer
+                levelFiveCards.Add(25); // Observe
                 break;
             case "Unmodded Torso":
                 itemType = ItemTypes.Torso;
@@ -73,15 +71,17 @@ public class RunnerMod : Item
                 levelOneCards.Add(3); // Deep Breath
                 levelOneCards.Add(4); // Weak Spot
 
-                levelTwoCards.Add(3); // Deep Breath
-                levelTwoCards.Add(4); // Weak Spot
+                levelTwoCards.Add(26); // Deep Breath 2
+                levelTwoCards.Add(29); // Weak Spot
 
-                levelThreeCards.Add(3); // Deep Breath
-                levelThreeCards.Add(4); // Weak Spot
+                levelThreeCards.Add(27); // Deep Breath 3
+                levelThreeCards.Add(30); // Weak Spot
 
-                levelFourCards.Add(3); // Deep Breath
+                levelFourCards.Add(27); // Deep Breath 3
+                levelFourCards.Add(6); // Brace 1
 
-                levelFiveCards.Add(3); // Deep Breath
+                levelFiveCards.Add(28); // Deep Breath 4
+                levelFiveCards.Add(6); // Brace 1
                 break;
             case "Human Skin":
                 itemType = ItemTypes.Exoskeleton;
@@ -89,17 +89,17 @@ public class RunnerMod : Item
                 levelOneCards.Add(5); // Shake Off
                 levelOneCards.Add(6); // Brace
 
-                levelTwoCards.Add(5); // Shake Off
+                levelTwoCards.Add(31); // Shake Off 2
                 levelTwoCards.Add(6); // Brace
 
-                levelThreeCards.Add(5); // Shake Off
-                levelThreeCards.Add(6); // Brace
+                levelThreeCards.Add(32); // Shake Off
+                levelThreeCards.Add(35); // Brace 2
 
-                levelFourCards.Add(5); // Shake Off
-                levelFourCards.Add(6); // Brace
+                levelFourCards.Add(33); // Shake Off
+                levelFourCards.Add(36); // Brace 3
 
-                levelFiveCards.Add(5); // Shake Off
-                levelFiveCards.Add(6); // Brace
+                levelFiveCards.Add(34); // Shake Off
+                levelFiveCards.Add(37); // Brace 4
                 break;
             case "Unmodded Arm":
                 itemType = ItemTypes.Arm;
@@ -108,21 +108,21 @@ public class RunnerMod : Item
                 levelOneCards.Add(7); // Punch
                 levelOneCards.Add(8); // Quickdraw
 
-                levelTwoCards.Add(7); // Punch
-                levelTwoCards.Add(7); // Punch
+                levelTwoCards.Add(38); // Punch 2
+                levelTwoCards.Add(38); // Punch 2
                 levelTwoCards.Add(8); // Quickdraw
 
-                levelThreeCards.Add(7); // Punch
-                levelThreeCards.Add(7); // Punch
-                levelThreeCards.Add(8); // Quickdraw
+                levelThreeCards.Add(39); // Punch 3
+                levelThreeCards.Add(39); // Punch 3
+                levelThreeCards.Add(42); // Quickdraw 2
 
-                levelFourCards.Add(7); // Punch
-                levelFourCards.Add(7); // Punch
-                levelFourCards.Add(8); // Quickdraw
+                levelFourCards.Add(40); // Punch 4
+                levelFourCards.Add(40); // Punch 4
+                levelFourCards.Add(43); // Quickdraw 3
 
-                levelFiveCards.Add(7); // Punch
-                levelFiveCards.Add(7); // Punch
-                levelFiveCards.Add(8); // Quickdraw
+                levelFiveCards.Add(41); // Punch 5
+                levelFiveCards.Add(41); // Punch 5
+                levelFiveCards.Add(44); // Quickdraw 4
                 break;
             case "Unmodded Leg":
                 itemType = ItemTypes.Leg;
@@ -131,21 +131,21 @@ public class RunnerMod : Item
                 levelOneCards.Add(9); // Kick
                 levelOneCards.Add(10);    // Sprint
 
-                levelTwoCards.Add(9); // Kick
-                levelTwoCards.Add(9); // Kick
-                levelTwoCards.Add(10);    // Sprint
+                levelTwoCards.Add(45); // Kick 2
+                levelTwoCards.Add(45); // Kick 2
+                levelTwoCards.Add(49);    // Sprint 2
 
-                levelThreeCards.Add(9); // Kick
-                levelThreeCards.Add(9); // Kick
-                levelThreeCards.Add(10);    // Sprint
+                levelThreeCards.Add(46); // Kick 3
+                levelThreeCards.Add(46); // Kick 3
+                levelThreeCards.Add(50);    // Sprint 3
 
-                levelFourCards.Add(9); // Kick
-                levelFourCards.Add(9); // Kick
-                levelFourCards.Add(10);    // Sprint
+                levelFourCards.Add(47); // Kick 4
+                levelFourCards.Add(47); // Kick 4
+                levelFourCards.Add(50);    // Sprint 3
 
-                levelFiveCards.Add(9); // Kick
-                levelFiveCards.Add(9); // Kick
-                levelFiveCards.Add(10);    // Sprint
+                levelFiveCards.Add(48); // Kick 5
+                levelFiveCards.Add(48); // Kick 5
+                levelFiveCards.Add(51);    // Sprint 4
                 break;
             case "Spanner":
                 itemType = ItemTypes.Weapon;
@@ -155,25 +155,25 @@ public class RunnerMod : Item
                 levelOneCards.Add(12);    // Kneecap
                 levelOneCards.Add(13);    // Bruise
 
-                levelTwoCards.Add(11);    // Whack
-                levelTwoCards.Add(11);    // Whack
-                levelTwoCards.Add(12);    // Kneecap
-                levelTwoCards.Add(13);    // Bruise
+                levelTwoCards.Add(52);    // Whack 2
+                levelTwoCards.Add(52);    // Whack 2
+                levelTwoCards.Add(56);    // Kneecap 2
+                levelTwoCards.Add(60);    // Bruise 2
 
-                levelThreeCards.Add(11);    // Whack
-                levelThreeCards.Add(11);    // Whack
-                levelThreeCards.Add(12);    // Kneecap
-                levelThreeCards.Add(13);    // Bruise
+                levelThreeCards.Add(53);    // Whack 3
+                levelThreeCards.Add(53);    // Whack 3
+                levelThreeCards.Add(57);    // Kneecap 3
+                levelThreeCards.Add(61);    // Bruise 3
 
-                levelFourCards.Add(11);    // Whack
-                levelFourCards.Add(11);    // Whack
-                levelFourCards.Add(12);    // Kneecap
-                levelFourCards.Add(13);    // Bruise
+                levelFourCards.Add(54);    // Whack 4
+                levelFourCards.Add(54);    // Whack 4
+                levelFourCards.Add(58);    // Kneecap
+                levelFourCards.Add(62);    // Bruise 4
 
-                levelFiveCards.Add(11);    // Whack
-                levelFiveCards.Add(11);    // Whack
-                levelFiveCards.Add(12);    // Kneecap
-                levelFiveCards.Add(13);    // Bruise
+                levelFiveCards.Add(55);    // Whack 5
+                levelFiveCards.Add(55);    // Whack 5
+                levelFiveCards.Add(59);    // Kneecap
+                levelFiveCards.Add(63);    // Bruise 5
                 break;
             default:
                 break;

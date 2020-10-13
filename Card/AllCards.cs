@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class AllCards : MonoBehaviour
 {
-    [SerializeField] Card[] cards;
-
-    public Card GetRandomCard()
+    public Card GetSampleCard()
     {
-        int randomIndex = Mathf.FloorToInt(Random.Range(1, cards.Length));
-        return cards[randomIndex];
+        return Resources.Load<Card>("CardPrefabs/Player/Card" + 1);
     }
 
     public Card GetCardById(int cardId)
     {
-        return cards[cardId];
+        Card card = Resources.Load<Card>("CardPrefabs/Player/Card" + cardId);
+        return card;
     }
 }

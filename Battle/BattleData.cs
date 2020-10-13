@@ -57,6 +57,9 @@ public class BattleData : MonoBehaviour
 
     public void SetUpBattle()
     {
+        // Set this to 0 so it doesn't carry over from battle to battle if unconsumed
+        FindObjectOfType<CharacterData>().SetExtraDamageMultiplier(0);
+
         SetBackgroundImage();
         playerHand = FindObjectOfType<PlayerHand>();
         deck = FindObjectOfType<Deck>();

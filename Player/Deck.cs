@@ -143,6 +143,9 @@ public class Deck : MonoBehaviour
 
     public List<Card> GetTopXCardsWithoutDraw(int amount)
     {
+        if (amount > cards.Count)
+            amount = cards.Count;
+
         List<Card> foundCards = new List<Card>();
         if (cards.Count >= 3)
         {

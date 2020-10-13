@@ -105,10 +105,13 @@ public class Card : MonoBehaviour
 
     public void PlayCard()
     {
-        PlayCardActions();
+        bool furtherAction = PlayCardActions();
         DiscardCard();
         playerHand.RemoveFromHand(this);
-        Destroy(gameObject);
+        if (!furtherAction)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void DiscardFromHand()
@@ -304,8 +307,9 @@ public class Card : MonoBehaviour
 
     // PLAY CARD ACTIONS
 
-    private void PlayCardActions()
+    private bool PlayCardActions()
     {
+        // Return true if further actions need to happen
         switch (cardId)
         {
             case 0: // DUMMY CARD
@@ -323,8 +327,8 @@ public class Card : MonoBehaviour
                 SkipEndTurnDiscard(true);
                 EndTurn();
                 break;
-            case 4: // WEAK SPOT
-                InflictStatus("CritUp", 1);
+            case 4: // WEAK SPOT 1
+                GainExtraDamageModifier(2f);
                 break;
             case 5: // SHAKE OFF
                 GainHealth(2);
@@ -389,10 +393,174 @@ public class Card : MonoBehaviour
             case 21: // AWARENESS 3
                 GainStatus("Dodge", 3);
                 break;
+            case 22: // OBSERVE 2
+            case 23: // OBSERVE 3
+                LoadCardPicker(deck.GetTopXCardsWithoutDraw(4), 1);
+                break;
+            case 24: // OBSERVE 4
+                LoadCardPicker(deck.GetTopXCardsWithoutDraw(5), 1);
+                break;
+            case 25: // OBSERVE 5
+                LoadCardPicker(deck.GetTopXCardsWithoutDraw(5), 2);
+                break;
+            case 26: // DEEP BREATH 2
+                DrawXCards(6);
+                GainStatus("Vulnerable", 1);
+                SkipEndTurnDiscard(true);
+                EndTurn();
+                break;
+            case 27: // DEEP BREATH 3
+                DrawXCards(6);
+                SkipEndTurnDiscard(true);
+                EndTurn();
+                break;
+            case 28: // DEEP BREATH 4
+                DrawXCards(6);
+                SkipEndTurnDiscard(true);
+                StartCoroutine(WaitForSomethingToFinish("drawingCards"));
+                // After all cards draw, discard the weaknesses
+                return true;
+            case 29: // WEAK SPOT 2
+                GainExtraDamageModifier(1.5f);
+                break;
+            case 30: // WEAK SPOT 3
+                GainExtraDamageModifier(1.25f);
+                break;
+            case 31: // SHAKE OFF 2
+                GainHealth(Random.Range(2, 4));
+                HealDebuff(1);
+                break;
+            case 32: // SHAKE OFF 3
+                GainHealth(Random.Range(2, 5));
+                HealDebuff(1);
+                break;
+            case 33: // SHAKE OFF 4
+                GainHealth(Random.Range(3, 6));
+                HealDebuff(1);
+                break;
+            case 34: // SHAKE OFF 5
+                GainHealth(Random.Range(3, 7));
+                HealDebuff(1);
+                break;
+            case 35: // BRACE 2
+                GainStatus("Damage Resist", 1, 2);
+                DrawXCards(1);
+                break;
+            case 36: // BRACE 3
+                GainStatus("Damage Resist", 1, 2);
+                DrawXCards(1);
+                break;
+            case 37: // BRACE 4
+                GainStatus("Damage Resist", 2, 2);
+                DrawXCards(1);
+                break;
+            case 38: // PUNCH 2
+                DealDamage(2);
+                if (PercentChance(15))
+                {
+                    DrawXCards(1);
+                }
+                break;
+            case 39: // PUNCH 3
+                DealDamage(3);
+                if (PercentChance(15))
+                {
+                    DrawXCards(1);
+                }
+                break;
+            case 40: // PUNCH 4
+                DealDamage(3);
+                if (PercentChance(20))
+                {
+                    DrawXCards(1);
+                }
+                break;
+            case 41: // PUNCH 5
+                DealDamage(3);
+                if (PercentChance(25))
+                {
+                    DrawXCards(1);
+                }
+                break;
+            case 42: // QUICKDRAW 2
+            case 43: // QUICKDRAW 3
+                DealDamage(1);
+                DrawRandomCardFromDeck("Weapon");
+                break;
+            case 44:
+                DealDamage(1);
+                DrawRandomCardFromDeck("Weapon");
+                DrawRandomCardFromDeck("Weapon");
+                break;
+            case 45:
+            case 46:
+                DealDamage(2);
+                GainStatus("Momentum", 1);
+                break;
+            case 47:
+                DealDamage(2);
+                GainStatus("Momentum", 2);
+                break;
+            case 48:
+                DealDamage(3);
+                GainStatus("Momentum", 2);
+                break;
+            case 49:
+                DrawXCards(2);
+                break;
+            case 50:
+                DrawXCards(2);
+                GainHandBuff(1);
+                break;
+            case 51:
+                DrawXCards(3);
+                GainHandBuff(1);
+                break;
+            case 52: // WHACK 2
+                DealDamage(3, 15);
+                break;
+            case 53: // WHACK 3
+                DealDamage(3, 20);
+                break;
+            case 54: // WHACK 4
+                DealDamage(3, 25);
+                break;
+            case 55: // WHACK 5
+                DealDamage(4, 25);
+                break;
+            case 56: // KNEECAP 2
+                DealDamage(Random.Range(4, 6));
+                break;
+            case 57: // KNEECAP 3
+                DealDamage(Random.Range(4, 6));
+                InflictStatus("Vulnerable", 1);
+                break;
+            case 58: // KNEECAP 4
+                DealDamage(Random.Range(5, 7));
+                InflictStatus("Vulnerable", 1);
+                break;
+            case 59: // KNEECAP 5
+                DealDamage(Random.Range(5, 9));
+                InflictStatus("Vulnerable", 1);
+                break;
+            case 60: // BRUISE 2
+            case 61: // BRUISE 3
+                DealDamage(2);
+                InflictStatus("Vulnerable", 2);
+                break;
+            case 62: // BRUISE 4
+                DealDamage(2);
+                InflictStatus("Vulnerable", 3);
+                break;
+            case 63: // BRUISE 5
+                DealDamage(3);
+                InflictStatus("Vulnerable", 3);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
         }
+        return false;
     }
 
     public int GetCardImageId()
@@ -400,19 +568,115 @@ public class Card : MonoBehaviour
         // This method is for loading card images of cards that use the same image
         // For example, upgraded cards.
         // If a card uses the same image id as another, it must be converted here when getting images
-        switch(cardId)
+        switch (cardId)
         {
             case 20:
             case 21:
                 return 1;
+            case 22:
+            case 23:
+            case 24:
+            case 25:
+                return 2;
+            case 26:
+            case 27:
+            case 28:
+                return 3;
+            case 29:
+            case 30:
+                return 4;
+            case 31:
+            case 32:
+            case 33:
+            case 34:
+                return 5;
+            case 35:
+            case 36:
+            case 37:
+                return 6;
+            case 38:
+            case 39:
+            case 40:
+            case 41:
+                return 7;
+            case 42:
+            case 43:
+            case 44:
+                return 8;
+            case 45:
+            case 46:
+            case 47:
+            case 48:
+                return 9;
+            case 49:
+            case 50:
+            case 51:
+                return 10;
+            case 52:
+            case 53:
+            case 54:
+            case 55:
+                return 11;
+            case 56:
+            case 57:
+            case 58:
+            case 59:
+                return 12;
+            case 60:
+            case 61:
+            case 62:
+            case 63:
+                return 13;
             default:
                 return cardId;
         }
     }
 
+    private void AfterWaitAction()
+    {
+        switch (cardId)
+        {
+            case 28:
+                DiscardCardsWithTag("Weakness");
+                EndTurn();
+                break;
+        }
+        // NOW we can destroy the gameobject
+        Destroy(gameObject);
+    }
+
+    private IEnumerator WaitForSomethingToFinish(string finishWhat)
+    {
+        if (finishWhat == "drawingCards")
+        {
+            PlayerHand playerHand = FindObjectOfType<PlayerHand>();
+            while (playerHand.GetIsDrawing() == true)
+            {
+                yield return null;
+            }
+        }
+        AfterWaitAction();
+    }
+
+    private void GainExtraDamageModifier(float amount)
+    {
+        FindObjectOfType<CharacterData>().SetExtraDamageMultiplier(amount);
+    }
+
+    private void DiscardCardsWithTag(string tagName)
+    {
+        FindObjectOfType<PlayerHand>().DiscardCardsWithTag(tagName);
+    }
+
     private void ShuffleCardsIntoEnemyDeck(List<int> cardsToAddIds)
     {
         FindObjectOfType<EnemyDeck>().ShuffleGeneratedCardsIntoDeck(cardsToAddIds);
+    }
+
+    private void GainHandBuff(int amount)
+    {
+        PlayerHand playerHand = FindObjectOfType<PlayerHand>();
+        playerHand.GainHandBuff(amount);
     }
 
     private void GainHandDebuff(int amount)

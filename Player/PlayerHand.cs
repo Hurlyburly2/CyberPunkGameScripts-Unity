@@ -9,9 +9,11 @@ public class PlayerHand : MonoBehaviour
     int currentHandSize = 0;
     int initialHandSize = 0;
     int playerHandDebuff = 0;
+    int playerHandBuff = 0;
     float cardGap = 0;
     [SerializeField] float maxCardGap;
     bool centered = false;
+    bool isDrawing = false; // set to true when drawing x cards
 
     // config
     AllCards allCards;
@@ -79,12 +81,13 @@ public class PlayerHand : MonoBehaviour
 
     public void DrawXCards(int amountOfCards)
     {
+        isDrawing = true;
         StartCoroutine(DrawXCardsCoroutine(amountOfCards));
     }
 
     public void DrawToMaxHandSize()
     {
-        int cardTarget = initialHandSize - playerHandDebuff + battleData.GetPlayerHandMapBuff();
+        int cardTarget = initialHandSize + playerHandBuff - playerHandDebuff + battleData.GetPlayerHandMapBuff();
         if (CheckPercentageChance(battleData.GetExtraCardDrawFromMapChance()))
         {
             cardTarget++;
@@ -99,6 +102,7 @@ public class PlayerHand : MonoBehaviour
         // AT THE BEGINNING OF THE PLAYER TURN. IF WE END UP USING THIS METHOD IN OTHER CASES WE'LL
         // NEED TO PASS SOMETHING HERE TO PRESERVE THE DEBUFF AND ONLY RESET ON TURN END
         playerHandDebuff = 0;
+        playerHandBuff = 0;
     }
 
     public void InflictHandDebuff(int amount)
@@ -112,6 +116,11 @@ public class PlayerHand : MonoBehaviour
         }
     }
 
+    public void GainHandBuff(int amount)
+    {
+        playerHandBuff += amount;
+    }
+
     private IEnumerator DrawXCardsCoroutine(int amountOfCards)
     {
         for (int i = 0; i < amountOfCards; i++)
@@ -119,6 +128,7 @@ public class PlayerHand : MonoBehaviour
             DrawCard();
             yield return new WaitForSeconds(.05f);
         }
+        isDrawing = false;
     }
 
     public void DrawCard()
@@ -251,6 +261,26 @@ public class PlayerHand : MonoBehaviour
         maxWidth = configData.GetHandEndPos() - configData.GetHandStartPos();
     }
 
+    public void DiscardCardsWithTag(string whichTag)
+    {
+        List<Card> cardsToDiscard = new List<Card>();
+        foreach (Card card in cardsInHand)
+        {
+            foreach (string keyword in card.GetKeywords())
+            {
+                if (keyword == whichTag)
+                {
+                    cardsToDiscard.Add(card);
+                }
+            }
+        }
+
+        for (int i = 0; i < cardsToDiscard.Count; i++)
+        {
+            cardsToDiscard[i].DiscardFromHand();
+        }
+    }
+
     private float CalculateInitialRotation(float rotationStep)
     {
         float currentRotation = configData.MaxCardInHandAngle();
@@ -295,5 +325,10 @@ public class PlayerHand : MonoBehaviour
     public List<Card> GetCardsInHand()
     {
         return cardsInHand;
+    }
+
+    public bool GetIsDrawing()
+    {
+        return isDrawing;
     }
 }
