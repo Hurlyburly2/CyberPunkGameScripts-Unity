@@ -9,6 +9,7 @@ public class PlayerHand : MonoBehaviour
     int currentHandSize = 0;
     int initialHandSize = 0;
     int playerHandDebuff = 0;
+    int playerHandBuff = 0;
     float cardGap = 0;
     [SerializeField] float maxCardGap;
     bool centered = false;
@@ -86,7 +87,7 @@ public class PlayerHand : MonoBehaviour
 
     public void DrawToMaxHandSize()
     {
-        int cardTarget = initialHandSize - playerHandDebuff + battleData.GetPlayerHandMapBuff();
+        int cardTarget = initialHandSize + playerHandBuff - playerHandDebuff + battleData.GetPlayerHandMapBuff();
         if (CheckPercentageChance(battleData.GetExtraCardDrawFromMapChance()))
         {
             cardTarget++;
@@ -101,6 +102,7 @@ public class PlayerHand : MonoBehaviour
         // AT THE BEGINNING OF THE PLAYER TURN. IF WE END UP USING THIS METHOD IN OTHER CASES WE'LL
         // NEED TO PASS SOMETHING HERE TO PRESERVE THE DEBUFF AND ONLY RESET ON TURN END
         playerHandDebuff = 0;
+        playerHandBuff = 0;
     }
 
     public void InflictHandDebuff(int amount)
@@ -112,6 +114,11 @@ public class PlayerHand : MonoBehaviour
         {
             playerHandDebuff += amount;
         }
+    }
+
+    public void GainHandBuff(int amount)
+    {
+        playerHandBuff += amount;
     }
 
     private IEnumerator DrawXCardsCoroutine(int amountOfCards)

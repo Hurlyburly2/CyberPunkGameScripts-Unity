@@ -492,6 +492,57 @@ public class Card : MonoBehaviour
                 DrawRandomCardFromDeck("Weapon");
                 DrawRandomCardFromDeck("Weapon");
                 break;
+            case 45:
+            case 46:
+                DealDamage(2);
+                GainStatus("Momentum", 1);
+                break;
+            case 47:
+                DealDamage(2);
+                GainStatus("Momentum", 2);
+                break;
+            case 48:
+                DealDamage(3);
+                GainStatus("Momentum", 2);
+                break;
+            case 49:
+                DrawXCards(2);
+                break;
+            case 50:
+                DrawXCards(2);
+                GainHandBuff(1);
+                break;
+            case 51:
+                DrawXCards(3);
+                GainHandBuff(1);
+                break;
+            case 52: // WHACK 2
+                DealDamage(3, 15);
+                break;
+            case 53: // WHACK 3
+                DealDamage(3, 20);
+                break;
+            case 54: // WHACK 4
+                DealDamage(3, 25);
+                break;
+            case 55: // WHACK 5
+                DealDamage(4, 25);
+                break;
+            case 56: // KNEECAP 2
+                DealDamage(Random.Range(4, 6));
+                break;
+            case 57: // KNEECAP 3
+                DealDamage(Random.Range(4, 6));
+                InflictStatus("Vulnerable", 1);
+                break;
+            case 58: // KNEECAP 4
+                DealDamage(Random.Range(5, 7));
+                InflictStatus("Vulnerable", 1);
+                break;
+            case 59: // KNEECAP 5
+                DealDamage(Random.Range(5, 9));
+                InflictStatus("Vulnerable", 1);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -539,6 +590,25 @@ public class Card : MonoBehaviour
             case 43:
             case 44:
                 return 8;
+            case 45:
+            case 46:
+            case 47:
+            case 48:
+                return 9;
+            case 49:
+            case 50:
+            case 51:
+                return 10;
+            case 52:
+            case 53:
+            case 54:
+            case 55:
+                return 11;
+            case 56:
+            case 57:
+            case 58:
+            case 59:
+                return 12;
             default:
                 return cardId;
         }
@@ -583,6 +653,12 @@ public class Card : MonoBehaviour
     private void ShuffleCardsIntoEnemyDeck(List<int> cardsToAddIds)
     {
         FindObjectOfType<EnemyDeck>().ShuffleGeneratedCardsIntoDeck(cardsToAddIds);
+    }
+
+    private void GainHandBuff(int amount)
+    {
+        PlayerHand playerHand = FindObjectOfType<PlayerHand>();
+        playerHand.GainHandBuff(amount);
     }
 
     private void GainHandDebuff(int amount)

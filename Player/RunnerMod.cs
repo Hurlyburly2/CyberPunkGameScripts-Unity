@@ -13,7 +13,7 @@ public class RunnerMod : Item
     public void SetupMod(string newModName)
     {
         GetMod(newModName);
-        itemLevel = 5;
+        itemLevel = 2;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Runner;
     }
@@ -131,21 +131,21 @@ public class RunnerMod : Item
                 levelOneCards.Add(9); // Kick
                 levelOneCards.Add(10);    // Sprint
 
-                levelTwoCards.Add(9); // Kick
-                levelTwoCards.Add(9); // Kick
-                levelTwoCards.Add(10);    // Sprint
+                levelTwoCards.Add(45); // Kick 2
+                levelTwoCards.Add(45); // Kick 2
+                levelTwoCards.Add(49);    // Sprint 2
 
-                levelThreeCards.Add(9); // Kick
-                levelThreeCards.Add(9); // Kick
-                levelThreeCards.Add(10);    // Sprint
+                levelThreeCards.Add(46); // Kick 3
+                levelThreeCards.Add(46); // Kick 3
+                levelThreeCards.Add(50);    // Sprint 3
 
-                levelFourCards.Add(9); // Kick
-                levelFourCards.Add(9); // Kick
-                levelFourCards.Add(10);    // Sprint
+                levelFourCards.Add(47); // Kick 4
+                levelFourCards.Add(47); // Kick 4
+                levelFourCards.Add(50);    // Sprint 3
 
-                levelFiveCards.Add(9); // Kick
-                levelFiveCards.Add(9); // Kick
-                levelFiveCards.Add(10);    // Sprint
+                levelFiveCards.Add(48); // Kick 5
+                levelFiveCards.Add(48); // Kick 5
+                levelFiveCards.Add(51);    // Sprint 4
                 break;
             case "Spanner":
                 itemType = ItemTypes.Weapon;
@@ -155,24 +155,24 @@ public class RunnerMod : Item
                 levelOneCards.Add(12);    // Kneecap
                 levelOneCards.Add(13);    // Bruise
 
-                levelTwoCards.Add(11);    // Whack
-                levelTwoCards.Add(11);    // Whack
-                levelTwoCards.Add(12);    // Kneecap
+                levelTwoCards.Add(52);    // Whack 2
+                levelTwoCards.Add(52);    // Whack 2
+                levelTwoCards.Add(56);    // Kneecap 2
                 levelTwoCards.Add(13);    // Bruise
 
-                levelThreeCards.Add(11);    // Whack
-                levelThreeCards.Add(11);    // Whack
-                levelThreeCards.Add(12);    // Kneecap
+                levelThreeCards.Add(53);    // Whack 3
+                levelThreeCards.Add(53);    // Whack 3
+                levelThreeCards.Add(57);    // Kneecap 3
                 levelThreeCards.Add(13);    // Bruise
 
-                levelFourCards.Add(11);    // Whack
-                levelFourCards.Add(11);    // Whack
-                levelFourCards.Add(12);    // Kneecap
+                levelFourCards.Add(54);    // Whack 4
+                levelFourCards.Add(54);    // Whack 4
+                levelFourCards.Add(58);    // Kneecap
                 levelFourCards.Add(13);    // Bruise
 
-                levelFiveCards.Add(11);    // Whack
-                levelFiveCards.Add(11);    // Whack
-                levelFiveCards.Add(12);    // Kneecap
+                levelFiveCards.Add(55);    // Whack 5
+                levelFiveCards.Add(55);    // Whack 5
+                levelFiveCards.Add(59);    // Kneecap
                 levelFiveCards.Add(13);    // Bruise
                 break;
             default:
