@@ -385,7 +385,7 @@ public class Card : MonoBehaviour
                 GainEnergy(2);
                 break;
             case 19: // CRACKED
-                PowerupStatus("buffs", 2, 1);
+                PowerupStatus("buffs", 1, 1);
                 break;
             case 20: // AWARENESS 2
                 GainStatus("Dodge", 2);
@@ -556,6 +556,47 @@ public class Card : MonoBehaviour
                 DealDamage(3);
                 InflictStatus("Vulnerable", 3);
                 break;
+            case 64: // HIDDEN TRIGGER 2
+                cardsToAddIds = new List<int>();
+                cardsToAddIds.Add(3);
+                ShuffleCardsIntoEnemyDeck(cardsToAddIds);
+                GainStatus("Dodge", 1);
+                break;
+            case 65: // HIDDEN TRIGGER 3
+                cardsToAddIds = new List<int>();
+                cardsToAddIds.Add(3);
+                cardsToAddIds.Add(3);
+                ShuffleCardsIntoEnemyDeck(cardsToAddIds);
+                GainStatus("Dodge", 1);
+                break;
+            case 66: // TOO OBVIOUS 2
+                FindObjectOfType<EnemyDeck>().RemoveAllTrapCards();
+                break;
+            case 67: // QUIKTHINK 2
+                DrawXCards(1);
+                if (PercentChance(50))
+                {
+                    DrawXCards(1);
+                }
+                break;
+            case 68: // QUICKTHINK 3
+                DrawXCards(2);
+                break;
+            case 69: // AD-HOC UPGRADE 2
+                DrawXCards(1);
+                SelfDamage(1);
+                GainEnergy(2);
+                break;
+            case 70: // AD-HOC UPGRADE 3
+                DrawXCards(1);
+                GainEnergy(3);
+                break;
+            case 71: // CRACKED 2
+                PowerupStatus("buffs", 2, 1);
+                break;
+            case 72: // CRACKED 3
+                PowerupStatus("buffs", 3, 1);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -627,6 +668,20 @@ public class Card : MonoBehaviour
             case 62:
             case 63:
                 return 13;
+            case 64:
+            case 65:
+                return 14;
+            case 66:
+                return 15;
+            case 67:
+            case 68:
+                return 16;
+            case 69:
+            case 70:
+                return 17;
+            case 71:
+            case 72:
+                return 18;
             default:
                 return cardId;
         }
