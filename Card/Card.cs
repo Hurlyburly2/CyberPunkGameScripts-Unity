@@ -543,6 +543,19 @@ public class Card : MonoBehaviour
                 DealDamage(Random.Range(5, 9));
                 InflictStatus("Vulnerable", 1);
                 break;
+            case 60: // BRUISE 2
+            case 61: // BRUISE 3
+                DealDamage(2);
+                InflictStatus("Vulnerable", 2);
+                break;
+            case 62: // BRUISE 4
+                DealDamage(2);
+                InflictStatus("Vulnerable", 3);
+                break;
+            case 63: // BRUISE 5
+                DealDamage(3);
+                InflictStatus("Vulnerable", 3);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -609,6 +622,11 @@ public class Card : MonoBehaviour
             case 58:
             case 59:
                 return 12;
+            case 60:
+            case 61:
+            case 62:
+            case 63:
+                return 13;
             default:
                 return cardId;
         }

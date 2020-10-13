@@ -13,7 +13,7 @@ public class RunnerMod : Item
     public void SetupMod(string newModName)
     {
         GetMod(newModName);
-        itemLevel = 2;
+        itemLevel = 1;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Runner;
     }
@@ -158,22 +158,22 @@ public class RunnerMod : Item
                 levelTwoCards.Add(52);    // Whack 2
                 levelTwoCards.Add(52);    // Whack 2
                 levelTwoCards.Add(56);    // Kneecap 2
-                levelTwoCards.Add(13);    // Bruise
+                levelTwoCards.Add(60);    // Bruise 2
 
                 levelThreeCards.Add(53);    // Whack 3
                 levelThreeCards.Add(53);    // Whack 3
                 levelThreeCards.Add(57);    // Kneecap 3
-                levelThreeCards.Add(13);    // Bruise
+                levelThreeCards.Add(61);    // Bruise 3
 
                 levelFourCards.Add(54);    // Whack 4
                 levelFourCards.Add(54);    // Whack 4
                 levelFourCards.Add(58);    // Kneecap
-                levelFourCards.Add(13);    // Bruise
+                levelFourCards.Add(62);    // Bruise 4
 
                 levelFiveCards.Add(55);    // Whack 5
                 levelFiveCards.Add(55);    // Whack 5
                 levelFiveCards.Add(59);    // Kneecap
-                levelFiveCards.Add(13);    // Bruise
+                levelFiveCards.Add(63);    // Bruise 5
                 break;
             default:
                 break;
