@@ -255,6 +255,20 @@ public class HackCard : MonoBehaviour
             case 62:
             case 63:
                 return 13;
+            case 64:
+            case 65:
+                return 14;
+            case 66:
+                return 15;
+            case 67:
+            case 68:
+                return 16;
+            case 69:
+            case 70:
+                return 17;
+            case 71:
+            case 72:
+                return 18;
             default:
                 return cardId;
         }

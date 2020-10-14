@@ -16,7 +16,7 @@ public class HackerModChip : Item
     {
         itemName = newChipName;
         SetChipProperties();
-        itemLevel = 2;
+        itemLevel = 1;
         itemMaxLevel = 3;
         hackerOrRunner = HackerRunner.Hacker;
     }
@@ -41,13 +41,12 @@ public class HackerModChip : Item
                 levelOneCardIds.Add(14);    // Hidden Trigger
                 levelOneCardIds.Add(15);    // Too Obvious
 
-                levelTwoCardIds.Add(14);    // Hidden Trigger
-                levelTwoCardIds.Add(14);    // Hidden Trigger
-                levelTwoCardIds.Add(15);    // Too Obvious
+                levelTwoCardIds.Add(64);    // Hidden Trigger 2
+                levelTwoCardIds.Add(64);    // Hidden Trigger 2
+                levelTwoCardIds.Add(66);    // Too Obvious 2
 
-                levelThreeCardIds.Add(14);    // Hidden Trigger
-                levelThreeCardIds.Add(14);    // Hidden Trigger
-                levelThreeCardIds.Add(15);    // Too Obvious
+                levelThreeCardIds.Add(65);    // Hidden Trigger 3
+                levelThreeCardIds.Add(65);    // Hidden Trigger 3
                 break;
             case "JuryRigged QwikThink":
                 itemType = ItemTypes.Wetware;
@@ -63,11 +62,11 @@ public class HackerModChip : Item
                 levelOneCardIds.Add(16);    // QwikThink
                 levelOneCardIds.Add(17);    // Ad-Hoc Upgrade
 
-                levelTwoCardIds.Add(16);    // QwikThink
-                levelTwoCardIds.Add(17);    // Ad-Hoc Upgrade
+                levelTwoCardIds.Add(67);    // QwikThink 2
+                levelTwoCardIds.Add(69);    // Ad-Hoc Upgrade 2
 
-                levelThreeCardIds.Add(16);    // QwikThink
-                levelThreeCardIds.Add(17);    // Ad-Hoc Upgrade
+                levelThreeCardIds.Add(68);    // QwikThink 3
+                levelThreeCardIds.Add(70);    // Ad-Hoc Upgrade 3
                 break;
             case "Salvaged Router":
                 itemType = ItemTypes.Chipset;
@@ -85,12 +84,9 @@ public class HackerModChip : Item
                 levelOneCardIds.Add(19);    // Cracked
 
                 levelTwoCardIds.Add(18);    // Failed Connection
-                levelTwoCardIds.Add(18);    // Failed Connection
-                levelTwoCardIds.Add(19);    // Cracked
+                levelTwoCardIds.Add(71);    // Cracked
 
-                levelThreeCardIds.Add(18);    // Failed Connection
-                levelThreeCardIds.Add(18);    // Failed Connection
-                levelThreeCardIds.Add(19);    // Cracked
+                levelThreeCardIds.Add(72);    // Cracked
                 break;
             default:
                 itemType = ItemTypes.None;
