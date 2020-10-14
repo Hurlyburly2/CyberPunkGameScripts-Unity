@@ -39,15 +39,15 @@ public class HackerMod : Item
             case "Basic Rig":
                 level1Slots = 1;
                 level2Slots = 1;
-                level3Slots = 2;
-                level4Slots = 2;
-                level5Slots = 3;
+                level3Slots = 1;
+                level4Slots = 1;
+                level5Slots = 2;
                 itemType = ItemTypes.Rig;
                 level1AbilityUses = 1;
                 level2AbilityUses = 1;
-                level3AbilityUses = 1;
+                level3AbilityUses = 2;
                 level4AbilityUses = 2;
-                level5AbilityUses = 2;
+                level5AbilityUses = 3;
                 activeAbilityId = 0;
                 itemDescription = "Ol' reliable. Last decade's Cyris900 still gets the job done... usually.";
                 levelOneItemAbilityDescription = "Add one Red connection to your active card.";
@@ -60,7 +60,7 @@ public class HackerMod : Item
                 level1Slots = 1;
                 level2Slots = 1;
                 level3Slots = 1;
-                level4Slots = 2;
+                level4Slots = 1;
                 level5Slots = 2;
                 itemType = ItemTypes.NeuralImplant;
                 level1AbilityUses = 1;
@@ -79,16 +79,16 @@ public class HackerMod : Item
             case "Basic Uplink":
                 level1Slots = 1;
                 level2Slots = 1;
-                level3Slots = 2;
-                level4Slots = 2;
-                level5Slots = 3;
+                level3Slots = 1;
+                level4Slots = 1;
+                level5Slots = 2;
                 itemType = ItemTypes.Uplink;
                 activeAbilityId = 2;
                 level1AbilityUses = 2;
                 level2AbilityUses = 2;
-                level3AbilityUses = 2;
-                level4AbilityUses = 2;
-                level5AbilityUses = 3;
+                level3AbilityUses = 3;
+                level4AbilityUses = 3;
+                level5AbilityUses = 4;
                 itemDescription = "A salvaged crypto-crawler. It's a little bit jank.";
                 levelOneItemAbilityDescription = "Put the top card of your discard back onto the top of your deck.";
                 levelTwoItemAbilityDescription = "Put the top card of your discard back onto the top of your deck.";
