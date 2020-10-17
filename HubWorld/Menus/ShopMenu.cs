@@ -13,6 +13,9 @@ public class ShopMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI abilityTypeText;
     [SerializeField] TextMeshProUGUI abilityDescriptionText;
 
+    [SerializeField] TextMeshProUGUI priceLabelField;
+    [SerializeField] TextMeshProUGUI priceAmountField;
+
     [SerializeField] Sprite backImageBuy;
     [SerializeField] Image buyTabButton;
     [SerializeField] Sprite backImageSell;
@@ -76,6 +79,9 @@ public class ShopMenu : MonoBehaviour
         currentMode = SELLMODE;
 
         // TODO: CARD CAROSEL AND INVENTORY LIST
+        // INVENTORY LIST SHOULD BE POPULATED ONLY BY UNEQUIPPED ITEMS
+        // ITEMS MUST BE GIVEN A PRICE VARIABLE THAT INCREASES EACH UPGRADE LEVEL
+        // SELLING AN UPGRADED ITEM SHOULD COME AT A LOSS, HOWEVER
     }
 
     private void InitializeUpgradeScreen()
@@ -92,7 +98,6 @@ public class ShopMenu : MonoBehaviour
         upgradeButton.gameObject.SetActive(true);
         currentMode = UPGRADEMODE;
 
-        // TODO: CARD CAROSEL AND INVENTORY LIST
         List<Item> items = FindObjectOfType<PlayerData>().GetPlayerItems();
         List<Item> itemsBelowMaxLevel = new List<Item>();
         foreach (Item item in items)
@@ -114,6 +119,9 @@ public class ShopMenu : MonoBehaviour
         if (selectedItem != null && isHighlighted)
         {
             SetupCardCarosel(selectedItem);
+            priceLabelField.gameObject.SetActive(true);
+            priceAmountField.gameObject.SetActive(true);
+            priceAmountField.text = GetPrice(selectedItem).ToString();
         } else
         {
             SelectNothing();
@@ -121,11 +129,42 @@ public class ShopMenu : MonoBehaviour
         // DO SOMETHING TO ACCOUNT FOR ITEMS WITH CARDS VS ITEMS WITHOUT CARDS
     }
 
+    private int GetPrice(Item item)
+    {
+        switch (currentMode)
+        {
+            case BUYMODE:
+                // TODO: THIS
+                return 9999999;
+            case SELLMODE:
+                // TODO: THIS
+                return 9999999;
+            case UPGRADEMODE:
+                switch (item.GetItemLevel())
+                {
+                    case 1:
+                        return 1000;
+                    case 2:
+                        return 2500;
+                    case 3:
+                        return 5000;
+                    case 4:
+                        return 100000;
+                    default:
+                        return 99999999;
+                }
+            default:
+                return 99999999;
+        }
+    }
+
     private void SelectNothing()
     {
         cardCarosel.ClearCardList();
         abilityTypeText.text = "";
         abilityDescriptionText.text = "";
+        priceAmountField.gameObject.SetActive(false);
+        priceLabelField.gameObject.SetActive(false);
     }
 
     private void SetupCardCarosel(Item item)
