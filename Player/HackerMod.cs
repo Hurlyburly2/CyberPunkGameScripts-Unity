@@ -378,4 +378,23 @@ public class HackerMod : Item
     {
         return level5AbilityUses;
     }
+
+    public string GetCurrentLevelAbilityDescription()
+    {
+        switch (itemLevel)
+        {
+            case 1:
+                return levelOneItemAbilityDescription;
+            case 2:
+                return levelTwoItemAbilityDescription;
+            case 3:
+                return levelThreeItemAbilityDescription;
+            case 4:
+                return levelFourItemAbilityDescription;
+            case 5:
+                return levelFiveItemAbilityDescription;
+            default:
+                return levelOneItemAbilityDescription;
+        }
+    }
 }

@@ -8,6 +8,7 @@ public class InventoryList : MonoBehaviour
 {
     [SerializeField] ItemDetailsMenu itemDetailsMenu;
     [SerializeField] LoadoutEquipmentMenu loadoutEquipmentMenu;
+    [SerializeField] ShopMenu shopMenu;
 
     [SerializeField] TextMeshProUGUI listHeaderOne;
     [SerializeField] TextMeshProUGUI listHeaderTwo;
@@ -112,6 +113,9 @@ public class InventoryList : MonoBehaviour
         {
             case ItemDetailsMenu.ItemDetailMenuContextType.Loadout:
                 loadoutEquipmentMenu.HandleSelectedItem(selectedItem.GetItem(), selectedItem.GetIsHighlighted());
+                break;
+            case ItemDetailsMenu.ItemDetailMenuContextType.Shop:
+                shopMenu.HandleSelectItem(selectedItem.GetItem(), selectedItem.GetIsHighlighted());
                 break;
         }
     }

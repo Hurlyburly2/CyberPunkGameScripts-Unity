@@ -191,4 +191,19 @@ public class HackerModChip : Item
     {
         return levelThreeCardIds;
     }
+
+    public string GetCurrentLevelAbilityString()
+    {
+        switch (itemLevel)
+        {
+            case 1:
+                return levelOneItemAbilityDescription;
+            case 2:
+                return levelTwoItemAbilityDescription;
+            case 3:
+                return levelThreeItemAbilityDescription;
+            default:
+                return levelOneItemAbilityDescription;
+        }
+    }
 }
