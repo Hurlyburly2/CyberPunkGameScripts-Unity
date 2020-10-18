@@ -149,7 +149,7 @@ public class InventoryList : MonoBehaviour
         listHeaderThree.text = headers[2].ToString();
     }
 
-    private Item GetSelectedItem()
+    public Item GetSelectedItem()
     {
         foreach (InventoryListItem listItem in itemsInList)
         {
@@ -168,6 +168,24 @@ public class InventoryList : MonoBehaviour
             if (listItem.GetItem().GetInstanceID() == itemToSelect.GetInstanceID())
             {
                 listItem.SelectListItem();
+            }
+        }
+    }
+
+    public void UpdateListedItem(Item itemToUpdate)
+    {
+        foreach (InventoryListItem listItem in itemsInList)
+        {
+            if (listItem.GetItem() == itemToUpdate)
+            {
+                listItem.SetText(itemToUpdate, context);
+                switch (context)
+                {
+                    case ItemDetailsMenu.ItemDetailMenuContextType.Shop:
+                        shopMenu.HandleSelectItem(listItem.GetItem(), listItem.GetIsHighlighted());
+                        break;
+                }
+                break;
             }
         }
     }

@@ -12,6 +12,9 @@ public class ShopMenu : MonoBehaviour
     [SerializeField] CardCarosel cardCarosel;
     [SerializeField] TextMeshProUGUI abilityTypeText;
     [SerializeField] TextMeshProUGUI abilityDescriptionText;
+    [SerializeField] TextMeshProUGUI moreInfoLabel;
+    [SerializeField] TextMeshProUGUI moreInfoAmount;
+    [SerializeField] TextMeshProUGUI abilityUsesField;
 
     [SerializeField] TextMeshProUGUI priceLabelField;
     [SerializeField] TextMeshProUGUI priceAmountField;
@@ -49,6 +52,7 @@ public class ShopMenu : MonoBehaviour
 
     private void InitializeBuyScreen()
     {
+        inventoryList.DestroyListItems();
         if (currentMode == BUYMODE)
             return;
         mainBackImage.sprite = backImageBuy;
@@ -66,6 +70,7 @@ public class ShopMenu : MonoBehaviour
 
     private void InitializeSellScreen()
     {
+        inventoryList.DestroyListItems();
         if (currentMode == SELLMODE)
             return;
         mainBackImage.sprite = backImageSell;
@@ -86,6 +91,7 @@ public class ShopMenu : MonoBehaviour
 
     private void InitializeUpgradeScreen()
     {
+        inventoryList.DestroyListItems();
         if (currentMode == UPGRADEMODE)
             return;
         mainBackImage.sprite = backImageUpgrade;
@@ -122,11 +128,70 @@ public class ShopMenu : MonoBehaviour
             priceLabelField.gameObject.SetActive(true);
             priceAmountField.gameObject.SetActive(true);
             priceAmountField.text = GetPrice(selectedItem).ToString();
+            switch (selectedItem.GetItemType())
+            {
+                case Item.ItemTypes.Arm:
+                case Item.ItemTypes.Exoskeleton:
+                case Item.ItemTypes.Head:
+                case Item.ItemTypes.Leg:
+                case Item.ItemTypes.Torso:
+                case Item.ItemTypes.Weapon:
+                    moreInfoLabel.gameObject.SetActive(false);
+                    moreInfoAmount.gameObject.SetActive(false);
+                    abilityUsesField.gameObject.SetActive(false);
+                    break;
+                case Item.ItemTypes.NeuralImplant:
+                    moreInfoLabel.gameObject.SetActive(true);
+                    moreInfoLabel.text = "Wetware Slots:";
+                    moreInfoAmount.gameObject.SetActive(true);
+                    moreInfoAmount.text = (selectedItem as HackerMod).GetCurrentLevelSlotCount().ToString();
+                    abilityUsesField.gameObject.SetActive(true);
+                    abilityUsesField.text = (selectedItem as HackerMod).GetActiveAbilityUses().ToString() + " Uses";
+                    break;
+                case Item.ItemTypes.Rig:
+                    moreInfoLabel.gameObject.SetActive(true);
+                    moreInfoLabel.text = "Software Slots:";
+                    moreInfoAmount.gameObject.SetActive(true);
+                    moreInfoAmount.text = (selectedItem as HackerMod).GetCurrentLevelSlotCount().ToString();
+                    abilityUsesField.text = (selectedItem as HackerMod).GetActiveAbilityUses().ToString() + " Uses";
+                    break;
+                case Item.ItemTypes.Uplink:
+                    moreInfoLabel.gameObject.SetActive(true);
+                    moreInfoLabel.text = "Chipset Slots:";
+                    moreInfoAmount.gameObject.SetActive(true);
+                    moreInfoAmount.text = (selectedItem as HackerMod).GetCurrentLevelSlotCount().ToString();
+                    abilityUsesField.text = (selectedItem as HackerMod).GetActiveAbilityUses().ToString() + " Uses";
+                    break;
+                case Item.ItemTypes.Chipset:
+                case Item.ItemTypes.Software:
+                case Item.ItemTypes.Wetware:
+                    moreInfoLabel.gameObject.SetActive(false);
+                    moreInfoAmount.gameObject.SetActive(false);
+                    break;
+            }
+            switch (currentMode)
+            {
+                case UPGRADEMODE:
+                    if (selectedItem.GetItemLevel() < selectedItem.GetItemMaxLevel() && GetPrice(selectedItem) <= playerData.GetCreditsAmount())
+                    {
+                        // UPGRADEABLE AND CAN AFFORD
+                        upgradeButton.interactable = true;
+                    } else if (selectedItem.GetItemLevel() < selectedItem.GetItemMaxLevel())
+                    {
+                        // UPGRADABLE BUT CANNOT AFFORD
+                        upgradeButton.interactable = false;
+                    } else
+                    {
+                        upgradeButton.interactable = false;
+                        priceLabelField.gameObject.SetActive(false);
+                        priceAmountField.gameObject.SetActive(false);
+                    }
+                    break;
+            }
         } else
         {
             SelectNothing();
         }
-        // DO SOMETHING TO ACCOUNT FOR ITEMS WITH CARDS VS ITEMS WITHOUT CARDS
     }
 
     public int GetPrice(Item item)
@@ -149,7 +214,7 @@ public class ShopMenu : MonoBehaviour
                     case 3:
                         return 5000;
                     case 4:
-                        return 100000;
+                        return 10000;
                     default:
                         return 99999999;
                 }
@@ -165,6 +230,10 @@ public class ShopMenu : MonoBehaviour
         abilityDescriptionText.text = "";
         priceAmountField.gameObject.SetActive(false);
         priceLabelField.gameObject.SetActive(false);
+        upgradeButton.interactable = false;
+        moreInfoLabel.gameObject.SetActive(false);
+        moreInfoAmount.gameObject.SetActive(false);
+        abilityUsesField.gameObject.SetActive(false);
     }
 
     private void SetupCardCarosel(Item item)
@@ -222,7 +291,11 @@ public class ShopMenu : MonoBehaviour
 
     public void UpgradeButtonClick()
     {
-        Debug.Log("Clicked Upgrade Button");
+        Item selectedItem = inventoryList.GetSelectedItem();
+        playerData.CreditsSpend(GetPrice(selectedItem));
+        selectedItem.UpgradeItem();
+        inventoryList.UpdateListedItem(selectedItem);
+        currentMoneyField.text = playerData.GetCreditsAmount().ToString();
     }
 
     public void ClickBuyTab()
