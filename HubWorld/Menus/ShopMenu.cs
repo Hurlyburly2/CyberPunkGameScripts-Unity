@@ -129,7 +129,7 @@ public class ShopMenu : MonoBehaviour
         // DO SOMETHING TO ACCOUNT FOR ITEMS WITH CARDS VS ITEMS WITHOUT CARDS
     }
 
-    private int GetPrice(Item item)
+    public int GetPrice(Item item)
     {
         switch (currentMode)
         {
@@ -169,7 +169,6 @@ public class ShopMenu : MonoBehaviour
 
     private void SetupCardCarosel(Item item)
     {
-        Debug.Log("Does this happen?");
         cardCarosel.ClearCardList();
         List<int> cardIds = new List<int>();
 
@@ -244,5 +243,10 @@ public class ShopMenu : MonoBehaviour
     public void CloseShopMenu()
     {
         gameObject.SetActive(false);
+    }
+
+    public string GetOpenShopTab()
+    {
+        return currentMode;
     }
 }
