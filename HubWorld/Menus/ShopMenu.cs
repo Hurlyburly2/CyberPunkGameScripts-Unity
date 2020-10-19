@@ -205,18 +205,37 @@ public class ShopMenu : MonoBehaviour
                 // TODO: THIS
                 return 9999999;
             case UPGRADEMODE:
-                switch (item.GetItemLevel())
+                if (item.GetItemMaxLevel() == 5)
                 {
-                    case 1:
-                        return 1000;
-                    case 2:
-                        return 2500;
-                    case 3:
-                        return 5000;
-                    case 4:
-                        return 10000;
-                    default:
-                        return 99999999;
+                    switch (item.GetItemLevel())
+                    {
+                        case 1:
+                            return 1000;
+                        case 2:
+                            return 2500;
+                        case 3:
+                            return 5000;
+                        case 4:
+                            return 10000;
+                        default:
+                            return 99999999;
+                    }
+                } else if (item.GetItemMaxLevel() == 3)
+                {
+                    switch (item.GetItemLevel())
+                    {
+                        case 1:
+                            return 2500;
+                        case 2:
+                            return 6000;
+                        case 3:
+                            return 10000;
+                        default:
+                            return 99999999;
+                    }
+                } else
+                {
+                    return 99999999;
                 }
             default:
                 return 99999999;

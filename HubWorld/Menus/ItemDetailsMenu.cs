@@ -32,6 +32,7 @@ public class ItemDetailsMenu : MonoBehaviour
     [SerializeField] GameObject runnerShopContextSellBtn;
     [SerializeField] GameObject runnerShopContextUpgradeBtn;
     [SerializeField] TextMeshProUGUI runnerShopPriceAmountField;
+    [SerializeField] TextMeshProUGUI runnerShopPriceLabel;
     // Runner inventory context
     [SerializeField] GameObject runnerInventoryContext;
 
@@ -50,6 +51,7 @@ public class ItemDetailsMenu : MonoBehaviour
     [SerializeField] GameObject hackerModShopContextSellBtn;
     [SerializeField] GameObject hackerModShopContextUpgradeBtn;
     [SerializeField] TextMeshProUGUI hackerModShopPriceAmountField;
+    [SerializeField] TextMeshProUGUI hackerModPriceLabel;
     // Hacker Install
     [SerializeField] GameObject hackerInstallContext;
     [SerializeField] GameObject hackerInstallInventoryContext;
@@ -61,7 +63,8 @@ public class ItemDetailsMenu : MonoBehaviour
     [SerializeField] GameObject hackerInstallShopContextSellBtn;
     [SerializeField] GameObject hackerInstallShopContextUpgradeBtn;
     [SerializeField] TextMeshProUGUI hackerInstallShopPriceAmountField;
-        
+    [SerializeField] TextMeshProUGUI hackerInstallPriceLabel;
+
     public void SetupItemDetailMenu(ItemDetailMenuContextType newContext, Item newItem)
     {
         context = newContext;
@@ -176,27 +179,56 @@ public class ItemDetailsMenu : MonoBehaviour
             case "sell":
                 break;
             case "upgrade":
+                GameObject activeUpgradeButton = runnerShopContextUpgradeBtn;
+                TextMeshProUGUI currentPriceAmountField = runnerShopPriceAmountField;
+                TextMeshProUGUI currentPriceLabel = runnerShopPriceLabel;
                 if (hackerOrRunner == Item.HackerRunner.Runner)
                 {
-                    Debug.Log("Wrong thing!");
                     runnerShopContextBuyBtn.SetActive(false);
                     runnerShopContextSellBtn.SetActive(false);
                     runnerShopContextUpgradeBtn.SetActive(true);
                     runnerShopPriceAmountField.text = shopMenu.GetPrice(item).ToString();
+                    activeUpgradeButton = runnerShopContextUpgradeBtn;
+                    currentPriceAmountField = runnerShopPriceAmountField;
+                    currentPriceLabel = runnerShopPriceLabel;
                 } else if (hackerOrRunner == Item.HackerRunner.Hacker && !isInstall)
                 {
-                    Debug.Log("Wrong thing!");
                     hackerModShopContextBuyBtn.SetActive(false);
                     hackerModShopContextSellBtn.SetActive(false);
                     hackerModShopContextUpgradeBtn.SetActive(true);
                     hackerModShopPriceAmountField.text = shopMenu.GetPrice(item).ToString();
+                    activeUpgradeButton = hackerModShopContextUpgradeBtn;
+                    currentPriceAmountField = hackerModShopPriceAmountField;
+                    currentPriceLabel = hackerModPriceLabel;
                 } else if (hackerOrRunner == Item.HackerRunner.Hacker && isInstall)
                 {
-                    Debug.Log("Does this happen?");
                     hackerInstallShopContextBuyBtn.SetActive(false);
                     hackerInstallShopContextSellBtn.SetActive(false);
                     hackerInstallShopContextUpgradeBtn.SetActive(true);
                     hackerInstallShopPriceAmountField.text = shopMenu.GetPrice(item).ToString();
+                    activeUpgradeButton = hackerInstallShopContextUpgradeBtn;
+                    currentPriceAmountField = hackerInstallShopPriceAmountField;
+                    currentPriceLabel = hackerInstallPriceLabel;
+                }
+
+                PlayerData playerData = FindObjectOfType<PlayerData>();
+                if (item.GetCurrentItemLevel() >= item.GetItemMaxLevel())
+                {
+                    // If the item is max level: Disable the button and hide the price fields
+                    activeUpgradeButton.GetComponent<Button>().interactable = false;
+                    currentPriceAmountField.gameObject.SetActive(false);
+                    currentPriceLabel.gameObject.SetActive(false);
+                } else if (shopMenu.GetPrice(item) > playerData.GetCreditsAmount()) {
+                    // If the item just is unaffordable, disable the button but display the price
+                    activeUpgradeButton.GetComponent<Button>().interactable = false;
+                    currentPriceAmountField.gameObject.SetActive(true);
+                    currentPriceLabel.gameObject.SetActive(true);
+                } else
+                {
+                    // if the item is affordable and not max level, enable the button and show the price
+                    activeUpgradeButton.GetComponent<Button>().interactable = true;
+                    currentPriceAmountField.gameObject.SetActive(true);
+                    currentPriceLabel.gameObject.SetActive(true);
                 }
                 break;
         }
@@ -281,5 +313,11 @@ public class ItemDetailsMenu : MonoBehaviour
     {
         upgradesMenu.gameObject.SetActive(true);
         upgradesMenu.SetupUpgradesMenu(context, item);
+    }
+
+    public void ClickBuyUpgradeButton()
+    {
+        shopMenu.UpgradeButtonClick();
+        SetupItemDetailMenu(context, item);
     }
 }
