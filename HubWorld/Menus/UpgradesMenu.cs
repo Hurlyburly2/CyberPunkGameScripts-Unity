@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UpgradesMenu : MonoBehaviour
 {
+    [SerializeField] ShopMenu shopMenu;
     ItemDetailsMenu.ItemDetailMenuContextType context;
     Item item;
 
@@ -105,6 +106,8 @@ public class UpgradesMenu : MonoBehaviour
             if (item.GetCurrentItemLevel() < i + 2)
             {
                 currentUpgradeButtons[i].gameObject.SetActive(true);
+                int price = shopMenu.GetTotalUpgradePrice(item.GetCurrentItemLevel(), item.GetItemMaxLevel(), i+2);
+                currentUpgradeButtons[i].SetupButton(price);
             } else
             {
                 currentUpgradeButtons[i].gameObject.SetActive(false);

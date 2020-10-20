@@ -42,6 +42,14 @@ public class ShopMenu : MonoBehaviour
     Color inactiveTabColor = new Color(255, 255, 255, 0.5f);
     Color activeTabColor = new Color(255, 255, 255, 1f);
 
+    const int MAX_LEVEL_5_UPGRADE_LEVEL_2_PRICE = 1000;
+    const int MAX_LEVEL_5_UPGRADE_LEVEL_3_PRICE = 2500;
+    const int MAX_LEVEL_5_UPGRADE_LEVEL_4_PRICE = 5000;
+    const int MAX_LEVEL_5_UPGRADE_LEVEL_5_PRICE = 10000;
+
+    const int MAX_LEVEL_3_UPGRADE_LEVEL_2_PRICE = 4000;
+    const int MAX_LEVEL_3_UPGRADE_LEVEL_3_PRICE = 12000;
+
     public void SetupShopMenu()
     {
         SelectNothing();
@@ -210,13 +218,13 @@ public class ShopMenu : MonoBehaviour
                     switch (item.GetItemLevel())
                     {
                         case 1:
-                            return 1000;
+                            return MAX_LEVEL_5_UPGRADE_LEVEL_2_PRICE;
                         case 2:
-                            return 2500;
+                            return MAX_LEVEL_5_UPGRADE_LEVEL_3_PRICE;
                         case 3:
-                            return 5000;
+                            return MAX_LEVEL_5_UPGRADE_LEVEL_4_PRICE;
                         case 4:
-                            return 10000;
+                            return MAX_LEVEL_5_UPGRADE_LEVEL_5_PRICE;
                         default:
                             return 99999999;
                     }
@@ -225,11 +233,9 @@ public class ShopMenu : MonoBehaviour
                     switch (item.GetItemLevel())
                     {
                         case 1:
-                            return 2500;
+                            return MAX_LEVEL_3_UPGRADE_LEVEL_2_PRICE;
                         case 2:
-                            return 6000;
-                        case 3:
-                            return 10000;
+                            return MAX_LEVEL_3_UPGRADE_LEVEL_3_PRICE;
                         default:
                             return 99999999;
                     }
@@ -240,6 +246,29 @@ public class ShopMenu : MonoBehaviour
             default:
                 return 99999999;
         }
+    }
+
+    public int GetTotalUpgradePrice(int currentItemLevel, int maxLevel, int targetLevel)
+    {
+        int totalPrice = 0;
+        switch (maxLevel)
+        {
+            case 3:
+                int[] prices3 = { MAX_LEVEL_3_UPGRADE_LEVEL_2_PRICE, MAX_LEVEL_3_UPGRADE_LEVEL_3_PRICE };
+                for (int i = currentItemLevel - 1; i < targetLevel - 1; i++)
+                {
+                    totalPrice += prices3[i];
+                }
+                break;
+            case 5:
+                int[] prices5 = { MAX_LEVEL_5_UPGRADE_LEVEL_2_PRICE, MAX_LEVEL_5_UPGRADE_LEVEL_3_PRICE, MAX_LEVEL_5_UPGRADE_LEVEL_4_PRICE, MAX_LEVEL_5_UPGRADE_LEVEL_5_PRICE };
+                for (int i = currentItemLevel - 1; i < targetLevel - 1; i++)
+                {
+                    totalPrice += prices5[i];
+                }
+                break;
+        }
+        return totalPrice;
     }
 
     private void SelectNothing()

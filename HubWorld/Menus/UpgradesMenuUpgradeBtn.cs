@@ -8,5 +8,11 @@ public class UpgradesMenuUpgradeBtn : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI priceField;
 
-    int levelOfUpgrade = 0;
+    int price;
+
+    public void SetupButton(int newPrice)
+    {
+        price = newPrice;
+        priceField.text = price.ToString();
+    }
 }
