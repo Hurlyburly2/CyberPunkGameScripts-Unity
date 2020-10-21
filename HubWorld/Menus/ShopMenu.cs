@@ -342,6 +342,11 @@ public class ShopMenu : MonoBehaviour
         Item selectedItem = inventoryList.GetSelectedItem();
         playerData.CreditsSpend(GetPrice(selectedItem));
         selectedItem.UpgradeItem();
+        UpdateAfterUpgrade(selectedItem);
+    }
+
+    public void UpdateAfterUpgrade(Item selectedItem)
+    {
         inventoryList.UpdateListedItem(selectedItem);
         currentMoneyField.text = playerData.GetCreditsAmount().ToString();
     }

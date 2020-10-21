@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class UpgradesMenu : MonoBehaviour
 {
     [SerializeField] ShopMenu shopMenu;
+    [SerializeField] ItemDetailsMenu itemDetailsMenu;
     ItemDetailsMenu.ItemDetailMenuContextType context;
     Item item;
 
@@ -107,7 +108,7 @@ public class UpgradesMenu : MonoBehaviour
             {
                 currentUpgradeButtons[i].gameObject.SetActive(true);
                 int price = shopMenu.GetTotalUpgradePrice(item.GetCurrentItemLevel(), item.GetItemMaxLevel(), i+2);
-                currentUpgradeButtons[i].SetupButton(price);
+                currentUpgradeButtons[i].SetupButton(price, i + 2);
             } else
             {
                 currentUpgradeButtons[i].gameObject.SetActive(false);
@@ -393,6 +394,22 @@ public class UpgradesMenu : MonoBehaviour
     private void SetupGeneralInfo()
     {
         itemLvlField.text = item.GetItemLevel() + "/" + item.GetItemMaxLevel();
+    }
+
+    public void DoUpgrades(int price, int targetLevel)
+    {
+        PlayerData playerData = FindObjectOfType<PlayerData>();
+        if (playerData.GetCreditsAmount() >= price)
+        {
+            playerData.CreditsSpend(price);
+            while (item.GetCurrentItemLevel() < targetLevel)
+                item.UpgradeItem();
+        }
+
+        // Refresh the open menus
+        SetupUpgradesMenu(context, item);
+        itemDetailsMenu.SetupItemDetailMenu(context, item);
+        FindObjectOfType<ShopMenu>().UpdateAfterUpgrade(item);
     }
 
     public void CloseUpgradesMenu()
