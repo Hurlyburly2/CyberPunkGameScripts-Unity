@@ -10,6 +10,9 @@ public class EnemyCard : MonoBehaviour
     EnemyDeck enemyDeck;
     EnemyDiscard enemyDiscard;
 
+    public enum EnemyCardKeyword { Bio, Tech, Mech, Cyber, Weakness };
+    [SerializeField] List<EnemyCardKeyword> enemyCardKeywords;
+
     Sprite cardImage;
     SpriteRenderer cardBackImage;
     StatusEffectHolder playerCurrentStatusEffects;
@@ -337,5 +340,10 @@ public class EnemyCard : MonoBehaviour
     public bool IsTrap()
     {
         return isTrap;
+    }
+
+    public List<EnemyCardKeyword> GetKeywords()
+    {
+        return enemyCardKeywords;
     }
 }
