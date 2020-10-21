@@ -6,6 +6,7 @@ using TMPro;
 
 public class ShopMenu : MonoBehaviour
 {
+    [SerializeField] Button detailsButton;
     [SerializeField] TextMeshProUGUI currentMoneyField;
     [SerializeField] Image mainBackImage;
     [SerializeField] InventoryList inventoryList;
@@ -112,6 +113,7 @@ public class ShopMenu : MonoBehaviour
         upgradeButton.gameObject.SetActive(true);
         currentMode = UPGRADEMODE;
 
+        detailsButton.interactable = false;
         List<Item> items = FindObjectOfType<PlayerData>().GetPlayerItems();
         List<Item> itemsBelowMaxLevel = new List<Item>();
         foreach (Item item in items)
@@ -132,6 +134,7 @@ public class ShopMenu : MonoBehaviour
     {
         if (selectedItem != null && isHighlighted)
         {
+            detailsButton.interactable = true;
             SetupCardCarosel(selectedItem);
             priceLabelField.gameObject.SetActive(true);
             priceAmountField.gameObject.SetActive(true);
@@ -273,6 +276,7 @@ public class ShopMenu : MonoBehaviour
 
     private void SelectNothing()
     {
+        detailsButton.interactable = false;
         cardCarosel.ClearCardList();
         abilityTypeText.text = "";
         abilityDescriptionText.text = "";
