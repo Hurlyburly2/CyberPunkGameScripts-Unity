@@ -86,9 +86,9 @@ public class HackerMod : Item
                 activeAbilityId = 2;
                 level1AbilityUses = 2;
                 level2AbilityUses = 2;
-                level3AbilityUses = 3;
+                level3AbilityUses = 2;
                 level4AbilityUses = 3;
-                level5AbilityUses = 4;
+                level5AbilityUses = 3;
                 itemDescription = "A salvaged crypto-crawler. It's a little bit jank.";
                 levelOneItemAbilityDescription = "Put the top card of your discard back onto the top of your deck.";
                 levelTwoItemAbilityDescription = "Put the top card of your discard back onto the top of your deck.";
@@ -239,7 +239,20 @@ public class HackerMod : Item
 
     public int GetActiveAbilityUses()
     {
-        return level1AbilityUses;
+        switch (itemLevel)
+        {
+            case 1:
+                return level1AbilityUses;
+            case 2:
+                return level2AbilityUses;
+            case 3:
+                return level3AbilityUses;
+            case 4:
+                return level4AbilityUses;
+            case 5:
+                return level5AbilityUses;
+        }
+        return 0;
     }
 
     public List<HackerModChip> GetAttachedChips()
@@ -377,5 +390,24 @@ public class HackerMod : Item
     public int GetLevel5AbilityUses()
     {
         return level5AbilityUses;
+    }
+
+    public string GetCurrentLevelAbilityDescription()
+    {
+        switch (itemLevel)
+        {
+            case 1:
+                return levelOneItemAbilityDescription;
+            case 2:
+                return levelTwoItemAbilityDescription;
+            case 3:
+                return levelThreeItemAbilityDescription;
+            case 4:
+                return levelFourItemAbilityDescription;
+            case 5:
+                return levelFiveItemAbilityDescription;
+            default:
+                return levelOneItemAbilityDescription;
+        }
     }
 }

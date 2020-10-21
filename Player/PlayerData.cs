@@ -29,7 +29,7 @@ public class PlayerData : MonoBehaviour
     private void SetupNewGame()
     {
         playerLevel = 0;
-        currentCredits = 0;
+        currentCredits = 100000;
 
         ownedRunners = new List<CharacterData>();
         ownedHackers = new List<HackerData>();
@@ -75,12 +75,10 @@ public class PlayerData : MonoBehaviour
 
         HackerMod anotherRig = ScriptableObject.CreateInstance<HackerMod>();
         anotherRig.SetupMod("Basic Rig");
-        anotherRig.SetItemLevel(3);
         ownedItems.Add(anotherRig);
 
         HackerMod aThirdRig = ScriptableObject.CreateInstance<HackerMod>();
         aThirdRig.SetupMod("Basic Rig");
-        aThirdRig.SetItemLevel(5);
         ownedItems.Add(aThirdRig);
 
         // Create 5 software chips to futz around with on equip window
@@ -155,6 +153,17 @@ public class PlayerData : MonoBehaviour
     public void CreditsGain(int amount)
     {
         currentCredits += amount;
+    }
+
+    public void CreditsSpend(int amount)
+    {
+        if (currentCredits - amount > 0)
+        {
+            currentCredits -= amount;
+        } else
+        {
+            currentCredits = 0;
+        }
     }
 
     public void CreditsLose(int amount)

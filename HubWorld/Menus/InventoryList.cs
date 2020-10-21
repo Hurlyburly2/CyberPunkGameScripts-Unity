@@ -8,6 +8,7 @@ public class InventoryList : MonoBehaviour
 {
     [SerializeField] ItemDetailsMenu itemDetailsMenu;
     [SerializeField] LoadoutEquipmentMenu loadoutEquipmentMenu;
+    [SerializeField] ShopMenu shopMenu;
 
     [SerializeField] TextMeshProUGUI listHeaderOne;
     [SerializeField] TextMeshProUGUI listHeaderTwo;
@@ -113,6 +114,9 @@ public class InventoryList : MonoBehaviour
             case ItemDetailsMenu.ItemDetailMenuContextType.Loadout:
                 loadoutEquipmentMenu.HandleSelectedItem(selectedItem.GetItem(), selectedItem.GetIsHighlighted());
                 break;
+            case ItemDetailsMenu.ItemDetailMenuContextType.Shop:
+                shopMenu.HandleSelectItem(selectedItem.GetItem(), selectedItem.GetIsHighlighted());
+                break;
         }
     }
 
@@ -145,7 +149,7 @@ public class InventoryList : MonoBehaviour
         listHeaderThree.text = headers[2].ToString();
     }
 
-    private Item GetSelectedItem()
+    public Item GetSelectedItem()
     {
         foreach (InventoryListItem listItem in itemsInList)
         {
@@ -164,6 +168,24 @@ public class InventoryList : MonoBehaviour
             if (listItem.GetItem().GetInstanceID() == itemToSelect.GetInstanceID())
             {
                 listItem.SelectListItem();
+            }
+        }
+    }
+
+    public void UpdateListedItem(Item itemToUpdate)
+    {
+        foreach (InventoryListItem listItem in itemsInList)
+        {
+            if (listItem.GetItem() == itemToUpdate)
+            {
+                listItem.SetText(itemToUpdate, context);
+                switch (context)
+                {
+                    case ItemDetailsMenu.ItemDetailMenuContextType.Shop:
+                        shopMenu.HandleSelectItem(listItem.GetItem(), listItem.GetIsHighlighted());
+                        break;
+                }
+                break;
             }
         }
     }

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class UpgradesMenu : MonoBehaviour
 {
+    [SerializeField] ShopMenu shopMenu;
+    [SerializeField] ItemDetailsMenu itemDetailsMenu;
     ItemDetailsMenu.ItemDetailMenuContextType context;
     Item item;
 
@@ -26,6 +28,7 @@ public class UpgradesMenu : MonoBehaviour
     [SerializeField] UpgradeMenuActiveAbilityHolder activeAbilityHolder3;
     [SerializeField] UpgradeMenuActiveAbilityHolder activeAbilityHolder4;
     [SerializeField] UpgradeMenuActiveAbilityHolder activeAbilityHolder5;
+    [SerializeField] List<UpgradesMenuUpgradeBtn> hackerModUpgradeButtons;
     // Hacker Install
     [SerializeField] GameObject hackerInstallContext;
     [SerializeField] CardCaroselMultiple hackerInstallCardCarosel;
@@ -38,6 +41,7 @@ public class UpgradesMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI hackerPassiveAbilityText;
     [SerializeField] GameObject hackerModShopContext;
     [SerializeField] GameObject hackerInstallShopContext;
+    [SerializeField] List<UpgradesMenuUpgradeBtn> hackerInstallUpgradeButtons;
 
     // Runner
     [SerializeField] GameObject runnerContext;
@@ -54,6 +58,7 @@ public class UpgradesMenu : MonoBehaviour
     [SerializeField] Image runnerLevel4MarkerSelected;
     [SerializeField] GameObject runnerLevel5Marker;
     [SerializeField] Image runnerLevel5MarkerSelected;
+    [SerializeField] List<UpgradesMenuUpgradeBtn> runnerUpgradeButtons;
 
     public void SetupUpgradesMenu(ItemDetailsMenu.ItemDetailMenuContextType newContext, Item newItem)
     {
@@ -87,11 +92,28 @@ public class UpgradesMenu : MonoBehaviour
             case ItemDetailsMenu.ItemDetailMenuContextType.Shop:
                 runnerUpgradeContext.SetActive(true);
                 runnerShopInventoryContext.SetActive(false);
+                SetupUpgradeButtons(runnerUpgradeButtons);
                 break;
         }
         SetupGeneralInfo();
         SetupLevelMarkers();
         SetupCardCarosels();
+    }
+
+    private void SetupUpgradeButtons(List<UpgradesMenuUpgradeBtn> currentUpgradeButtons)
+    {
+        for (int i = 0; i < currentUpgradeButtons.Count; i++)
+        {
+            if (item.GetCurrentItemLevel() < i + 2)
+            {
+                currentUpgradeButtons[i].gameObject.SetActive(true);
+                int price = shopMenu.GetTotalUpgradePrice(item.GetCurrentItemLevel(), item.GetItemMaxLevel(), i+2);
+                currentUpgradeButtons[i].SetupButton(price, i + 2);
+            } else
+            {
+                currentUpgradeButtons[i].gameObject.SetActive(false);
+            }
+        }
     }
 
     private void SetupCardCarosels()
@@ -238,6 +260,7 @@ public class UpgradesMenu : MonoBehaviour
                     break;
                 case ItemDetailsMenu.ItemDetailMenuContextType.Shop:
                     hackerModShopContext.SetActive(true);
+                    SetupUpgradeButtons(hackerModUpgradeButtons);
                     break;
             }
             switch (item.GetItemType())
@@ -273,6 +296,7 @@ public class UpgradesMenu : MonoBehaviour
                     break;
                 case ItemDetailsMenu.ItemDetailMenuContextType.Shop:
                     hackerInstallShopContext.SetActive(true);
+                    SetupUpgradeButtons(hackerInstallUpgradeButtons);
                     break;
             }
             // Is an install
@@ -370,6 +394,22 @@ public class UpgradesMenu : MonoBehaviour
     private void SetupGeneralInfo()
     {
         itemLvlField.text = item.GetItemLevel() + "/" + item.GetItemMaxLevel();
+    }
+
+    public void DoUpgrades(int price, int targetLevel)
+    {
+        PlayerData playerData = FindObjectOfType<PlayerData>();
+        if (playerData.GetCreditsAmount() >= price)
+        {
+            playerData.CreditsSpend(price);
+            while (item.GetCurrentItemLevel() < targetLevel)
+                item.UpgradeItem();
+        }
+
+        // Refresh the open menus
+        SetupUpgradesMenu(context, item);
+        itemDetailsMenu.SetupItemDetailMenu(context, item);
+        FindObjectOfType<ShopMenu>().UpdateAfterUpgrade(item);
     }
 
     public void CloseUpgradesMenu()

@@ -167,4 +167,12 @@ public class Item : ScriptableObject
         }
         return false;
     }
+
+    public void UpgradeItem()
+    {
+        if (itemLevel < itemMaxLevel)
+        {
+            itemLevel++;
+        }
+    }
 }
