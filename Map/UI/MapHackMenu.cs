@@ -15,6 +15,7 @@ public class MapHackMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI redPointsText;
     [SerializeField] TextMeshProUGUI bluePointsText;
     [SerializeField] TextMeshProUGUI purplePointsText;
+    [SerializeField] MapPopupMessage mapPopupMessage;
     HackTarget hackTarget;
     MapSquare mapSquare;
 
@@ -62,7 +63,8 @@ public class MapHackMenu : MonoBehaviour
             string color = hackTarget.GetColor(count);
             string description = hackTarget.GetDescription(count);
             int cost = hackTarget.GetCost(count);
-            line.InitializeHackOptionsLine(color, cost, description, hackTarget);
+            string helperText = hackTarget.GetHackHelperText(count);
+            line.InitializeHackOptionsLine(color, cost, description, hackTarget, helperText);
             count++;
         }
     }
@@ -99,5 +101,10 @@ public class MapHackMenu : MonoBehaviour
     public MapSquare GetMapSquare()
     {
         return mapSquare;
+    }
+
+    public MapPopupMessage GetMapPopupMessage()
+    {
+        return mapPopupMessage;
     }
 }

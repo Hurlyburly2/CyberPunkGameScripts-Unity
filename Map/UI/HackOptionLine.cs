@@ -18,9 +18,11 @@ public class HackOptionLine : MonoBehaviour
     int cost;
     string color;
     string description;
+    string popupHelperDescription;
 
-    public void InitializeHackOptionsLine(string newColor, int newCost, string newDescription, HackTarget newHackTarget)
+    public void InitializeHackOptionsLine(string newColor, int newCost, string newDescription, HackTarget newHackTarget, string newPopupHelperDescription)
     {
+        popupHelperDescription = newPopupHelperDescription;
         hackTarget = newHackTarget;
         color = newColor;
         cost = newCost;
@@ -54,5 +56,18 @@ public class HackOptionLine : MonoBehaviour
         hackTarget.UseAbility(currentMapSquare, description, color, cost);
         mapHackMenu.SetPointsTextFields();
         mapHackMenu.CheckHackCosts();
+    }
+
+    public void OpenMapPopupMessage()
+    {
+        MapPopupMessage mapPopupMessage = mapHackMenu.GetMapPopupMessage();
+        mapPopupMessage.gameObject.SetActive(true);
+        mapPopupMessage.OpenWindow(popupHelperDescription);
+    }
+
+    public void CloseMapPopupMessage()
+    {
+        MapPopupMessage mapPopupMessage = mapHackMenu.GetMapPopupMessage();
+        mapPopupMessage.gameObject.SetActive(false);
     }
 }
