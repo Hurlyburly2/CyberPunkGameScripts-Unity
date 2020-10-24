@@ -317,7 +317,7 @@ public class HackerMod : Item
 
         if (cardsToPickFrom.Count > 0)
         {
-            FindObjectOfType<CheckClickController>().SetTilePickerState();
+            FindObjectOfType<CheckClickController>().SetOverlayState();
             HackTilePicker hackTilePicker = FindObjectOfType<HackHolder>().GetHackTilePicker();
             hackTilePicker.gameObject.SetActive(true);
             hackTilePicker.Initialize(cardsToPickFrom, pickHowMany, "pickAndDiscard");

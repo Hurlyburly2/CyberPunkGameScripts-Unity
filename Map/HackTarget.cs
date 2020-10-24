@@ -160,6 +160,26 @@ public class HackTarget : ScriptableObject
         return "";
     }
 
+    public string GetHackHelperText(int count)
+    {
+        switch (hackType)
+        {
+            case "Security Camera":
+                return securityCameraHelperText[count];
+            case "Combat Server":
+                return combatServerHelperText[count];
+            case "Database":
+                return databaseHelperText[count];
+            case "Defense System":
+                return defenseSystemsHelperText[count];
+            case "Transportation":
+                return transportationHelperText[count];
+            case "Medical Server":
+                return medicalServerHelperText[count];
+        }
+        return "";
+    }
+
     public int GetCost(int count)
     {
         switch (hackType)
@@ -190,6 +210,16 @@ public class HackTarget : ScriptableObject
         "Despawn a Weak Enemy",
         "Despawn a Medium Enemy"
     };
+    string[] securityCameraHelperText =
+    {
+        "Scout the presence of hack targets and points of interest in adjacent squares",
+        "Lower the security level",
+        "Fully reveal the hack targets and points of interest in adjacent squares",
+        "Scout the presence of enemies in adjacent squares",
+        "Fully reveal enemies in adjacent squares",
+        "Despawn a weak enemy from a random square",
+        "Despawn an enemy of average strength from a random square"
+    };
     string[] securityCameraColors = { blue, blue, blue, red, red, purple, purple };
     int[] securityCameraCosts = { 5, 10, 15, 10, 20, 15, 25 };
 
@@ -200,8 +230,18 @@ public class HackTarget : ScriptableObject
         "Enhance Targetting",
         "Overclock Systems",
         "Harden Armor",
-        "Install Mod Intereference",
+        "Install Mod Interference",
         "Sabotage Enemy Tech"
+    };
+    string[] combatServerHelperText =
+    {
+        "Gain Dodge chance when in combat on any adjacent square",
+        "Enemies on adjacent squares are more vulnerable to combat damage",
+        "Gain Crit Chance when in combat on any adjacent square",
+        "Increase your hand size when in combat on any adjacent square",
+        "Take less damage when in combat on any adjacent square",
+        "Enemies on adjacent squares have a reduced hand size",
+        "Cards played by enemies on adjacent squares have a chance to fizzle, having no effect"
     };
     string[] combatServerColors = { blue, blue, red, red, red, purple, purple };
     int[] combatServerCosts = { 10, 20, 8, 12, 18, 10, 20 };
@@ -214,6 +254,16 @@ public class HackTarget : ScriptableObject
         "Upload and Sell Personal Data",
         "Download Buyer List",
         "Download VIP Buyer List"
+    };
+    string[] databaseHelperText =
+    {
+        "Reduce Security Level",
+        "Gain extra credits upon Job completion",
+        "Gain 5% increased credits to your base contract reward and to credits earned during this Job",
+        "Gain credits, but also raise the security level",
+        "Gain extra credits upon Job completion",
+        "Increase your base contract reward by 15% upon Job completion",
+        "Increase your base contract reward by 25% upon Job completion"
     };
     string[] databaseColors = { blue, blue, blue, red, red, purple, purple };
     int[] databaseCosts = { 10, 10, 20, 5, 15, 10, 15 };
@@ -228,6 +278,16 @@ public class HackTarget : ScriptableObject
         "Infect Weapon Systems",
         "Despawn a Strong Enemy"
     };
+    string[] defenseSystemsHelperText =
+    {
+        "Disable a random trap somewhere on the map",
+        "Lower the security level",
+        "Cards played by enemies on adjacent squares have a chance to fizzle, having no effect",
+        "Deal damage to enemies in adjacent squares",
+        "During combat on adjacent squares, enemies will take a small amount of damage every turn",
+        "Enemies on adjacent squares deal less damage in combat",
+        "Despawn a strong enemy from somewhere on the map"
+    };
     string[] defenseSystemColors = { blue, blue, blue, red, red, purple, purple };
     int[] defenseSystemCosts = { 20, 10, 15, 10, 20, 10, 20 };
 
@@ -241,6 +301,16 @@ public class HackTarget : ScriptableObject
         "Hinder Enemy Movement",
         "Stop Enemy Movement"
     };
+    string[] transportationHelperText =
+    {
+        "Moving to adjacent squares will not raise the security level",
+        "The next time you move onto a square with an enemy, avoid combat",
+        "Open the metro station on this square. Metro stations allow you to move to other open metro stations.",
+        "Open a random metro station on another square. Metro stations allow you to move to other open metro stations.",
+        "Open all metro stations on the map. Metro stations allow you to move to other open metro stations.",
+        "Enemies have a reduced chance to spawn",
+        "The next time an enemy would spawn, block that spawn"
+    };
     string[] transportationColors = { blue, blue, red, red, red, purple, purple };
     int[] transportationCosts = { 10, 20, 5, 15, 30, 10, 20 };
 
@@ -252,6 +322,16 @@ public class HackTarget : ScriptableObject
         "Energy Infusion",
         "Heal and Gain Energy",
         "Injest Stimulants"
+    };
+    string[] medicalServerHelperText =
+    {
+        "Regenerate a small amount of health and energy when you move. Limited duration.",
+        "During combat on adjacent squares, enemies will take a small amount of damage every turn",
+        "Gain extra credits upon Job completion",
+        "Gain a moderate amount of health",
+        "Gain a moderate amount of energy",
+        "Gain a moderate amount of health and energy",
+        "Buff your Dodge, Hand Size, and Critical Chance when in combat on adjacent squares."
     };
     string[] medicalServerColors = { blue, blue, blue, red, red, purple, purple };
     int[] medicalServerCosts = { 10, 10, 10, 15, 15, 15, 15 };

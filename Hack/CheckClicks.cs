@@ -25,7 +25,7 @@ public class CheckClicks : MonoBehaviour
 
     void Update()
     {
-        if (checkClickController.GetState() != "tilePicker")
+        if (checkClickController.GetState() != "overlay")
         {
             switch (clickItemName)
             {

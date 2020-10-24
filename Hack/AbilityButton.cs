@@ -82,4 +82,24 @@ public class AbilityButton : MonoBehaviour
             SetCurrentUseIcons();
         }
     }
+
+    public void MouseDown()
+    {
+        Debug.Log("mouse down");
+    }
+
+    public void MouseUp()
+    {
+        Debug.Log("mouse up");
+    }
+
+    public HackerMod GetHackerMod()
+    {
+        return hackerMod;
+    }
+
+    public int GetRemainingUses()
+    {
+        return currentAbilityUses;
+    }
 }

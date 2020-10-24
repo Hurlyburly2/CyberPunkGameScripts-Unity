@@ -26,7 +26,7 @@ public class PanZoom : MonoBehaviour
 
     private void Update()
     {
-        if (checkClickController.GetState() != "draggingDeck" && checkClickController.GetState() != "tilePicker")
+        if (checkClickController.GetState() != "draggingDeck" && checkClickController.GetState() != "overlay")
         {
             if (Input.GetMouseButtonDown(0))
             {
