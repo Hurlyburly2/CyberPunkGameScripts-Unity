@@ -13,8 +13,22 @@ public class HackAbilityHelpMenu : MonoBehaviour
         gameObject.SetActive(true);
         FindObjectOfType<CheckClickController>().SetOverlayState();
         AbilityButton[] abilityButtons = FindObjectsOfType<AbilityButton>();
-
-        // FILL IN THE REST HERE!!!
+        foreach (AbilityButton abilityButton in abilityButtons)
+        {
+            HackerMod hackerMod = abilityButton.GetHackerMod();
+            switch (hackerMod.GetItemType())
+            {
+                case Item.ItemTypes.NeuralImplant:
+                    neuralImplantAbilityHolder.SetupAbilityHolder(hackerMod, abilityButton);
+                    break;
+                case Item.ItemTypes.Rig:
+                    rigAbilityHolder.SetupAbilityHolder(hackerMod, abilityButton);
+                    break;
+                case Item.ItemTypes.Uplink:
+                    uplinkAbilityHolder.SetupAbilityHolder(hackerMod, abilityButton);
+                    break;
+            }
+        }
     }
 
     public void CloseMenu()

@@ -97,4 +97,9 @@ public class AbilityButton : MonoBehaviour
     {
         return hackerMod;
     }
+
+    public int GetRemainingUses()
+    {
+        return currentAbilityUses;
+    }
 }
