@@ -32,7 +32,7 @@ public class PlayerHand : MonoBehaviour
         battleData = FindObjectOfType<BattleData>();
         deck = FindObjectOfType<Deck>();
         discard = FindObjectOfType<Discard>();
-        character = FindObjectOfType<CharacterData>();
+        character = battleData.GetCharacter();
 
         initialHandSize = character.GetStartingHandSize();
 

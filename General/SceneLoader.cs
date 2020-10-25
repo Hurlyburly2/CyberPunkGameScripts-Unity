@@ -69,8 +69,9 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadMap(Job.JobArea mapType, int mapSize, Job job)
     {
-        currentRunner = TestData.SetTestCharacterOne();
-        currentHacker = TestData.SetTestHackerOne();
+        PlayerData playerData = FindObjectOfType<PlayerData>();
+        currentRunner = playerData.GetCurrentRunner();
+        currentHacker = playerData.GetCurrentHacker();
         currentMap = Instantiate(mapData);
         currentMap.SetMapData(currentRunner, currentHacker, mapType, 10, mapSize, job);
         ChangeMusicTrack(Job.JobArea.Slums);

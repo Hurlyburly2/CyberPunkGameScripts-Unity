@@ -7,6 +7,7 @@ public class Card : MonoBehaviour
 {
     [SerializeField] int cardId;
     [SerializeField] string[] keywords;
+    [SerializeField] int energyCost = 0;
     [SerializeField] CardHelperText[] cardHelperTexts;
     ConfigData configData;
     BattleData battleData;
@@ -715,7 +716,8 @@ public class Card : MonoBehaviour
 
     private void GainExtraDamageModifier(float amount)
     {
-        FindObjectOfType<CharacterData>().SetExtraDamageMultiplier(amount);
+        CharacterData runner = FindObjectOfType<BattleData>().GetCharacter();
+        runner.SetExtraDamageMultiplier(amount);
     }
 
     private void DiscardCardsWithTag(string tagName)
@@ -750,12 +752,14 @@ public class Card : MonoBehaviour
 
     private void GainHealth(int amountToGain)
     {
-        FindObjectOfType<CharacterData>().GainHealth(amountToGain);
+        CharacterData runner = FindObjectOfType<BattleData>().GetCharacter();
+        runner.GainHealth(amountToGain);
     }
 
     private void GainEnergy(int amountToGain)
     {
-        FindObjectOfType<CharacterData>().GainEnergy(amountToGain);
+        CharacterData runner = FindObjectOfType<BattleData>().GetCharacter();
+        runner.GainEnergy(amountToGain);
     }
 
     private void HealDebuff(int amountOfDebuffsToHeal)
@@ -785,7 +789,8 @@ public class Card : MonoBehaviour
 
     private void SelfDamage(int damageAmount)
     {
-        FindObjectOfType<CharacterData>().TakeDamage(damageAmount);
+        CharacterData runner = FindObjectOfType<BattleData>().GetCharacter();
+        runner.TakeDamage(damageAmount);
     }
 
     private void DealDamage(int damageAmount, int critChance = 0)
