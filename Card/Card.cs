@@ -9,6 +9,7 @@ public class Card : MonoBehaviour
     [SerializeField] string[] keywords;
     [SerializeField] int energyCost = 0;
     [SerializeField] CardHelperText[] cardHelperTexts;
+    [SerializeField] GameObject energyCostzone;
     ConfigData configData;
     BattleData battleData;
     PlayerHand playerHand;
@@ -54,6 +55,11 @@ public class Card : MonoBehaviour
         deck = FindObjectOfType<Deck>();
         playerCurrentStatusEffects = configData.GetPlayerStatusEffects();
         enemyCurrentStatusEffects = configData.GetEnemyStatusEffects();
+        if (energyCost > 0)
+        {
+            energyCostzone.SetActive(true);
+            energyCostzone.GetComponentInChildren<TextMeshProUGUI>().text = energyCost.ToString();
+        }
     }
 
     // Update is called once per frame
@@ -103,6 +109,11 @@ public class Card : MonoBehaviour
             {
                 transform.localScale = new Vector3(1, 1, 1);
                 SetState("draw");
+                if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player")
+                {
+                    // Here, we did attempt to play the card but did not have enough energy...
+                    FindObjectOfType<PopupHolder>().SpawnNotEnoughEnergyPopup();
+                }
             }
         }
     }
