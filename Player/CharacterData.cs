@@ -229,6 +229,21 @@ public class CharacterData : ScriptableObject
         energyPipManager.ChangeValue(currentEnergy);
     }
 
+    public void SpendEnergy(int amount)
+    {
+        if (currentEnergy - amount < 0)
+        {
+            currentEnergy = 0;
+        } else
+        {
+            currentEnergy -= amount;
+        }
+
+        SetEnergyText();
+        energyPipManager = configData.GetPlayerEnergyPipManager();
+        energyPipManager.ChangeValue(currentEnergy);
+    }
+
     public void TakeDamage(int amountToTake)
     {
         if (takeExtraDamageMultiplier != 0)

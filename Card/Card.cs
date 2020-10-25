@@ -87,12 +87,15 @@ public class Card : MonoBehaviour
     {
         if (state == "dragging")
         {
+            CharacterData runner = FindObjectOfType<BattleData>().GetCharacter();
             RemoveHelperText();
             rotation = rememberRotation;
             SetSortingOrder(rememberSortingOrder);
             float mouseY = Input.mousePosition.y / Screen.height * configData.GetHalfHeight() * 2;
-            if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player")
+
+            if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player" && energyCost <= runner.GetCurrentEnergy())
             {
+                runner.SpendEnergy(energyCost);
                 SetState("played");
                 playerHand.RemoveCard(GetComponent<Card>());
                 PlayCard();
