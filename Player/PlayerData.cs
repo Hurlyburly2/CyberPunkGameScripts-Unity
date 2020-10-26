@@ -82,12 +82,12 @@ public class PlayerData : MonoBehaviour
         ownedItems.Add(aThirdRig);
 
         // Create 5 software chips to futz around with on equip window
-        for (int i = 0; i < 5; i++)
-        {
-            HackerModChip newSoftware = ScriptableObject.CreateInstance<HackerModChip>();
-            newSoftware.SetupChip("Cheap Ghost");
-            ownedItems.Add(newSoftware);
-        }
+        //for (int i = 0; i < 5; i++)
+        //{
+        //    HackerModChip newSoftware = ScriptableObject.CreateInstance<HackerModChip>();
+        //    newSoftware.SetupChip("Cheap Ghost");
+        //    ownedItems.Add(newSoftware);
+        //}
         GenerateJobOptions();
     }
 

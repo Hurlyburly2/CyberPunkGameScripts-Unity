@@ -12,6 +12,7 @@ public class CardCaroselCard : MonoBehaviour
     [SerializeField] GameObject cardBattleContextHolder;
     [SerializeField] Image cardBattleImage;
     [SerializeField] TextMeshProUGUI cardText;
+    [SerializeField] GameObject energyCost;
 
     // Hack Card Stuff
     [SerializeField] GameObject cardHackContextHolder;
@@ -44,6 +45,14 @@ public class CardCaroselCard : MonoBehaviour
         rightCircuit.sprite = card.GetRightCircuitImage();
         bottomCircuit.sprite = card.GetBottomCircuitImage();
         cardText.text = card.GetCardText();
+        if (card.GetEnergyCost() > 0)
+        {
+            energyCost.SetActive(true);
+            energyCost.GetComponentInChildren<TextMeshProUGUI>().text = card.GetEnergyCost().ToString();
+        } else
+        {
+            energyCost.SetActive(false);
+        }
     }
 
     public void ToggleToHackCard()
