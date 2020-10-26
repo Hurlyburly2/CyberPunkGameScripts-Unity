@@ -936,4 +936,9 @@ public class Card : MonoBehaviour
     {
         return bottomCircuit.sprite;
     }
+
+    public int GetEnergyCost()
+    {
+        return energyCost;
+    }
 }

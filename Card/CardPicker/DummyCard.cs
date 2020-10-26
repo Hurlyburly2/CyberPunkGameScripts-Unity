@@ -10,6 +10,7 @@ public class DummyCard : MonoBehaviour
     [SerializeField] Sprite selectedImageSprite;
     [SerializeField] Sprite emptyImageSprite;
     [SerializeField] TextMeshProUGUI cardText;
+    [SerializeField] GameObject energyCost;
 
     // config
     int id;
@@ -25,6 +26,14 @@ public class DummyCard : MonoBehaviour
         id = card.GetCardId();
         SetupImages(card);
         cardText.text = card.GetCardText();
+        if (card.GetEnergyCost() > 0)
+        {
+            energyCost.SetActive(true);
+            energyCost.GetComponentInChildren<TextMeshProUGUI>().text = card.GetEnergyCost().ToString();
+        } else
+        {
+            energyCost.SetActive(false);
+        }
     }
 
     public void ToggleSelect()
