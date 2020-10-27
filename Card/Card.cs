@@ -7,7 +7,9 @@ public class Card : MonoBehaviour
 {
     [SerializeField] int cardId;
     [SerializeField] string[] keywords;
+    [SerializeField] int energyCost = 0;
     [SerializeField] CardHelperText[] cardHelperTexts;
+    [SerializeField] GameObject energyCostzone;
     ConfigData configData;
     BattleData battleData;
     PlayerHand playerHand;
@@ -53,6 +55,11 @@ public class Card : MonoBehaviour
         deck = FindObjectOfType<Deck>();
         playerCurrentStatusEffects = configData.GetPlayerStatusEffects();
         enemyCurrentStatusEffects = configData.GetEnemyStatusEffects();
+        if (energyCost > 0)
+        {
+            energyCostzone.SetActive(true);
+            energyCostzone.GetComponentInChildren<TextMeshProUGUI>().text = energyCost.ToString();
+        }
     }
 
     // Update is called once per frame
@@ -86,12 +93,15 @@ public class Card : MonoBehaviour
     {
         if (state == "dragging")
         {
+            CharacterData runner = FindObjectOfType<BattleData>().GetCharacter();
             RemoveHelperText();
             rotation = rememberRotation;
             SetSortingOrder(rememberSortingOrder);
             float mouseY = Input.mousePosition.y / Screen.height * configData.GetHalfHeight() * 2;
-            if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player")
+
+            if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player" && energyCost <= runner.GetCurrentEnergy())
             {
+                runner.SpendEnergy(energyCost);
                 SetState("played");
                 playerHand.RemoveCard(GetComponent<Card>());
                 PlayCard();
@@ -99,6 +109,11 @@ public class Card : MonoBehaviour
             {
                 transform.localScale = new Vector3(1, 1, 1);
                 SetState("draw");
+                if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player")
+                {
+                    // Here, we did attempt to play the card but did not have enough energy...
+                    FindObjectOfType<PopupHolder>().SpawnNotEnoughEnergyPopup();
+                }
             }
         }
     }
@@ -715,7 +730,8 @@ public class Card : MonoBehaviour
 
     private void GainExtraDamageModifier(float amount)
     {
-        FindObjectOfType<CharacterData>().SetExtraDamageMultiplier(amount);
+        CharacterData runner = FindObjectOfType<BattleData>().GetCharacter();
+        runner.SetExtraDamageMultiplier(amount);
     }
 
     private void DiscardCardsWithTag(string tagName)
@@ -750,12 +766,14 @@ public class Card : MonoBehaviour
 
     private void GainHealth(int amountToGain)
     {
-        FindObjectOfType<CharacterData>().GainHealth(amountToGain);
+        CharacterData runner = FindObjectOfType<BattleData>().GetCharacter();
+        runner.GainHealth(amountToGain);
     }
 
     private void GainEnergy(int amountToGain)
     {
-        FindObjectOfType<CharacterData>().GainEnergy(amountToGain);
+        CharacterData runner = FindObjectOfType<BattleData>().GetCharacter();
+        runner.GainEnergy(amountToGain);
     }
 
     private void HealDebuff(int amountOfDebuffsToHeal)
@@ -785,7 +803,8 @@ public class Card : MonoBehaviour
 
     private void SelfDamage(int damageAmount)
     {
-        FindObjectOfType<CharacterData>().TakeDamage(damageAmount);
+        CharacterData runner = FindObjectOfType<BattleData>().GetCharacter();
+        runner.TakeDamage(damageAmount);
     }
 
     private void DealDamage(int damageAmount, int critChance = 0)
@@ -916,5 +935,10 @@ public class Card : MonoBehaviour
     public Sprite GetBottomCircuitImage()
     {
         return bottomCircuit.sprite;
+    }
+
+    public int GetEnergyCost()
+    {
+        return energyCost;
     }
 }

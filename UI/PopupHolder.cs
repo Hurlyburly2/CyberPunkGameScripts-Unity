@@ -30,7 +30,14 @@ public class PopupHolder : MonoBehaviour
     {
         whichPopup = "weaknessInHand";
         SpawnPopup("You must play all weaknesses before ending your turn");
-        StartCoroutine(DestroyTemporaryMessageAfterTime());
+        StartCoroutine(DestroyTemporaryMessageAfterTime(4));
+    }
+
+    public void SpawnNotEnoughEnergyPopup()
+    {
+        whichPopup = "notEnoughEnergy";
+        SpawnPopup("Not enough energy");
+        StartCoroutine(DestroyTemporaryMessageAfterTime(1));
     }
 
     private void SpawnPopup(string message)
@@ -51,10 +58,10 @@ public class PopupHolder : MonoBehaviour
         currentPopups = new List<Popup>();
     }
 
-    private IEnumerator DestroyTemporaryMessageAfterTime()
+    private IEnumerator DestroyTemporaryMessageAfterTime(float amountOfTime)
     {
-        yield return new WaitForSeconds(4);
-        if (whichPopup == "weaknessInHand")
+        yield return new WaitForSeconds(amountOfTime);
+        if (whichPopup == "weaknessInHand" || whichPopup == "notEnoughEnergy")
         {
             DestroyAllPopups();
         }

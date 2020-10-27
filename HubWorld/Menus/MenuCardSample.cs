@@ -17,6 +17,7 @@ public class MenuCardSample : MonoBehaviour
     [SerializeField] Image rightCircuit;
     [SerializeField] Image bottomCircuit;
     [SerializeField] TextMeshProUGUI cardText;
+    [SerializeField] GameObject energyCost;
 
     // Hacker Card Stuff
     [SerializeField] GameObject hackerCard;
@@ -44,6 +45,15 @@ public class MenuCardSample : MonoBehaviour
         rightCircuit.sprite = card.GetRightCircuitImage();
         bottomCircuit.sprite = card.GetBottomCircuitImage();
         cardText.text = card.GetCardText();
+
+        if (card.GetEnergyCost() > 0)
+        {
+            energyCost.SetActive(true);
+            energyCost.GetComponentInChildren<TextMeshProUGUI>().text = card.GetEnergyCost().ToString();
+        } else
+        {
+            energyCost.SetActive(false);
+        }
     }
 
     public void SetupCardSample(

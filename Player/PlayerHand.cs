@@ -32,7 +32,7 @@ public class PlayerHand : MonoBehaviour
         battleData = FindObjectOfType<BattleData>();
         deck = FindObjectOfType<Deck>();
         discard = FindObjectOfType<Discard>();
-        character = FindObjectOfType<CharacterData>();
+        character = battleData.GetCharacter();
 
         initialHandSize = character.GetStartingHandSize();
 
@@ -87,7 +87,10 @@ public class PlayerHand : MonoBehaviour
 
     public void DrawToMaxHandSize()
     {
-        int cardTarget = initialHandSize + playerHandBuff - playerHandDebuff + battleData.GetPlayerHandMapBuff();
+        // NEW ADDITION: ADDED CARDSINHAND.COUNT TO THE CARD TARGET, ALLOWING CARDS DRAWN EVERY TURN
+        // AND NOT JUST TO MAX HAND SIZE. THIS IS DUE TO CARDS THAT CAN GET STUCK IN HAND DUE TO ENERGY
+
+        int cardTarget = initialHandSize + cardsInHand.Count + playerHandBuff - playerHandDebuff + battleData.GetPlayerHandMapBuff();
         if (CheckPercentageChance(battleData.GetExtraCardDrawFromMapChance()))
         {
             cardTarget++;

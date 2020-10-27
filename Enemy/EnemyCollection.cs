@@ -40,7 +40,7 @@ public class EnemyCollection : MonoBehaviour
             Enemy newEnemy = Resources.Load<Enemy>("Enemies/Enemy" + id.ToString());
             foreach (Job.EnemyType type in jobEnemyTypes)
             {
-                if (newEnemy.GetEnemyTypes().Contains(type) && newEnemy.GetIsBoss() == isBoss)
+                if (newEnemy.GetEnemyTypes().Contains(type) && newEnemy.GetIsBoss() == isBoss && newEnemy.GetStarRating() <= job.GetJobDifficulty())
                 {
                     enemyPossibilities.Add(newEnemy);
                     break;
