@@ -178,9 +178,9 @@ public class Job : ScriptableObject
 
     private int GenerateJobDifficulty(int playerLevel)
     {
-        int maxDifficulty = 0;
-        if (playerLevel > 0)
-            maxDifficulty++;
+        int maxDifficulty = playerLevel + 1;
+        //if (playerLevel > 0)
+        //    maxDifficulty++;
 
         return Random.Range(1, maxDifficulty + 1);
     }
