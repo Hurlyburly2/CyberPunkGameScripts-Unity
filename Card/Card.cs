@@ -384,7 +384,7 @@ public class Card : MonoBehaviour
                 ShuffleCardsIntoEnemyDeck(cardsToAddIds);
                 break;
             case 15: // TOO OBVIOUS
-                int removedTraps = FindObjectOfType<EnemyDeck>().RemoveAllTrapCards();
+                int removedTraps = FindObjectOfType<EnemyDeck>().RemoveAllVirusCards();
                 SelfDamage(removedTraps);
                 break;
             case 16: // QWIKTHINK
@@ -585,7 +585,7 @@ public class Card : MonoBehaviour
                 GainStatus("Dodge", 1);
                 break;
             case 66: // TOO OBVIOUS 2
-                FindObjectOfType<EnemyDeck>().RemoveAllTrapCards();
+                FindObjectOfType<EnemyDeck>().RemoveAllVirusCards();
                 break;
             case 67: // QUIKTHINK 2
                 DrawXCards(1);
