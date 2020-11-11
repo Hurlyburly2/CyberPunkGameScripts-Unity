@@ -10,7 +10,7 @@ public class EnemyCard : MonoBehaviour
     EnemyDeck enemyDeck;
     EnemyDiscard enemyDiscard;
 
-    public enum EnemyCardKeyword { Bio, Tech, Mech, Cyber, Weakness };
+    public enum EnemyCardKeyword { Bio, Tech, Mech, Cyber, Virus };
     [SerializeField] List<EnemyCardKeyword> enemyCardKeywords;
 
     Sprite cardImage;
@@ -337,9 +337,11 @@ public class EnemyCard : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public bool IsTrap()
+    public bool IsVirus()
     {
-        return isTrap;
+        if (enemyCardKeywords.Contains(EnemyCardKeyword.Virus))
+            return true;
+        return false;
     }
 
     public List<EnemyCardKeyword> GetKeywords()

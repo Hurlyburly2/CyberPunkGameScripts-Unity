@@ -86,7 +86,7 @@ public class EnemyDeck : MonoBehaviour
         return cards.Count;
     }
 
-    public int RemoveAllTrapCards()
+    public int RemoveAllVirusCards()
     {
         int trapCardCount = 0;
         bool trapsExist = true;
@@ -95,7 +95,7 @@ public class EnemyDeck : MonoBehaviour
             int cardToRemove = -1;
             for(int i = 0; i < cards.Count; i++)
             {
-                if (cards[i].IsTrap())
+                if (cards[i].IsVirus())
                 {
                     cardToRemove = i;
                     trapCardCount++;
