@@ -339,4 +339,17 @@ public class PlayerHand : MonoBehaviour
     {
         FindObjectOfType<BattleData>().GetCharacter().GainEnergy(1000);
     }
+
+    public void TriggerAcceleration(int accelerateTimes)
+    {
+        foreach (Card card in cardsInHand)
+        {
+            List<string> keywords = new List<string>();
+            keywords.AddRange(card.GetKeywords());
+            if (keywords.Contains("Acceleration"))
+            {
+                card.ReduceEnergyCost(accelerateTimes);
+            }
+        }
+    }
 }

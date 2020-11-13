@@ -881,6 +881,7 @@ public class Card : MonoBehaviour
 
     private void DrawXCards(int amountToDraw)
     {
+        playerHand.TriggerAcceleration(amountToDraw);
         playerHand.DrawXCards(amountToDraw);
     }
 
@@ -901,6 +902,7 @@ public class Card : MonoBehaviour
         {
             return;
         }
+        playerHand.TriggerAcceleration(1);
         playerHand.DrawCard(cardToDraw);
     }
 
@@ -966,5 +968,14 @@ public class Card : MonoBehaviour
     public int GetEnergyCost()
     {
         return energyCost;
+    }
+
+    public void ReduceEnergyCost(int amount)
+    {
+        if (energyCost - amount < 0)
+            energyCost = 0;
+        else
+            energyCost -= amount;
+        energyCostzone.GetComponentInChildren<TextMeshProUGUI>().text = energyCost.ToString();
     }
 }
