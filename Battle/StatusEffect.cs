@@ -9,7 +9,7 @@ public class StatusEffect : MonoBehaviour
 {
     TextMeshProUGUI numberOfStacksTextField;
 
-    public enum StatusType { None, Default, Dodge, Momentum, DamageResist, AutoCrit, Vulnerable };
+    public enum StatusType { None, Default, Dodge, Momentum, DamageResist, AutoCrit, Vulnerable, FizzleChance };
     // PREVIOUSLY: DAMAGE RESIST, CRITUP
     int remainingDuration;
     int stacks;
@@ -64,6 +64,9 @@ public class StatusEffect : MonoBehaviour
                 return "Your next " + stacks + " attacks will be critical hits";
             case StatusType.Vulnerable:
                 return "Take +" + stacks + " damage";
+            case StatusType.FizzleChance:
+                int fizzleChance = GetComponentInParent<StatusEffectHolder>().GetFizzleChance();
+                return fizzleChance + "% Chance for cards to Fizzle, having no effect";
             default:
                 return "THIS AIN'T IT, CHIEF";
         }
@@ -158,6 +161,7 @@ public class StatusEffect : MonoBehaviour
         switch (statusType)
         {
             case StatusType.Vulnerable:
+            case StatusType.FizzleChance:
                 return true;
             default:
                 return false;

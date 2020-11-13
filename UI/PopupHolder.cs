@@ -40,6 +40,13 @@ public class PopupHolder : MonoBehaviour
         StartCoroutine(DestroyTemporaryMessageAfterTime(1));
     }
 
+    public void SpawnFizzledPopup()
+    {
+        whichPopup = "notEnoughEnergy";
+        SpawnPopup("Card Fizzled");
+        StartCoroutine(DestroyTemporaryMessageAfterTime(0.5f));
+    }
+
     private void SpawnPopup(string message)
     {
         DestroyAllPopups();

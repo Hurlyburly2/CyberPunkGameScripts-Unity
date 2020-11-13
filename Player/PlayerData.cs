@@ -67,27 +67,9 @@ public class PlayerData : MonoBehaviour
 
         RunnerMod adaptableCranioPatch = ScriptableObject.CreateInstance<RunnerMod>();
         adaptableCranioPatch.SetupMod("Adaptable CranioPatch");
+        //adaptableCranioPatch.SetItemLevel(2);
         ownedItems.Add(adaptableCranioPatch);
 
-        RunnerMod extraArmMod = ScriptableObject.CreateInstance<RunnerMod>();
-        extraArmMod.SetupMod("Unmodded Arm");
-        ownedItems.Add(extraArmMod);
-
-        HackerMod anotherRig = ScriptableObject.CreateInstance<HackerMod>();
-        anotherRig.SetupMod("Basic Rig");
-        ownedItems.Add(anotherRig);
-
-        HackerMod aThirdRig = ScriptableObject.CreateInstance<HackerMod>();
-        aThirdRig.SetupMod("Basic Rig");
-        ownedItems.Add(aThirdRig);
-
-        // Create 5 software chips to futz around with on equip window
-        //for (int i = 0; i < 5; i++)
-        //{
-        //    HackerModChip newSoftware = ScriptableObject.CreateInstance<HackerModChip>();
-        //    newSoftware.SetupChip("Cheap Ghost");
-        //    ownedItems.Add(newSoftware);
-        //}
         GenerateJobOptions();
     }
 

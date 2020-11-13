@@ -180,18 +180,24 @@ public class RunnerMod : Item
                 itemDescription = "FILL THIS IN FILL THIS IN FILL THIS IN FILL THIS IN FILL THIS IN FILL THIS IN";
                 levelOneCards.Add(73);  // Quick Targetting 1
                 levelOneCards.Add(73);  // Quick Targetting 1
+                levelOneCards.Add(78); // Pinpoint Accuracy 1
+                levelOneCards.Add(83); // Radar Ghost 1
 
                 levelTwoCards.Add(74);  // Quick Targetting 2
                 levelTwoCards.Add(74);  // Quick Targetting 2
+                levelTwoCards.Add(79); // Pinpoint Accuracy 2
 
                 levelThreeCards.Add(75);  // Quick Targetting 3
                 levelThreeCards.Add(75);  // Quick Targetting 3
+                levelThreeCards.Add(80); // Pinpoint Accuracy 3
 
                 levelFourCards.Add(76);  // Quick Targetting 4
                 levelFourCards.Add(76);  // Quick Targetting 4
+                levelFourCards.Add(81); // Pinpoint Accuracy 4
 
                 levelFiveCards.Add(77);  // Quick Targetting 5
                 levelFiveCards.Add(77);  // Quick Targetting 5
+                levelFiveCards.Add(82); // Pinpoint Accuracy 5
                 break;
             default:
                 break;

@@ -60,6 +60,7 @@ public class Card : MonoBehaviour
             energyCostzone.SetActive(true);
             energyCostzone.GetComponentInChildren<TextMeshProUGUI>().text = energyCost.ToString();
         }
+        WhenDrawnActions();
     }
 
     // Update is called once per frame
@@ -120,6 +121,19 @@ public class Card : MonoBehaviour
 
     public void PlayCard()
     {
+        // A card fizzling removes it from your hand... Weaknesses cannot Fizzle
+        List<string> checkKeywords = new List<string>();
+        checkKeywords.AddRange(keywords);
+        if (PercentChance(playerCurrentStatusEffects.GetFizzleChance()) && !checkKeywords.Contains("Weakness"))
+        {
+            FindObjectOfType<PopupHolder>().SpawnFizzledPopup();
+            DiscardCard();
+            playerHand.RemoveFromHand(this);
+            Destroy(gameObject);
+            return;
+        }
+
+        // Card played successfully
         bool furtherAction = PlayCardActions();
         DiscardCard();
         playerHand.RemoveFromHand(this);
@@ -323,7 +337,15 @@ public class Card : MonoBehaviour
         return keywords;
     }
 
-    // PLAY CARD ACTIONS
+    private void WhenDrawnActions()
+    {
+        switch (cardId)
+        {
+            case 83: // Radar Ghost1
+                GainStatus(StatusEffect.StatusType.FizzleChance, 75);
+                break;
+        }
+    }
 
     private bool PlayCardActions()
     {
@@ -632,6 +654,28 @@ public class Card : MonoBehaviour
                 GainStatus(StatusEffect.StatusType.Momentum, 3);
                 DrawXCards(2);
                 break;
+            case 78:
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
+                break;
+            case 79:
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
+                GainStatus(StatusEffect.StatusType.AutoCrit, 1);
+                break;
+            case 80:
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 2);
+                GainStatus(StatusEffect.StatusType.AutoCrit, 1);
+                break;
+            case 81:
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 3);
+                GainStatus(StatusEffect.StatusType.AutoCrit, 1);
+                break;
+            case 82:
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 3);
+                GainStatus(StatusEffect.StatusType.AutoCrit, 2);
+                break;
+            case 83:
+                Debug.Log("Doesn't do anything when played.");
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -723,6 +767,17 @@ public class Card : MonoBehaviour
             case 76:
             case 77:
                 return 20;
+            case 78:
+            case 79:
+            case 80:
+            case 81:
+            case 82:
+                return 21;
+            case 83:
+            case 84:
+            case 85:
+            case 86:
+                return 22;
             default:
                 return cardId;
         }

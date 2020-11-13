@@ -111,6 +111,18 @@ public class StatusEffectHolder : MonoBehaviour
         }
     }
 
+    public int GetFizzleChance()
+    {
+        int fizzleIndex = GetStatusIndex(StatusEffect.StatusType.FizzleChance);
+        if (fizzleIndex == -1)
+        {
+            return 0;
+        } else
+        {
+            return statusEffects[fizzleIndex].GetStacks();
+        }
+    }
+
     public void TickDownStatusEffects(string whoseEffectsToTick)
     {
         foreach(StatusEffect statusEffect in statusEffects)
@@ -196,6 +208,8 @@ public class StatusEffectHolder : MonoBehaviour
                 return images[4];
             case StatusEffect.StatusType.Vulnerable:
                 return images[5];
+            case StatusEffect.StatusType.FizzleChance:
+                return images[6];
             default:
                 // default empty status
                 return images[0];
