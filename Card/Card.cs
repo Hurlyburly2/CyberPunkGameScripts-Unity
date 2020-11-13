@@ -616,9 +616,21 @@ public class Card : MonoBehaviour
                 PowerupStatus("buffs", 3, 1);
                 break;
             case 73: // QUICK TARGETTING 1
-                Debug.Log("This Card Not Finished...");
                 GainStatus(StatusEffect.StatusType.Momentum, 1);
                 DrawXCards(1);
+                break;
+            case 74:
+            case 75:
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
+                DrawXCards(1);
+                break;
+            case 76:
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
+                DrawXCards(2);
+                break;
+            case 77:
+                GainStatus(StatusEffect.StatusType.Momentum, 3);
+                DrawXCards(2);
                 break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
@@ -704,8 +716,12 @@ public class Card : MonoBehaviour
                 return 17;
             case 71:
             case 72:
-                return 18;
+                return 19;
             case 73:
+            case 74:
+            case 75:
+            case 76:
+            case 77:
                 return 20;
             default:
                 return cardId;

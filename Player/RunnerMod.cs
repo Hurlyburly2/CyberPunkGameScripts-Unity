@@ -179,15 +179,19 @@ public class RunnerMod : Item
                 itemType = ItemTypes.Head;
                 itemDescription = "FILL THIS IN FILL THIS IN FILL THIS IN FILL THIS IN FILL THIS IN FILL THIS IN";
                 levelOneCards.Add(73);  // Quick Targetting 1
+                levelOneCards.Add(73);  // Quick Targetting 1
 
-                // TODO: NOT ALL LEVEL ONE
-                levelTwoCards.Add(73);  // Quick Targetting 1
+                levelTwoCards.Add(74);  // Quick Targetting 2
+                levelTwoCards.Add(74);  // Quick Targetting 2
 
-                levelThreeCards.Add(73);  // Quick Targetting 1
+                levelThreeCards.Add(75);  // Quick Targetting 3
+                levelThreeCards.Add(75);  // Quick Targetting 3
 
-                levelFourCards.Add(73);  // Quick Targetting 1
+                levelFourCards.Add(76);  // Quick Targetting 4
+                levelFourCards.Add(76);  // Quick Targetting 4
 
-                levelFiveCards.Add(73);  // Quick Targetting 1
+                levelFiveCards.Add(77);  // Quick Targetting 5
+                levelFiveCards.Add(77);  // Quick Targetting 5
                 break;
             default:
                 break;
