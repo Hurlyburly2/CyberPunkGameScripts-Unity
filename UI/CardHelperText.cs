@@ -46,6 +46,8 @@ public class CardHelperText : MonoBehaviour
                 return "For each stack of Vulnerable, take +1 damage.";
             case "Weakness":
                 return "Weaknesses cannot remain in your hand at the end of your turn and must be played.";
+            case "Acceleration":
+                return "Energy cost -1 for each extra card you draw";
             default:
                 return "";
         }

@@ -334,4 +334,9 @@ public class PlayerHand : MonoBehaviour
     {
         return isDrawing;
     }
+
+    public void RefillEnergy()
+    {
+        FindObjectOfType<BattleData>().GetCharacter().GainEnergy(1000);
+    }
 }

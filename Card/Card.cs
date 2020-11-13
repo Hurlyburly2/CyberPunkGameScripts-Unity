@@ -273,6 +273,9 @@ public class Card : MonoBehaviour
                 case "Weakness":
                     needsDefinition = true;
                     break;
+                case "Acceleration":
+                    needsDefinition = true;
+                    break;
             }
             if (needsDefinition)
             {
@@ -612,6 +615,11 @@ public class Card : MonoBehaviour
             case 72: // CRACKED 3
                 PowerupStatus("buffs", 3, 1);
                 break;
+            case 73: // QUICK TARGETTING 1
+                Debug.Log("This Card Not Finished...");
+                GainStatus(StatusEffect.StatusType.Momentum, 1);
+                DrawXCards(1);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -697,6 +705,8 @@ public class Card : MonoBehaviour
             case 71:
             case 72:
                 return 18;
+            case 73:
+                return 20;
             default:
                 return cardId;
         }

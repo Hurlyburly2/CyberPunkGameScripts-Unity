@@ -65,9 +65,9 @@ public class PlayerData : MonoBehaviour
         lockedHackerTwo.CreateNewHackerByClassId(2);
         ownedHackers.Add(lockedHackerTwo);
 
-        RunnerMod extraHeadMod = ScriptableObject.CreateInstance<RunnerMod>();
-        extraHeadMod.SetupMod("Human Eyes");
-        ownedItems.Add(extraHeadMod);
+        RunnerMod adaptableCranioPatch = ScriptableObject.CreateInstance<RunnerMod>();
+        adaptableCranioPatch.SetupMod("Adaptable CranioPatch");
+        ownedItems.Add(adaptableCranioPatch);
 
         RunnerMod extraArmMod = ScriptableObject.CreateInstance<RunnerMod>();
         extraArmMod.SetupMod("Unmodded Arm");

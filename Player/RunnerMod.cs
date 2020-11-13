@@ -175,6 +175,20 @@ public class RunnerMod : Item
                 levelFiveCards.Add(59);    // Kneecap
                 levelFiveCards.Add(63);    // Bruise 5
                 break;
+            case "Adaptable CranioPatch":
+                itemType = ItemTypes.Head;
+                itemDescription = "FILL THIS IN FILL THIS IN FILL THIS IN FILL THIS IN FILL THIS IN FILL THIS IN";
+                levelOneCards.Add(73);  // Quick Targetting 1
+
+                // TODO: NOT ALL LEVEL ONE
+                levelTwoCards.Add(73);  // Quick Targetting 1
+
+                levelThreeCards.Add(73);  // Quick Targetting 1
+
+                levelFourCards.Add(73);  // Quick Targetting 1
+
+                levelFiveCards.Add(73);  // Quick Targetting 1
+                break;
             default:
                 break;
         }
