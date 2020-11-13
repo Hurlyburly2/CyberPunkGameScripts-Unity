@@ -9,9 +9,11 @@ public class StatusEffect : MonoBehaviour
 {
     TextMeshProUGUI numberOfStacksTextField;
 
+    public enum StatusType { None, Default, Dodge, Momentum, DamageResist, AutoCrit, Vulnerable };
+    // PREVIOUSLY: DAMAGE RESIST, CRITUP
     int remainingDuration;
     int stacks;
-    string statusType = "";
+    StatusType statusType;
     // Options:
         // Dodge: +X% chance dodge for each stack
         // Momentum: +1 damage per stack
@@ -25,7 +27,7 @@ public class StatusEffect : MonoBehaviour
 
     private void Start()
     {
-        statusType = "";
+        statusType = StatusType.None;
         numberOfStacksTextField = GetComponentInChildren<TextMeshProUGUI>();
     }
 
@@ -41,7 +43,7 @@ public class StatusEffect : MonoBehaviour
 
     public void DisplayHelperText()
     {
-        if (statusType != "")
+        if (statusType != StatusType.None)
         {
             FindObjectOfType<PopupHolder>().SpawnStatusPopup(GetMessageText());
         }
@@ -51,16 +53,16 @@ public class StatusEffect : MonoBehaviour
     {
         switch (statusType)
         {
-            case "Dodge":
+            case StatusType.Dodge:
                 int dodgeChance = GetComponentInParent<StatusEffectHolder>().GetDodgeChance();
                 return dodgeChance + "% Chance to Dodge Attacks";
-            case "Momentum":
+            case StatusType.Momentum:
                 return "Deal +" + stacks + " damage";
-            case "Damage Resist":
+            case StatusType.DamageResist:
                 return "Take -" + stacks + " damage";
-            case "CritUp":
+            case StatusType.AutoCrit:
                 return "Your next " + stacks + " attacks will be critical hits";
-            case "Vulnerable":
+            case StatusType.Vulnerable:
                 return "Take +" + stacks + " damage";
             default:
                 return "THIS AIN'T IT, CHIEF";
@@ -69,7 +71,7 @@ public class StatusEffect : MonoBehaviour
 
     public void HideHelperText()
     {
-        if (statusType != "")
+        if (statusType != StatusType.None)
         {
             FindObjectOfType<PopupHolder>().DestroyAllPopups();
         }
@@ -81,7 +83,7 @@ public class StatusEffect : MonoBehaviour
         UpdateStackText();
     }
 
-    public void SetupStatus(string newStatusType, int incomingStacks, int duration, Sprite statusIcon, string newInflictedBy)
+    public void SetupStatus(StatusType newStatusType, int incomingStacks, int duration, Sprite statusIcon, string newInflictedBy)
     {
         statusType = newStatusType;
         stacks = incomingStacks;
@@ -107,7 +109,7 @@ public class StatusEffect : MonoBehaviour
         // RESET IT ALL
         remainingDuration = 0;
         stacks = 0;
-        statusType = "";
+        statusType = StatusType.None;
         inflictedBy = "";
         GetComponentInChildren<Image>().sprite = defaultImage;
         ClearStackText();
@@ -129,7 +131,7 @@ public class StatusEffect : MonoBehaviour
     }
 
 
-    public string GetStatusType()
+    public StatusType GetStatusType()
     {
         return statusType;
     }
@@ -138,13 +140,13 @@ public class StatusEffect : MonoBehaviour
     {
         switch (statusType)
         {
-            case "Dodge":
+            case StatusType.Dodge:
                 return true;
-            case "Momentum":
+            case StatusType.Momentum:
                 return true;
-            case "Damage Resist":
+            case StatusType.DamageResist:
                 return true;
-            case "CritUp":
+            case StatusType.AutoCrit:
                 return true;
             default:
                 return false;
@@ -155,7 +157,7 @@ public class StatusEffect : MonoBehaviour
     {
         switch (statusType)
         {
-            case "Vulnerable":
+            case StatusType.Vulnerable:
                 return true;
             default:
                 return false;
