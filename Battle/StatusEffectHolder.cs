@@ -9,7 +9,7 @@ public class StatusEffectHolder : MonoBehaviour
     [SerializeField] StatusEffect[] statusEffects;
     [SerializeField] Sprite[] images;
 
-    public void InflictStatus(string statusType, int stacks, string inflictedBy, int duration = 0)
+    public void InflictStatus(StatusEffect.StatusType statusType, int stacks, string inflictedBy, int duration = 0)
     {
         int indexOfStatus = GetStatusIndex(statusType);
         if (indexOfStatus == -1)
@@ -43,7 +43,7 @@ public class StatusEffectHolder : MonoBehaviour
 
     public int GetMomentumStacks()
     {
-        int momentumIndex = GetStatusIndex("Momentum");
+        int momentumIndex = GetStatusIndex(StatusEffect.StatusType.Momentum);
         if (momentumIndex == -1)
         {
             return 0;
@@ -55,7 +55,7 @@ public class StatusEffectHolder : MonoBehaviour
 
     public int GetCritUpStacks()
     {
-        int critUpIndex = GetStatusIndex("CritUp");
+        int critUpIndex = GetStatusIndex(StatusEffect.StatusType.AutoCrit);
         if (critUpIndex == -1)
         {
             return 0;
@@ -67,7 +67,7 @@ public class StatusEffectHolder : MonoBehaviour
 
     public int GetVulnerableStacks()
     {
-        int vulnerableIndex = GetStatusIndex("Vulnerable");
+        int vulnerableIndex = GetStatusIndex(StatusEffect.StatusType.Vulnerable);
         if (vulnerableIndex == -1)
         {
             return 0;
@@ -80,7 +80,7 @@ public class StatusEffectHolder : MonoBehaviour
 
     public int GetDamageResistStacks()
     {
-        int damageResistIndex = GetStatusIndex("Damage Resist");
+        int damageResistIndex = GetStatusIndex(StatusEffect.StatusType.DamageResist);
         if (damageResistIndex == -1)
         {
             return 0;
@@ -92,7 +92,7 @@ public class StatusEffectHolder : MonoBehaviour
 
     public int GetDodgeChance()
     {
-        int dodgeIndex = GetStatusIndex("Dodge");
+        int dodgeIndex = GetStatusIndex(StatusEffect.StatusType.Dodge);
         if (dodgeIndex == -1)
         {
             return 0;
@@ -164,10 +164,10 @@ public class StatusEffectHolder : MonoBehaviour
 
     private void DestroyStatus(StatusEffect statusToDestroy)
     {
-        statusToDestroy.DestroyStatus(GetStatusIcon("default"));
+        statusToDestroy.DestroyStatus(GetStatusIcon(StatusEffect.StatusType.Default));
     }
 
-    private void NewStatus(string statusType, int stacks, int duration, string inflictedBy)
+    private void NewStatus(StatusEffect.StatusType statusType, int stacks, int duration, string inflictedBy)
     {
         int statusDuration = 0;
         if (duration == 0)
@@ -182,19 +182,19 @@ public class StatusEffectHolder : MonoBehaviour
         statusEffects[firstAvailableStatusSlot].SetupStatus(statusType, stacks, statusDuration, statusIcon, inflictedBy);
     }
 
-    private Sprite GetStatusIcon(string statusType)
+    private Sprite GetStatusIcon(StatusEffect.StatusType statusType)
     {
         switch(statusType)
         {
-            case "Dodge":
+            case StatusEffect.StatusType.Dodge:
                 return images[1];
-            case "Momentum":
+            case StatusEffect.StatusType.Momentum:
                 return images[2];
-            case "Damage Resist":
+            case StatusEffect.StatusType.DamageResist:
                 return images[3];
-            case "CritUp":
+            case StatusEffect.StatusType.AutoCrit:
                 return images[4];
-            case "Vulnerable":
+            case StatusEffect.StatusType.Vulnerable:
                 return images[5];
             default:
                 // default empty status
@@ -207,7 +207,7 @@ public class StatusEffectHolder : MonoBehaviour
         int currentIndex = 0;
         foreach(StatusEffect statusEffect in statusEffects)
         {
-            if (statusEffect.GetStatusType() == "")
+            if (statusEffect.GetStatusType() == StatusEffect.StatusType.None)
             {
                 return currentIndex;
             }
@@ -216,26 +216,26 @@ public class StatusEffectHolder : MonoBehaviour
         return -1;
     }
 
-    private int GetDefaultStatusDuration(string statusType)
+    private int GetDefaultStatusDuration(StatusEffect.StatusType statusType)
     {
         switch(statusType)
         {
-            case "Dodge":
+            case StatusEffect.StatusType.Dodge:
                 return 1;
-            case "Momentum":
+            case StatusEffect.StatusType.Momentum:
                 return 1;
-            case "Damage Resist":
+            case StatusEffect.StatusType.DamageResist:
                 return 1;
-            case "CritUp":
+            case StatusEffect.StatusType.AutoCrit:
                 return 100;
-            case "Vulnerable":
+            case StatusEffect.StatusType.Vulnerable:
                 return 1;
             default:
                 return 1;
         }
     }
 
-    private int GetStatusIndex(string statusToCheckFor)
+    private int GetStatusIndex(StatusEffect.StatusType statusToCheckFor)
     {
         // look for and return index of status effect in holder
         // if status effect does not exist, return -1
@@ -276,15 +276,15 @@ public class StatusEffectHolder : MonoBehaviour
 
     private void CopyEffect(StatusEffect previousEffect, StatusEffect currentEffect)
     {
-        if (currentEffect.GetStatusType() == "")
+        if (currentEffect.GetStatusType() == StatusEffect.StatusType.None)
         {
             int remainingDuration = previousEffect.GetRemainingDuration();
             int stacks = previousEffect.GetStacks();
-            string statusType = previousEffect.GetStatusType();
+            StatusEffect.StatusType statusType = previousEffect.GetStatusType();
             string inflictedBy = previousEffect.GetPlayerOrEnemy();
             Sprite statusIcon = GetStatusIcon(statusType);
 
-            previousEffect.DestroyStatus(GetStatusIcon("default"));
+            previousEffect.DestroyStatus(GetStatusIcon(StatusEffect.StatusType.Default));
             currentEffect.SetupStatus(statusType, stacks, remainingDuration, statusIcon, inflictedBy);
         }
     }
@@ -294,10 +294,10 @@ public class StatusEffectHolder : MonoBehaviour
         bool foundEmpty = false;
         foreach(StatusEffect statusEffect in statusEffects)
         {
-            if (statusEffect.GetStatusType() != "" && foundEmpty == true)
+            if (statusEffect.GetStatusType() != StatusEffect.StatusType.None && foundEmpty == true)
             {
                 return false;
-            } else if (statusEffect.GetStatusType() == "")
+            } else if (statusEffect.GetStatusType() == StatusEffect.StatusType.None)
             {
                 foundEmpty = true;
             }

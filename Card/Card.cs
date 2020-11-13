@@ -331,14 +331,14 @@ public class Card : MonoBehaviour
                 Debug.Log("This is a dummy card, it doesn't actually do anything");
                 break;
             case 1: // AWARENESS 1
-                GainStatus("Dodge", 1);
+                GainStatus(StatusEffect.StatusType.Dodge, 1);
                 break;
             case 2: // OBSERVE
                 LoadCardPicker(deck.GetTopXCardsWithoutDraw(3), 1);
                 break;
             case 3: // DEEP BREATH
                 DrawXCards(5);
-                GainStatus("Vulnerable", 1);
+                GainStatus(StatusEffect.StatusType.Vulnerable, 1);
                 SkipEndTurnDiscard(true);
                 EndTurn();
                 break;
@@ -350,7 +350,7 @@ public class Card : MonoBehaviour
                 HealDebuff(1);
                 break;
             case 6: // BRACE
-                GainStatus("Damage Resist", 1, 2);
+                GainStatus(StatusEffect.StatusType.DamageResist, 1, 2);
                 break;
             case 7: // PUNCH
                 DealDamage(2);
@@ -363,7 +363,7 @@ public class Card : MonoBehaviour
                 break;
             case 9: // KICK
                 DealDamage(1);
-                GainStatus("Momentum", 1);
+                GainStatus(StatusEffect.StatusType.Momentum, 1);
                 break;
             case 10: // SPRINT
                 DrawXCards(2);
@@ -376,7 +376,7 @@ public class Card : MonoBehaviour
                 break;
             case 13: // BRUISE
                 DealDamage(1);
-                InflictStatus("Vulnerable", 2);
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 2);
                 break;
             case 14: // HIDDEN TRIGGER
                 List<int> cardsToAddIds = new List<int>();
@@ -403,10 +403,10 @@ public class Card : MonoBehaviour
                 PowerupStatus("buffs", 1, 1);
                 break;
             case 20: // AWARENESS 2
-                GainStatus("Dodge", 2);
+                GainStatus(StatusEffect.StatusType.Dodge, 2);
                 break;
             case 21: // AWARENESS 3
-                GainStatus("Dodge", 3);
+                GainStatus(StatusEffect.StatusType.Dodge, 3);
                 break;
             case 22: // OBSERVE 2
             case 23: // OBSERVE 3
@@ -420,7 +420,7 @@ public class Card : MonoBehaviour
                 break;
             case 26: // DEEP BREATH 2
                 DrawXCards(6);
-                GainStatus("Vulnerable", 1);
+                GainStatus(StatusEffect.StatusType.Vulnerable, 1);
                 SkipEndTurnDiscard(true);
                 EndTurn();
                 break;
@@ -458,15 +458,15 @@ public class Card : MonoBehaviour
                 HealDebuff(1);
                 break;
             case 35: // BRACE 2
-                GainStatus("Damage Resist", 1, 2);
+                GainStatus(StatusEffect.StatusType.DamageResist, 1, 2);
                 DrawXCards(1);
                 break;
             case 36: // BRACE 3
-                GainStatus("Damage Resist", 1, 2);
+                GainStatus(StatusEffect.StatusType.DamageResist, 1, 2);
                 DrawXCards(1);
                 break;
             case 37: // BRACE 4
-                GainStatus("Damage Resist", 2, 2);
+                GainStatus(StatusEffect.StatusType.DamageResist, 2, 2);
                 DrawXCards(1);
                 break;
             case 38: // PUNCH 2
@@ -510,15 +510,15 @@ public class Card : MonoBehaviour
             case 45:
             case 46:
                 DealDamage(2);
-                GainStatus("Momentum", 1);
+                GainStatus(StatusEffect.StatusType.Momentum, 1);
                 break;
             case 47:
                 DealDamage(2);
-                GainStatus("Momentum", 2);
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
                 break;
             case 48:
                 DealDamage(3);
-                GainStatus("Momentum", 2);
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
                 break;
             case 49:
                 DrawXCards(2);
@@ -548,41 +548,41 @@ public class Card : MonoBehaviour
                 break;
             case 57: // KNEECAP 3
                 DealDamage(Random.Range(4, 6));
-                InflictStatus("Vulnerable", 1);
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
                 break;
             case 58: // KNEECAP 4
                 DealDamage(Random.Range(5, 7));
-                InflictStatus("Vulnerable", 1);
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
                 break;
             case 59: // KNEECAP 5
                 DealDamage(Random.Range(5, 9));
-                InflictStatus("Vulnerable", 1);
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
                 break;
             case 60: // BRUISE 2
             case 61: // BRUISE 3
                 DealDamage(2);
-                InflictStatus("Vulnerable", 2);
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 2);
                 break;
             case 62: // BRUISE 4
                 DealDamage(2);
-                InflictStatus("Vulnerable", 3);
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 3);
                 break;
             case 63: // BRUISE 5
                 DealDamage(3);
-                InflictStatus("Vulnerable", 3);
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 3);
                 break;
             case 64: // HIDDEN TRIGGER 2
                 cardsToAddIds = new List<int>();
                 cardsToAddIds.Add(3);
                 ShuffleCardsIntoEnemyDeck(cardsToAddIds);
-                GainStatus("Dodge", 1);
+                GainStatus(StatusEffect.StatusType.Dodge, 1);
                 break;
             case 65: // HIDDEN TRIGGER 3
                 cardsToAddIds = new List<int>();
                 cardsToAddIds.Add(3);
                 cardsToAddIds.Add(3);
                 ShuffleCardsIntoEnemyDeck(cardsToAddIds);
-                GainStatus("Dodge", 1);
+                GainStatus(StatusEffect.StatusType.Dodge, 1);
                 break;
             case 66: // TOO OBVIOUS 2
                 FindObjectOfType<EnemyDeck>().RemoveAllVirusCards();
@@ -781,12 +781,12 @@ public class Card : MonoBehaviour
         playerCurrentStatusEffects.HealDebuffs(amountOfDebuffsToHeal);
     }
 
-    private void GainStatus(string statusType, int stacks)
+    private void GainStatus(StatusEffect.StatusType statusType, int stacks)
     {
         playerCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy);
     }
 
-    private void GainStatus(string statusType, int stacks, int duration)
+    private void GainStatus(StatusEffect.StatusType statusType, int stacks, int duration)
     {
         playerCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy, duration);
     }
@@ -796,7 +796,7 @@ public class Card : MonoBehaviour
         playerCurrentStatusEffects.PowerupStatus(type, buffAmount, durationBuffAmount);
     }
 
-    private void InflictStatus(string statusType, int stacks)
+    private void InflictStatus(StatusEffect.StatusType statusType, int stacks)
     {
         enemyCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy);
     }
@@ -841,7 +841,7 @@ public class Card : MonoBehaviour
         else if (playerCurrentStatusEffects.GetCritUpStacks() > 0)
         {
             criticalHit = true;
-            GainStatus("CritUp", -1);
+            GainStatus(StatusEffect.StatusType.AutoCrit, -1);
         }
 
         // Apply crit

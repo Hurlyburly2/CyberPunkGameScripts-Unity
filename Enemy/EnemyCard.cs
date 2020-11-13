@@ -183,7 +183,7 @@ public class EnemyCard : MonoBehaviour
                     DealDamage(2);
                     break;
                 case 3: // MINOR TRAP
-                    GainStatus("Vulnerable", 1);
+                    GainStatus(StatusEffect.StatusType.Vulnerable, 1);
                     SelfDamage(1);
                     BuffHandSize(1);
                     destroyOnPlay = true;
@@ -209,7 +209,7 @@ public class EnemyCard : MonoBehaviour
                     DealDamage(damage);
                     break;
                 case 9: // Underhanded
-                    InflictStatus("Vulnerable", 1);
+                    InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
                     break;
                 default:
                     Debug.Log("Card not implemented");
@@ -218,10 +218,10 @@ public class EnemyCard : MonoBehaviour
         }
     }
 
-    private void InflictStatus(string whichStatus, int amountOfStacks)
+    private void InflictStatus(StatusEffect.StatusType whichStatus, int amountOfStacks)
     {
         StatusEffectHolder playerStatusEffects = FindObjectOfType<ConfigData>().GetPlayerStatusEffects();
-        playerStatusEffects.InflictStatus(whichStatus, 1, playerOrEnemy);
+        playerStatusEffects.InflictStatus(whichStatus, amountOfStacks, playerOrEnemy);
     }
 
     private int GetIncrementor(int whichIncrementor)
@@ -296,7 +296,7 @@ public class EnemyCard : MonoBehaviour
         else if (enemyCurrentStatusEffects.GetCritUpStacks() > 0)
         {
             criticalHit = true;
-            GainStatus("CritUp", -1);
+            GainStatus(StatusEffect.StatusType.AutoCrit, -1);
         }
 
         // Apply crit
@@ -308,7 +308,7 @@ public class EnemyCard : MonoBehaviour
         return calculatedDamage;
     }
 
-    private void GainStatus(string statusType, int stacks)
+    private void GainStatus(StatusEffect.StatusType statusType, int stacks)
     {
         ConfigData configData = FindObjectOfType<ConfigData>();
         enemyCurrentStatusEffects = configData.GetEnemyStatusEffects();
