@@ -341,8 +341,17 @@ public class Card : MonoBehaviour
     {
         switch (cardId)
         {
-            case 83: // Radar Ghost1
+            case 83: // Radar Ghost 1
                 GainStatus(StatusEffect.StatusType.FizzleChance, 75);
+                break;
+            case 84: // Radar Ghost 2
+                GainStatus(StatusEffect.StatusType.FizzleChance, 50);
+                break;
+            case 85: // Radar Ghost 3
+                GainStatus(StatusEffect.StatusType.FizzleChance, 35);
+                break;
+            case 86: // Radar Ghost 4
+                GainStatus(StatusEffect.StatusType.FizzleChance, 20);
                 break;
         }
     }
@@ -674,6 +683,9 @@ public class Card : MonoBehaviour
                 GainStatus(StatusEffect.StatusType.AutoCrit, 2);
                 break;
             case 83:
+            case 84:
+            case 85:
+            case 86:
                 Debug.Log("Doesn't do anything when played.");
                 break;
             default:
