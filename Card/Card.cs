@@ -733,6 +733,22 @@ public class Card : MonoBehaviour
                 GainEnergy(4);
                 DrawXCards(1);
                 break;
+            case 97:
+                SelfDamage(5);
+                GainHandDebuff(10000);
+                break;
+            case 98:
+                SelfDamage(4);
+                GainHandDebuff(10000);
+                break;
+            case 99:
+                SelfDamage(3);
+                GainHandDebuff(10000);
+                break;
+            case 100:
+                SelfDamage(2);
+                GainHandDebuff(10000);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -847,6 +863,11 @@ public class Card : MonoBehaviour
             case 95:
             case 96:
                 return 24;
+            case 97:
+            case 98:
+            case 99:
+            case 100:
+                return 25;
             default:
                 return cardId;
         }
