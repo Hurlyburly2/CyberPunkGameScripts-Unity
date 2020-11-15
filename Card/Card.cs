@@ -122,17 +122,20 @@ public class Card : MonoBehaviour
     public void PlayCard()
     {
         // A card fizzling removes it from your hand... Weaknesses cannot Fizzle
-        List<string> checkKeywords = new List<string>();
-        checkKeywords.AddRange(keywords);
-        if (PercentChance(playerCurrentStatusEffects.GetFizzleChance()) && !checkKeywords.Contains("Weakness"))
+        if (playerCurrentStatusEffects.GetFizzleChance() > 0)
         {
-            FindObjectOfType<PopupHolder>().SpawnFizzledPopup();
-            DiscardCard();
-            playerHand.RemoveFromHand(this);
-            Destroy(gameObject);
-            return;
+            List<string> checkKeywords = new List<string>();
+            checkKeywords.AddRange(keywords);
+            if (PercentChance(playerCurrentStatusEffects.GetFizzleChance()) && !checkKeywords.Contains("Weakness"))
+            {
+                FindObjectOfType<PopupHolder>().SpawnFizzledPopup();
+                DiscardCard();
+                playerHand.RemoveFromHand(this);
+                Destroy(gameObject);
+                return;
+            }
         }
-
+        
         // Card played successfully
         bool furtherAction = PlayCardActions();
         DiscardCard();
@@ -688,6 +691,11 @@ public class Card : MonoBehaviour
             case 86:
                 Debug.Log("Doesn't do anything when played.");
                 break;
+            case 87:
+                GainEnergy(1);
+                DrawXCards(1);
+                GainStatus(StatusEffect.StatusType.CritChance, 5);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -790,6 +798,12 @@ public class Card : MonoBehaviour
             case 85:
             case 86:
                 return 22;
+            case 87:
+            case 88:
+            case 89:
+            case 90:
+            case 91:
+                return 23;
             default:
                 return cardId;
         }
@@ -915,7 +929,7 @@ public class Card : MonoBehaviour
             damageAmount = 0;
         } else
         {
-            int modifiedCritChance = Mathf.Clamp(critChance + FindObjectOfType<BattleData>().GetPlayerCritMapBuff(), 0, 100);
+            int modifiedCritChance = Mathf.Clamp(critChance + FindObjectOfType<BattleData>().GetPlayerCritMapBuff() + playerCurrentStatusEffects.GetCritChanceStacks(), 0, 100);
             damageAmount = CheckAndApplyCritical(damageAmount, modifiedCritChance);
         }
 

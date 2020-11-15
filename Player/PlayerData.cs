@@ -70,6 +70,10 @@ public class PlayerData : MonoBehaviour
         //adaptableCranioPatch.SetItemLevel(2);
         ownedItems.Add(adaptableCranioPatch);
 
+        RunnerMod adrenalInjector = ScriptableObject.CreateInstance<RunnerMod>();
+        adrenalInjector.SetupMod("Adrenal Injector");
+        ownedItems.Add(adrenalInjector);
+
         GenerateJobOptions();
     }
 

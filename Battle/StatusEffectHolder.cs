@@ -90,6 +90,18 @@ public class StatusEffectHolder : MonoBehaviour
         }
     }
 
+    public int GetCritChanceStacks()
+    {
+        int critChanceIndex = GetStatusIndex(StatusEffect.StatusType.CritChance);
+        if (critChanceIndex == -1)
+        {
+            return 0;
+        } else
+        {
+            return statusEffects[critChanceIndex].GetStacks();
+        }
+    }
+
     public int GetDodgeChance()
     {
         int dodgeIndex = GetStatusIndex(StatusEffect.StatusType.Dodge);
@@ -210,6 +222,8 @@ public class StatusEffectHolder : MonoBehaviour
                 return images[5];
             case StatusEffect.StatusType.FizzleChance:
                 return images[6];
+            case StatusEffect.StatusType.CritChance:
+                return images[7];
             default:
                 // default empty status
                 return images[0];

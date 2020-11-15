@@ -202,6 +202,11 @@ public class RunnerMod : Item
                 levelFiveCards.Add(77);  // Quick Targetting 5
                 levelFiveCards.Add(82); // Pinpoint Accuracy 5
                 break;
+            case "Adrenal Injector":
+                itemType = ItemTypes.Torso;
+                itemDescription = "One of the more experiemental reflex enhancers designed by Vance CryptoTronix. Signing a waiver is required before installation, as cardiac side-effects are not uncommon.";
+                levelOneCards.Add(87); // Stim Injection 1
+                break;
             default:
                 break;
         }
