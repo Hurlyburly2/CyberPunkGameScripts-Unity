@@ -40,7 +40,7 @@ public class Card : MonoBehaviour
         // dragging = mouse down, can move it from hand
         // played = card dragged to play zone (above a certain y axis)
     string state;
-    string playerOrEnemy;
+    string playerOrEnemy = "player";
         // tracks if the player or enemy is using the card, used for status effects
 
     // Start is called before the first frame update

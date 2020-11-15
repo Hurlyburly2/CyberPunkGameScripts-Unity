@@ -258,6 +258,10 @@ public class StatusEffectHolder : MonoBehaviour
                 return 100;
             case StatusEffect.StatusType.Vulnerable:
                 return 1;
+            case StatusEffect.StatusType.FizzleChance:
+                return 1;
+            case StatusEffect.StatusType.CritChance:
+                return 1;
             default:
                 return 1;
         }

@@ -74,6 +74,9 @@ public class PlayerData : MonoBehaviour
         adrenalInjector.SetupMod("Adrenal Injector");
         ownedItems.Add(adrenalInjector);
 
+        currentRunner.GetLoadout().EquipItem(adaptableCranioPatch);
+        currentRunner.GetLoadout().EquipItem(adrenalInjector);
+
         GenerateJobOptions();
     }
 

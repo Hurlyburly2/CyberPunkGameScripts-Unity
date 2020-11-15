@@ -338,6 +338,7 @@ public class PlayerHand : MonoBehaviour
     public void RefillEnergy()
     {
         FindObjectOfType<BattleData>().GetCharacter().GainEnergy(1000);
+        FindObjectOfType<BattleData>().GetCharacter().GainHealth(1000);
     }
 
     public void TriggerAcceleration(int accelerateTimes)
