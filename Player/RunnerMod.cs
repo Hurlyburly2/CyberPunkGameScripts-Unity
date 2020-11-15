@@ -205,7 +205,17 @@ public class RunnerMod : Item
             case "Adrenal Injector":
                 itemType = ItemTypes.Torso;
                 itemDescription = "One of the more experiemental reflex enhancers designed by Vance CryptoTronix. Signing a waiver is required before installation, as cardiac side-effects are not uncommon.";
+
                 levelOneCards.Add(87); // Stim Injection 1
+
+                levelTwoCards.Add(88); // Stim Injection 2
+
+                levelThreeCards.Add(89); // Stim Injection 3
+
+                levelFourCards.Add(90); // Stim Injection 4
+
+                levelFiveCards.Add(91); // Stim Injection 5
+                levelFiveCards.Add(89); // Stim Injection 3
                 break;
             default:
                 break;

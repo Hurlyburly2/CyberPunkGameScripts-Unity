@@ -696,6 +696,26 @@ public class Card : MonoBehaviour
                 DrawXCards(1);
                 GainStatus(StatusEffect.StatusType.CritChance, 5);
                 break;
+            case 88:
+                GainEnergy(2);
+                DrawXCards(1);
+                GainStatus(StatusEffect.StatusType.CritChance, 10);
+                break;
+            case 89:
+                GainEnergy(2);
+                DrawXCards(1);
+                GainStatus(StatusEffect.StatusType.CritChance, 15);
+                break;
+            case 90:
+                GainEnergy(3);
+                DrawXCards(2);
+                GainStatus(StatusEffect.StatusType.CritChance, 20);
+                break;
+            case 91:
+                GainEnergy(3);
+                DrawXCards(2);
+                GainStatus(StatusEffect.StatusType.CritChance, 25);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
