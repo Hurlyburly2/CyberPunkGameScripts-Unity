@@ -207,15 +207,25 @@ public class RunnerMod : Item
                 itemDescription = "One of the more experiemental reflex enhancers designed by Vance CryptoTronix. Signing a waiver is required before installation, as cardiac side-effects are not uncommon.";
 
                 levelOneCards.Add(87); // Stim Injection 1
+                levelOneCards.Add(92); // Raise Heartrate 1
+                levelOneCards.Add(92); // Raise Heartrate 1
 
                 levelTwoCards.Add(88); // Stim Injection 2
+                levelTwoCards.Add(93); // Raise Heartrate 2
+                levelTwoCards.Add(93); // Raise Heartrate 2
 
                 levelThreeCards.Add(89); // Stim Injection 3
+                levelThreeCards.Add(94); // Raise Heartrate 3
+                levelThreeCards.Add(94); // Raise Heartrate 3
 
                 levelFourCards.Add(90); // Stim Injection 4
+                levelFourCards.Add(95); // Raise Heartrate 4
+                levelFourCards.Add(95); // Raise Heartrate 4
 
                 levelFiveCards.Add(91); // Stim Injection 5
                 levelFiveCards.Add(89); // Stim Injection 3
+                levelFiveCards.Add(96); // Raise Heartrate 5
+                levelFiveCards.Add(96); // Raise Heartrate 5
                 break;
             default:
                 break;
