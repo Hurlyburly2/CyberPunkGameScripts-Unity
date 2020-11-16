@@ -243,7 +243,7 @@ public class SceneLoader : MonoBehaviour
         currentHack.SetupHack(2, "default");
     }
 
-    public void LoadMapFromHack(int redPoints, int bluePoints, int purplePoints, MapSquare currentSquare, HackTarget currentHackTarget)
+    public void LoadMapFromHack(int redPoints, int bluePoints, int greenPoints, MapSquare currentSquare, HackTarget currentHackTarget)
     {
         MapGrid mapGrid = FindObjectOfType<HackBattleData>().GetMapGrid();
         SceneManager.LoadScene(mapSceneName);
@@ -254,17 +254,17 @@ public class SceneLoader : MonoBehaviour
         HackBattleData previousHack = FindObjectOfType<HackBattleData>();
         Destroy(previousHack.gameObject);
 
-        StartCoroutine(WaitForMapToLoadFromHack(mapGrid, currentSquare, currentHackTarget, redPoints, bluePoints, purplePoints));
+        StartCoroutine(WaitForMapToLoadFromHack(mapGrid, currentSquare, currentHackTarget, redPoints, bluePoints, greenPoints));
     }
 
-    private IEnumerator WaitForMapToLoadFromHack(MapGrid mapGrid, MapSquare currentSquare, HackTarget currentHackTarget, int redPoints, int bluePoints, int purplePoints)
+    private IEnumerator WaitForMapToLoadFromHack(MapGrid mapGrid, MapSquare currentSquare, HackTarget currentHackTarget, int redPoints, int bluePoints, int greenPoints)
     {
         while (SceneManager.GetActiveScene().name != mapSceneName)
         {
             yield return null;
         }
         mapGrid.gameObject.SetActive(true);
-        currentHackTarget.SetPoints(redPoints, bluePoints, purplePoints);
+        currentHackTarget.SetPoints(redPoints, bluePoints, greenPoints);
         currentMap.SetUpMapFromHack(currentSquare, currentHackTarget);
         CenterCameraOnPlayer();
         DestroyExtraGrids();
