@@ -749,6 +749,10 @@ public class Card : MonoBehaviour
                 SelfDamage(2);
                 GainHandDebuff(10000);
                 break;
+            case 101:
+                HealDebuff(1);
+                // HEAL 1 FOR EVERY FOUR CARDS PLAYED THIS TURN
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -868,6 +872,12 @@ public class Card : MonoBehaviour
             case 99:
             case 100:
                 return 25;
+            case 101:
+            case 102:
+            case 103:
+            case 104:
+            case 105:
+                return 26;
             default:
                 return cardId;
         }
