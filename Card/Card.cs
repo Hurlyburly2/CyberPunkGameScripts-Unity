@@ -40,7 +40,7 @@ public class Card : MonoBehaviour
         // dragging = mouse down, can move it from hand
         // played = card dragged to play zone (above a certain y axis)
     string state;
-    string playerOrEnemy;
+    string playerOrEnemy = "player";
         // tracks if the player or enemy is using the card, used for status effects
 
     // Start is called before the first frame update
@@ -60,6 +60,7 @@ public class Card : MonoBehaviour
             energyCostzone.SetActive(true);
             energyCostzone.GetComponentInChildren<TextMeshProUGUI>().text = energyCost.ToString();
         }
+        WhenDrawnActions();
     }
 
     // Update is called once per frame
@@ -120,6 +121,22 @@ public class Card : MonoBehaviour
 
     public void PlayCard()
     {
+        // A card fizzling removes it from your hand... Weaknesses cannot Fizzle
+        if (playerCurrentStatusEffects.GetFizzleChance() > 0)
+        {
+            List<string> checkKeywords = new List<string>();
+            checkKeywords.AddRange(keywords);
+            if (PercentChance(playerCurrentStatusEffects.GetFizzleChance()) && !checkKeywords.Contains("Weakness"))
+            {
+                FindObjectOfType<PopupHolder>().SpawnFizzledPopup();
+                DiscardCard();
+                playerHand.RemoveFromHand(this);
+                Destroy(gameObject);
+                return;
+            }
+        }
+        
+        // Card played successfully
         bool furtherAction = PlayCardActions();
         DiscardCard();
         playerHand.RemoveFromHand(this);
@@ -273,6 +290,9 @@ public class Card : MonoBehaviour
                 case "Weakness":
                     needsDefinition = true;
                     break;
+                case "Acceleration":
+                    needsDefinition = true;
+                    break;
             }
             if (needsDefinition)
             {
@@ -320,7 +340,24 @@ public class Card : MonoBehaviour
         return keywords;
     }
 
-    // PLAY CARD ACTIONS
+    private void WhenDrawnActions()
+    {
+        switch (cardId)
+        {
+            case 83: // Radar Ghost 1
+                GainStatus(StatusEffect.StatusType.FizzleChance, 75);
+                break;
+            case 84: // Radar Ghost 2
+                GainStatus(StatusEffect.StatusType.FizzleChance, 50);
+                break;
+            case 85: // Radar Ghost 3
+                GainStatus(StatusEffect.StatusType.FizzleChance, 35);
+                break;
+            case 86: // Radar Ghost 4
+                GainStatus(StatusEffect.StatusType.FizzleChance, 20);
+                break;
+        }
+    }
 
     private bool PlayCardActions()
     {
@@ -612,6 +649,106 @@ public class Card : MonoBehaviour
             case 72: // CRACKED 3
                 PowerupStatus("buffs", 3, 1);
                 break;
+            case 73: // QUICK TARGETTING 1
+                GainStatus(StatusEffect.StatusType.Momentum, 1);
+                DrawXCards(1);
+                break;
+            case 74:
+            case 75:
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
+                DrawXCards(1);
+                break;
+            case 76:
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
+                DrawXCards(2);
+                break;
+            case 77:
+                GainStatus(StatusEffect.StatusType.Momentum, 3);
+                DrawXCards(2);
+                break;
+            case 78:
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
+                break;
+            case 79:
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
+                GainStatus(StatusEffect.StatusType.AutoCrit, 1);
+                break;
+            case 80:
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 2);
+                GainStatus(StatusEffect.StatusType.AutoCrit, 1);
+                break;
+            case 81:
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 3);
+                GainStatus(StatusEffect.StatusType.AutoCrit, 1);
+                break;
+            case 82:
+                InflictStatus(StatusEffect.StatusType.Vulnerable, 3);
+                GainStatus(StatusEffect.StatusType.AutoCrit, 2);
+                break;
+            case 83:
+            case 84:
+            case 85:
+            case 86:
+                Debug.Log("Doesn't do anything when played.");
+                break;
+            case 87:
+                GainEnergy(1);
+                DrawXCards(1);
+                GainStatus(StatusEffect.StatusType.CritChance, 5);
+                break;
+            case 88:
+                GainEnergy(2);
+                DrawXCards(1);
+                GainStatus(StatusEffect.StatusType.CritChance, 10);
+                break;
+            case 89:
+                GainEnergy(2);
+                DrawXCards(1);
+                GainStatus(StatusEffect.StatusType.CritChance, 15);
+                break;
+            case 90:
+                GainEnergy(3);
+                DrawXCards(2);
+                GainStatus(StatusEffect.StatusType.CritChance, 20);
+                break;
+            case 91:
+                GainEnergy(3);
+                DrawXCards(2);
+                GainStatus(StatusEffect.StatusType.CritChance, 25);
+                break;
+            case 92:
+                GainEnergy(1);
+                DrawXCards(1);
+                break;
+            case 93:
+                GainEnergy(2);
+                DrawXCards(1);
+                break;
+            case 94:
+            case 95:
+                GainEnergy(3);
+                DrawXCards(1);
+                break;
+            case 96:
+                GainEnergy(4);
+                DrawXCards(1);
+                break;
+            case 97:
+                SelfDamage(5);
+                GainHandDebuff(10000);
+                break;
+            case 98:
+                SelfDamage(4);
+                GainHandDebuff(10000);
+                break;
+            case 99:
+                SelfDamage(3);
+                GainHandDebuff(10000);
+                break;
+            case 100:
+                SelfDamage(2);
+                GainHandDebuff(10000);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -696,7 +833,41 @@ public class Card : MonoBehaviour
                 return 17;
             case 71:
             case 72:
-                return 18;
+                return 19;
+            case 73:
+            case 74:
+            case 75:
+            case 76:
+            case 77:
+                return 20;
+            case 78:
+            case 79:
+            case 80:
+            case 81:
+            case 82:
+                return 21;
+            case 83:
+            case 84:
+            case 85:
+            case 86:
+                return 22;
+            case 87:
+            case 88:
+            case 89:
+            case 90:
+            case 91:
+                return 23;
+            case 92:
+            case 93:
+            case 94:
+            case 95:
+            case 96:
+                return 24;
+            case 97:
+            case 98:
+            case 99:
+            case 100:
+                return 25;
             default:
                 return cardId;
         }
@@ -822,7 +993,7 @@ public class Card : MonoBehaviour
             damageAmount = 0;
         } else
         {
-            int modifiedCritChance = Mathf.Clamp(critChance + FindObjectOfType<BattleData>().GetPlayerCritMapBuff(), 0, 100);
+            int modifiedCritChance = Mathf.Clamp(critChance + FindObjectOfType<BattleData>().GetPlayerCritMapBuff() + playerCurrentStatusEffects.GetCritChanceStacks(), 0, 100);
             damageAmount = CheckAndApplyCritical(damageAmount, modifiedCritChance);
         }
 
@@ -855,6 +1026,7 @@ public class Card : MonoBehaviour
 
     private void DrawXCards(int amountToDraw)
     {
+        playerHand.TriggerAcceleration(amountToDraw);
         playerHand.DrawXCards(amountToDraw);
     }
 
@@ -875,6 +1047,7 @@ public class Card : MonoBehaviour
         {
             return;
         }
+        playerHand.TriggerAcceleration(1);
         playerHand.DrawCard(cardToDraw);
     }
 
@@ -940,5 +1113,14 @@ public class Card : MonoBehaviour
     public int GetEnergyCost()
     {
         return energyCost;
+    }
+
+    public void ReduceEnergyCost(int amount)
+    {
+        if (energyCost - amount < 0)
+            energyCost = 0;
+        else
+            energyCost -= amount;
+        energyCostzone.GetComponentInChildren<TextMeshProUGUI>().text = energyCost.ToString();
     }
 }

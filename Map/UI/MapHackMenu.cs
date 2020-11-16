@@ -14,7 +14,7 @@ public class MapHackMenu : MonoBehaviour
     [SerializeField] GameObject pointsZone;
     [SerializeField] TextMeshProUGUI redPointsText;
     [SerializeField] TextMeshProUGUI bluePointsText;
-    [SerializeField] TextMeshProUGUI purplePointsText;
+    [SerializeField] TextMeshProUGUI greenPointsText;
     [SerializeField] MapPopupMessage mapPopupMessage;
     HackTarget hackTarget;
     MapSquare mapSquare;
@@ -52,7 +52,7 @@ public class MapHackMenu : MonoBehaviour
     {
         redPointsText.text = hackTarget.GetRedPoints().ToString();
         bluePointsText.text = hackTarget.GetBluePoints().ToString();
-        purplePointsText.text = hackTarget.GetPurplePoints().ToString();
+        greenPointsText.text = hackTarget.GetGreenPoints().ToString();
     }
 
     private void SetupHackOptionsLines()

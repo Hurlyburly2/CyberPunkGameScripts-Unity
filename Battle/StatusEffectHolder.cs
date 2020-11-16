@@ -90,6 +90,18 @@ public class StatusEffectHolder : MonoBehaviour
         }
     }
 
+    public int GetCritChanceStacks()
+    {
+        int critChanceIndex = GetStatusIndex(StatusEffect.StatusType.CritChance);
+        if (critChanceIndex == -1)
+        {
+            return 0;
+        } else
+        {
+            return statusEffects[critChanceIndex].GetStacks();
+        }
+    }
+
     public int GetDodgeChance()
     {
         int dodgeIndex = GetStatusIndex(StatusEffect.StatusType.Dodge);
@@ -108,6 +120,18 @@ public class StatusEffectHolder : MonoBehaviour
                 modifier /= 2;
             }
             return dodgeChance;
+        }
+    }
+
+    public int GetFizzleChance()
+    {
+        int fizzleIndex = GetStatusIndex(StatusEffect.StatusType.FizzleChance);
+        if (fizzleIndex == -1)
+        {
+            return 0;
+        } else
+        {
+            return statusEffects[fizzleIndex].GetStacks();
         }
     }
 
@@ -196,6 +220,10 @@ public class StatusEffectHolder : MonoBehaviour
                 return images[4];
             case StatusEffect.StatusType.Vulnerable:
                 return images[5];
+            case StatusEffect.StatusType.FizzleChance:
+                return images[6];
+            case StatusEffect.StatusType.CritChance:
+                return images[7];
             default:
                 // default empty status
                 return images[0];
@@ -229,6 +257,10 @@ public class StatusEffectHolder : MonoBehaviour
             case StatusEffect.StatusType.AutoCrit:
                 return 100;
             case StatusEffect.StatusType.Vulnerable:
+                return 1;
+            case StatusEffect.StatusType.FizzleChance:
+                return 1;
+            case StatusEffect.StatusType.CritChance:
                 return 1;
             default:
                 return 1;

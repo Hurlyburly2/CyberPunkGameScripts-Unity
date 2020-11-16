@@ -65,29 +65,18 @@ public class PlayerData : MonoBehaviour
         lockedHackerTwo.CreateNewHackerByClassId(2);
         ownedHackers.Add(lockedHackerTwo);
 
-        RunnerMod extraHeadMod = ScriptableObject.CreateInstance<RunnerMod>();
-        extraHeadMod.SetupMod("Human Eyes");
-        ownedItems.Add(extraHeadMod);
+        RunnerMod adaptableCranioPatch = ScriptableObject.CreateInstance<RunnerMod>();
+        adaptableCranioPatch.SetupMod("Adaptable CranioPatch");
+        //adaptableCranioPatch.SetItemLevel(2);
+        ownedItems.Add(adaptableCranioPatch);
 
-        RunnerMod extraArmMod = ScriptableObject.CreateInstance<RunnerMod>();
-        extraArmMod.SetupMod("Unmodded Arm");
-        ownedItems.Add(extraArmMod);
+        RunnerMod adrenalInjector = ScriptableObject.CreateInstance<RunnerMod>();
+        adrenalInjector.SetupMod("Adrenal Injector");
+        ownedItems.Add(adrenalInjector);
 
-        HackerMod anotherRig = ScriptableObject.CreateInstance<HackerMod>();
-        anotherRig.SetupMod("Basic Rig");
-        ownedItems.Add(anotherRig);
+        currentRunner.GetLoadout().EquipItem(adaptableCranioPatch);
+        currentRunner.GetLoadout().EquipItem(adrenalInjector);
 
-        HackerMod aThirdRig = ScriptableObject.CreateInstance<HackerMod>();
-        aThirdRig.SetupMod("Basic Rig");
-        ownedItems.Add(aThirdRig);
-
-        // Create 5 software chips to futz around with on equip window
-        //for (int i = 0; i < 5; i++)
-        //{
-        //    HackerModChip newSoftware = ScriptableObject.CreateInstance<HackerModChip>();
-        //    newSoftware.SetupChip("Cheap Ghost");
-        //    ownedItems.Add(newSoftware);
-        //}
         GenerateJobOptions();
     }
 

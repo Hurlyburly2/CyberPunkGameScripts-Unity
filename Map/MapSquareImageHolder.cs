@@ -31,7 +31,7 @@ public class MapSquareImageHolder : MonoBehaviour
                 return pointSquares[1];
             case "blue":
                 return pointSquares[2];
-            case "purple":
+            case "green":
                 return pointSquares[3];
         }
         return pointSquares[0];

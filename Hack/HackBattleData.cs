@@ -21,13 +21,13 @@ public class HackBattleData : MonoBehaviour
         // currently: default
     int redPoints = 0;
     int bluePoints = 0;
-    int purplePoints = 0;
+    int greenPoints = 0;
     int safeZoneSize;
     int securityLevel = 0;
 
     PointIconHolder redPointIconHolder;
     PointIconHolder bluePointIconHolder;
-    PointIconHolder purplePointIconHolder;
+    PointIconHolder greenPointIconHolder;
 
     // Passive abilities variables
     List<PassiveAbility> passiveAbilities;
@@ -50,7 +50,7 @@ public class HackBattleData : MonoBehaviour
 
     public void FinishHack()
     {
-        FindObjectOfType<SceneLoader>().LoadMapFromHack(redPoints, bluePoints, purplePoints, currentMapSquare, hackTarget);
+        FindObjectOfType<SceneLoader>().LoadMapFromHack(redPoints, bluePoints, greenPoints, currentMapSquare, hackTarget);
     }
 
     public void SetCharacterData(CharacterData newRunner, HackerData newHacker)
@@ -253,8 +253,8 @@ public class HackBattleData : MonoBehaviour
                 case "blue":
                     bluePointIconHolder = pointIconHolder;
                     break;
-                case "purple":
-                    purplePointIconHolder = pointIconHolder;
+                case "green":
+                    greenPointIconHolder = pointIconHolder;
                     break;
             }
         }
@@ -272,8 +272,8 @@ public class HackBattleData : MonoBehaviour
             case "blue":
                 bluePoints += amount * modifier;
                 break;
-            case "purple":
-                purplePoints += amount * modifier;
+            case "green":
+                greenPoints += amount * modifier;
                 break;
         }
         UpdatePointDisplay();
@@ -299,7 +299,7 @@ public class HackBattleData : MonoBehaviour
     {
         redPointIconHolder.UpdatePointDisplay(redPoints);
         bluePointIconHolder.UpdatePointDisplay(bluePoints);
-        purplePointIconHolder.UpdatePointDisplay(purplePoints);
+        greenPointIconHolder.UpdatePointDisplay(greenPoints);
     }
 
     public void OnCardPlacement()

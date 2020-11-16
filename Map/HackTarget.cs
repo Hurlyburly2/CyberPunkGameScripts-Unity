@@ -13,7 +13,7 @@ public class HackTarget : ScriptableObject
     // consts
     const string red = "red";
     const string blue = "blue";
-    const string purple = "purple";
+    const string green = "green";
 
     // if hackType is Transportation
     string transportationType = null;
@@ -22,7 +22,7 @@ public class HackTarget : ScriptableObject
     // state
     int redPoints;
     int bluePoints;
-    int purplePoints;
+    int greenPoints;
     bool isActive;
     bool hackIsDone;
     bool canPlayerAffordAnything;
@@ -31,7 +31,7 @@ public class HackTarget : ScriptableObject
     {
         redPoints = 0;
         bluePoints = 0;
-        purplePoints = 0;
+        greenPoints = 0;
         isActive = true;
         hackIsDone = false;
         hackType = newHackType;
@@ -45,16 +45,16 @@ public class HackTarget : ScriptableObject
         hackType = "Medical Server";
         redPoints = 500;
         bluePoints = 500;
-        purplePoints = 500;
+        greenPoints = 500;
         canPlayerAffordAnything = true;
         hackIsDone = true;
     }
 
-    public void SetPoints(int newRedPoints, int newBluePoints, int newPurplePoints)
+    public void SetPoints(int newRedPoints, int newBluePoints, int newGreenPoints)
     {
         redPoints = newRedPoints;
         bluePoints = newBluePoints;
-        purplePoints = newPurplePoints;
+        greenPoints = newGreenPoints;
         hackIsDone = true;
     }
 
@@ -73,9 +73,9 @@ public class HackTarget : ScriptableObject
         return bluePoints;
     }
 
-    public int GetPurplePoints()
+    public int GetGreenPoints()
     {
-        return purplePoints;
+        return greenPoints;
     }
 
     public void SetCanPlayerAffordAnything(bool canTheyAffordAnything)
@@ -101,8 +101,8 @@ public class HackTarget : ScriptableObject
                     return true;
                 else
                     return false;
-            case purple:
-                if (purplePoints >= cost)
+            case green:
+                if (greenPoints >= cost)
                     return true;
                 else
                     return false;
@@ -220,7 +220,7 @@ public class HackTarget : ScriptableObject
         "Despawn a weak enemy from a random square",
         "Despawn an enemy of average strength from a random square"
     };
-    string[] securityCameraColors = { blue, blue, blue, red, red, purple, purple };
+    string[] securityCameraColors = { blue, blue, blue, red, red, green, green };
     int[] securityCameraCosts = { 5, 10, 15, 10, 20, 15, 25 };
 
     string[] combatServerOptions =
@@ -243,7 +243,7 @@ public class HackTarget : ScriptableObject
         "Enemies on adjacent squares have a reduced hand size",
         "Cards played by enemies on adjacent squares have a chance to fizzle, having no effect"
     };
-    string[] combatServerColors = { blue, blue, red, red, red, purple, purple };
+    string[] combatServerColors = { blue, blue, red, red, red, green, green };
     int[] combatServerCosts = { 10, 20, 8, 12, 18, 10, 20 };
 
     string[] databaseOptions = {
@@ -265,7 +265,7 @@ public class HackTarget : ScriptableObject
         "Increase your base contract reward by 15% upon Job completion",
         "Increase your base contract reward by 25% upon Job completion"
     };
-    string[] databaseColors = { blue, blue, blue, red, red, purple, purple };
+    string[] databaseColors = { blue, blue, blue, red, red, green, green };
     int[] databaseCosts = { 10, 10, 20, 5, 15, 10, 15 };
 
     string[] defenseSystemOptions =
@@ -288,7 +288,7 @@ public class HackTarget : ScriptableObject
         "Enemies on adjacent squares deal less damage in combat",
         "Despawn a strong enemy from somewhere on the map"
     };
-    string[] defenseSystemColors = { blue, blue, blue, red, red, purple, purple };
+    string[] defenseSystemColors = { blue, blue, blue, red, red, green, green };
     int[] defenseSystemCosts = { 20, 10, 15, 10, 20, 10, 20 };
 
     string[] transportationOptions =
@@ -311,7 +311,7 @@ public class HackTarget : ScriptableObject
         "Enemies have a reduced chance to spawn",
         "The next time an enemy would spawn, block that spawn"
     };
-    string[] transportationColors = { blue, blue, red, red, red, purple, purple };
+    string[] transportationColors = { blue, blue, red, red, red, green, green };
     int[] transportationCosts = { 10, 20, 5, 15, 30, 10, 20 };
 
     string[] medicalServerOptions = {
@@ -333,7 +333,7 @@ public class HackTarget : ScriptableObject
         "Gain a moderate amount of health and energy",
         "Buff your Dodge, Hand Size, and Critical Chance when in combat on adjacent squares."
     };
-    string[] medicalServerColors = { blue, blue, blue, red, red, purple, purple };
+    string[] medicalServerColors = { blue, blue, blue, red, red, green, green };
     int[] medicalServerCosts = { 10, 10, 10, 15, 15, 15, 15 };
 
     // ability usages
@@ -493,8 +493,8 @@ public class HackTarget : ScriptableObject
             case blue:
                 bluePoints -= cost;
                 break;
-            case purple:
-                purplePoints -= cost;
+            case green:
+                greenPoints -= cost;
                 break;
         }
     }
