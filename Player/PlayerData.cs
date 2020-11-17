@@ -74,8 +74,13 @@ public class PlayerData : MonoBehaviour
         adrenalInjector.SetupMod("Adrenal Injector");
         ownedItems.Add(adrenalInjector);
 
+        RunnerMod sensoryRegulator = ScriptableObject.CreateInstance<RunnerMod>();
+        sensoryRegulator.SetupMod("Sensory Regulator");
+        ownedItems.Add(sensoryRegulator);
+
         currentRunner.GetLoadout().EquipItem(adaptableCranioPatch);
         currentRunner.GetLoadout().EquipItem(adrenalInjector);
+        currentRunner.GetLoadout().EquipItem(sensoryRegulator);
 
         GenerateJobOptions();
     }

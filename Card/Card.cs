@@ -135,8 +135,9 @@ public class Card : MonoBehaviour
                 return;
             }
         }
-        
+
         // Card played successfully
+        battleData.CountPlayedCard();
         bool furtherAction = PlayCardActions();
         DiscardCard();
         playerHand.RemoveFromHand(this);
@@ -653,101 +654,166 @@ public class Card : MonoBehaviour
                 GainStatus(StatusEffect.StatusType.Momentum, 1);
                 DrawXCards(1);
                 break;
-            case 74:
-            case 75:
+            case 74: // Quick Targetting 1
+            case 75: // Quick Targetting 2
                 GainStatus(StatusEffect.StatusType.Momentum, 2);
                 DrawXCards(1);
                 break;
-            case 76:
+            case 76: // Quick Targeting 3
                 GainStatus(StatusEffect.StatusType.Momentum, 2);
                 DrawXCards(2);
                 break;
-            case 77:
+            case 77: // Quick TARGETING 4
                 GainStatus(StatusEffect.StatusType.Momentum, 3);
                 DrawXCards(2);
                 break;
-            case 78:
+            case 78: // PINPOINT ACCURACY 1
                 InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
                 break;
-            case 79:
+            case 79: // PINPOINT ACCURACY 2
                 InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
                 GainStatus(StatusEffect.StatusType.AutoCrit, 1);
                 break;
-            case 80:
+            case 80: // PINPOINT ACCURACY 3
                 InflictStatus(StatusEffect.StatusType.Vulnerable, 2);
                 GainStatus(StatusEffect.StatusType.AutoCrit, 1);
                 break;
-            case 81:
+            case 81: // PINPOINT ACCURACY 4
                 InflictStatus(StatusEffect.StatusType.Vulnerable, 3);
                 GainStatus(StatusEffect.StatusType.AutoCrit, 1);
                 break;
-            case 82:
+            case 82: // PINPOINT ACCURACY 5
                 InflictStatus(StatusEffect.StatusType.Vulnerable, 3);
                 GainStatus(StatusEffect.StatusType.AutoCrit, 2);
                 break;
-            case 83:
-            case 84:
-            case 85:
-            case 86:
+            case 83: // RADAR GHOST 1
+            case 84: // RADAR GHOST 2
+            case 85: // RADAR GHOST 3
+            case 86: // RADAR GHOST 4
                 Debug.Log("Doesn't do anything when played.");
                 break;
-            case 87:
+            case 87: // STIM INJECTION 1
                 GainEnergy(1);
                 DrawXCards(1);
                 GainStatus(StatusEffect.StatusType.CritChance, 5);
                 break;
-            case 88:
+            case 88: // STIM INJECTION 2
                 GainEnergy(2);
                 DrawXCards(1);
                 GainStatus(StatusEffect.StatusType.CritChance, 10);
                 break;
-            case 89:
+            case 89: // STIM INJECTION 3
                 GainEnergy(2);
                 DrawXCards(1);
                 GainStatus(StatusEffect.StatusType.CritChance, 15);
                 break;
-            case 90:
+            case 90: // STIM INJECTION 4
                 GainEnergy(3);
                 DrawXCards(2);
                 GainStatus(StatusEffect.StatusType.CritChance, 20);
                 break;
-            case 91:
+            case 91: // STIM INJECTION 5
                 GainEnergy(3);
                 DrawXCards(2);
                 GainStatus(StatusEffect.StatusType.CritChance, 25);
                 break;
-            case 92:
+            case 92: // RAISE HEARTRATE 1
                 GainEnergy(1);
                 DrawXCards(1);
                 break;
-            case 93:
+            case 93: // RAISE HEARTRATE 2
                 GainEnergy(2);
                 DrawXCards(1);
                 break;
-            case 94:
-            case 95:
+            case 94: // RAISE HEARTRATE 3
+            case 95: // RAISE HEARTRATE 4
                 GainEnergy(3);
                 DrawXCards(1);
                 break;
-            case 96:
+            case 96: // RAISE HEARTRATE 5
                 GainEnergy(4);
                 DrawXCards(1);
                 break;
-            case 97:
+            case 97: // CARDIAC ARREST 1
                 SelfDamage(5);
                 GainHandDebuff(10000);
                 break;
-            case 98:
+            case 98: // CARDIAC ARREST 2
                 SelfDamage(4);
                 GainHandDebuff(10000);
                 break;
-            case 99:
+            case 99: // CARDIAC ARREST 3
                 SelfDamage(3);
                 GainHandDebuff(10000);
                 break;
-            case 100:
+            case 100: // CARDIAC ARREST 4
                 SelfDamage(2);
                 GainHandDebuff(10000);
+                break;
+            case 101: // DEADEN SENSES 1
+                HealDebuff(1);
+                GainHealth(battleData.GetCardsPlayedThisTurn() / 4);
+                break;
+            case 102: // DEADEN SENSES 2
+            case 103: // DEADEN SENSES 3
+                HealDebuff(2);
+                GainHealth(battleData.GetCardsPlayedThisTurn() / 3);
+                break;
+            case 104: // DEADEN SENSES 4
+                HealDebuff(3);
+                GainHealth(battleData.GetCardsPlayedThisTurn() / 2);
+                break;
+            case 105: // DEADEN SENSES 5
+                HealDebuff(4);
+                GainHealth(battleData.GetCardsPlayedThisTurn() / 2);
+                break;
+            case 106: // HEIGHTENED RECEPTORS 1
+                GainStatus(StatusEffect.StatusType.Vulnerable, 1);
+                GainStatus(StatusEffect.StatusType.Dodge, 1);
+                GainStatus(StatusEffect.StatusType.CritChance, 5);
+                if (PercentChance(50))
+                    DrawXCards(1);
+                break;
+            case 107: // HEIGHTENED RECEPTORS 2
+                GainStatus(StatusEffect.StatusType.Vulnerable, 1);
+                GainStatus(StatusEffect.StatusType.Dodge, 1);
+                GainStatus(StatusEffect.StatusType.CritChance, 10);
+                DrawXCards(1);
+                break;
+            case 108: // HEIGHTENED RECEPTORS 3
+                GainStatus(StatusEffect.StatusType.Vulnerable, 2);
+                GainStatus(StatusEffect.StatusType.Dodge, 1);
+                GainStatus(StatusEffect.StatusType.CritChance, 15);
+                DrawXCards(1);
+                break;
+            case 109: // HEIGHTENED RECEPTORS 4
+                GainStatus(StatusEffect.StatusType.Vulnerable, 2);
+                GainStatus(StatusEffect.StatusType.Dodge, 2);
+                GainStatus(StatusEffect.StatusType.CritChance, 20);
+                DrawXCards(1);
+                break;
+            case 110: // HEIGHTENED RECEPTORS 5
+                GainStatus(StatusEffect.StatusType.Vulnerable, 3);
+                GainStatus(StatusEffect.StatusType.Dodge, 3);
+                GainStatus(StatusEffect.StatusType.CritChance, 25);
+                DrawXCards(1);
+                break;
+            case 111: // SENSORY OVERLOAD 1
+                GainStatus(StatusEffect.StatusType.Vulnerable, 4);
+                break;
+            case 112: // SENSORY OVERLOAD 2
+                GainStatus(StatusEffect.StatusType.Vulnerable, 5);
+                break;
+            case 113: // SENSORY OVERLOAD 3
+                GainStatus(StatusEffect.StatusType.Vulnerable, 6);
+                break;
+            case 114: // SENSORY OVERLOAD 4
+                GainStatus(StatusEffect.StatusType.Vulnerable, 7);
+                break;
+            case 115: // ZEN CONTROL 1
+                DrawXCards(1);
+                int currentVulnerableStacks = playerCurrentStatusEffects.GetVulnerableStacks();
+                GainStatus(StatusEffect.StatusType.Vulnerable, -currentVulnerableStacks);
                 break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
@@ -868,6 +934,25 @@ public class Card : MonoBehaviour
             case 99:
             case 100:
                 return 25;
+            case 101:
+            case 102:
+            case 103:
+            case 104:
+            case 105:
+                return 26;
+            case 106:
+            case 107:
+            case 108:
+            case 109:
+            case 110:
+                return 27;
+            case 111:
+            case 112:
+            case 113:
+            case 114:
+                return 28;
+            case 115:
+                return 29;
             default:
                 return cardId;
         }

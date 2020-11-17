@@ -231,6 +231,33 @@ public class RunnerMod : Item
                 levelFiveCards.Add(96); // Raise Heartrate 5
                 levelFiveCards.Add(96); // Raise Heartrate 5
                 break;
+            case "Sensory Regulator":
+                itemType = ItemTypes.Exoskeleton;
+                itemDescription = "Enhance the best parts of life, and depress the worst, with Vance CyptoTronix' popular, lightweight nerve graft.";
+
+                levelOneCards.Add(101); // Deaden Senses 1
+                levelOneCards.Add(106); // HEIGHTENED RECEPTORS 1
+                levelOneCards.Add(111); // SENSORY OVERLOAD 1
+
+                levelTwoCards.Add(102); // Deaden Senses 2
+                levelTwoCards.Add(107); // HEIGHTENED RECEPTORS 2
+                levelTwoCards.Add(112); // SENSORY OVERLOAD 2
+
+                levelThreeCards.Add(103); // Deaden Senses 3
+                levelThreeCards.Add(108); // HEIGHTENED RECEPTORS 3
+                levelThreeCards.Add(108); // HEIGHTENED RECEPTORS 3
+                levelThreeCards.Add(113); // SENSORY OVERLOAD 3
+
+                levelFourCards.Add(104); // Deaden Senses 4
+                levelFourCards.Add(109); // HEIGHTENED RECEPTORS 4
+                levelFourCards.Add(109); // HEIGHTENED RECEPTORS 4
+                levelFourCards.Add(114); // SENSORY OVERLOAD 4
+
+                levelFiveCards.Add(105); // Deaden Senses 5
+                levelFiveCards.Add(110); // HEIGHTENED RECEPTORS 5
+                levelFiveCards.Add(110); // HEIGHTENED RECEPTORS 5
+                levelFiveCards.Add(115); // ZEN CONTROL 1
+                break;
             default:
                 break;
         }
