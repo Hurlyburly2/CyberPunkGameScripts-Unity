@@ -40,6 +40,7 @@ public class BattleData : MonoBehaviour
     int percentDamageToEnemy = 0;
     int dotDamageToEnemy = 0;
     int enemyDamageDebuff = 0;
+    int cardsPlayedThisTurn = 0;
 
     // buffs from powerups
     int extraCardChanceFromMap = 0;
@@ -128,6 +129,7 @@ public class BattleData : MonoBehaviour
                     enemy.StartTurn();
                 }
             }
+            cardsPlayedThisTurn = 0;
         } else if (whoseTurn == "enemy") {
             if (deck.GetCardCount() > 0 || discard.GetCardCount() > 0)
             {
@@ -346,5 +348,15 @@ public class BattleData : MonoBehaviour
     public int GetExtraCardDrawFromMapChance()
     {
         return extraCardChanceFromMap;
+    }
+
+    public void CountPlayedCard()
+    {
+        cardsPlayedThisTurn++;
+    }
+
+    public int GetCardsPlayedThisTurn()
+    {
+        return cardsPlayedThisTurn;
     }
 }

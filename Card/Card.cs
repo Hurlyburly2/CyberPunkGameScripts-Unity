@@ -135,8 +135,9 @@ public class Card : MonoBehaviour
                 return;
             }
         }
-        
+
         // Card played successfully
+        battleData.CountPlayedCard();
         bool furtherAction = PlayCardActions();
         DiscardCard();
         playerHand.RemoveFromHand(this);
@@ -751,7 +752,7 @@ public class Card : MonoBehaviour
                 break;
             case 101:
                 HealDebuff(1);
-                // HEAL 1 FOR EVERY FOUR CARDS PLAYED THIS TURN
+                GainHealth(battleData.GetCardsPlayedThisTurn() / 4);
                 break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
