@@ -45,6 +45,10 @@ public class BattleData : MonoBehaviour
     // buffs from powerups
     int extraCardChanceFromMap = 0;
 
+    // buffs for "when a card is played"
+    public enum PlayerOnPlayedEffects { PlayWeaponDrawCard };
+    private List<PlayerOnPlayedEffects> playerOnPlayedEffects = new List<PlayerOnPlayedEffects>();
+
     private void Awake()
     {
         int count = FindObjectsOfType<BattleData>().Length;
@@ -129,7 +133,10 @@ public class BattleData : MonoBehaviour
                     enemy.StartTurn();
                 }
             }
+
+            // reset some stuff:
             cardsPlayedThisTurn = 0;
+            playerOnPlayedEffects = new List<PlayerOnPlayedEffects>();
         } else if (whoseTurn == "enemy") {
             if (deck.GetCardCount() > 0 || discard.GetCardCount() > 0)
             {
@@ -358,5 +365,35 @@ public class BattleData : MonoBehaviour
     public int GetCardsPlayedThisTurn()
     {
         return cardsPlayedThisTurn;
+    }
+
+    public void GainPlayerOnPlayedEffect(PlayerOnPlayedEffects newEffect)
+    {
+        playerOnPlayedEffects.Add(newEffect);
+    }
+
+    public void CheckOnPlayedEffects(Card card)
+    {
+        List<string> cardKeywords = new List<string>();
+        cardKeywords.AddRange(card.GetKeywords());
+
+        // Draw cards on play weapon
+        if (playerOnPlayedEffects.Contains(PlayerOnPlayedEffects.PlayWeaponDrawCard) && cardKeywords.Contains("Weapon"))
+        {
+            int amountToDraw = CountInstanceOfOnPlayedEffect(PlayerOnPlayedEffects.PlayWeaponDrawCard);
+            playerHand.TriggerAcceleration(amountToDraw);
+            playerHand.DrawXCards(amountToDraw);
+        }
+    }
+
+    private int CountInstanceOfOnPlayedEffect(PlayerOnPlayedEffects effectToCount)
+    {
+        int count = 0;
+        foreach (PlayerOnPlayedEffects effect in playerOnPlayedEffects)
+        {
+            if (effect == effectToCount)
+                count++;
+        }
+        return count;
     }
 }

@@ -78,9 +78,19 @@ public class PlayerData : MonoBehaviour
         sensoryRegulator.SetupMod("Sensory Regulator");
         ownedItems.Add(sensoryRegulator);
 
+        RunnerMod automatedDigits = ScriptableObject.CreateInstance<RunnerMod>();
+        automatedDigits.SetupMod("Automated Digits");
+        ownedItems.Add(automatedDigits);
+
+        RunnerMod automatedDigitsTwo = ScriptableObject.CreateInstance<RunnerMod>();
+        automatedDigitsTwo.SetupMod("Automated Digits");
+        ownedItems.Add(automatedDigitsTwo);
+
         currentRunner.GetLoadout().EquipItem(adaptableCranioPatch);
         currentRunner.GetLoadout().EquipItem(adrenalInjector);
         currentRunner.GetLoadout().EquipItem(sensoryRegulator);
+        currentRunner.GetLoadout().EquipItem(automatedDigits, Loadout.LeftOrRight.Left);
+        currentRunner.GetLoadout().EquipItem(automatedDigitsTwo, Loadout.LeftOrRight.Right);
 
         GenerateJobOptions();
     }

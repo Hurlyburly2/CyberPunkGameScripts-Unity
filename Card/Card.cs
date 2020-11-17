@@ -137,6 +137,7 @@ public class Card : MonoBehaviour
         }
 
         // Card played successfully
+        CheckOnPlayedEffects();
         battleData.CountPlayedCard();
         bool furtherAction = PlayCardActions();
         DiscardCard();
@@ -815,6 +816,9 @@ public class Card : MonoBehaviour
                 int currentVulnerableStacks = playerCurrentStatusEffects.GetVulnerableStacks();
                 GainStatus(StatusEffect.StatusType.Vulnerable, -currentVulnerableStacks);
                 break;
+            case 116: // LIGHTNING RELOAD 1
+                battleData.GainPlayerOnPlayedEffect(BattleData.PlayerOnPlayedEffects.PlayWeaponDrawCard);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -953,6 +957,12 @@ public class Card : MonoBehaviour
                 return 28;
             case 115:
                 return 29;
+            case 116:
+            case 117:
+            case 118:
+            case 119:
+            case 120:
+                return 30;
             default:
                 return cardId;
         }
@@ -1207,5 +1217,10 @@ public class Card : MonoBehaviour
         else
             energyCost -= amount;
         energyCostzone.GetComponentInChildren<TextMeshProUGUI>().text = energyCost.ToString();
+    }
+
+    private void CheckOnPlayedEffects()
+    {
+        battleData.CheckOnPlayedEffects(this);
     }
 }

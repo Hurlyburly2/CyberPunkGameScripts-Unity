@@ -258,6 +258,20 @@ public class RunnerMod : Item
                 levelFiveCards.Add(110); // HEIGHTENED RECEPTORS 5
                 levelFiveCards.Add(115); // ZEN CONTROL 1
                 break;
+            case "Automated Digits":
+                itemType = ItemTypes.Arm;
+                itemDescription = "Premiere Vance CyptoTronix hand replacement. Stronger, and more dexterous than any organic hand, with a hidden defensive blade.";
+
+                levelOneCards.Add(116); // LIGHTNING RELOAD 1
+
+                levelTwoCards.Add(116); // LIGHTNING RELOAD 1
+
+                levelThreeCards.Add(116); // LIGHTNING RELOAD 1
+
+                levelFourCards.Add(116); // LIGHTNING RELOAD 1
+
+                levelFiveCards.Add(116); // LIGHTNING RELOAD 1
+                break;
             default:
                 break;
         }
