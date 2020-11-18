@@ -263,14 +263,28 @@ public class RunnerMod : Item
                 itemDescription = "Premiere Vance CyptoTronix hand replacement. Stronger, and more dexterous than any organic hand, with a hidden defensive blade.";
 
                 levelOneCards.Add(116); // LIGHTNING RELOAD 1
+                levelOneCards.Add(121); // AUTO-UNHOLSTER 1
+                levelOneCards.Add(126); // IMPLANTED QUIKBLADE 1
+                levelOneCards.Add(131); // JAMMED SERVOS 1
 
-                levelTwoCards.Add(116); // LIGHTNING RELOAD 1
+                levelTwoCards.Add(117); // LIGHTNING RELOAD 2
+                levelTwoCards.Add(122); // AUTO-UNHOLSTER 2
+                levelTwoCards.Add(127); // IMPLANTED QUIKBLADE 2
+                levelTwoCards.Add(132); // JAMMED SERVOS 2
 
-                levelThreeCards.Add(116); // LIGHTNING RELOAD 1
+                levelThreeCards.Add(118); // LIGHTNING RELOAD 3
+                levelThreeCards.Add(123); // AUTO-UNHOLSTER 3
+                levelThreeCards.Add(128); // IMPLANTED QUIKBLADE 3
+                levelThreeCards.Add(133); // JAMMED SERVOS 3
 
-                levelFourCards.Add(116); // LIGHTNING RELOAD 1
+                levelFourCards.Add(119); // LIGHTNING RELOAD 4
+                levelFourCards.Add(124); // AUTO-UNHOLSTER 4
+                levelFourCards.Add(129); // IMPLANTED QUIKBLADE 4
+                levelFourCards.Add(134); // JAMMED SERVOS 4
 
-                levelFiveCards.Add(116); // LIGHTNING RELOAD 1
+                levelFiveCards.Add(120); // LIGHTNING RELOAD 5
+                levelFiveCards.Add(125); // AUTO-UNHOLSTER 5
+                levelFiveCards.Add(130); // IMPLANTED QUIKBLADE 5
                 break;
             default:
                 break;

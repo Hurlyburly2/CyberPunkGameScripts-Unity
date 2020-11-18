@@ -49,6 +49,9 @@ public class BattleData : MonoBehaviour
     public enum PlayerOnPlayedEffects { PlayWeaponDrawCard };
     private List<PlayerOnPlayedEffects> playerOnPlayedEffects = new List<PlayerOnPlayedEffects>();
 
+    // misc buffs/debuffs
+    bool canDrawExtraCards = true;
+
     private void Awake()
     {
         int count = FindObjectsOfType<BattleData>().Length;
@@ -127,6 +130,11 @@ public class BattleData : MonoBehaviour
                 bool finishedDiscarding = DiscardDownToMaxHandSize();
                 if (finishedDiscarding)
                 {
+                    // reset some stuff:
+                    cardsPlayedThisTurn = 0;
+                    playerOnPlayedEffects = new List<PlayerOnPlayedEffects>();
+                    canDrawExtraCards = true;
+
                     TickDownStatusEffectDurations("enemy");
                     whoseTurn = "enemy";
                     actionDisabled = true;
@@ -134,9 +142,6 @@ public class BattleData : MonoBehaviour
                 }
             }
 
-            // reset some stuff:
-            cardsPlayedThisTurn = 0;
-            playerOnPlayedEffects = new List<PlayerOnPlayedEffects>();
         } else if (whoseTurn == "enemy") {
             if (deck.GetCardCount() > 0 || discard.GetCardCount() > 0)
             {
@@ -395,5 +400,15 @@ public class BattleData : MonoBehaviour
                 count++;
         }
         return count;
+    }
+
+    public void InflictCannotDrawExtraCardsDebuff()
+    {
+        canDrawExtraCards = false;
+    }
+
+    public bool CanPlayerDrawExtraCards()
+    {
+        return canDrawExtraCards;
     }
 }
