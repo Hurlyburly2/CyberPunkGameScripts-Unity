@@ -137,6 +137,7 @@ public class Card : MonoBehaviour
         }
 
         // Card played successfully
+        CheckOnPlayedEffects();
         battleData.CountPlayedCard();
         bool furtherAction = PlayCardActions();
         DiscardCard();
@@ -356,6 +357,12 @@ public class Card : MonoBehaviour
                 break;
             case 86: // Radar Ghost 4
                 GainStatus(StatusEffect.StatusType.FizzleChance, 20);
+                break;
+            case 131: // JAMMED SERVOS 1
+            case 132: // JAMMED SERVOS 2
+            case 133: // JAMMED SERVOS 3
+            case 134: // JAMMED SERVOS 4
+                battleData.InflictCannotDrawExtraCardsDebuff();
                 break;
         }
     }
@@ -815,6 +822,72 @@ public class Card : MonoBehaviour
                 int currentVulnerableStacks = playerCurrentStatusEffects.GetVulnerableStacks();
                 GainStatus(StatusEffect.StatusType.Vulnerable, -currentVulnerableStacks);
                 break;
+            case 116: // LIGHTNING RELOAD 1
+            case 117: // LIGHTNING RELOAD 2
+            case 118: // LIGHTNING RELOAD 3
+            case 119: // LIGHTNING RELOAD 4
+            case 120: // LIGHTNING RELOAD 5
+                battleData.GainPlayerOnPlayedEffect(BattleData.PlayerOnPlayedEffects.PlayWeaponDrawCard);
+                break;
+            case 121: // AUTO-UNHOLSTER 1
+                DrawRandomCardFromDeck("Weapon");
+                break;
+            case 122: // AUTO-UNHOLSTER 2
+                DrawRandomCardFromDeck("Weapon");
+                GainEnergy(1);
+                break;
+            case 123: // AUTO-UNHOLSTER 3
+                DrawRandomCardFromDeck("Weapon");
+                DrawRandomCardFromDeck("Weapon");
+                GainEnergy(1);
+                break;
+            case 124: // AUTO-UNHOLSTER 4
+                DrawRandomCardFromDeck("Weapon");
+                DrawRandomCardFromDeck("Weapon");
+                GainEnergy(2);
+                break;
+            case 125: // AUTO-UNHOLSTER 5
+                DrawRandomCardFromDeckOrDiscard("Weapon");
+                DrawRandomCardFromDeckOrDiscard("Weapon");
+                GainEnergy(2);
+                break;
+            case 126: // IMPLANTED QUIKBLADE 1
+                DealDamage(1);
+                if (PercentChance(10))
+                    DrawXCards(1);
+                break;
+            case 127: // IMPLANTED QUIKBLADE 2
+                DealDamage(2);
+                if (PercentChance(20))
+                    DrawXCards(1);
+                break;
+            case 128: // IMPLANTED QUIKBLADE 3
+                DealDamage(2);
+                if (PercentChance(30))
+                    DrawXCards(1);
+                break;
+            case 129: // IMPLANTED QUIKBLADE 4
+                DealDamage(3);
+                if (PercentChance(40))
+                    DrawXCards(1);
+                break;
+            case 130: // IMPLANTED QUIKBLADE 5
+                DealDamage(3);
+                if (PercentChance(60))
+                    DrawXCards(1);
+                break;
+            case 131: // JAMMED SERVOS 1
+                SelfDamage(3);
+                break;
+            case 132: // JAMMED SERVOS 2
+                SelfDamage(4);
+                break;
+            case 133: // JAMMED SERVOS 3
+                SelfDamage(4);
+                break;
+            case 134: // JAMMED SERVOS 4
+                SelfDamage(3);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -953,6 +1026,29 @@ public class Card : MonoBehaviour
                 return 28;
             case 115:
                 return 29;
+            case 116:
+            case 117:
+            case 118:
+            case 119:
+            case 120:
+                return 30;
+            case 121:
+            case 122:
+            case 123:
+            case 124:
+            case 125:
+                return 31;
+            case 126:
+            case 127:
+            case 128:
+            case 129:
+            case 130:
+                return 32;
+            case 131:
+            case 132:
+            case 133:
+            case 134:
+                return 33;
             default:
                 return cardId;
         }
@@ -1111,6 +1207,9 @@ public class Card : MonoBehaviour
 
     private void DrawXCards(int amountToDraw)
     {
+        if (!battleData.CanPlayerDrawExtraCards())
+            return;
+
         playerHand.TriggerAcceleration(amountToDraw);
         playerHand.DrawXCards(amountToDraw);
     }
@@ -1125,15 +1224,37 @@ public class Card : MonoBehaviour
         return false;
     }
 
-    private void DrawRandomCardFromDeck(string keyword)
+    private bool DrawRandomCardFromDeck(string keyword)
     {
+        if (!battleData.CanPlayerDrawExtraCards())
+            return false;
+
         Card cardToDraw = deck.DrawRandomCardFromDeck(keyword);
         if (cardToDraw.GetCardId() == 0)
         {
-            return;
+            return false;
         }
         playerHand.TriggerAcceleration(1);
         playerHand.DrawCard(cardToDraw);
+        return true;
+    }
+
+    private void DrawRandomCardFromDeckOrDiscard(string keyword)
+    {
+        if (!battleData.CanPlayerDrawExtraCards())
+            return;
+
+        bool result = DrawRandomCardFromDeck(keyword);
+        if (!result)
+        {
+            Card cardToDraw = discard.DrawRandomCardFromDiscard(keyword);
+            if (cardToDraw.GetCardId() == 0)
+            {
+                return;
+            }
+            playerHand.TriggerAcceleration(1);
+            playerHand.DrawCard(cardToDraw);
+        }
     }
 
     private void SkipEndTurnDiscard(bool newSkipDiscard)
@@ -1207,5 +1328,10 @@ public class Card : MonoBehaviour
         else
             energyCost -= amount;
         energyCostzone.GetComponentInChildren<TextMeshProUGUI>().text = energyCost.ToString();
+    }
+
+    private void CheckOnPlayedEffects()
+    {
+        battleData.CheckOnPlayedEffects(this);
     }
 }
