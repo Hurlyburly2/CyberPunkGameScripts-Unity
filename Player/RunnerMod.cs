@@ -286,6 +286,20 @@ public class RunnerMod : Item
                 levelFiveCards.Add(125); // AUTO-UNHOLSTER 5
                 levelFiveCards.Add(130); // IMPLANTED QUIKBLADE 5
                 break;
+            case "Polymorphic Support":
+                itemType = ItemTypes.Leg;
+                itemDescription = "TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO";
+
+                levelOneCards.Add(135); // STABILIZED STANCE 1
+
+                levelTwoCards.Add(135); // STABILIZED STANCE 1
+
+                levelThreeCards.Add(135); // STABILIZED STANCE 1
+
+                levelFourCards.Add(135); // STABILIZED STANCE 1
+
+                levelFiveCards.Add(135); // STABILIZED STANCE 1
+                break;
             default:
                 break;
         }

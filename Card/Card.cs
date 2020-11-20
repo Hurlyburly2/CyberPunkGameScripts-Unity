@@ -100,7 +100,7 @@ public class Card : MonoBehaviour
             SetSortingOrder(rememberSortingOrder);
             float mouseY = Input.mousePosition.y / Screen.height * configData.GetHalfHeight() * 2;
 
-            if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player" && energyCost <= runner.GetCurrentEnergy())
+            if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player" && CanPlayCard())
             {
                 runner.SpendEnergy(energyCost);
                 SetState("played");
@@ -110,13 +110,31 @@ public class Card : MonoBehaviour
             {
                 transform.localScale = new Vector3(1, 1, 1);
                 SetState("draw");
-                if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player")
+                List<string> keywordList = new List<string>(keywords);
+
+                if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player" && energyCost > runner.GetCurrentEnergy())
                 {
                     // Here, we did attempt to play the card but did not have enough energy...
                     FindObjectOfType<PopupHolder>().SpawnNotEnoughEnergyPopup();
+                } else if (keywordList.Contains("Stance") && battleData.GetHasStanceBeenPlayed()) {
+                    FindObjectOfType<PopupHolder>().SpawnStancePopup();
                 }
             }
         }
+    }
+
+    private bool CanPlayCard()
+    {
+        CharacterData runner = battleData.GetCharacter();
+        List<string> keywordList = new List<string>(keywords);
+
+        // Check for not enough energy
+        if (energyCost > runner.GetCurrentEnergy())
+            return false;
+        // Check if card is a stance AND a stance has already been played
+        if (keywordList.Contains("Stance") && battleData.GetHasStanceBeenPlayed())
+            return false;
+        return true;
     }
 
     public void PlayCard()
@@ -139,6 +157,11 @@ public class Card : MonoBehaviour
         // Card played successfully
         CheckOnPlayedEffects();
         battleData.CountPlayedCard();
+
+        List<string> keywordList = new List<string>(keywords);
+        if (keywordList.Contains("Stance"))
+            battleData.SetPlayedStance();
+
         bool furtherAction = PlayCardActions();
         DiscardCard();
         playerHand.RemoveFromHand(this);
@@ -888,6 +911,11 @@ public class Card : MonoBehaviour
             case 134: // JAMMED SERVOS 4
                 SelfDamage(3);
                 break;
+            case 135: // STABILIZED STANCE 1
+                GainStatus(StatusEffect.StatusType.Momentum, 1);
+                GainStatus(StatusEffect.StatusType.CritChance, 10);
+                GainHandDebuff(1);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -1049,6 +1077,12 @@ public class Card : MonoBehaviour
             case 133:
             case 134:
                 return 33;
+            case 135:
+            case 136:
+            case 137:
+            case 138:
+            case 139:
+                return 34;
             default:
                 return cardId;
         }
