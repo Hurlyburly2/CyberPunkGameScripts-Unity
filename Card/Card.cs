@@ -318,6 +318,9 @@ public class Card : MonoBehaviour
                 case "Acceleration":
                     needsDefinition = true;
                     break;
+                case "Stance":
+                    needsDefinition = true;
+                    break;
             }
             if (needsDefinition)
             {
