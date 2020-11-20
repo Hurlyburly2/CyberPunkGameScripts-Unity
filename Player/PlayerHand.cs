@@ -91,6 +91,10 @@ public class PlayerHand : MonoBehaviour
         // AND NOT JUST TO MAX HAND SIZE. THIS IS DUE TO CARDS THAT CAN GET STUCK IN HAND DUE TO ENERGY
 
         int cardTarget = initialHandSize + cardsInHand.Count + playerHandBuff - playerHandDebuff + battleData.GetPlayerHandMapBuff();
+
+        if (cardTarget > initialHandSize)
+            TriggerAcceleration(initialHandSize - cardTarget);
+
         if (CheckPercentageChance(battleData.GetExtraCardDrawFromMapChance()))
         {
             cardTarget++;

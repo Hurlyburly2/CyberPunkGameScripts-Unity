@@ -291,14 +291,19 @@ public class RunnerMod : Item
                 itemDescription = "TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO";
 
                 levelOneCards.Add(135); // STABILIZED STANCE 1
+                levelOneCards.Add(140); // PREPARED STANCE 1
 
-                levelTwoCards.Add(135); // STABILIZED STANCE 1
+                levelTwoCards.Add(136); // STABILIZED STANCE 1
+                levelTwoCards.Add(141); // PREPARED STANCE 2
 
-                levelThreeCards.Add(135); // STABILIZED STANCE 1
+                levelThreeCards.Add(137); // STABILIZED STANCE 1
+                levelThreeCards.Add(142); // PREPARED STANCE 3
 
-                levelFourCards.Add(135); // STABILIZED STANCE 1
+                levelFourCards.Add(138); // STABILIZED STANCE 1
+                levelFourCards.Add(143); // PREPARED STANCE 4
 
-                levelFiveCards.Add(135); // STABILIZED STANCE 1
+                levelFiveCards.Add(139); // STABILIZED STANCE 1
+                levelFiveCards.Add(144); // PREPARED STANCE 5
                 break;
             default:
                 break;

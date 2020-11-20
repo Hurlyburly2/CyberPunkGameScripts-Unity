@@ -940,6 +940,31 @@ public class Card : MonoBehaviour
                 GainStatus(StatusEffect.StatusType.CritChance, 15);
                 DrawRandomCardFromDiscard("Weapon");
                 break;
+            case 140:
+                GainStatus(StatusEffect.StatusType.DamageResist, 1);
+                GainEnergy(2);
+                GainHandBuff(1);
+                break;
+            case 141:
+                GainStatus(StatusEffect.StatusType.DamageResist, 1);
+                GainEnergy(3);
+                GainHandBuff(1);
+                break;
+            case 142:
+                GainStatus(StatusEffect.StatusType.DamageResist, 1);
+                GainEnergy(4);
+                GainHandBuff(2);
+                break;
+            case 143:
+                GainStatus(StatusEffect.StatusType.DamageResist, 2);
+                GainEnergy(4);
+                GainHandBuff(2);
+                break;
+            case 144:
+                GainStatus(StatusEffect.StatusType.DamageResist, 2);
+                GainEnergy(5);
+                GainHandBuff(3);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -1107,6 +1132,12 @@ public class Card : MonoBehaviour
             case 138:
             case 139:
                 return 34;
+            case 140:
+            case 141:
+            case 142:
+            case 143:
+            case 144:
+                return 35;
             default:
                 return cardId;
         }
