@@ -919,6 +919,27 @@ public class Card : MonoBehaviour
                 GainStatus(StatusEffect.StatusType.CritChance, 10);
                 GainHandDebuff(1);
                 break;
+            case 136: // STABILIZED STANCE 2
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
+                GainStatus(StatusEffect.StatusType.CritChance, 10);
+                GainHandDebuff(1);
+                break;
+            case 137: // STABILIZED STANCE 3
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
+                GainStatus(StatusEffect.StatusType.CritChance, 15);
+                GainHandDebuff(1);
+                break;
+            case 138: // STABILIZED STANCE 4
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
+                GainStatus(StatusEffect.StatusType.CritChance, 15);
+                DrawRandomCardFromDiscard("Weapon");
+                GainHandDebuff(1);
+                break;
+            case 139: // STABILIZED STANCE 5
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
+                GainStatus(StatusEffect.StatusType.CritChance, 15);
+                DrawRandomCardFromDiscard("Weapon");
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -1276,6 +1297,17 @@ public class Card : MonoBehaviour
         return true;
     }
 
+    private void DrawRandomCardFromDiscard(string keyword)
+    {
+        Card cardToDraw = discard.DrawRandomCardFromDiscard(keyword);
+        if (cardToDraw.GetCardId() == 0)
+        {
+            return;
+        }
+        playerHand.TriggerAcceleration(1);
+        playerHand.DrawCard(cardToDraw);
+    }
+
     private void DrawRandomCardFromDeckOrDiscard(string keyword)
     {
         if (!battleData.CanPlayerDrawExtraCards())
@@ -1284,13 +1316,7 @@ public class Card : MonoBehaviour
         bool result = DrawRandomCardFromDeck(keyword);
         if (!result)
         {
-            Card cardToDraw = discard.DrawRandomCardFromDiscard(keyword);
-            if (cardToDraw.GetCardId() == 0)
-            {
-                return;
-            }
-            playerHand.TriggerAcceleration(1);
-            playerHand.DrawCard(cardToDraw);
+            DrawRandomCardFromDiscard(keyword);
         }
     }
 
