@@ -319,6 +319,20 @@ public class RunnerMod : Item
                 levelFiveCards.Add(149); // NIMBLE STANCE 5
                 levelFiveCards.Add(154); // READY FOR ANYTHING 5
                 break;
+            case "Tornado Handgun T-492":
+                itemType = ItemTypes.Weapon;
+                itemDescription = "TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO";
+
+                levelOneCards.Add(159); // BARRAGE 1
+
+                levelTwoCards.Add(159); // BARRAGE 1
+
+                levelThreeCards.Add(159); // BARRAGE 1
+
+                levelFourCards.Add(159); // BARRAGE 1
+
+                levelFiveCards.Add(159); // BARRAGE 1
+                break;
             default:
                 break;
         }

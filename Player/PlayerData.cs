@@ -94,6 +94,10 @@ public class PlayerData : MonoBehaviour
         polymorphicSupportTwo.SetupMod("Polymorphic Support");
         ownedItems.Add(polymorphicSupportTwo);
 
+        RunnerMod tornadoHandgun = ScriptableObject.CreateInstance<RunnerMod>();
+        tornadoHandgun.SetupMod("Tornado Handgun T-492");
+        ownedItems.Add(tornadoHandgun);
+
         Loadout runnerLoadout = currentRunner.GetLoadout();
         runnerLoadout.EquipItem(adaptableCranioPatch);
         runnerLoadout.EquipItem(adrenalInjector);
@@ -102,6 +106,7 @@ public class PlayerData : MonoBehaviour
         runnerLoadout.EquipItem(automatedDigitsTwo, Loadout.LeftOrRight.Right);
         runnerLoadout.EquipItem(polymorphicSupport, Loadout.LeftOrRight.Left);
         runnerLoadout.EquipItem(polymorphicSupportTwo, Loadout.LeftOrRight.Right);
+        runnerLoadout.EquipItem(tornadoHandgun);
 
         GenerateJobOptions();
     }
