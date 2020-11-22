@@ -48,6 +48,8 @@ public class CardHelperText : MonoBehaviour
                 return "Weaknesses cannot remain in your hand at the end of your turn and must be played.";
             case "Acceleration":
                 return "Energy cost -1 for each extra card you draw";
+            case "Stance":
+                return "You can only play one stance card per turn";
             default:
                 return "";
         }

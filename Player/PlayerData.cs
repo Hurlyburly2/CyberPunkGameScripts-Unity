@@ -86,11 +86,22 @@ public class PlayerData : MonoBehaviour
         automatedDigitsTwo.SetupMod("Automated Digits");
         ownedItems.Add(automatedDigitsTwo);
 
-        currentRunner.GetLoadout().EquipItem(adaptableCranioPatch);
-        currentRunner.GetLoadout().EquipItem(adrenalInjector);
-        currentRunner.GetLoadout().EquipItem(sensoryRegulator);
-        currentRunner.GetLoadout().EquipItem(automatedDigits, Loadout.LeftOrRight.Left);
-        currentRunner.GetLoadout().EquipItem(automatedDigitsTwo, Loadout.LeftOrRight.Right);
+        RunnerMod polymorphicSupport = ScriptableObject.CreateInstance<RunnerMod>();
+        polymorphicSupport.SetupMod("Polymorphic Support");
+        ownedItems.Add(polymorphicSupport);
+
+        RunnerMod polymorphicSupportTwo = ScriptableObject.CreateInstance<RunnerMod>();
+        polymorphicSupportTwo.SetupMod("Polymorphic Support");
+        ownedItems.Add(polymorphicSupportTwo);
+
+        Loadout runnerLoadout = currentRunner.GetLoadout();
+        runnerLoadout.EquipItem(adaptableCranioPatch);
+        runnerLoadout.EquipItem(adrenalInjector);
+        runnerLoadout.EquipItem(sensoryRegulator);
+        runnerLoadout.EquipItem(automatedDigits, Loadout.LeftOrRight.Left);
+        runnerLoadout.EquipItem(automatedDigitsTwo, Loadout.LeftOrRight.Right);
+        runnerLoadout.EquipItem(polymorphicSupport, Loadout.LeftOrRight.Left);
+        runnerLoadout.EquipItem(polymorphicSupportTwo, Loadout.LeftOrRight.Right);
 
         GenerateJobOptions();
     }

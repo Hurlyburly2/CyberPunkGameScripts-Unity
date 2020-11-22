@@ -47,6 +47,13 @@ public class PopupHolder : MonoBehaviour
         StartCoroutine(DestroyTemporaryMessageAfterTime(0.5f));
     }
 
+    public void SpawnStancePopup()
+    {
+        whichPopup = "notEnoughEnergy";
+        SpawnPopup("You may only play one Stance card per turn.");
+        StartCoroutine(DestroyTemporaryMessageAfterTime(1));
+    }
+
     private void SpawnPopup(string message)
     {
         DestroyAllPopups();

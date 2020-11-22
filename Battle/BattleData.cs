@@ -51,6 +51,7 @@ public class BattleData : MonoBehaviour
 
     // misc buffs/debuffs
     bool canDrawExtraCards = true;
+    bool hasStanceBeenPlayed = false;
 
     private void Awake()
     {
@@ -134,6 +135,7 @@ public class BattleData : MonoBehaviour
                     cardsPlayedThisTurn = 0;
                     playerOnPlayedEffects = new List<PlayerOnPlayedEffects>();
                     canDrawExtraCards = true;
+                    hasStanceBeenPlayed = false;
 
                     TickDownStatusEffectDurations("enemy");
                     whoseTurn = "enemy";
@@ -410,5 +412,15 @@ public class BattleData : MonoBehaviour
     public bool CanPlayerDrawExtraCards()
     {
         return canDrawExtraCards;
+    }
+
+    public void SetPlayedStance()
+    {
+        hasStanceBeenPlayed = true;
+    }
+
+    public bool GetHasStanceBeenPlayed()
+    {
+        return hasStanceBeenPlayed;
     }
 }

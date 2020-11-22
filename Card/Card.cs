@@ -100,7 +100,7 @@ public class Card : MonoBehaviour
             SetSortingOrder(rememberSortingOrder);
             float mouseY = Input.mousePosition.y / Screen.height * configData.GetHalfHeight() * 2;
 
-            if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player" && energyCost <= runner.GetCurrentEnergy())
+            if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player" && CanPlayCard())
             {
                 runner.SpendEnergy(energyCost);
                 SetState("played");
@@ -110,13 +110,31 @@ public class Card : MonoBehaviour
             {
                 transform.localScale = new Vector3(1, 1, 1);
                 SetState("draw");
-                if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player")
+                List<string> keywordList = new List<string>(keywords);
+
+                if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player" && energyCost > runner.GetCurrentEnergy())
                 {
                     // Here, we did attempt to play the card but did not have enough energy...
                     FindObjectOfType<PopupHolder>().SpawnNotEnoughEnergyPopup();
+                } else if (keywordList.Contains("Stance") && battleData.GetHasStanceBeenPlayed()) {
+                    FindObjectOfType<PopupHolder>().SpawnStancePopup();
                 }
             }
         }
+    }
+
+    private bool CanPlayCard()
+    {
+        CharacterData runner = battleData.GetCharacter();
+        List<string> keywordList = new List<string>(keywords);
+
+        // Check for not enough energy
+        if (energyCost > runner.GetCurrentEnergy())
+            return false;
+        // Check if card is a stance AND a stance has already been played
+        if (keywordList.Contains("Stance") && battleData.GetHasStanceBeenPlayed())
+            return false;
+        return true;
     }
 
     public void PlayCard()
@@ -139,6 +157,11 @@ public class Card : MonoBehaviour
         // Card played successfully
         CheckOnPlayedEffects();
         battleData.CountPlayedCard();
+
+        List<string> keywordList = new List<string>(keywords);
+        if (keywordList.Contains("Stance"))
+            battleData.SetPlayedStance();
+
         bool furtherAction = PlayCardActions();
         DiscardCard();
         playerHand.RemoveFromHand(this);
@@ -293,6 +316,9 @@ public class Card : MonoBehaviour
                     needsDefinition = true;
                     break;
                 case "Acceleration":
+                    needsDefinition = true;
+                    break;
+                case "Stance":
                     needsDefinition = true;
                     break;
             }
@@ -888,6 +914,100 @@ public class Card : MonoBehaviour
             case 134: // JAMMED SERVOS 4
                 SelfDamage(3);
                 break;
+            case 135: // STABILIZED STANCE 1
+                GainStatus(StatusEffect.StatusType.Momentum, 1);
+                GainStatus(StatusEffect.StatusType.CritChance, 10);
+                GainHandDebuff(1);
+                break;
+            case 136: // STABILIZED STANCE 2
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
+                GainStatus(StatusEffect.StatusType.CritChance, 10);
+                GainHandDebuff(1);
+                break;
+            case 137: // STABILIZED STANCE 3
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
+                GainStatus(StatusEffect.StatusType.CritChance, 15);
+                GainHandDebuff(1);
+                break;
+            case 138: // STABILIZED STANCE 4
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
+                GainStatus(StatusEffect.StatusType.CritChance, 15);
+                DrawRandomCardFromDiscard("Weapon");
+                GainHandDebuff(1);
+                break;
+            case 139: // STABILIZED STANCE 5
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
+                GainStatus(StatusEffect.StatusType.CritChance, 15);
+                DrawRandomCardFromDiscard("Weapon");
+                break;
+            case 140: // PREPARED STANCE 1
+                GainStatus(StatusEffect.StatusType.DamageResist, 1);
+                GainEnergy(2);
+                GainHandBuff(1);
+                break;
+            case 141: // PREPARED STANCE 2
+                GainStatus(StatusEffect.StatusType.DamageResist, 1);
+                GainEnergy(3);
+                GainHandBuff(1);
+                break;
+            case 142: // PREPARED STANCE 3
+                GainStatus(StatusEffect.StatusType.DamageResist, 1);
+                GainEnergy(4);
+                GainHandBuff(2);
+                break;
+            case 143: // PREPARED STANCE 4
+                GainStatus(StatusEffect.StatusType.DamageResist, 2);
+                GainEnergy(4);
+                GainHandBuff(2);
+                break;
+            case 144: // PREPARED STANCE 5
+                GainStatus(StatusEffect.StatusType.DamageResist, 2);
+                GainEnergy(5);
+                GainHandBuff(3);
+                break;
+            case 145: // NIMBLE STANCE 1
+                GainStatus(StatusEffect.StatusType.Dodge, 1);
+                DrawXCards(1);
+                break;
+            case 146: // NIMBLE STANCE 2
+                GainStatus(StatusEffect.StatusType.Dodge, 1);
+                DrawXCards(2);
+                break;
+            case 147: // NIMBLE STANCE 3
+                GainStatus(StatusEffect.StatusType.Dodge, 2);
+                DrawXCards(2);
+                break;
+            case 148: // NIMBLE STANCE 4
+                GainStatus(StatusEffect.StatusType.Dodge, 2);
+                DrawXCards(2);
+                break;
+            case 149: // NIMBLE STANCE 5
+                GainStatus(StatusEffect.StatusType.Dodge, 2);
+                DrawXCards(3);
+                break;
+            case 150: // READY FOR ANYTHING 1
+            case 151: // READY FOR ANYTHING 2
+            case 152: // READY FOR ANYTHING 3
+            case 153: // READY FOR ANYTHING 4
+            case 154: // READY FOR ANYTHING 5
+                DrawAllOfTypeFromDeck("Stance");
+                break;
+            case 155: // MISSTEP 1
+                GainStatus(StatusEffect.StatusType.Vulnerable, 2);
+                GainHandDebuff(2);
+                break;
+            case 156: // MISSTEP 2
+                GainStatus(StatusEffect.StatusType.Vulnerable, 3);
+                GainHandDebuff(2);
+                break;
+            case 157: // MISSTEP 3
+                GainStatus(StatusEffect.StatusType.Vulnerable, 4);
+                GainHandDebuff(2);
+                break;
+            case 158: // MISSTEP 4
+                GainStatus(StatusEffect.StatusType.Vulnerable, 5);
+                GainHandDebuff(2);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -1049,6 +1169,35 @@ public class Card : MonoBehaviour
             case 133:
             case 134:
                 return 33;
+            case 135:
+            case 136:
+            case 137:
+            case 138:
+            case 139:
+                return 34;
+            case 140:
+            case 141:
+            case 142:
+            case 143:
+            case 144:
+                return 35;
+            case 145:
+            case 146:
+            case 147:
+            case 148:
+            case 149:
+                return 36;
+            case 150:
+            case 151:
+            case 152:
+            case 153:
+            case 154:
+                return 37;
+            case 155:
+            case 156:
+            case 157:
+            case 158:
+                return 38;
             default:
                 return cardId;
         }
@@ -1239,6 +1388,25 @@ public class Card : MonoBehaviour
         return true;
     }
 
+    private void DrawAllOfTypeFromDeck(string keyword)
+    {
+        while (deck.DoesKeywordExistInDeck(keyword))
+        {
+            DrawRandomCardFromDeck(keyword);
+        }
+    }
+
+    private void DrawRandomCardFromDiscard(string keyword)
+    {
+        Card cardToDraw = discard.DrawRandomCardFromDiscard(keyword);
+        if (cardToDraw.GetCardId() == 0)
+        {
+            return;
+        }
+        playerHand.TriggerAcceleration(1);
+        playerHand.DrawCard(cardToDraw);
+    }
+
     private void DrawRandomCardFromDeckOrDiscard(string keyword)
     {
         if (!battleData.CanPlayerDrawExtraCards())
@@ -1247,13 +1415,7 @@ public class Card : MonoBehaviour
         bool result = DrawRandomCardFromDeck(keyword);
         if (!result)
         {
-            Card cardToDraw = discard.DrawRandomCardFromDiscard(keyword);
-            if (cardToDraw.GetCardId() == 0)
-            {
-                return;
-            }
-            playerHand.TriggerAcceleration(1);
-            playerHand.DrawCard(cardToDraw);
+            DrawRandomCardFromDiscard(keyword);
         }
     }
 
