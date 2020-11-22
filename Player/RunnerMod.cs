@@ -294,21 +294,25 @@ public class RunnerMod : Item
                 levelOneCards.Add(140); // PREPARED STANCE 1
                 levelOneCards.Add(145); // NIMBLE STANCE 1
                 levelOneCards.Add(150); // READY FOR ANYTHING 1
+                levelOneCards.Add(155); // MISSTEP 1
 
                 levelTwoCards.Add(136); // STABILIZED STANCE 1
                 levelTwoCards.Add(141); // PREPARED STANCE 2
                 levelTwoCards.Add(146); // NIMBLE STANCE 2
                 levelTwoCards.Add(151); // READY FOR ANYTHING 2
+                levelTwoCards.Add(156); // MISSTEP 2
 
                 levelThreeCards.Add(137); // STABILIZED STANCE 1
                 levelThreeCards.Add(142); // PREPARED STANCE 3
                 levelThreeCards.Add(147); // NIMBLE STANCE 3
                 levelThreeCards.Add(152); // READY FOR ANYTHING 3
+                levelThreeCards.Add(157); // MISSTEP 3
 
                 levelFourCards.Add(138); // STABILIZED STANCE 1
                 levelFourCards.Add(143); // PREPARED STANCE 4
                 levelFourCards.Add(148); // NIMBLE STANCE 4
                 levelFourCards.Add(153); // READY FOR ANYTHING 4
+                levelFourCards.Add(158); // MISSTEP 4
 
                 levelFiveCards.Add(139); // STABILIZED STANCE 1
                 levelFiveCards.Add(144); // PREPARED STANCE 5

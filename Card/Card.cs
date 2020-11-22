@@ -985,12 +985,28 @@ public class Card : MonoBehaviour
                 GainStatus(StatusEffect.StatusType.Dodge, 2);
                 DrawXCards(3);
                 break;
-            case 150:
-            case 151:
-            case 152:
-            case 153:
-            case 154:
+            case 150: // READY FOR ANYTHING 1
+            case 151: // READY FOR ANYTHING 2
+            case 152: // READY FOR ANYTHING 3
+            case 153: // READY FOR ANYTHING 4
+            case 154: // READY FOR ANYTHING 5
                 DrawAllOfTypeFromDeck("Stance");
+                break;
+            case 155: // MISSTEP 1
+                GainStatus(StatusEffect.StatusType.Vulnerable, 2);
+                GainHandDebuff(2);
+                break;
+            case 156: // MISSTEP 2
+                GainStatus(StatusEffect.StatusType.Vulnerable, 3);
+                GainHandDebuff(2);
+                break;
+            case 157: // MISSTEP 3
+                GainStatus(StatusEffect.StatusType.Vulnerable, 4);
+                GainHandDebuff(2);
+                break;
+            case 158: // MISSTEP 4
+                GainStatus(StatusEffect.StatusType.Vulnerable, 5);
+                GainHandDebuff(2);
                 break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
@@ -1177,6 +1193,11 @@ public class Card : MonoBehaviour
             case 153:
             case 154:
                 return 37;
+            case 155:
+            case 156:
+            case 157:
+            case 158:
+                return 38;
             default:
                 return cardId;
         }
