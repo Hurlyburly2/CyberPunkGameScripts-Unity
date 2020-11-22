@@ -140,6 +140,18 @@ public class PlayerHand : MonoBehaviour
 
     public void DrawCard()
     {
+        battleData.AddToDrawnCardCount(1);
+        if (deck.GetCardCount() > 0)
+        {
+            Card cardToDraw = deck.DrawCardFromTop();
+            CardInstantiation(cardToDraw);
+        }
+    }
+
+    public void DrawCardDebug()
+    {
+        // THIS METHOD FOR DEBUGGING ONLY, INTENDED TO BE TIED TO THE 'DRAW CARD' BUTTON
+        // IN ORDER TO NOT INFLUENCE ANY COUNTERS AND SUCH
         if (deck.GetCardCount() > 0)
         {
             Card cardToDraw = deck.DrawCardFromTop();

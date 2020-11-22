@@ -1008,6 +1008,9 @@ public class Card : MonoBehaviour
                 GainStatus(StatusEffect.StatusType.Vulnerable, 5);
                 GainHandDebuff(2);
                 break;
+            case 159: // BARRAGE 1
+                DealDamage(battleData.GetDrawnCardCount() / 2);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -1198,6 +1201,12 @@ public class Card : MonoBehaviour
             case 157:
             case 158:
                 return 38;
+            case 159:
+            case 160:
+            case 161:
+            case 162:
+            case 163:
+                return 39;
             default:
                 return cardId;
         }
@@ -1384,6 +1393,7 @@ public class Card : MonoBehaviour
             return false;
         }
         playerHand.TriggerAcceleration(1);
+        battleData.AddToDrawnCardCount(1);
         playerHand.DrawCard(cardToDraw);
         return true;
     }
@@ -1404,6 +1414,7 @@ public class Card : MonoBehaviour
             return;
         }
         playerHand.TriggerAcceleration(1);
+        battleData.AddToDrawnCardCount(1);
         playerHand.DrawCard(cardToDraw);
     }
 

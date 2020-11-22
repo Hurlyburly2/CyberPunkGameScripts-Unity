@@ -99,13 +99,13 @@ public class PlayerData : MonoBehaviour
         ownedItems.Add(tornadoHandgun);
 
         Loadout runnerLoadout = currentRunner.GetLoadout();
-        runnerLoadout.EquipItem(adaptableCranioPatch);
-        runnerLoadout.EquipItem(adrenalInjector);
-        runnerLoadout.EquipItem(sensoryRegulator);
-        runnerLoadout.EquipItem(automatedDigits, Loadout.LeftOrRight.Left);
-        runnerLoadout.EquipItem(automatedDigitsTwo, Loadout.LeftOrRight.Right);
-        runnerLoadout.EquipItem(polymorphicSupport, Loadout.LeftOrRight.Left);
-        runnerLoadout.EquipItem(polymorphicSupportTwo, Loadout.LeftOrRight.Right);
+        //runnerLoadout.EquipItem(adaptableCranioPatch);
+        //runnerLoadout.EquipItem(adrenalInjector);
+        //runnerLoadout.EquipItem(sensoryRegulator);
+        //runnerLoadout.EquipItem(automatedDigits, Loadout.LeftOrRight.Left);
+        //runnerLoadout.EquipItem(automatedDigitsTwo, Loadout.LeftOrRight.Right);
+        //runnerLoadout.EquipItem(polymorphicSupport, Loadout.LeftOrRight.Left);
+        //runnerLoadout.EquipItem(polymorphicSupportTwo, Loadout.LeftOrRight.Right);
         runnerLoadout.EquipItem(tornadoHandgun);
 
         GenerateJobOptions();
