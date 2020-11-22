@@ -940,30 +940,50 @@ public class Card : MonoBehaviour
                 GainStatus(StatusEffect.StatusType.CritChance, 15);
                 DrawRandomCardFromDiscard("Weapon");
                 break;
-            case 140:
+            case 140: // PREPARED STANCE 1
                 GainStatus(StatusEffect.StatusType.DamageResist, 1);
                 GainEnergy(2);
                 GainHandBuff(1);
                 break;
-            case 141:
+            case 141: // PREPARED STANCE 2
                 GainStatus(StatusEffect.StatusType.DamageResist, 1);
                 GainEnergy(3);
                 GainHandBuff(1);
                 break;
-            case 142:
+            case 142: // PREPARED STANCE 3
                 GainStatus(StatusEffect.StatusType.DamageResist, 1);
                 GainEnergy(4);
                 GainHandBuff(2);
                 break;
-            case 143:
+            case 143: // PREPARED STANCE 4
                 GainStatus(StatusEffect.StatusType.DamageResist, 2);
                 GainEnergy(4);
                 GainHandBuff(2);
                 break;
-            case 144:
+            case 144: // PREPARED STANCE 5
                 GainStatus(StatusEffect.StatusType.DamageResist, 2);
                 GainEnergy(5);
                 GainHandBuff(3);
+                break;
+            case 145: // NIMBLE STANCE 1
+                GainStatus(StatusEffect.StatusType.Dodge, 1);
+                DrawXCards(1);
+                break;
+            case 146: // NIMBLE STANCE 2
+                GainStatus(StatusEffect.StatusType.Dodge, 1);
+                DrawXCards(2);
+                break;
+            case 147: // NIMBLE STANCE 3
+                GainStatus(StatusEffect.StatusType.Dodge, 2);
+                DrawXCards(2);
+                break;
+            case 148: // NIMBLE STANCE 4
+                GainStatus(StatusEffect.StatusType.Dodge, 2);
+                DrawXCards(2);
+                break;
+            case 149: // NIMBLE STANCE 5
+                GainStatus(StatusEffect.StatusType.Dodge, 2);
+                DrawXCards(3);
                 break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
@@ -1138,6 +1158,12 @@ public class Card : MonoBehaviour
             case 143:
             case 144:
                 return 35;
+            case 145:
+            case 146:
+            case 147:
+            case 148:
+            case 149:
+                return 36;
             default:
                 return cardId;
         }

@@ -90,6 +90,10 @@ public class PlayerData : MonoBehaviour
         polymorphicSupport.SetupMod("Polymorphic Support");
         ownedItems.Add(polymorphicSupport);
 
+        RunnerMod polymorphicSupportTwo = ScriptableObject.CreateInstance<RunnerMod>();
+        polymorphicSupportTwo.SetupMod("Polymorphic Support");
+        ownedItems.Add(polymorphicSupportTwo);
+
         Loadout runnerLoadout = currentRunner.GetLoadout();
         runnerLoadout.EquipItem(adaptableCranioPatch);
         runnerLoadout.EquipItem(adrenalInjector);
@@ -97,7 +101,7 @@ public class PlayerData : MonoBehaviour
         runnerLoadout.EquipItem(automatedDigits, Loadout.LeftOrRight.Left);
         runnerLoadout.EquipItem(automatedDigitsTwo, Loadout.LeftOrRight.Right);
         runnerLoadout.EquipItem(polymorphicSupport, Loadout.LeftOrRight.Left);
-        runnerLoadout.EquipItem(polymorphicSupport, Loadout.LeftOrRight.Right);
+        runnerLoadout.EquipItem(polymorphicSupportTwo, Loadout.LeftOrRight.Right);
 
         GenerateJobOptions();
     }
