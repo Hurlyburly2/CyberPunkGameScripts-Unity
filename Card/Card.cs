@@ -985,6 +985,13 @@ public class Card : MonoBehaviour
                 GainStatus(StatusEffect.StatusType.Dodge, 2);
                 DrawXCards(3);
                 break;
+            case 150:
+            case 151:
+            case 152:
+            case 153:
+            case 154:
+                DrawAllOfTypeFromDeck("Stance");
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -1164,6 +1171,12 @@ public class Card : MonoBehaviour
             case 148:
             case 149:
                 return 36;
+            case 150:
+            case 151:
+            case 152:
+            case 153:
+            case 154:
+                return 37;
             default:
                 return cardId;
         }
@@ -1352,6 +1365,14 @@ public class Card : MonoBehaviour
         playerHand.TriggerAcceleration(1);
         playerHand.DrawCard(cardToDraw);
         return true;
+    }
+
+    private void DrawAllOfTypeFromDeck(string keyword)
+    {
+        while (deck.DoesKeywordExistInDeck(keyword))
+        {
+            DrawRandomCardFromDeck(keyword);
+        }
     }
 
     private void DrawRandomCardFromDiscard(string keyword)

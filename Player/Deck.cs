@@ -165,4 +165,15 @@ public class Deck : MonoBehaviour
         }
         return foundCards;
     }
+
+    public bool DoesKeywordExistInDeck(string keyword)
+    {
+        foreach (Card card in cards)
+        {
+            List<string> keywords = new List<string>(card.GetKeywords());
+            if (keywords.Contains(keyword))
+                return true;
+        }
+        return false;
+    }
 }
