@@ -1009,7 +1009,17 @@ public class Card : MonoBehaviour
                 GainHandDebuff(2);
                 break;
             case 159: // BARRAGE 1
+            case 160: // BARRAGE 2
                 DealDamage(battleData.GetDrawnCardCount() / 2);
+                break;
+            case 161: // BARRAGE 3
+            case 162: // BARRAGE 4
+                DealDamage(battleData.GetDrawnCardCount());
+                break;
+            case 163: // BARRAGE 5
+                int damage = battleData.GetDrawnCardCount();
+                damage += battleData.GetCardsPlayedThisTurn() / 2;
+                DealDamage(damage);
                 break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");

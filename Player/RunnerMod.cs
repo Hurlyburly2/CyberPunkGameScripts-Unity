@@ -325,13 +325,13 @@ public class RunnerMod : Item
 
                 levelOneCards.Add(159); // BARRAGE 1
 
-                levelTwoCards.Add(159); // BARRAGE 1
+                levelTwoCards.Add(160); // BARRAGE 1
 
-                levelThreeCards.Add(159); // BARRAGE 1
+                levelThreeCards.Add(161); // BARRAGE 1
 
-                levelFourCards.Add(159); // BARRAGE 1
+                levelFourCards.Add(162); // BARRAGE 1
 
-                levelFiveCards.Add(159); // BARRAGE 1
+                levelFiveCards.Add(163); // BARRAGE 1
                 break;
             default:
                 break;
