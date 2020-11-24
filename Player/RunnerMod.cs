@@ -319,6 +319,50 @@ public class RunnerMod : Item
                 levelFiveCards.Add(149); // NIMBLE STANCE 5
                 levelFiveCards.Add(154); // READY FOR ANYTHING 5
                 break;
+            case "Tornado Handgun T-492":
+                itemType = ItemTypes.Weapon;
+                itemDescription = "TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO";
+
+                levelOneCards.Add(159); // BARRAGE 1
+                levelOneCards.Add(164); // SHOOT 1
+                levelOneCards.Add(164); // SHOOT 1
+                levelOneCards.Add(169); // HAIR TRIGGER 1
+                levelOneCards.Add(169); // HAIR TRIGGER 1
+                levelOneCards.Add(174); // RELOAD 1
+                levelOneCards.Add(179); // MISFIRE 1
+
+                levelTwoCards.Add(160); // BARRAGE 1
+                levelTwoCards.Add(165); // SHOOT 2
+                levelTwoCards.Add(165); // SHOOT 2
+                levelTwoCards.Add(170); // HAIR TRIGGER 2
+                levelTwoCards.Add(170); // HAIR TRIGGER 2
+                levelTwoCards.Add(175); // RELOAD 2
+                levelTwoCards.Add(180); // MISFIRE 2
+
+                levelThreeCards.Add(161); // BARRAGE 1
+                levelThreeCards.Add(166); // SHOOT 3
+                levelThreeCards.Add(166); // SHOOT 3
+                levelThreeCards.Add(171); // HAIR TRIGGER 3
+                levelThreeCards.Add(171); // HAIR TRIGGER 3
+                levelThreeCards.Add(176); // RELOAD 3
+                levelThreeCards.Add(181); // MISFIRE 3
+
+                levelFourCards.Add(162); // BARRAGE 1
+                levelFourCards.Add(167); // SHOOT 4
+                levelFourCards.Add(167); // SHOOT 4
+                levelFourCards.Add(172); // HAIR TRIGGER 4
+                levelFourCards.Add(172); // HAIR TRIGGER 4
+                levelFourCards.Add(177); // RELOAD 4
+                levelFourCards.Add(182); // MISFIRE 4
+
+                levelFiveCards.Add(163); // BARRAGE 1
+                levelFiveCards.Add(168); // SHOOT 5
+                levelFiveCards.Add(168); // SHOOT 5
+                levelFiveCards.Add(173); // HAIR TRIGGER 5
+                levelFiveCards.Add(173); // HAIR TRIGGER 5
+                levelFiveCards.Add(178); // RELOAD 5
+                levelFiveCards.Add(183); // MISFIRE 5
+                break;
             default:
                 break;
         }

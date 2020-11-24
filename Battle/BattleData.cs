@@ -41,6 +41,7 @@ public class BattleData : MonoBehaviour
     int dotDamageToEnemy = 0;
     int enemyDamageDebuff = 0;
     int cardsPlayedThisTurn = 0;
+    int cardsDrawnThisTurn = 0;
 
     // buffs from powerups
     int extraCardChanceFromMap = 0;
@@ -136,6 +137,8 @@ public class BattleData : MonoBehaviour
                     playerOnPlayedEffects = new List<PlayerOnPlayedEffects>();
                     canDrawExtraCards = true;
                     hasStanceBeenPlayed = false;
+                    cardsDrawnThisTurn = 0;
+                    playerHand.ResetFinishedDrawingStartOfTurnCards();
 
                     TickDownStatusEffectDurations("enemy");
                     whoseTurn = "enemy";
@@ -422,5 +425,15 @@ public class BattleData : MonoBehaviour
     public bool GetHasStanceBeenPlayed()
     {
         return hasStanceBeenPlayed;
+    }
+
+    public void AddToDrawnCardCount(int amount)
+    {
+        cardsDrawnThisTurn += amount;
+    }
+
+    public int GetDrawnCardCount()
+    {
+        return cardsDrawnThisTurn;
     }
 }
