@@ -14,6 +14,8 @@ public class PlayerHand : MonoBehaviour
     [SerializeField] float maxCardGap;
     bool centered = false;
     bool isDrawing = false; // set to true when drawing x cards
+    bool finishedDrawingStartOfTurnCards; // set to true when initial hand is finished drawing
+        // set to false at the end of each enemy turn
 
     // config
     AllCards allCards;
@@ -25,9 +27,11 @@ public class PlayerHand : MonoBehaviour
     Discard discard;
     CharacterData character;
 
+
     // Start is called before the first frame update
     void Start()
     {
+        finishedDrawingStartOfTurnCards = false;
         playerHandDebuff = 0;
         battleData = FindObjectOfType<BattleData>();
         deck = FindObjectOfType<Deck>();
@@ -77,6 +81,7 @@ public class PlayerHand : MonoBehaviour
             DrawCard();
             yield return new WaitForSeconds(timePerCardDraw);
         }
+        finishedDrawingStartOfTurnCards = true;
     }
 
     public void DrawXCards(int amountOfCards)
@@ -136,6 +141,10 @@ public class PlayerHand : MonoBehaviour
             yield return new WaitForSeconds(.05f);
         }
         isDrawing = false;
+
+        // I setting this to true every time seems likely to be successful, since we always
+        // do this at the start of turn anyway, so it should be the first time it happens
+        finishedDrawingStartOfTurnCards = true;
     }
 
     public void DrawCard()
@@ -368,5 +377,15 @@ public class PlayerHand : MonoBehaviour
                 card.ReduceEnergyCost(accelerateTimes);
             }
         }
+    }
+
+    public void ResetFinishedDrawingStartOfTurnCards()
+    {
+        finishedDrawingStartOfTurnCards = false;
+    }
+
+    public bool GetIsInitialHandDrawFinished()
+    {
+        return finishedDrawingStartOfTurnCards;
     }
 }

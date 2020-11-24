@@ -138,6 +138,7 @@ public class BattleData : MonoBehaviour
                     canDrawExtraCards = true;
                     hasStanceBeenPlayed = false;
                     cardsDrawnThisTurn = 0;
+                    playerHand.ResetFinishedDrawingStartOfTurnCards();
 
                     TickDownStatusEffectDurations("enemy");
                     whoseTurn = "enemy";

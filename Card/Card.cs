@@ -390,6 +390,22 @@ public class Card : MonoBehaviour
             case 134: // JAMMED SERVOS 4
                 battleData.InflictCannotDrawExtraCardsDebuff();
                 break;
+            case 179: // MISFIRE 1
+                if (playerHand.GetIsInitialHandDrawFinished())
+                    SelfDamage(8);
+                break;
+            case 180: // MISFIRE 2
+                if (playerHand.GetIsInitialHandDrawFinished())
+                    SelfDamage(6);
+                break;
+            case 181: // MISFIRE 3
+                if (playerHand.GetIsInitialHandDrawFinished())
+                    SelfDamage(4);
+                break;
+            case 182: // MISFIRE 4
+                if (playerHand.GetIsInitialHandDrawFinished())
+                    SelfDamage(2);
+                break;
         }
     }
 
@@ -1021,6 +1037,81 @@ public class Card : MonoBehaviour
                 damage += battleData.GetCardsPlayedThisTurn() / 2;
                 DealDamage(damage);
                 break;
+            case 164: // SHOOT 1
+                DealDamage(1, 2 * battleData.GetCardsPlayedThisTurn());
+                break;
+            case 165: // SHOOT 2
+                DealDamage(2, 3 * battleData.GetCardsPlayedThisTurn());
+                break;
+            case 166: // SHOOT 3
+                DealDamage(2, 4 * battleData.GetCardsPlayedThisTurn());
+                break;
+            case 167: // SHOOT 4
+                DealDamage(3, 4 * battleData.GetCardsPlayedThisTurn());
+                break;
+            case 168: // SHOOT 5
+                DealDamage(3, 5 * battleData.GetCardsPlayedThisTurn());
+                break;
+            case 169: // HAIR TRIGGER 1
+                DealDamage(1);
+                DrawXCards(1);
+                break;
+            case 170: // HAIR TRIGGER 2
+            case 171: // HAIR TRIGGER 3
+                DealDamage(1);
+                int cardsToDraw = 1;
+                if (PercentChance(50))
+                    cardsToDraw++;
+                DrawXCards(cardsToDraw);
+                break;
+            case 172: // HAIR TRIGGER 4
+                DealDamage(2);
+                cardsToDraw = 1;
+                if (PercentChance(50))
+                    cardsToDraw++;
+                DrawXCards(cardsToDraw);
+                break;
+            case 173: // HAIR TRIGGER 5
+                DealDamage(2);
+                cardsToDraw = 1;
+                if (PercentChance(50))
+                    cardsToDraw += 2;
+                DrawXCards(cardsToDraw);
+                break;
+            case 174: // RELOAD 1
+                DrawRandomCardFromDeck("Weapon");
+                break;
+            case 175: // RELOAD 2
+                DrawRandomCardFromDeck("Weapon");
+                break;
+            case 176: // RELOAD 3
+                DrawRandomCardFromDeck("Weapon");
+                DealDamage(1);
+                break;
+            case 177: // RELOAD 4
+                DrawRandomCardFromDeck("Weapon");
+                DealDamage(1);
+                break;
+            case 178: // RELOAD 5
+                DrawRandomCardFromDeck("Weapon");
+                DealDamage(2);
+                GainStatus(StatusEffect.StatusType.Momentum, 1);
+                break;
+            case 179: // MISFIRE 1
+                DealDamage(1);
+                break;
+            case 180: // MISFIRE 2
+                DealDamage(1);
+                break;
+            case 181: // MISFIRE 3
+                DealDamage(2);
+                break;
+            case 182: // MISFIRE 4
+                DealDamage(2);
+                break;
+            case 183: // MISFIRE 5
+                DealDamage(2);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -1217,6 +1308,31 @@ public class Card : MonoBehaviour
             case 162:
             case 163:
                 return 39;
+            case 164:
+            case 165:
+            case 166:
+            case 167:
+            case 168:
+                return 40;
+            case 169:
+            case 170:
+            case 171:
+            case 172:
+            case 173:
+                return 41;
+            case 174:
+            case 175:
+            case 176:
+            case 177:
+            case 178:
+                return 42;
+            case 179:
+            case 180:
+            case 181:
+            case 182:
+                return 43;
+            case 183:
+                return 44;
             default:
                 return cardId;
         }
