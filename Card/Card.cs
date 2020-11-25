@@ -156,7 +156,7 @@ public class Card : MonoBehaviour
 
         // Card played successfully
         CheckOnPlayedEffects();
-        battleData.CountPlayedCard();
+        battleData.CountPlayedCard(this);
 
         List<string> keywordList = new List<string>(keywords);
         if (keywordList.Contains("Stance"))
@@ -1112,6 +1112,21 @@ public class Card : MonoBehaviour
             case 183: // MISFIRE 5
                 DealDamage(2);
                 break;
+            case 184: // CHARGED SHOT 1
+                DealDamage(battleData.GetWeaponCardsPlayedThisTurn(), 4 * battleData.GetWeaponCardsPlayedThisTurn());
+                break;
+            case 185: // CHARGED SHOT 2
+                DealDamage(battleData.GetWeaponCardsPlayedThisTurn(), 6 * battleData.GetWeaponCardsPlayedThisTurn());
+                break;
+            case 186: // CHARGED SHOT 3
+                DealDamage(2 * battleData.GetWeaponCardsPlayedThisTurn(), 8 * battleData.GetWeaponCardsPlayedThisTurn());
+                break;
+            case 187: // CHARGED SHOT 4
+                DealDamage(2 * battleData.GetWeaponCardsPlayedThisTurn(), 10 * battleData.GetWeaponCardsPlayedThisTurn());
+                break;
+            case 188: // CHARGED SHOT 5
+                DealDamage(3 * battleData.GetWeaponCardsPlayedThisTurn(), 12 * battleData.GetWeaponCardsPlayedThisTurn());
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -1333,6 +1348,13 @@ public class Card : MonoBehaviour
                 return 43;
             case 183:
                 return 44;
+            case 184:
+            case 185:
+            case 186:
+            case 187:
+            case 188:
+                return 45;
+            // FOR VENT HEAT REMEMBER TO DO THE THING WITH THE EXTRA IMAGE
             default:
                 return cardId;
         }

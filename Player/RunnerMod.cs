@@ -363,6 +363,25 @@ public class RunnerMod : Item
                 levelFiveCards.Add(178); // RELOAD 5
                 levelFiveCards.Add(183); // MISFIRE 5
                 break;
+            case "Volt HandCannon V-1":
+                itemType = ItemTypes.Weapon;
+                itemDescription = "TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO";
+
+                levelOneCards.Add(184); // CHARGED SHOT 1
+                levelOneCards.Add(184); // CHARGED SHOT 1
+
+                levelTwoCards.Add(185); // CHARGED SHOT 2
+                levelTwoCards.Add(185); // CHARGED SHOT 2
+
+                levelThreeCards.Add(186); // CHARGED SHOT 3
+                levelThreeCards.Add(186); // CHARGED SHOT 3
+
+                levelFourCards.Add(187); // CHARGED SHOT 4
+                levelFourCards.Add(187); // CHARGED SHOT 4
+
+                levelFiveCards.Add(188); // CHARGED SHOT 5
+                levelFiveCards.Add(188); // CHARGED SHOT 5
+                break;
             default:
                 break;
         }

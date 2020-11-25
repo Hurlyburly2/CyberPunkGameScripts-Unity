@@ -41,6 +41,7 @@ public class BattleData : MonoBehaviour
     int dotDamageToEnemy = 0;
     int enemyDamageDebuff = 0;
     int cardsPlayedThisTurn = 0;
+    int weaponsPlayedThisTurn = 0;
     int cardsDrawnThisTurn = 0;
 
     // buffs from powerups
@@ -134,6 +135,7 @@ public class BattleData : MonoBehaviour
                 {
                     // reset some stuff:
                     cardsPlayedThisTurn = 0;
+                    weaponsPlayedThisTurn = 0;
                     playerOnPlayedEffects = new List<PlayerOnPlayedEffects>();
                     canDrawExtraCards = true;
                     hasStanceBeenPlayed = false;
@@ -367,14 +369,22 @@ public class BattleData : MonoBehaviour
         return extraCardChanceFromMap;
     }
 
-    public void CountPlayedCard()
+    public void CountPlayedCard(Card card)
     {
         cardsPlayedThisTurn++;
+        List<string> keywords = new List<string>(card.GetKeywords());
+        if (keywords.Contains("Weapon"))
+            weaponsPlayedThisTurn++;
     }
 
     public int GetCardsPlayedThisTurn()
     {
         return cardsPlayedThisTurn;
+    }
+
+    public int GetWeaponCardsPlayedThisTurn()
+    {
+        return weaponsPlayedThisTurn;
     }
 
     public void GainPlayerOnPlayedEffect(PlayerOnPlayedEffects newEffect)
