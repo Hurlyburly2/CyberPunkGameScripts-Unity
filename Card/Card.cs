@@ -118,6 +118,9 @@ public class Card : MonoBehaviour
                     FindObjectOfType<PopupHolder>().SpawnNotEnoughEnergyPopup();
                 } else if (keywordList.Contains("Stance") && battleData.GetHasStanceBeenPlayed()) {
                     FindObjectOfType<PopupHolder>().SpawnStancePopup();
+                } else if (battleData.DoesCardContainProhibitedKeywords(this))
+                {
+                    FindObjectOfType<PopupHolder>().SpawnCouldNotPlayPopup();
                 }
             }
         }
@@ -133,6 +136,8 @@ public class Card : MonoBehaviour
             return false;
         // Check if card is a stance AND a stance has already been played
         if (keywordList.Contains("Stance") && battleData.GetHasStanceBeenPlayed())
+            return false;
+        if (battleData.DoesCardContainProhibitedKeywords(this))
             return false;
         return true;
     }
@@ -405,6 +410,13 @@ public class Card : MonoBehaviour
             case 182: // MISFIRE 4
                 if (playerHand.GetIsInitialHandDrawFinished())
                     SelfDamage(2);
+                break;
+            case 204: // RELOAD 1
+            case 205: // RELOAD 2
+            case 206: // RELOAD 3
+            case 207: // RELOAD 4
+            case 208: // RELOAD 5
+                battleData.AddToListOfProhibitedCards("Weapon");
                 break;
         }
     }
@@ -1161,6 +1173,30 @@ public class Card : MonoBehaviour
                 DealDamage(1);
                 StartCoroutine(WaitForSomethingToFinish("dealingDamage"));
                 return true;
+            case 199: // SHOOT 1
+            case 200: // SHOOT 2
+                DealDamage(1);
+                DrawXCards(1);
+                break;
+            case 201: // SHOOT 3
+                DealDamage(2);
+                DrawXCards(1);
+                break;
+            case 202: // SHOOT 4
+                DealDamage(2);
+                DrawXCards(1);
+                break;
+            case 203: // SHOOT 5
+                DealDamage(3);
+                DrawXCards(1);
+                break;
+            case 204: // RELOAD 1
+            case 205: // RELOAD 2
+            case 206: // RELOAD 3
+            case 207: // RELOAD 4
+            case 208: // RELOAD 5
+                Debug.Log("No on-played effect");
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -1401,6 +1437,18 @@ public class Card : MonoBehaviour
             case 197:
             case 198:
                 return 47;
+            case 199:
+            case 200:
+            case 201:
+            case 202:
+            case 203:
+                return 48;
+            case 204:
+            case 205:
+            case 206:
+            case 207:
+            case 208:
+                return 49;
             default:
                 return cardId;
         }

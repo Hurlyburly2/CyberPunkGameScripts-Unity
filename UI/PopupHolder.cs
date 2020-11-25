@@ -54,6 +54,13 @@ public class PopupHolder : MonoBehaviour
         StartCoroutine(DestroyTemporaryMessageAfterTime(1));
     }
 
+    public void SpawnCouldNotPlayPopup()
+    {
+        whichPopup = "notEnoughEnergy";
+        SpawnPopup("Cannot play that card.");
+        StartCoroutine(DestroyTemporaryMessageAfterTime(1));
+    }
+
     private void SpawnPopup(string message)
     {
         DestroyAllPopups();

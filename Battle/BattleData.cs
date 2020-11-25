@@ -55,6 +55,9 @@ public class BattleData : MonoBehaviour
     bool canDrawExtraCards = true;
     bool hasStanceBeenPlayed = false;
 
+    // list that resets every turn. Keywords in this list are disallowed from play.
+    List<string> prohibitedKeywordsFromPlay = new List<string>();
+
     private void Awake()
     {
         int count = FindObjectsOfType<BattleData>().Length;
@@ -140,6 +143,7 @@ public class BattleData : MonoBehaviour
                     canDrawExtraCards = true;
                     hasStanceBeenPlayed = false;
                     cardsDrawnThisTurn = 0;
+                    prohibitedKeywordsFromPlay = new List<string>();
                     playerHand.ResetFinishedDrawingStartOfTurnCards();
 
                     TickDownStatusEffectDurations("enemy");
@@ -445,5 +449,26 @@ public class BattleData : MonoBehaviour
     public int GetDrawnCardCount()
     {
         return cardsDrawnThisTurn;
+    }
+
+    public void AddToListOfProhibitedCards(string keyword)
+    {
+        prohibitedKeywordsFromPlay.Add(keyword);
+    }
+
+    public bool DoesCardContainProhibitedKeywords(Card card)
+    {
+        List<string> cardKeywords = new List<string>(card.GetKeywords());
+
+        // Need to never prohibit the playing of a Weakness card
+        if (cardKeywords.Contains("Weakness"))
+            return false;
+
+        foreach (string cardKeyword in cardKeywords)
+        {
+            if (prohibitedKeywordsFromPlay.Contains(cardKeyword))
+                return true;
+        }
+        return false;
     }
 }
