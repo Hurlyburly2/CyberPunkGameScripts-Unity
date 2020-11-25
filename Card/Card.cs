@@ -1127,6 +1127,40 @@ public class Card : MonoBehaviour
             case 188: // CHARGED SHOT 5
                 DealDamage(3 * battleData.GetWeaponCardsPlayedThisTurn(), 12 * battleData.GetWeaponCardsPlayedThisTurn());
                 break;
+            case 189: // VENT HEAT 1
+                SelfDamage(6);
+                DrawXCards(1);
+                break;
+            case 190: // VENT HEAT 2
+                SelfDamage(4);
+                DrawXCards(1);
+                break;
+            case 191: // VENT HEAT 3
+                SelfDamage(2);
+                DrawXCards(1);
+                break;
+            case 192: // VENT HEAT 4
+                DrawXCards(1);
+                break;
+            case 193: // VENT HEAT 5
+                DrawXCards(2);
+                break;
+            case 194: // DOUBLE TAP 1
+            case 195: // DOUBLE TAP 2
+                DealDamage(1);
+                StartCoroutine(WaitForSomethingToFinish("dealingDamage"));
+                return true;
+            case 196: // DOUBLE TAP 3
+            case 197: // DOUBLE TAP 4
+                GainStatus(StatusEffect.StatusType.Momentum, 1);
+                DealDamage(1);
+                StartCoroutine(WaitForSomethingToFinish("dealingDamage"));
+                return true;
+            case 198: // DOUBLE TAP 5
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
+                DealDamage(1);
+                StartCoroutine(WaitForSomethingToFinish("dealingDamage"));
+                return true;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -1354,7 +1388,19 @@ public class Card : MonoBehaviour
             case 187:
             case 188:
                 return 45;
-            // FOR VENT HEAT REMEMBER TO DO THE THING WITH THE EXTRA IMAGE
+            case 189:
+            case 190:
+            case 191:
+                return 46;
+            case 192:
+            case 193:
+                return 50;
+            case 194:
+            case 195:
+            case 196:
+            case 197:
+            case 198:
+                return 47;
             default:
                 return cardId;
         }
@@ -1368,6 +1414,13 @@ public class Card : MonoBehaviour
                 DiscardCardsWithTag("Weakness");
                 EndTurn();
                 break;
+            case 194: // DOUBLE TAP 1
+            case 195: // DOUBLE TAP 2
+            case 196: // DOUBLE TAP 3
+            case 197: // DOUBLE TAP 4
+            case 198: // DOUBLE TAP 5
+                DealDamage(1);
+                break;
         }
         // NOW we can destroy the gameobject
         Destroy(gameObject);
@@ -1379,6 +1432,13 @@ public class Card : MonoBehaviour
         {
             PlayerHand playerHand = FindObjectOfType<PlayerHand>();
             while (playerHand.GetIsDrawing() == true)
+            {
+                yield return null;
+            }
+        } else if (finishWhat == "dealingDamage")
+        {
+            PipManagerEnemy enemyPipManager = configData.GetEnemyHealthPipManager();
+            while (enemyPipManager.GetIsAnimatingDamage())
             {
                 yield return null;
             }

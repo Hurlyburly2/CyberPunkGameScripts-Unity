@@ -369,18 +369,28 @@ public class RunnerMod : Item
 
                 levelOneCards.Add(184); // CHARGED SHOT 1
                 levelOneCards.Add(184); // CHARGED SHOT 1
+                levelOneCards.Add(189); // VENT HEAT 1
+                levelOneCards.Add(194); // DOUBLE TAP 1
 
                 levelTwoCards.Add(185); // CHARGED SHOT 2
                 levelTwoCards.Add(185); // CHARGED SHOT 2
+                levelTwoCards.Add(190); // VENT HEAT 2
+                levelTwoCards.Add(195); // DOUBLE TAP 2
 
                 levelThreeCards.Add(186); // CHARGED SHOT 3
                 levelThreeCards.Add(186); // CHARGED SHOT 3
+                levelThreeCards.Add(191); // VENT HEAT 3
+                levelThreeCards.Add(196); // DOUBLE TAP 3
 
                 levelFourCards.Add(187); // CHARGED SHOT 4
                 levelFourCards.Add(187); // CHARGED SHOT 4
+                levelFourCards.Add(192); // VENT HEAT 4
+                levelFourCards.Add(197); // DOUBLE TAP 4
 
                 levelFiveCards.Add(188); // CHARGED SHOT 5
                 levelFiveCards.Add(188); // CHARGED SHOT 5
+                levelFiveCards.Add(193); // VENT HEAT 5
+                levelFiveCards.Add(198); // DOUBLE TAP 5
                 break;
             default:
                 break;
