@@ -19,11 +19,14 @@ public class PipManagerEnemy : MonoBehaviour
     float pipValue;
     float weirdScale = 0.006f;
 
+    bool isAnimatingDamage;
+
     public void Setup(ConfigData newConfigData, int newMaximumValue, int newCurrentValue)
     {
         configData = newConfigData;
         maximumValue = newMaximumValue;
         currentValue = newCurrentValue;
+        isAnimatingDamage = false;
 
         maximumNumberOfPips = configData.GetMaximumNumberOfPips();
         distanceBetweenPips = configData.GetDistanceBetweenPips() * (weirdScale + 0.001f);
@@ -37,6 +40,7 @@ public class PipManagerEnemy : MonoBehaviour
     public void ChangeValue(int newValue)
     {
         currentValue = newValue;
+        isAnimatingDamage = true;
         StartCoroutine(ChangeNumberOfPips(.05f));
     }
 
@@ -60,6 +64,8 @@ public class PipManagerEnemy : MonoBehaviour
             }
             yield return new WaitForSeconds(timePerPip);
         }
+
+        isAnimatingDamage = false;
 
         if (pipList.Count == 0)
         {
@@ -99,5 +105,10 @@ public class PipManagerEnemy : MonoBehaviour
 
         newLastPip.transform.localScale = new Vector3(weirdScale, weirdScale, weirdScale);
         pipList.Add(newLastPip);
+    }
+
+    public bool GetIsAnimatingDamage()
+    {
+        return isAnimatingDamage;
     }
 }

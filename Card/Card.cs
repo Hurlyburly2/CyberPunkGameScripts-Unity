@@ -118,6 +118,9 @@ public class Card : MonoBehaviour
                     FindObjectOfType<PopupHolder>().SpawnNotEnoughEnergyPopup();
                 } else if (keywordList.Contains("Stance") && battleData.GetHasStanceBeenPlayed()) {
                     FindObjectOfType<PopupHolder>().SpawnStancePopup();
+                } else if (battleData.DoesCardContainProhibitedKeywords(this))
+                {
+                    FindObjectOfType<PopupHolder>().SpawnCouldNotPlayPopup();
                 }
             }
         }
@@ -133,6 +136,8 @@ public class Card : MonoBehaviour
             return false;
         // Check if card is a stance AND a stance has already been played
         if (keywordList.Contains("Stance") && battleData.GetHasStanceBeenPlayed())
+            return false;
+        if (battleData.DoesCardContainProhibitedKeywords(this))
             return false;
         return true;
     }
@@ -156,7 +161,7 @@ public class Card : MonoBehaviour
 
         // Card played successfully
         CheckOnPlayedEffects();
-        battleData.CountPlayedCard();
+        battleData.CountPlayedCard(this);
 
         List<string> keywordList = new List<string>(keywords);
         if (keywordList.Contains("Stance"))
@@ -405,6 +410,13 @@ public class Card : MonoBehaviour
             case 182: // MISFIRE 4
                 if (playerHand.GetIsInitialHandDrawFinished())
                     SelfDamage(2);
+                break;
+            case 204: // RELOAD 1
+            case 205: // RELOAD 2
+            case 206: // RELOAD 3
+            case 207: // RELOAD 4
+            case 208: // RELOAD 5
+                battleData.AddToListOfProhibitedCards("Weapon");
                 break;
         }
     }
@@ -1112,6 +1124,79 @@ public class Card : MonoBehaviour
             case 183: // MISFIRE 5
                 DealDamage(2);
                 break;
+            case 184: // CHARGED SHOT 1
+                DealDamage(battleData.GetWeaponCardsPlayedThisTurn(), 4 * battleData.GetWeaponCardsPlayedThisTurn());
+                break;
+            case 185: // CHARGED SHOT 2
+                DealDamage(battleData.GetWeaponCardsPlayedThisTurn(), 6 * battleData.GetWeaponCardsPlayedThisTurn());
+                break;
+            case 186: // CHARGED SHOT 3
+                DealDamage(2 * battleData.GetWeaponCardsPlayedThisTurn(), 8 * battleData.GetWeaponCardsPlayedThisTurn());
+                break;
+            case 187: // CHARGED SHOT 4
+                DealDamage(2 * battleData.GetWeaponCardsPlayedThisTurn(), 10 * battleData.GetWeaponCardsPlayedThisTurn());
+                break;
+            case 188: // CHARGED SHOT 5
+                DealDamage(3 * battleData.GetWeaponCardsPlayedThisTurn(), 12 * battleData.GetWeaponCardsPlayedThisTurn());
+                break;
+            case 189: // VENT HEAT 1
+                SelfDamage(6);
+                DrawXCards(1);
+                break;
+            case 190: // VENT HEAT 2
+                SelfDamage(4);
+                DrawXCards(1);
+                break;
+            case 191: // VENT HEAT 3
+                SelfDamage(2);
+                DrawXCards(1);
+                break;
+            case 192: // VENT HEAT 4
+                DrawXCards(1);
+                break;
+            case 193: // VENT HEAT 5
+                DrawXCards(2);
+                break;
+            case 194: // DOUBLE TAP 1
+            case 195: // DOUBLE TAP 2
+                DealDamage(1);
+                StartCoroutine(WaitForSomethingToFinish("dealingDamage"));
+                return true;
+            case 196: // DOUBLE TAP 3
+            case 197: // DOUBLE TAP 4
+                GainStatus(StatusEffect.StatusType.Momentum, 1);
+                DealDamage(1);
+                StartCoroutine(WaitForSomethingToFinish("dealingDamage"));
+                return true;
+            case 198: // DOUBLE TAP 5
+                GainStatus(StatusEffect.StatusType.Momentum, 2);
+                DealDamage(1);
+                StartCoroutine(WaitForSomethingToFinish("dealingDamage"));
+                return true;
+            case 199: // SHOOT 1
+            case 200: // SHOOT 2
+                DealDamage(1);
+                DrawXCards(1);
+                break;
+            case 201: // SHOOT 3
+                DealDamage(2);
+                DrawXCards(1);
+                break;
+            case 202: // SHOOT 4
+                DealDamage(2);
+                DrawXCards(1);
+                break;
+            case 203: // SHOOT 5
+                DealDamage(3);
+                DrawXCards(1);
+                break;
+            case 204: // RELOAD 1
+            case 205: // RELOAD 2
+            case 206: // RELOAD 3
+            case 207: // RELOAD 4
+            case 208: // RELOAD 5
+                Debug.Log("No on-played effect");
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -1333,6 +1418,37 @@ public class Card : MonoBehaviour
                 return 43;
             case 183:
                 return 44;
+            case 184:
+            case 185:
+            case 186:
+            case 187:
+            case 188:
+                return 45;
+            case 189:
+            case 190:
+            case 191:
+                return 46;
+            case 192:
+            case 193:
+                return 50;
+            case 194:
+            case 195:
+            case 196:
+            case 197:
+            case 198:
+                return 47;
+            case 199:
+            case 200:
+            case 201:
+            case 202:
+            case 203:
+                return 48;
+            case 204:
+            case 205:
+            case 206:
+            case 207:
+            case 208:
+                return 49;
             default:
                 return cardId;
         }
@@ -1346,6 +1462,13 @@ public class Card : MonoBehaviour
                 DiscardCardsWithTag("Weakness");
                 EndTurn();
                 break;
+            case 194: // DOUBLE TAP 1
+            case 195: // DOUBLE TAP 2
+            case 196: // DOUBLE TAP 3
+            case 197: // DOUBLE TAP 4
+            case 198: // DOUBLE TAP 5
+                DealDamage(1);
+                break;
         }
         // NOW we can destroy the gameobject
         Destroy(gameObject);
@@ -1357,6 +1480,13 @@ public class Card : MonoBehaviour
         {
             PlayerHand playerHand = FindObjectOfType<PlayerHand>();
             while (playerHand.GetIsDrawing() == true)
+            {
+                yield return null;
+            }
+        } else if (finishWhat == "dealingDamage")
+        {
+            PipManagerEnemy enemyPipManager = configData.GetEnemyHealthPipManager();
+            while (enemyPipManager.GetIsAnimatingDamage())
             {
                 yield return null;
             }

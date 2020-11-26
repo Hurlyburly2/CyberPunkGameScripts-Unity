@@ -98,6 +98,10 @@ public class PlayerData : MonoBehaviour
         tornadoHandgun.SetupMod("Tornado Handgun T-492");
         ownedItems.Add(tornadoHandgun);
 
+        RunnerMod voltHandCannon = ScriptableObject.CreateInstance<RunnerMod>();
+        voltHandCannon.SetupMod("Volt HandCannon V-1");
+        ownedItems.Add(voltHandCannon);
+
         Loadout runnerLoadout = currentRunner.GetLoadout();
         //runnerLoadout.EquipItem(adaptableCranioPatch);
         //runnerLoadout.EquipItem(adrenalInjector);
@@ -106,7 +110,8 @@ public class PlayerData : MonoBehaviour
         //runnerLoadout.EquipItem(automatedDigitsTwo, Loadout.LeftOrRight.Right);
         //runnerLoadout.EquipItem(polymorphicSupport, Loadout.LeftOrRight.Left);
         //runnerLoadout.EquipItem(polymorphicSupportTwo, Loadout.LeftOrRight.Right);
-        runnerLoadout.EquipItem(tornadoHandgun);
+        //runnerLoadout.EquipItem(tornadoHandgun);
+        runnerLoadout.EquipItem(voltHandCannon);
 
         GenerateJobOptions();
     }

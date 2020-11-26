@@ -363,6 +363,50 @@ public class RunnerMod : Item
                 levelFiveCards.Add(178); // RELOAD 5
                 levelFiveCards.Add(183); // MISFIRE 5
                 break;
+            case "Volt HandCannon V-1":
+                itemType = ItemTypes.Weapon;
+                itemDescription = "TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO";
+
+                levelOneCards.Add(184); // CHARGED SHOT 1
+                levelOneCards.Add(184); // CHARGED SHOT 1
+                levelOneCards.Add(189); // VENT HEAT 1
+                levelOneCards.Add(194); // DOUBLE TAP 1
+                levelOneCards.Add(199); // SHOOT 1
+                levelOneCards.Add(199); // SHOOT 1
+                levelOneCards.Add(204); // RELOAD 1
+
+                levelTwoCards.Add(185); // CHARGED SHOT 2
+                levelTwoCards.Add(185); // CHARGED SHOT 2
+                levelTwoCards.Add(190); // VENT HEAT 2
+                levelTwoCards.Add(195); // DOUBLE TAP 2
+                levelTwoCards.Add(200); // SHOOT 2
+                levelTwoCards.Add(200); // SHOOT 2
+                levelTwoCards.Add(205); // RELOAD 2
+
+                levelThreeCards.Add(186); // CHARGED SHOT 3
+                levelThreeCards.Add(186); // CHARGED SHOT 3
+                levelThreeCards.Add(191); // VENT HEAT 3
+                levelThreeCards.Add(196); // DOUBLE TAP 3
+                levelThreeCards.Add(201); // SHOOT 3
+                levelThreeCards.Add(201); // SHOOT 3
+                levelThreeCards.Add(206); // RELOAD 3
+
+                levelFourCards.Add(187); // CHARGED SHOT 4
+                levelFourCards.Add(187); // CHARGED SHOT 4
+                levelFourCards.Add(192); // VENT HEAT 4
+                levelFourCards.Add(197); // DOUBLE TAP 4
+                levelFourCards.Add(202); // SHOOT 4
+                levelFourCards.Add(202); // SHOOT 4
+                levelFourCards.Add(207); // RELOAD 4
+
+                levelFiveCards.Add(188); // CHARGED SHOT 5
+                levelFiveCards.Add(188); // CHARGED SHOT 5
+                levelFiveCards.Add(193); // VENT HEAT 5
+                levelFiveCards.Add(198); // DOUBLE TAP 5
+                levelFiveCards.Add(203); // SHOOT 5
+                levelFiveCards.Add(203); // SHOOT 5
+                levelFiveCards.Add(208); // RELOAD 5
+                break;
             default:
                 break;
         }

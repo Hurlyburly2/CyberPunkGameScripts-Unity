@@ -41,6 +41,7 @@ public class BattleData : MonoBehaviour
     int dotDamageToEnemy = 0;
     int enemyDamageDebuff = 0;
     int cardsPlayedThisTurn = 0;
+    int weaponsPlayedThisTurn = 0;
     int cardsDrawnThisTurn = 0;
 
     // buffs from powerups
@@ -53,6 +54,9 @@ public class BattleData : MonoBehaviour
     // misc buffs/debuffs
     bool canDrawExtraCards = true;
     bool hasStanceBeenPlayed = false;
+
+    // list that resets every turn. Keywords in this list are disallowed from play.
+    List<string> prohibitedKeywordsFromPlay = new List<string>();
 
     private void Awake()
     {
@@ -134,10 +138,12 @@ public class BattleData : MonoBehaviour
                 {
                     // reset some stuff:
                     cardsPlayedThisTurn = 0;
+                    weaponsPlayedThisTurn = 0;
                     playerOnPlayedEffects = new List<PlayerOnPlayedEffects>();
                     canDrawExtraCards = true;
                     hasStanceBeenPlayed = false;
                     cardsDrawnThisTurn = 0;
+                    prohibitedKeywordsFromPlay = new List<string>();
                     playerHand.ResetFinishedDrawingStartOfTurnCards();
 
                     TickDownStatusEffectDurations("enemy");
@@ -367,14 +373,22 @@ public class BattleData : MonoBehaviour
         return extraCardChanceFromMap;
     }
 
-    public void CountPlayedCard()
+    public void CountPlayedCard(Card card)
     {
         cardsPlayedThisTurn++;
+        List<string> keywords = new List<string>(card.GetKeywords());
+        if (keywords.Contains("Weapon"))
+            weaponsPlayedThisTurn++;
     }
 
     public int GetCardsPlayedThisTurn()
     {
         return cardsPlayedThisTurn;
+    }
+
+    public int GetWeaponCardsPlayedThisTurn()
+    {
+        return weaponsPlayedThisTurn;
     }
 
     public void GainPlayerOnPlayedEffect(PlayerOnPlayedEffects newEffect)
@@ -435,5 +449,26 @@ public class BattleData : MonoBehaviour
     public int GetDrawnCardCount()
     {
         return cardsDrawnThisTurn;
+    }
+
+    public void AddToListOfProhibitedCards(string keyword)
+    {
+        prohibitedKeywordsFromPlay.Add(keyword);
+    }
+
+    public bool DoesCardContainProhibitedKeywords(Card card)
+    {
+        List<string> cardKeywords = new List<string>(card.GetKeywords());
+
+        // Need to never prohibit the playing of a Weakness card
+        if (cardKeywords.Contains("Weakness"))
+            return false;
+
+        foreach (string cardKeyword in cardKeywords)
+        {
+            if (prohibitedKeywordsFromPlay.Contains(cardKeyword))
+                return true;
+        }
+        return false;
     }
 }
