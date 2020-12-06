@@ -34,6 +34,8 @@ public class ShopMenu : MonoBehaviour
     PlayerData playerData;
     InventoryMenu.InventoryFields[] fields = { InventoryMenu.InventoryFields.Name, InventoryMenu.InventoryFields.Type, InventoryMenu.InventoryFields.Lvl };
 
+    public enum ShopForSaleType { Mech, Tech, Cyber, Bio };
+
     string currentMode = null; // possibilities are buy, sell, and upgrade (taken from consts belows)
     const string BUYMODE = "buy";
     const string SELLMODE = "sell";

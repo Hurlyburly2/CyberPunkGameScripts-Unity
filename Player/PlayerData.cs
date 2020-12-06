@@ -21,8 +21,13 @@ public class PlayerData : MonoBehaviour
 
     int currentCredits;
 
+    ShopMenu.ShopForSaleType currentShopType;
+    List<ShopMenu.ShopForSaleType> previousShopTypes = new List<ShopMenu.ShopForSaleType>();
+
     private void Start()
     {
+        GetNewShopType();
+        Debug.Log(currentShopType.ToString());
         SetupNewGame();
     }
 
@@ -201,5 +206,35 @@ public class PlayerData : MonoBehaviour
     public int GetCreditsAmount()
     {
         return currentCredits;
+    }
+
+    public void TestShopChange()
+    {
+        GetNewShopType();
+    }
+
+    private void GetNewShopType()
+    {
+        if (previousShopTypes.Count == 4)
+            previousShopTypes = new List<ShopMenu.ShopForSaleType>();
+
+        List<ShopMenu.ShopForSaleType> availableTypes = new List<ShopMenu.ShopForSaleType>();
+        availableTypes.Add(ShopMenu.ShopForSaleType.Mech);
+        availableTypes.Add(ShopMenu.ShopForSaleType.Tech);
+        availableTypes.Add(ShopMenu.ShopForSaleType.Cyber);
+        availableTypes.Add(ShopMenu.ShopForSaleType.Bio);
+
+        foreach (ShopMenu.ShopForSaleType previousType in previousShopTypes)
+        {
+            if (availableTypes.Contains(previousType))
+                availableTypes.Remove(previousType);
+        }
+
+        ShopMenu.ShopForSaleType newShopType = availableTypes[Random.Range(0, availableTypes.Count)];
+
+        currentShopType = newShopType;
+
+        previousShopTypes.Add(currentShopType);
+        Debug.Log("Current Shop Type: " + currentShopType.ToString());
     }
 }
