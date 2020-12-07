@@ -26,7 +26,7 @@ public class PlayerData : MonoBehaviour
 
     private void Start()
     {
-        GetNewShopType();
+        GenerateNewShop();
         Debug.Log(currentShopType.ToString());
         SetupNewGame();
     }
@@ -119,6 +119,7 @@ public class PlayerData : MonoBehaviour
         runnerLoadout.EquipItem(voltHandCannon);
 
         GenerateJobOptions();
+        GenerateNewShop();
     }
 
     public void GenerateJobOptions()
@@ -208,13 +209,17 @@ public class PlayerData : MonoBehaviour
         return currentCredits;
     }
 
-    public void TestShopChange()
+    public void GenerateNewShop()
     {
-        GetNewShopType();
+        GenerateNewShopType();
+        Debug.Log("Current Shop Type: " + currentShopType.ToString());
     }
 
-    private void GetNewShopType()
+    private void GenerateNewShopType()
     {
+        // Here, we make sure that a full rotation of all four shop types are
+        // gone through without repeats. Then, a new cycle of four is started.
+        // This ensures that the player is eventually able to see all four shop types fairly often
         if (previousShopTypes.Count == 4)
             previousShopTypes = new List<ShopMenu.ShopForSaleType>();
 
@@ -235,6 +240,5 @@ public class PlayerData : MonoBehaviour
         currentShopType = newShopType;
 
         previousShopTypes.Add(currentShopType);
-        Debug.Log("Current Shop Type: " + currentShopType.ToString());
     }
 }

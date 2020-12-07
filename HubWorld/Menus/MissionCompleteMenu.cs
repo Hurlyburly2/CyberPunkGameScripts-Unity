@@ -45,7 +45,9 @@ public class MissionCompleteMenu : MonoBehaviour
         playerData.CreditsGain(totalWages);
         playerData.CreditsGain(creditsEarned);
 
-        // TODO: GENERATE NEW SHOP ITEMS - This will be handled on playerData
+        // Generate New Shop and Shop Items
+        playerData.GenerateNewShop();
+
         // TODO: GENERATE REWARD ITEM
     }
 
