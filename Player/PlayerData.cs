@@ -26,14 +26,14 @@ public class PlayerData : MonoBehaviour
 
     private void Start()
     {
-        GenerateNewShop();
         Debug.Log(currentShopType.ToString());
         SetupNewGame();
     }
 
     private void SetupNewGame()
     {
-        playerLevel = 0;
+        // TODO: CHANGE THIS BACK TO ZERO
+        playerLevel = 1;
         currentCredits = 100000;
 
         ownedRunners = new List<CharacterData>();
@@ -70,42 +70,42 @@ public class PlayerData : MonoBehaviour
         lockedHackerTwo.CreateNewHackerByClassId(2);
         ownedHackers.Add(lockedHackerTwo);
 
-        RunnerMod adaptableCranioPatch = ScriptableObject.CreateInstance<RunnerMod>();
-        adaptableCranioPatch.SetupMod("Adaptable CranioPatch");
-        //adaptableCranioPatch.SetItemLevel(2);
-        ownedItems.Add(adaptableCranioPatch);
+        //RunnerMod adaptableCranioPatch = ScriptableObject.CreateInstance<RunnerMod>();
+        //adaptableCranioPatch.SetupMod("Adaptable CranioPatch");
+        ////adaptableCranioPatch.SetItemLevel(2);
+        //ownedItems.Add(adaptableCranioPatch);
 
-        RunnerMod adrenalInjector = ScriptableObject.CreateInstance<RunnerMod>();
-        adrenalInjector.SetupMod("Adrenal Injector");
-        ownedItems.Add(adrenalInjector);
+        //RunnerMod adrenalInjector = ScriptableObject.CreateInstance<RunnerMod>();
+        //adrenalInjector.SetupMod("Adrenal Injector");
+        //ownedItems.Add(adrenalInjector);
 
-        RunnerMod sensoryRegulator = ScriptableObject.CreateInstance<RunnerMod>();
-        sensoryRegulator.SetupMod("Sensory Regulator");
-        ownedItems.Add(sensoryRegulator);
+        //RunnerMod sensoryRegulator = ScriptableObject.CreateInstance<RunnerMod>();
+        //sensoryRegulator.SetupMod("Sensory Regulator");
+        //ownedItems.Add(sensoryRegulator);
 
-        RunnerMod automatedDigits = ScriptableObject.CreateInstance<RunnerMod>();
-        automatedDigits.SetupMod("Automated Digits");
-        ownedItems.Add(automatedDigits);
+        //RunnerMod automatedDigits = ScriptableObject.CreateInstance<RunnerMod>();
+        //automatedDigits.SetupMod("Automated Digits");
+        //ownedItems.Add(automatedDigits);
 
-        RunnerMod automatedDigitsTwo = ScriptableObject.CreateInstance<RunnerMod>();
-        automatedDigitsTwo.SetupMod("Automated Digits");
-        ownedItems.Add(automatedDigitsTwo);
+        //RunnerMod automatedDigitsTwo = ScriptableObject.CreateInstance<RunnerMod>();
+        //automatedDigitsTwo.SetupMod("Automated Digits");
+        //ownedItems.Add(automatedDigitsTwo);
 
-        RunnerMod polymorphicSupport = ScriptableObject.CreateInstance<RunnerMod>();
-        polymorphicSupport.SetupMod("Polymorphic Support");
-        ownedItems.Add(polymorphicSupport);
+        //RunnerMod polymorphicSupport = ScriptableObject.CreateInstance<RunnerMod>();
+        //polymorphicSupport.SetupMod("Polymorphic Support");
+        //ownedItems.Add(polymorphicSupport);
 
-        RunnerMod polymorphicSupportTwo = ScriptableObject.CreateInstance<RunnerMod>();
-        polymorphicSupportTwo.SetupMod("Polymorphic Support");
-        ownedItems.Add(polymorphicSupportTwo);
+        //RunnerMod polymorphicSupportTwo = ScriptableObject.CreateInstance<RunnerMod>();
+        //polymorphicSupportTwo.SetupMod("Polymorphic Support");
+        //ownedItems.Add(polymorphicSupportTwo);
 
-        RunnerMod tornadoHandgun = ScriptableObject.CreateInstance<RunnerMod>();
-        tornadoHandgun.SetupMod("Tornado Handgun T-492");
-        ownedItems.Add(tornadoHandgun);
+        //RunnerMod tornadoHandgun = ScriptableObject.CreateInstance<RunnerMod>();
+        //tornadoHandgun.SetupMod("Tornado Handgun T-492");
+        //ownedItems.Add(tornadoHandgun);
 
-        RunnerMod voltHandCannon = ScriptableObject.CreateInstance<RunnerMod>();
-        voltHandCannon.SetupMod("Volt HandCannon V-1");
-        ownedItems.Add(voltHandCannon);
+        //RunnerMod voltHandCannon = ScriptableObject.CreateInstance<RunnerMod>();
+        //voltHandCannon.SetupMod("Volt HandCannon V-1");
+        //ownedItems.Add(voltHandCannon);
 
         Loadout runnerLoadout = currentRunner.GetLoadout();
         //runnerLoadout.EquipItem(adaptableCranioPatch);
@@ -116,7 +116,7 @@ public class PlayerData : MonoBehaviour
         //runnerLoadout.EquipItem(polymorphicSupport, Loadout.LeftOrRight.Left);
         //runnerLoadout.EquipItem(polymorphicSupportTwo, Loadout.LeftOrRight.Right);
         //runnerLoadout.EquipItem(tornadoHandgun);
-        runnerLoadout.EquipItem(voltHandCannon);
+        //runnerLoadout.EquipItem(voltHandCannon);
 
         GenerateJobOptions();
         GenerateNewShop();
@@ -213,6 +213,20 @@ public class PlayerData : MonoBehaviour
     {
         GenerateNewShopType();
         Debug.Log("Current Shop Type: " + currentShopType.ToString());
+        GenerateShopInventory();
+    }
+
+    private void GenerateShopInventory()
+    {
+        ItemGenerator itemGenerator = ScriptableObject.CreateInstance<ItemGenerator>();
+        List<string> applicableItems = itemGenerator.GetItemListByLevelAndType(playerLevel, currentShopType);
+
+        // Only put in shop items that the player does not own
+        foreach (Item item in ownedItems)
+        {
+            if (applicableItems.Contains(item.GetItemName()))
+                applicableItems.Remove(item.GetItemName());
+        }
     }
 
     private void GenerateNewShopType()

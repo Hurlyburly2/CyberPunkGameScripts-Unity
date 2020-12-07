@@ -41,4 +41,38 @@ public class ItemGenerator : ScriptableObject
         "Adrenal Injector",
         "Polymorphic Support",
     };
+
+    public List<string> GetItemListByLevelAndType(int level, ShopMenu.ShopForSaleType shopType)
+    {
+        List<string> itemResult = new List<string>();
+        switch (shopType)
+        {
+            case ShopMenu.ShopForSaleType.Bio:
+                if (level >= 0)
+                    itemResult.AddRange(lvl0BioItems);
+                if (level >= 1)
+                    itemResult.AddRange(lvl1BioItems);
+                break;
+            case ShopMenu.ShopForSaleType.Cyber:
+                if (level >= 0)
+                    itemResult.AddRange(lvl0CyberItems);
+                if (level >= 1)
+                    itemResult.AddRange(lvl1CyberItems);
+                break;
+            case ShopMenu.ShopForSaleType.Mech:
+                if (level >= 0)
+                    itemResult.AddRange(lvl0MechItems);
+                if (level >= 1)
+                    itemResult.AddRange(lvl1MechItems);
+                break;
+            case ShopMenu.ShopForSaleType.Tech:
+                if (level >= 0)
+                    itemResult.AddRange(lvl0TechItems);
+                if (level >= 1)
+                    itemResult.AddRange(lvl1TechItems);
+                break;
+        }
+
+        return itemResult;
+    }
 }
