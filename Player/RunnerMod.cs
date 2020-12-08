@@ -10,18 +10,24 @@ public class RunnerMod : Item
     List<int> levelFourCards = new List<int>();
     List<int> levelFiveCards = new List<int>();
 
-    public void SetupMod(string newModName)
+    public bool SetupMod(string newModName)
     {
-        GetMod(newModName);
+        bool success = GetMod(newModName);
         itemLevel = 1;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Runner;
+
+        return success;
     }
 
-    private void GetMod(string newModName)
+    private bool GetMod(string newModName)
     {
         itemName = newModName;
-        SetVariablesAndGetCards(itemName);
+        List<int> cards = SetVariablesAndGetCards(itemName);
+        if (cards.Count == 0)
+            return false;
+        else
+            return true;
     }
 
     public List<int> GetCardIds()
@@ -408,7 +414,9 @@ public class RunnerMod : Item
                 levelFiveCards.Add(208); // RELOAD 5
                 break;
             default:
-                break;
+                // Indicates a failure to set up the runner mod
+                List<int> emptyList = new List<int>();
+                return emptyList;
         }
 
         return levelOneCards;

@@ -23,6 +23,7 @@ public class PlayerData : MonoBehaviour
 
     ShopMenu.ShopForSaleType currentShopType;
     List<ShopMenu.ShopForSaleType> previousShopTypes = new List<ShopMenu.ShopForSaleType>();
+    List<Item> itemsForSale = new List<Item>();
 
     private void Start()
     {
@@ -211,6 +212,7 @@ public class PlayerData : MonoBehaviour
 
     public void GenerateNewShop()
     {
+        List<Item> itemsForSale = new List<Item>();
         GenerateNewShopType();
         Debug.Log("Current Shop Type: " + currentShopType.ToString());
         GenerateShopInventory();
@@ -227,6 +229,54 @@ public class PlayerData : MonoBehaviour
             if (applicableItems.Contains(item.GetItemName()))
                 applicableItems.Remove(item.GetItemName());
         }
+
+        // Here we limit the amount of items in the shop to 5 if over 5 applicable items are available
+        if (applicableItems.Count > 5)
+        {
+            List<string> newList = new List<string>();
+            while (newList.Count < 5)
+            {
+                int index = Random.Range(0, applicableItems.Count);
+                if (!newList.Contains(applicableItems[index]))
+                    newList.Add(applicableItems[index]);
+            }
+            applicableItems = newList;
+        }
+
+        AttemptToCreateShopItems(applicableItems);
+    }
+
+    private void AttemptToCreateShopItems(List<string> itemNames)
+    {
+        // TODO: DO OBJECTS NEED TO BE DESTROYED???
+        List<Item> shopItems = new List<Item>();
+        foreach (string itemName in itemNames)
+        {
+            RunnerMod createAsRunnerMod = ScriptableObject.CreateInstance<RunnerMod>();
+            bool success = createAsRunnerMod.SetupMod(itemName);
+            if (!success)
+            {
+                // Failed to create as a runner mod, try a hacker mod...
+                HackerMod createAsHackerMod = ScriptableObject.CreateInstance<HackerMod>();
+                success = createAsRunnerMod.SetupMod(itemName);
+                if (!success)
+                {
+                    // Failed to create as a hacker mod, try a hacker install...
+                    HackerModChip createAsHackerInstall = ScriptableObject.CreateInstance<HackerModChip>();
+                    success = createAsHackerInstall.SetupChip(itemName);
+                    if (success)
+                        shopItems.Add(createAsHackerInstall);
+                } else
+                {
+                    shopItems.Add(createAsHackerMod);
+                }
+            } else
+            {
+                shopItems.Add(createAsRunnerMod);
+            }
+        }
+
+        itemsForSale = shopItems;
     }
 
     private void GenerateNewShopType()

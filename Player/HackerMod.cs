@@ -20,16 +20,18 @@ public class HackerMod : Item
 
     List<HackerModChip> modChips = new List<HackerModChip>();
 
-    public void SetupMod(string newModName)
+    public bool SetupMod(string newModName)
     {
         itemName = newModName;
-        GetModProperties();
+        bool result = GetModProperties();
         itemLevel = 1;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Hacker;
+
+        return result;
     }
 
-    private void GetModProperties()
+    private bool GetModProperties()
     {
         switch(itemName)
         {
@@ -97,9 +99,10 @@ public class HackerMod : Item
                 levelFiveItemAbilityDescription = "Put the top card of your discard back onto the top of your deck.";
                 break;
             default:
-                break;
+                return false;
         }
         SetupEmptyMods();
+        return true;
     }
 
     public void UseAbility()

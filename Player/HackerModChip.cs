@@ -12,16 +12,18 @@ public class HackerModChip : Item
     string passiveAbilityString2;
     string passiveAbilityString3;
 
-    public void SetupChip(string newChipName)
+    public bool SetupChip(string newChipName)
     {
         itemName = newChipName;
-        SetChipProperties();
+        bool result = SetChipProperties();
         itemLevel = 1;
         itemMaxLevel = 3;
         hackerOrRunner = HackerRunner.Hacker;
+
+        return result;
     }
 
-    private void SetChipProperties()
+    private bool SetChipProperties()
     {
         // WHEN CREATING A NEW CARD, MUST ALSO ADD PASSIVE ABILITY FUNCTIONALITY BELOW
         switch(itemName)
@@ -90,8 +92,9 @@ public class HackerModChip : Item
                 break;
             default:
                 itemType = ItemTypes.None;
-                break;
+                return false;
         }
+        return true;
     }
 
     public PassiveAbility SetupPassiveAbility()
