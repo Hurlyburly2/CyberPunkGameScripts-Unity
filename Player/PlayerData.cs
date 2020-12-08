@@ -212,7 +212,6 @@ public class PlayerData : MonoBehaviour
 
     public void GenerateNewShop()
     {
-        List<Item> itemsForSale = new List<Item>();
         GenerateNewShopType();
         Debug.Log("Current Shop Type: " + currentShopType.ToString());
         GenerateShopInventory();
@@ -265,7 +264,9 @@ public class PlayerData : MonoBehaviour
                     HackerModChip createAsHackerInstall = ScriptableObject.CreateInstance<HackerModChip>();
                     success = createAsHackerInstall.SetupChip(itemName);
                     if (success)
+                    {
                         shopItems.Add(createAsHackerInstall);
+                    }
                 } else
                 {
                     shopItems.Add(createAsHackerMod);
@@ -304,5 +305,10 @@ public class PlayerData : MonoBehaviour
         currentShopType = newShopType;
 
         previousShopTypes.Add(currentShopType);
+    }
+
+    public List<Item> GetItemsForSale()
+    {
+        return itemsForSale;
     }
 }

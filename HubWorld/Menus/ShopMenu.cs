@@ -55,9 +55,10 @@ public class ShopMenu : MonoBehaviour
 
     public void SetupShopMenu()
     {
+        currentMode = null;
+        playerData = FindObjectOfType<PlayerData>();
         SelectNothing();
         InitializeBuyScreen();
-        playerData = FindObjectOfType<PlayerData>();
         currentMoneyField.text = playerData.GetCreditsAmount().ToString();
     }
 
@@ -77,6 +78,7 @@ public class ShopMenu : MonoBehaviour
         currentMode = BUYMODE;
 
         // TODO: CARD CAROSEL AND INVENTORY LIST
+        SetupInventoryList(playerData.GetItemsForSale());
     }
 
     private void InitializeSellScreen()
