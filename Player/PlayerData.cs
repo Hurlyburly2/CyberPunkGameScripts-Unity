@@ -311,4 +311,9 @@ public class PlayerData : MonoBehaviour
     {
         return itemsForSale;
     }
+
+    public ShopMenu.ShopForSaleType GetShopType()
+    {
+        return currentShopType;
+    }
 }
