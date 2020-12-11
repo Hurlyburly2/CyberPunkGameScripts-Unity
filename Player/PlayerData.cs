@@ -35,7 +35,7 @@ public class PlayerData : MonoBehaviour
     {
         // TODO: CHANGE THIS BACK TO ZERO
         playerLevel = 1;
-        currentCredits = 100000;
+        currentCredits = 1000;
 
         ownedRunners = new List<CharacterData>();
         ownedHackers = new List<HackerData>();
@@ -315,5 +315,15 @@ public class PlayerData : MonoBehaviour
     public ShopMenu.ShopForSaleType GetShopType()
     {
         return currentShopType;
+    }
+
+    public void GainItem(Item itemToGain)
+    {
+        ownedItems.Add(itemToGain);
+    }
+
+    public void RemoveItemFromForSale(Item itemToRemove)
+    {
+        itemsForSale.Remove(itemToRemove);
     }
 }

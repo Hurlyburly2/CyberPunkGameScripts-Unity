@@ -39,6 +39,8 @@ public class HackerMod : Item
             // TODO: MUST WRITE ALL FUNCTIONALITY FOR NEW ABILITIES IN THERE
             // TODO: PERHAPS WE CAN PASS A FUNCTION FROM HERE TO IT INSTEAD OF SEPARATING THINGS
             case "Basic Rig":
+                itemPrice = 131;
+
                 level1Slots = 1;
                 level2Slots = 1;
                 level3Slots = 1;
@@ -59,6 +61,8 @@ public class HackerMod : Item
                 levelFiveItemAbilityDescription = "Add one Red connection to your active card.";
                 break;
             case "Basic Cranial Dock":
+                itemPrice = 132;
+
                 level1Slots = 1;
                 level2Slots = 1;
                 level3Slots = 1;
@@ -79,6 +83,8 @@ public class HackerMod : Item
                 levelFiveItemAbilityDescription = "For your next action, pick from your top two cards. Discard the other.";
                 break;
             case "Basic Uplink":
+                itemPrice = 133;
+
                 level1Slots = 1;
                 level2Slots = 1;
                 level3Slots = 1;

@@ -79,6 +79,7 @@ public class ShopMenu : MonoBehaviour
         upgradeTabButton.color = inactiveTabColor;
 
         buyButton.gameObject.SetActive(true);
+        buyButton.interactable = false;
         sellButton.gameObject.SetActive(false);
         upgradeButton.gameObject.SetActive(false);
         currentMode = BUYMODE;
@@ -198,6 +199,15 @@ public class ShopMenu : MonoBehaviour
             }
             switch (currentMode)
             {
+                case BUYMODE:
+                    if (selectedItem.GetItemPrice() <= playerData.GetCreditsAmount())
+                        buyButton.interactable = true;
+                    else
+                        buyButton.interactable = false;
+                    break;
+                case SELLMODE:
+                    // DO SOME THINGS IN HERE
+                    break;
                 case UPGRADEMODE:
                     if (selectedItem.GetItemLevel() < selectedItem.GetItemMaxLevel() && GetPrice(selectedItem) <= playerData.GetCreditsAmount())
                     {
@@ -226,8 +236,7 @@ public class ShopMenu : MonoBehaviour
         switch (currentMode)
         {
             case BUYMODE:
-                // TODO: THIS
-                return 9999999;
+                return item.GetItemPrice();
             case SELLMODE:
                 // TODO: THIS
                 return 9999999;
@@ -349,7 +358,8 @@ public class ShopMenu : MonoBehaviour
 
     public void BuyButtonClick()
     {
-        Debug.Log("Clicked Buy Button");
+        buyButton.interactable = false;
+        BuyItem();
     }
 
     public void SellButtonClick()
@@ -416,5 +426,16 @@ public class ShopMenu : MonoBehaviour
     public string GetOpenShopTab()
     {
         return currentMode;
+    }
+
+    public void BuyItem()
+    {
+        Item selectedItem = inventoryList.GetSelectedItem();
+        playerData.CreditsSpend(selectedItem.GetItemPrice());
+        currentMoneyField.text = playerData.GetCreditsAmount().ToString();
+        playerData.GainItem(selectedItem);
+        playerData.RemoveItemFromForSale(selectedItem);
+        SetupInventoryList(playerData.GetItemsForSale());
+        SelectNothing();
     }
 }

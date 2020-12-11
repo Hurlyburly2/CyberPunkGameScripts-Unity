@@ -30,6 +30,7 @@ public class HackerModChip : Item
         {
             case "Cheap Ghost":
                 itemType = ItemTypes.Software;
+                itemPrice = 121;
                 itemDescription = "Install this on a machine and, if you're lucky, it won't be detected before it starts funnelling you data";
                 levelOneItemAbilityDescription = "Your first 2 Two-Connection spikes each hack are worth +1.";
                 levelTwoItemAbilityDescription = "Your first 2 Two-Connection spikes each hack are worth +2.";
@@ -52,6 +53,7 @@ public class HackerModChip : Item
                 break;
             case "JuryRigged QwikThink":
                 itemType = ItemTypes.Wetware;
+                itemPrice = 122;
                 itemDescription = "Salvaged QwikThink1000 wetware. It's an older model, and you fixed it up as best you could.";
                 levelOneItemAbilityDescription = "Your first 3-Connection spike is worth double the points.";
                 levelTwoItemAbilityDescription = "Your first 3-Connection spike is worth double the points.";
@@ -72,6 +74,7 @@ public class HackerModChip : Item
                 break;
             case "Salvaged Router":
                 itemType = ItemTypes.Chipset;
+                itemPrice = 123;
                 itemDescription = "This would be fine for civilian use. You should replace it.";
                 levelOneItemAbilityDescription = "The first time you place a card outside the safe zone, it does not raise the security level.";
                 levelTwoItemAbilityDescription = "The first time you place a card outside the safe zone, it does not raise the security level.";
