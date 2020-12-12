@@ -222,6 +222,7 @@ public class PlayerData : MonoBehaviour
         ItemGenerator itemGenerator = ScriptableObject.CreateInstance<ItemGenerator>();
         List<string> applicableItems = itemGenerator.GetItemListByLevelAndType(playerLevel, currentShopType);
 
+        // COMMENT OUT FROM HERE UNTIL NEXT MARKER TO GENERATE UNFILTERED ITEM LIST
         // Only put in shop items that the player does not own
         foreach (Item item in ownedItems)
         {
@@ -241,6 +242,7 @@ public class PlayerData : MonoBehaviour
             }
             applicableItems = newList;
         }
+        // END COMMENT ZONE FOR UNFILTERED ITEM LIST
 
         AttemptToCreateShopItems(applicableItems);
     }
@@ -257,7 +259,7 @@ public class PlayerData : MonoBehaviour
             {
                 // Failed to create as a runner mod, try a hacker mod...
                 HackerMod createAsHackerMod = ScriptableObject.CreateInstance<HackerMod>();
-                success = createAsRunnerMod.SetupMod(itemName);
+                success = createAsHackerMod.SetupMod(itemName);
                 if (!success)
                 {
                     // Failed to create as a hacker mod, try a hacker install...
