@@ -28,6 +28,7 @@ public class Item : ScriptableObject
     // hackerModInstalls: Software, Wetware, Chipset
     protected int itemLevel;
     protected int itemMaxLevel;
+    protected int itemPrice;
 
     public void PrintItemId()
     {
@@ -174,5 +175,10 @@ public class Item : ScriptableObject
         {
             itemLevel++;
         }
+    }
+
+    public int GetItemPrice()
+    {
+        return itemPrice;
     }
 }

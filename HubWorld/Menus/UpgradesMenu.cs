@@ -90,9 +90,18 @@ public class UpgradesMenu : MonoBehaviour
                 runnerUpgradeContext.SetActive(false);
                 break;
             case ItemDetailsMenu.ItemDetailMenuContextType.Shop:
-                runnerUpgradeContext.SetActive(true);
-                runnerShopInventoryContext.SetActive(false);
-                SetupUpgradeButtons(runnerUpgradeButtons);
+                if (shopMenu.GetOpenShopTab() == "upgrade")
+                {
+                    // We only go to the upgrade context if the shop is in upgrade mode,
+                    // because we do not want to upgrade items that are for sale or being sold...
+                    runnerUpgradeContext.SetActive(true);
+                    runnerShopInventoryContext.SetActive(false);
+                    SetupUpgradeButtons(runnerUpgradeButtons);
+                } else
+                {
+                    runnerShopInventoryContext.SetActive(true);
+                    runnerUpgradeContext.SetActive(false);
+                }
                 break;
         }
         SetupGeneralInfo();
@@ -259,8 +268,14 @@ public class UpgradesMenu : MonoBehaviour
                     hackerModShopContext.SetActive(false);
                     break;
                 case ItemDetailsMenu.ItemDetailMenuContextType.Shop:
-                    hackerModShopContext.SetActive(true);
-                    SetupUpgradeButtons(hackerModUpgradeButtons);
+                    if (shopMenu.GetOpenShopTab() == "upgrade")
+                    {
+                        hackerModShopContext.SetActive(true);
+                        SetupUpgradeButtons(hackerModUpgradeButtons);
+                    } else
+                    {
+                        hackerModShopContext.SetActive(false);
+                    }
                     break;
             }
             switch (item.GetItemType())
@@ -285,6 +300,7 @@ public class UpgradesMenu : MonoBehaviour
             SetupActiveAbilityHolders();
         } else
         {
+            // Is an install
             currentCardCarosel = hackerInstallCardCarosel;
             switch (context)
             {
@@ -295,11 +311,17 @@ public class UpgradesMenu : MonoBehaviour
                     hackerInstallShopContext.SetActive(false);
                     break;
                 case ItemDetailsMenu.ItemDetailMenuContextType.Shop:
-                    hackerInstallShopContext.SetActive(true);
-                    SetupUpgradeButtons(hackerInstallUpgradeButtons);
+                    if (shopMenu.GetOpenShopTab() == "upgrade")
+                    {
+                        hackerInstallShopContext.SetActive(true);
+                        SetupUpgradeButtons(hackerInstallUpgradeButtons);
+                    } else
+                    {
+                        hackerInstallShopContext.SetActive(false);
+                    }
                     break;
             }
-            // Is an install
+            
             hackerInstallContext.SetActive(true);
             hackerModContext.SetActive(false);
             SetupCardCarosels();

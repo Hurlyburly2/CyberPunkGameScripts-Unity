@@ -20,16 +20,18 @@ public class HackerMod : Item
 
     List<HackerModChip> modChips = new List<HackerModChip>();
 
-    public void SetupMod(string newModName)
+    public bool SetupMod(string newModName)
     {
         itemName = newModName;
-        GetModProperties();
+        bool result = GetModProperties();
         itemLevel = 1;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Hacker;
+
+        return result;
     }
 
-    private void GetModProperties()
+    private bool GetModProperties()
     {
         switch(itemName)
         {
@@ -37,6 +39,8 @@ public class HackerMod : Item
             // TODO: MUST WRITE ALL FUNCTIONALITY FOR NEW ABILITIES IN THERE
             // TODO: PERHAPS WE CAN PASS A FUNCTION FROM HERE TO IT INSTEAD OF SEPARATING THINGS
             case "Basic Rig":
+                itemPrice = 131;
+
                 level1Slots = 1;
                 level2Slots = 1;
                 level3Slots = 1;
@@ -57,6 +61,8 @@ public class HackerMod : Item
                 levelFiveItemAbilityDescription = "Add one Red connection to your active card.";
                 break;
             case "Basic Cranial Dock":
+                itemPrice = 132;
+
                 level1Slots = 1;
                 level2Slots = 1;
                 level3Slots = 1;
@@ -77,6 +83,8 @@ public class HackerMod : Item
                 levelFiveItemAbilityDescription = "For your next action, pick from your top two cards. Discard the other.";
                 break;
             case "Basic Uplink":
+                itemPrice = 133;
+
                 level1Slots = 1;
                 level2Slots = 1;
                 level3Slots = 1;
@@ -97,9 +105,10 @@ public class HackerMod : Item
                 levelFiveItemAbilityDescription = "Put the top card of your discard back onto the top of your deck.";
                 break;
             default:
-                break;
+                return false;
         }
         SetupEmptyMods();
+        return true;
     }
 
     public void UseAbility()

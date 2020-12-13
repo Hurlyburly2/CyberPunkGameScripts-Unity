@@ -21,15 +21,21 @@ public class PlayerData : MonoBehaviour
 
     int currentCredits;
 
+    ShopMenu.ShopForSaleType currentShopType;
+    List<ShopMenu.ShopForSaleType> previousShopTypes = new List<ShopMenu.ShopForSaleType>();
+    List<Item> itemsForSale = new List<Item>();
+
     private void Start()
     {
+        Debug.Log(currentShopType.ToString());
         SetupNewGame();
     }
 
     private void SetupNewGame()
     {
-        playerLevel = 0;
-        currentCredits = 100000;
+        // TODO: CHANGE THIS BACK TO ZERO
+        playerLevel = 1;
+        currentCredits = 1000;
 
         ownedRunners = new List<CharacterData>();
         ownedHackers = new List<HackerData>();
@@ -65,42 +71,42 @@ public class PlayerData : MonoBehaviour
         lockedHackerTwo.CreateNewHackerByClassId(2);
         ownedHackers.Add(lockedHackerTwo);
 
-        RunnerMod adaptableCranioPatch = ScriptableObject.CreateInstance<RunnerMod>();
-        adaptableCranioPatch.SetupMod("Adaptable CranioPatch");
-        //adaptableCranioPatch.SetItemLevel(2);
-        ownedItems.Add(adaptableCranioPatch);
+        //RunnerMod adaptableCranioPatch = ScriptableObject.CreateInstance<RunnerMod>();
+        //adaptableCranioPatch.SetupMod("Adaptable CranioPatch");
+        ////adaptableCranioPatch.SetItemLevel(2);
+        //ownedItems.Add(adaptableCranioPatch);
 
-        RunnerMod adrenalInjector = ScriptableObject.CreateInstance<RunnerMod>();
-        adrenalInjector.SetupMod("Adrenal Injector");
-        ownedItems.Add(adrenalInjector);
+        //RunnerMod adrenalInjector = ScriptableObject.CreateInstance<RunnerMod>();
+        //adrenalInjector.SetupMod("Adrenal Injector");
+        //ownedItems.Add(adrenalInjector);
 
-        RunnerMod sensoryRegulator = ScriptableObject.CreateInstance<RunnerMod>();
-        sensoryRegulator.SetupMod("Sensory Regulator");
-        ownedItems.Add(sensoryRegulator);
+        //RunnerMod sensoryRegulator = ScriptableObject.CreateInstance<RunnerMod>();
+        //sensoryRegulator.SetupMod("Sensory Regulator");
+        //ownedItems.Add(sensoryRegulator);
 
-        RunnerMod automatedDigits = ScriptableObject.CreateInstance<RunnerMod>();
-        automatedDigits.SetupMod("Automated Digits");
-        ownedItems.Add(automatedDigits);
+        //RunnerMod automatedDigits = ScriptableObject.CreateInstance<RunnerMod>();
+        //automatedDigits.SetupMod("Automated Digits");
+        //ownedItems.Add(automatedDigits);
 
-        RunnerMod automatedDigitsTwo = ScriptableObject.CreateInstance<RunnerMod>();
-        automatedDigitsTwo.SetupMod("Automated Digits");
-        ownedItems.Add(automatedDigitsTwo);
+        //RunnerMod automatedDigitsTwo = ScriptableObject.CreateInstance<RunnerMod>();
+        //automatedDigitsTwo.SetupMod("Automated Digits");
+        //ownedItems.Add(automatedDigitsTwo);
 
-        RunnerMod polymorphicSupport = ScriptableObject.CreateInstance<RunnerMod>();
-        polymorphicSupport.SetupMod("Polymorphic Support");
-        ownedItems.Add(polymorphicSupport);
+        //RunnerMod polymorphicSupport = ScriptableObject.CreateInstance<RunnerMod>();
+        //polymorphicSupport.SetupMod("Polymorphic Support");
+        //ownedItems.Add(polymorphicSupport);
 
-        RunnerMod polymorphicSupportTwo = ScriptableObject.CreateInstance<RunnerMod>();
-        polymorphicSupportTwo.SetupMod("Polymorphic Support");
-        ownedItems.Add(polymorphicSupportTwo);
+        //RunnerMod polymorphicSupportTwo = ScriptableObject.CreateInstance<RunnerMod>();
+        //polymorphicSupportTwo.SetupMod("Polymorphic Support");
+        //ownedItems.Add(polymorphicSupportTwo);
 
-        RunnerMod tornadoHandgun = ScriptableObject.CreateInstance<RunnerMod>();
-        tornadoHandgun.SetupMod("Tornado Handgun T-492");
-        ownedItems.Add(tornadoHandgun);
+        //RunnerMod tornadoHandgun = ScriptableObject.CreateInstance<RunnerMod>();
+        //tornadoHandgun.SetupMod("Tornado Handgun T-492");
+        //ownedItems.Add(tornadoHandgun);
 
-        RunnerMod voltHandCannon = ScriptableObject.CreateInstance<RunnerMod>();
-        voltHandCannon.SetupMod("Volt HandCannon V-1");
-        ownedItems.Add(voltHandCannon);
+        //RunnerMod voltHandCannon = ScriptableObject.CreateInstance<RunnerMod>();
+        //voltHandCannon.SetupMod("Volt HandCannon V-1");
+        //ownedItems.Add(voltHandCannon);
 
         Loadout runnerLoadout = currentRunner.GetLoadout();
         //runnerLoadout.EquipItem(adaptableCranioPatch);
@@ -111,9 +117,10 @@ public class PlayerData : MonoBehaviour
         //runnerLoadout.EquipItem(polymorphicSupport, Loadout.LeftOrRight.Left);
         //runnerLoadout.EquipItem(polymorphicSupportTwo, Loadout.LeftOrRight.Right);
         //runnerLoadout.EquipItem(tornadoHandgun);
-        runnerLoadout.EquipItem(voltHandCannon);
+        //runnerLoadout.EquipItem(voltHandCannon);
 
         GenerateJobOptions();
+        GenerateNewShop();
     }
 
     public void GenerateJobOptions()
@@ -201,5 +208,124 @@ public class PlayerData : MonoBehaviour
     public int GetCreditsAmount()
     {
         return currentCredits;
+    }
+
+    public void GenerateNewShop()
+    {
+        GenerateNewShopType();
+        Debug.Log("Current Shop Type: " + currentShopType.ToString());
+        GenerateShopInventory();
+    }
+
+    private void GenerateShopInventory()
+    {
+        ItemGenerator itemGenerator = ScriptableObject.CreateInstance<ItemGenerator>();
+        List<string> applicableItems = itemGenerator.GetItemListByLevelAndType(playerLevel, currentShopType);
+
+        // COMMENT OUT FROM HERE UNTIL NEXT MARKER TO GENERATE UNFILTERED ITEM LIST
+        // Only put in shop items that the player does not own
+        foreach (Item item in ownedItems)
+        {
+            if (applicableItems.Contains(item.GetItemName()))
+                applicableItems.Remove(item.GetItemName());
+        }
+
+        // Here we limit the amount of items in the shop to 5 if over 5 applicable items are available
+        if (applicableItems.Count > 5)
+        {
+            List<string> newList = new List<string>();
+            while (newList.Count < 5)
+            {
+                int index = Random.Range(0, applicableItems.Count);
+                if (!newList.Contains(applicableItems[index]))
+                    newList.Add(applicableItems[index]);
+            }
+            applicableItems = newList;
+        }
+        // END COMMENT ZONE FOR UNFILTERED ITEM LIST
+
+        AttemptToCreateShopItems(applicableItems);
+    }
+
+    private void AttemptToCreateShopItems(List<string> itemNames)
+    {
+        // TODO: DO OBJECTS NEED TO BE DESTROYED???
+        List<Item> shopItems = new List<Item>();
+        foreach (string itemName in itemNames)
+        {
+            RunnerMod createAsRunnerMod = ScriptableObject.CreateInstance<RunnerMod>();
+            bool success = createAsRunnerMod.SetupMod(itemName);
+            if (!success)
+            {
+                // Failed to create as a runner mod, try a hacker mod...
+                HackerMod createAsHackerMod = ScriptableObject.CreateInstance<HackerMod>();
+                success = createAsHackerMod.SetupMod(itemName);
+                if (!success)
+                {
+                    // Failed to create as a hacker mod, try a hacker install...
+                    HackerModChip createAsHackerInstall = ScriptableObject.CreateInstance<HackerModChip>();
+                    success = createAsHackerInstall.SetupChip(itemName);
+                    if (success)
+                    {
+                        shopItems.Add(createAsHackerInstall);
+                    }
+                } else
+                {
+                    shopItems.Add(createAsHackerMod);
+                }
+            } else
+            {
+                shopItems.Add(createAsRunnerMod);
+            }
+        }
+
+        itemsForSale = shopItems;
+    }
+
+    private void GenerateNewShopType()
+    {
+        // Here, we make sure that a full rotation of all four shop types are
+        // gone through without repeats. Then, a new cycle of four is started.
+        // This ensures that the player is eventually able to see all four shop types fairly often
+        if (previousShopTypes.Count == 4)
+            previousShopTypes = new List<ShopMenu.ShopForSaleType>();
+
+        List<ShopMenu.ShopForSaleType> availableTypes = new List<ShopMenu.ShopForSaleType>();
+        availableTypes.Add(ShopMenu.ShopForSaleType.Mech);
+        availableTypes.Add(ShopMenu.ShopForSaleType.Tech);
+        availableTypes.Add(ShopMenu.ShopForSaleType.Cyber);
+        availableTypes.Add(ShopMenu.ShopForSaleType.Bio);
+
+        foreach (ShopMenu.ShopForSaleType previousType in previousShopTypes)
+        {
+            if (availableTypes.Contains(previousType))
+                availableTypes.Remove(previousType);
+        }
+
+        ShopMenu.ShopForSaleType newShopType = availableTypes[Random.Range(0, availableTypes.Count)];
+
+        currentShopType = newShopType;
+
+        previousShopTypes.Add(currentShopType);
+    }
+
+    public List<Item> GetItemsForSale()
+    {
+        return itemsForSale;
+    }
+
+    public ShopMenu.ShopForSaleType GetShopType()
+    {
+        return currentShopType;
+    }
+
+    public void GainItem(Item itemToGain)
+    {
+        ownedItems.Add(itemToGain);
+    }
+
+    public void RemoveItemFromForSale(Item itemToRemove)
+    {
+        itemsForSale.Remove(itemToRemove);
     }
 }

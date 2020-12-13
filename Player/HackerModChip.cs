@@ -12,22 +12,25 @@ public class HackerModChip : Item
     string passiveAbilityString2;
     string passiveAbilityString3;
 
-    public void SetupChip(string newChipName)
+    public bool SetupChip(string newChipName)
     {
         itemName = newChipName;
-        SetChipProperties();
+        bool result = SetChipProperties();
         itemLevel = 1;
         itemMaxLevel = 3;
         hackerOrRunner = HackerRunner.Hacker;
+
+        return result;
     }
 
-    private void SetChipProperties()
+    private bool SetChipProperties()
     {
         // WHEN CREATING A NEW CARD, MUST ALSO ADD PASSIVE ABILITY FUNCTIONALITY BELOW
         switch(itemName)
         {
             case "Cheap Ghost":
                 itemType = ItemTypes.Software;
+                itemPrice = 121;
                 itemDescription = "Install this on a machine and, if you're lucky, it won't be detected before it starts funnelling you data";
                 levelOneItemAbilityDescription = "Your first 2 Two-Connection spikes each hack are worth +1.";
                 levelTwoItemAbilityDescription = "Your first 2 Two-Connection spikes each hack are worth +2.";
@@ -50,6 +53,7 @@ public class HackerModChip : Item
                 break;
             case "JuryRigged QwikThink":
                 itemType = ItemTypes.Wetware;
+                itemPrice = 122;
                 itemDescription = "Salvaged QwikThink1000 wetware. It's an older model, and you fixed it up as best you could.";
                 levelOneItemAbilityDescription = "Your first 3-Connection spike is worth double the points.";
                 levelTwoItemAbilityDescription = "Your first 3-Connection spike is worth double the points.";
@@ -70,6 +74,7 @@ public class HackerModChip : Item
                 break;
             case "Salvaged Router":
                 itemType = ItemTypes.Chipset;
+                itemPrice = 123;
                 itemDescription = "This would be fine for civilian use. You should replace it.";
                 levelOneItemAbilityDescription = "The first time you place a card outside the safe zone, it does not raise the security level.";
                 levelTwoItemAbilityDescription = "The first time you place a card outside the safe zone, it does not raise the security level.";
@@ -90,8 +95,9 @@ public class HackerModChip : Item
                 break;
             default:
                 itemType = ItemTypes.None;
-                break;
+                return false;
         }
+        return true;
     }
 
     public PassiveAbility SetupPassiveAbility()

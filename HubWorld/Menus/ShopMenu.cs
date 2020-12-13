@@ -31,8 +31,15 @@ public class ShopMenu : MonoBehaviour
     [SerializeField] Button sellButton;
     [SerializeField] Button upgradeButton;
 
+    [SerializeField] GameObject nothingForSaleMessage;
+    [SerializeField] Sprite[] shopKeepImages;
+        // 0 = MECH, 1 = TECH, 2 = CYBER, 3 = BIO
+    [SerializeField] Image shopKeepImageHolder;
+
     PlayerData playerData;
     InventoryMenu.InventoryFields[] fields = { InventoryMenu.InventoryFields.Name, InventoryMenu.InventoryFields.Type, InventoryMenu.InventoryFields.Lvl };
+
+    public enum ShopForSaleType { Mech, Tech, Cyber, Bio };
 
     string currentMode = null; // possibilities are buy, sell, and upgrade (taken from consts belows)
     const string BUYMODE = "buy";
@@ -53,9 +60,11 @@ public class ShopMenu : MonoBehaviour
 
     public void SetupShopMenu()
     {
-        SelectNothing();
-        InitializeBuyScreen();
+        currentMode = null;
         playerData = FindObjectOfType<PlayerData>();
+        SelectNothing();
+        SetShopKeepImage();
+        InitializeBuyScreen();
         currentMoneyField.text = playerData.GetCreditsAmount().ToString();
     }
 
@@ -70,11 +79,17 @@ public class ShopMenu : MonoBehaviour
         upgradeTabButton.color = inactiveTabColor;
 
         buyButton.gameObject.SetActive(true);
+        buyButton.interactable = false;
         sellButton.gameObject.SetActive(false);
         upgradeButton.gameObject.SetActive(false);
         currentMode = BUYMODE;
 
         // TODO: CARD CAROSEL AND INVENTORY LIST
+        if (playerData.GetItemsForSale().Count < 1)
+            nothingForSaleMessage.SetActive(true);
+        else
+            nothingForSaleMessage.SetActive(false);
+        SetupInventoryList(playerData.GetItemsForSale());
     }
 
     private void InitializeSellScreen()
@@ -87,6 +102,7 @@ public class ShopMenu : MonoBehaviour
         sellTabButton.color = activeTabColor;
         upgradeTabButton.color = inactiveTabColor;
 
+        nothingForSaleMessage.SetActive(false);
         buyButton.gameObject.SetActive(false);
         sellButton.gameObject.SetActive(true);
         upgradeButton.gameObject.SetActive(false);
@@ -108,6 +124,7 @@ public class ShopMenu : MonoBehaviour
         sellTabButton.color = inactiveTabColor;
         upgradeTabButton.color = activeTabColor;
 
+        nothingForSaleMessage.SetActive(false);
         buyButton.gameObject.SetActive(false);
         sellButton.gameObject.SetActive(false);
         upgradeButton.gameObject.SetActive(true);
@@ -182,6 +199,15 @@ public class ShopMenu : MonoBehaviour
             }
             switch (currentMode)
             {
+                case BUYMODE:
+                    if (selectedItem.GetItemPrice() <= playerData.GetCreditsAmount())
+                        buyButton.interactable = true;
+                    else
+                        buyButton.interactable = false;
+                    break;
+                case SELLMODE:
+                    // DO SOME THINGS IN HERE
+                    break;
                 case UPGRADEMODE:
                     if (selectedItem.GetItemLevel() < selectedItem.GetItemMaxLevel() && GetPrice(selectedItem) <= playerData.GetCreditsAmount())
                     {
@@ -210,8 +236,7 @@ public class ShopMenu : MonoBehaviour
         switch (currentMode)
         {
             case BUYMODE:
-                // TODO: THIS
-                return 9999999;
+                return item.GetItemPrice();
             case SELLMODE:
                 // TODO: THIS
                 return 9999999;
@@ -333,7 +358,8 @@ public class ShopMenu : MonoBehaviour
 
     public void BuyButtonClick()
     {
-        Debug.Log("Clicked Buy Button");
+        buyButton.interactable = false;
+        BuyItem();
     }
 
     public void SellButtonClick()
@@ -353,6 +379,28 @@ public class ShopMenu : MonoBehaviour
     {
         inventoryList.UpdateListedItem(selectedItem);
         currentMoneyField.text = playerData.GetCreditsAmount().ToString();
+    }
+
+    private void SetShopKeepImage()
+    {
+        int index = 5;
+        // 0 = MECH, 1 = TECH, 2 = CYBER, 3 = BIO
+        switch (playerData.GetShopType())
+        {
+            case ShopForSaleType.Mech:
+                index = 0;
+                break;
+            case ShopForSaleType.Tech:
+                index = 1;
+                break;
+            case ShopForSaleType.Cyber:
+                index = 2;
+                break;
+            case ShopForSaleType.Bio:
+                index = 3;
+                break;
+        }
+        shopKeepImageHolder.sprite = shopKeepImages[index];
     }
 
     public void ClickBuyTab()
@@ -378,5 +426,16 @@ public class ShopMenu : MonoBehaviour
     public string GetOpenShopTab()
     {
         return currentMode;
+    }
+
+    public void BuyItem()
+    {
+        Item selectedItem = inventoryList.GetSelectedItem();
+        playerData.CreditsSpend(selectedItem.GetItemPrice());
+        currentMoneyField.text = playerData.GetCreditsAmount().ToString();
+        playerData.GainItem(selectedItem);
+        playerData.RemoveItemFromForSale(selectedItem);
+        SetupInventoryList(playerData.GetItemsForSale());
+        SelectNothing();
     }
 }
