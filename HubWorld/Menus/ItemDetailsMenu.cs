@@ -360,4 +360,10 @@ public class ItemDetailsMenu : MonoBehaviour
         shopMenu.UpgradeButtonClick();
         SetupItemDetailMenu(context, item);
     }
+
+    public void ClickBuyButton()
+    {
+        shopMenu.BuyButtonClick();
+        CloseItemDetailsMenu();
+    }
 }
