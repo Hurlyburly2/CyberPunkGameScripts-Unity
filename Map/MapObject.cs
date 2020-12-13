@@ -7,7 +7,7 @@ public class MapObject : ScriptableObject
     Job.JobArea mapType;
     string mapObjectType;
         // options are fed to it by mapSquare:
-        // "Trap", "Reward", "PowerUp", "Shop", "Upgrade", "First Aid Station"
+        // "Trap", "Reward", "PowerUp", "Upgrade", "First Aid Station"
     bool isActive;
         // IF IT IS A TRAP AND IT IS NOT ACTIVE IT SHOULDN'T TRIGGER
 
@@ -43,8 +43,6 @@ public class MapObject : ScriptableObject
                 return GainReward();
             case "PowerUp":
                 return GainPowerUp();
-            case "Shop":
-                return Shop();
             case "Upgrade":
                 return GainUpgrade();
             case "First Aid Station":
@@ -84,11 +82,6 @@ public class MapObject : ScriptableObject
                 break;
         }
         return returnString;
-    }
-
-    private string Shop()
-    {
-        return "SHOP NOT YET IMPLEMENTED";
     }
 
     private string GainUpgrade()
