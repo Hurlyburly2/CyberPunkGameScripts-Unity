@@ -21,6 +21,7 @@ public class MapSquareImageHolder : MonoBehaviour
     [SerializeField] Sprite[] pointSquares;
 
     int maxSlumLocations = 43; // amount of locations images in slums
+    int maxSlumSquares = 20;
     int maxCitySquares = 20;
 
     public Sprite GetPointSquareByColor(string color)
@@ -163,10 +164,13 @@ public class MapSquareImageHolder : MonoBehaviour
         switch (mapType)
         {
             case Job.JobArea.Slums:
-                locationString += "/City/Square";
+                locationString += "/Slums/Square";
+                //locationString += "/City/Square";
+                //locationString += GetRandomSquareId().ToString();
                 locationString += GetRandomSquareId().ToString();
                 return Resources.Load<Sprite>(locationString);
         }
+        // We should only hit this return in the case of a mistake
         return Resources.Load<Sprite>("Squares/City/Square1");
     }
 
