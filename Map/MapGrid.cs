@@ -233,7 +233,7 @@ public class MapGrid : MonoBehaviour
             case Job.JobArea.Slums:
                 return 35;
             case Job.JobArea.Downtown:
-                return 35;
+                return 75;
             default:
                 return 35;
         }
