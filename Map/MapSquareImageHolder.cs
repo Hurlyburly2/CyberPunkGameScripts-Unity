@@ -20,7 +20,8 @@ public class MapSquareImageHolder : MonoBehaviour
 
     [SerializeField] Sprite[] pointSquares;
 
-    int maxSlumLocations = 43; // amount of locations images in slums
+    int maxSlumLocations = 43; // amount of location images in slums (+1 due to random stuff)
+    int maxDowntownLocations = 37; // amoun tof location images in city
     int maxSlumSquares = 20;
     int maxCitySquares = 20;
 
@@ -202,8 +203,7 @@ public class MapSquareImageHolder : MonoBehaviour
                 locationString += GetRandomLocationId().ToString();
                 return Resources.Load<Sprite>(locationString);
             case Job.JobArea.Downtown:
-                // TODO: ADD DOWNTOWN PHOTOS
-                locationString += "/Slums/Location";
+                locationString += "/City/Location";
                 locationString += GetRandomLocationId().ToString();
                 return Resources.Load<Sprite>(locationString);
         }
@@ -227,8 +227,7 @@ public class MapSquareImageHolder : MonoBehaviour
                 InitializeLists(maxSlumLocations, maxSlumSquares);
                 break;
             case Job.JobArea.Downtown:
-                // TODO: add a variable for maxCityLocations
-                InitializeLists(maxSlumLocations, maxCitySquares);
+                InitializeLists(maxDowntownLocations, maxCitySquares);
                 break;
         }
     }
