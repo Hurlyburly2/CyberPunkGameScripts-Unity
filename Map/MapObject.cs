@@ -63,6 +63,10 @@ public class MapObject : ScriptableObject
                 minRange = 100;
                 maxRange = 300;
                 break;
+            case Job.JobArea.Downtown:
+                minRange = 300;
+                maxRange = 600;
+                break;
         }
 
         int rewardAmount = Mathf.FloorToInt(Random.Range(minRange, maxRange));

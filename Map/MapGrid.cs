@@ -232,6 +232,8 @@ public class MapGrid : MonoBehaviour
         {
             case Job.JobArea.Slums:
                 return 35;
+            case Job.JobArea.Downtown:
+                return 75;
             default:
                 return 35;
         }
@@ -241,6 +243,8 @@ public class MapGrid : MonoBehaviour
     {
         switch (mapType) {
             case Job.JobArea.Slums:
+                return 50;
+            case Job.JobArea.Downtown:
                 return 50;
         }
         return 0;

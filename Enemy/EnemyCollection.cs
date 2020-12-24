@@ -13,12 +13,13 @@ public class EnemyCollection : MonoBehaviour
 
     public Enemy GetAnEnemyByArea(Job.JobArea area, int securityLevel, Job job, bool isBoss)
     {
-        switch (area)
-        {
-            case Job.JobArea.Slums:
-                return GetEnemy(area, securityLevel, job, isBoss);
-        }
-        return allEnemies[0];
+        //switch (area)
+        //{
+        //    case Job.JobArea.Slums:
+        //        return GetEnemy(area, securityLevel, job, isBoss);
+        //}
+        return GetEnemy(area, securityLevel, job, isBoss);
+        //return allEnemies[0];
     }
 
     private Enemy GetEnemy(Job.JobArea area, int securityLevel, Job job, bool isBoss)
@@ -29,6 +30,10 @@ public class EnemyCollection : MonoBehaviour
             case Job.JobArea.Slums:
                 int[] slumEnemyIds = { 0, 1, 2 };
                 enemyIds.AddRange(slumEnemyIds);
+                break;
+            case Job.JobArea.Downtown:
+                int[] downtownEnemyIds = { 0, 1, 2 };
+                enemyIds.AddRange(downtownEnemyIds);
                 break;
         }
 

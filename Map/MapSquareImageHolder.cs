@@ -20,7 +20,9 @@ public class MapSquareImageHolder : MonoBehaviour
 
     [SerializeField] Sprite[] pointSquares;
 
-    int maxSlumLocations = 43; // amount of locations images in slums
+    int maxSlumLocations = 43; // amount of location images in slums (+1 due to random stuff)
+    int maxDowntownLocations = 37; // amoun tof location images in city
+    int maxSlumSquares = 20;
     int maxCitySquares = 20;
 
     public Sprite GetPointSquareByColor(string color)
@@ -163,10 +165,15 @@ public class MapSquareImageHolder : MonoBehaviour
         switch (mapType)
         {
             case Job.JobArea.Slums:
+                locationString += "/Slums/Square";
+                locationString += GetRandomSquareId().ToString();
+                return Resources.Load<Sprite>(locationString);
+            case Job.JobArea.Downtown:
                 locationString += "/City/Square";
                 locationString += GetRandomSquareId().ToString();
                 return Resources.Load<Sprite>(locationString);
         }
+        // We should only hit this return in the case of a mistake
         return Resources.Load<Sprite>("Squares/City/Square1");
     }
 
@@ -195,6 +202,10 @@ public class MapSquareImageHolder : MonoBehaviour
                 locationString += "/Slums/Location";
                 locationString += GetRandomLocationId().ToString();
                 return Resources.Load<Sprite>(locationString);
+            case Job.JobArea.Downtown:
+                locationString += "/City/Location";
+                locationString += GetRandomLocationId().ToString();
+                return Resources.Load<Sprite>(locationString);
         }
 
         return Resources.Load<Sprite>("LocationImages/City/Location1");
@@ -213,7 +224,10 @@ public class MapSquareImageHolder : MonoBehaviour
         switch (mapType)
         {
             case Job.JobArea.Slums:
-                InitializeLists(maxSlumLocations, maxCitySquares);
+                InitializeLists(maxSlumLocations, maxSlumSquares);
+                break;
+            case Job.JobArea.Downtown:
+                InitializeLists(maxDowntownLocations, maxCitySquares);
                 break;
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class JobSelectSquare : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class JobSelectSquare : MonoBehaviour
     [SerializeField] Sprite holderActive;
     [SerializeField] Image[] stars;
     [SerializeField] Image jobIcon;
+    [SerializeField] TextMeshProUGUI areaName;
 
     Job job;
     bool isSelected;
@@ -23,6 +25,7 @@ public class JobSelectSquare : MonoBehaviour
         SetupStars();
         UpdateHolderImage();
         jobIcon.sprite = job.GetJobIcon();
+        areaName.text = job.GetJobAreaString();
     }
 
     public Job GetJob()
