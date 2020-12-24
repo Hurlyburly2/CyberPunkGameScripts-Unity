@@ -165,8 +165,10 @@ public class MapSquareImageHolder : MonoBehaviour
         {
             case Job.JobArea.Slums:
                 locationString += "/Slums/Square";
-                //locationString += "/City/Square";
-                //locationString += GetRandomSquareId().ToString();
+                locationString += GetRandomSquareId().ToString();
+                return Resources.Load<Sprite>(locationString);
+            case Job.JobArea.Downtown:
+                locationString += "/City/Square";
                 locationString += GetRandomSquareId().ToString();
                 return Resources.Load<Sprite>(locationString);
         }
@@ -199,6 +201,11 @@ public class MapSquareImageHolder : MonoBehaviour
                 locationString += "/Slums/Location";
                 locationString += GetRandomLocationId().ToString();
                 return Resources.Load<Sprite>(locationString);
+            case Job.JobArea.Downtown:
+                // TODO: ADD DOWNTOWN PHOTOS
+                locationString += "/Slums/Location";
+                locationString += GetRandomLocationId().ToString();
+                return Resources.Load<Sprite>(locationString);
         }
 
         return Resources.Load<Sprite>("LocationImages/City/Location1");
@@ -217,6 +224,10 @@ public class MapSquareImageHolder : MonoBehaviour
         switch (mapType)
         {
             case Job.JobArea.Slums:
+                InitializeLists(maxSlumLocations, maxSlumSquares);
+                break;
+            case Job.JobArea.Downtown:
+                // TODO: add a variable for maxCityLocations
                 InitializeLists(maxSlumLocations, maxCitySquares);
                 break;
         }

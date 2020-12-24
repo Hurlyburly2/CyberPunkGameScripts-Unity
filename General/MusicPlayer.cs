@@ -10,11 +10,15 @@ public class MusicPlayer : MonoBehaviour
     [SerializeField] AudioClip homeBase;
     [SerializeField] AudioClip slumsIntro;
     [SerializeField] AudioClip slumsLoop;
+    // TODO: USE RESOURCES.LOAD PATTERN FOR MUSIC
+    [SerializeField] AudioClip downtownIntro;
+    [SerializeField] AudioClip downtownLoop;
 
     // state
     string currentTrack = "homeBase";
         // homeBase
         // slumsPreLoop, slumsPostLoop
+        // downtownPreLoop, downtownPostLoop
 
     private void Awake()
     {
@@ -44,6 +48,12 @@ public class MusicPlayer : MonoBehaviour
                     audioSource.Play();
                     currentTrack = "slumsPostLoop";
                     break;
+                case "downtownPreLoop":
+                    audioSource.clip = downtownLoop;
+                    audioSource.loop = true;
+                    audioSource.Play();
+                    currentTrack = "downtownPostLoop";
+                    break;
             }
         }
     }
@@ -62,6 +72,12 @@ public class MusicPlayer : MonoBehaviour
                 audioSource.clip = slumsIntro;
                 audioSource.loop = false;
                 currentTrack = "slumsPreLoop";
+                audioSource.Play();
+                break;
+            case Job.JobArea.Downtown:
+                audioSource.clip = downtownIntro;
+                audioSource.loop = false;
+                currentTrack = "downtownPreLoop";
                 audioSource.Play();
                 break;
         }

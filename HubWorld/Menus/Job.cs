@@ -5,7 +5,7 @@ using UnityEngine;
 public class Job : ScriptableObject
 {
     public enum JobType { GetItem, Assassination };
-    public enum JobArea { Slums, HomeBase };
+    public enum JobArea { Slums, HomeBase, Downtown };
     public enum EnemyType { Gang };
 
     string jobName;
@@ -103,6 +103,66 @@ public class Job : ScriptableObject
                         break;
                 }
                 break;
+            case JobArea.Downtown:
+                switch (jobType)
+                {
+                    // TODO: FIX ALL OF THIS FOR DOWNTOWN, CURRENTLY IT'S JUST A COPY OF THE SLUMS
+                    case JobType.Assassination:
+                        string[] slumAssassinationJobNames =
+                        {
+                            "CITY Assassinate %personName%",
+                            "Kill Leader of %gangName%"
+                        };
+                        string[] slumAssassinationJobDescriptions =
+                        {
+                            "%personName% owes us money. What a dick. Kill him.",
+                            "%gangName% have been encroaching on our turf. Kill their boss, %personName% to teach them a lesson."
+                        };
+                        int index = Random.Range(0, slumAssassinationJobNames.Length);
+                        jobName = slumAssassinationJobNames[index];
+                        jobDescription = slumAssassinationJobDescriptions[index];
+                        enemyTypes.Add(EnemyType.Gang);
+
+                        jobIntroText = "You've arrived in %gangName%' territory. Kill their leader and get out quick, before they're onto you.";
+                        jobMiddleTextOne = "After making your way through %gangName% streets, you finally come across their leader, %personName%. Time to take them down.";
+                        jobMiddleTextTwo = "%personName% is dead. Your client will no doubt be thrilled to hear the news. Proceed to extraction.";
+                        jobEndText = "You know the power vacuum left by %personName%'s death will be quickly filled, but for now the chaos you've left behind you indicates a job well done. Time to get paid.";
+                        break;
+                    case JobType.GetItem:
+                        string[] slumGetItemJobNames =
+                        {
+                            "Steal Black Market %modName%",
+                            "Obtain %drugName% shipment"
+                        };
+                        string[] slumGetItemJobDescriptions =
+                        {
+                            "The %gangName% have gotten their hands on a valuable %modName%. Take it off their hands.",
+                            "An incoming shipment of %drugName% will flood the market and cut into our profits. Destroy it so we remain the only source."
+                        };
+                        index = Random.Range(0, slumGetItemJobNames.Length);
+                        jobName = slumGetItemJobNames[index];
+                        jobDescription = slumGetItemJobDescriptions[index];
+                        enemyTypes.Add(EnemyType.Gang);
+
+                        switch (index)
+                        {
+                            case 0: // steal black marked mod
+                                jobIntroText = "Your contact has said the %gangName% are keeping the %modName% mod in this area. They're attempting to reverse engineer it, steal it back before their clumsy attempts ruin it for good.";
+                                jobMiddleTextOne = ""; // LEFT BLANK
+                                jobMiddleTextTwo = "The %gangName% are on high alert as you locate the %modName% mod deep in their territory. Get it to extraction before they're able to muster enough forces to take it back.";
+                                jobEndText = "You don't know if your client wants to study it, copy it, or destroy it, but that doesn't matter. You've delivered the black market mod and earned your payment.";
+                                break;
+                            case 1: // obtain drug shipment
+                                jobIntroText = "The shipment of %drugName% will be passing through this area. Intercept and destroy it.";
+                                jobMiddleTextOne = ""; // LEFT BLANK
+                                jobMiddleTextTwo = "You've found the shipment and after some quick work the pallettes of product are set ablaze. The %gangName% won't be cutting into your client's business anytime soon. Get to extraction with the news.";
+                                jobEndText = "Your client is satisfied with the work you've done. After deliverying payment they hint that you may be able to earn a place in their organization. You know it's just a way to get more out of you for less, and tactfully refuse.";
+                                break;
+                        }
+                        break;
+                }
+                jobName = "DOWNTOWN JOB";
+                break;
         }
         FillInTheBlanks();
     }
@@ -190,6 +250,8 @@ public class Job : ScriptableObject
         List<JobArea> potentialJobAreas = new List<JobArea>();
         if (playerLevel >= 0)
             potentialJobAreas.Add(JobArea.Slums);
+        if (playerLevel >= 1)
+            potentialJobAreas.Add(JobArea.Downtown);
 
         return potentialJobAreas[Random.Range(0, potentialJobAreas.Count)];
     }

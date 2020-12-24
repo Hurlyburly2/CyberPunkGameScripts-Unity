@@ -74,7 +74,7 @@ public class SceneLoader : MonoBehaviour
         currentHacker = playerData.GetCurrentHacker();
         currentMap = Instantiate(mapData);
         currentMap.SetMapData(currentRunner, currentHacker, mapType, 10, mapSize, job);
-        ChangeMusicTrack(Job.JobArea.Slums);
+        ChangeMusicTrack(job.GetJobArea());
 
         SceneManager.LoadScene(mapSceneName);
 
