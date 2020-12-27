@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class EnemyCard : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class EnemyCard : MonoBehaviour
     [SerializeField] bool isTrap = false;
     EnemyDeck enemyDeck;
     EnemyDiscard enemyDiscard;
+    TextMeshProUGUI cardText;
 
     public enum EnemyCardKeyword { Bio, Tech, Mech, Cyber, Virus };
     [SerializeField] List<EnemyCardKeyword> enemyCardKeywords;
@@ -35,6 +37,11 @@ public class EnemyCard : MonoBehaviour
         // save the card image and replace it with nothing (back of card)
         GetComponent<Animator>().Play("CardSpin");
         SpriteRenderer imageComponent = GetImageComponentByName("CardImage");
+
+        // Rework this if more than one canvas is ever on the card
+        cardText = GetComponentInChildren<TextMeshProUGUI>();
+        cardText.gameObject.SetActive(false);
+
         cardImage = imageComponent.sprite;
         imageComponent.sprite = null;
         SetSpriteLayers(count);
@@ -82,6 +89,7 @@ public class EnemyCard : MonoBehaviour
     private void SetSpriteLayers(int cardCount)
     {
         SpriteRenderer[] imageComponents = GetComponentsInChildren<SpriteRenderer>();
+        Canvas[] textCanvases = GetComponentsInChildren<Canvas>();
         int layerCount = 0;
 
         int sortType = 2000;
@@ -93,6 +101,11 @@ public class EnemyCard : MonoBehaviour
         foreach(SpriteRenderer spriteRenderer in imageComponents)
         {
             spriteRenderer.sortingOrder = sortType + (cardCount * 10) + layerCount;
+            layerCount++;
+        }
+        foreach(Canvas canvas in textCanvases)
+        {
+            canvas.sortingOrder = sortType + (cardCount * 10) + layerCount;
             layerCount++;
         }
     }
@@ -160,6 +173,7 @@ public class EnemyCard : MonoBehaviour
 
     public void FlipOver()
     {
+        cardText.gameObject.SetActive(true);
         GetImageComponentByName("CardImage").sprite = cardImage;
     }
 
