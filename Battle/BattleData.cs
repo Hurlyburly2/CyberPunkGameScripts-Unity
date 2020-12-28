@@ -144,7 +144,7 @@ public class BattleData : MonoBehaviour
                     prohibitedKeywordsFromPlay = new List<string>();
                     playerHand.ResetFinishedDrawingStartOfTurnCards();
 
-                    TickDownStatusEffectDurations("enemy");
+                    TickDownStatusEffectDurations("Enemy");
                     whoseTurn = "enemy";
                     actionDisabled = true;
                     enemy.StartTurn();

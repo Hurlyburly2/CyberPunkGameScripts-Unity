@@ -225,6 +225,21 @@ public class EnemyCard : MonoBehaviour
                 case 9: // Underhanded
                     InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
                     break;
+                case 10: // Punch
+                    DealDamage(2);
+                    break;
+                case 11: // Brutalize
+                    DealDamage(3);
+                    InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
+                    break;
+                case 12: // Reflexes
+                    DealDamage(1);
+                    GainStatus(StatusEffect.StatusType.Dodge, 2);
+                    break;
+                case 13: // Overpower
+                    DealDamage(2);
+                    InflictStatus(StatusEffect.StatusType.FizzleChance, 15);
+                    break;
                 default:
                     Debug.Log("Card not implemented");
                     break;
