@@ -1594,6 +1594,10 @@ public class Card : MonoBehaviour
 
         damageAmount = Mathf.Clamp(damageAmount, 0, 999999);
         battleData.GetEnemy().TakeDamage(damageAmount);
+        if (damageAmount > 0)
+        {
+            SelfDamage(configData.GetEnemyStatusEffects().GetRetaliateStacks());
+        }
     }
 
     private int CheckAndApplyCritical(int damageAmount, int critChance)

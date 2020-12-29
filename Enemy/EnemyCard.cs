@@ -264,6 +264,12 @@ public class EnemyCard : MonoBehaviour
                 case 20: // Crush
                     DealDamage(4);
                     break;
+                case 21: // Deflection Plate
+                    GainStatus(StatusEffect.StatusType.DamageResist, 2);
+                    break;
+                case 22: // Electrified Plate
+                    GainStatus(StatusEffect.StatusType.Retaliate, 2);
+                    break;
                 default:
                     Debug.Log("Card not implemented");
                     break;
@@ -302,6 +308,11 @@ public class EnemyCard : MonoBehaviour
         int modifiedDamage = Mathf.Clamp(CalculateModifiedDamage(damageAmount, critChance), 0, 999999);
         CharacterData character = FindObjectOfType<BattleData>().GetCharacter();
         character.TakeDamage(modifiedDamage);
+
+        if (modifiedDamage > 0)
+        {
+            SelfDamage(FindObjectOfType<ConfigData>().GetPlayerStatusEffects().GetRetaliateStacks());
+        }
     }
 
     private int CalculateModifiedDamage(int damageAmount, int critChance)
