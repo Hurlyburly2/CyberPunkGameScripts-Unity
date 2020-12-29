@@ -113,11 +113,9 @@ public class BattleData : MonoBehaviour
     {
         ConfigData configData = FindObjectOfType<ConfigData>();
 
-        // TODO: This will need to be built out as enemies and areas are added to the game
-        Enemy[] allEnemies = FindObjectOfType<EnemyCollection>().GetEnemyArray();
         float enemyXPos = Camera.main.transform.position.x;
         float enemyYPos = configData.GetHalfHeight() + configData.GetHalfHeight() * .66f;
-        enemy = Instantiate(allEnemies[enemyId], new Vector2(enemyXPos, enemyYPos), Quaternion.identity);
+        enemy = Instantiate(Resources.Load<Enemy>("Enemies/Enemy" + enemyId.ToString()), new Vector2(enemyXPos, enemyYPos), Quaternion.identity);
     }
 
     public void EndTurn()
@@ -146,7 +144,7 @@ public class BattleData : MonoBehaviour
                     prohibitedKeywordsFromPlay = new List<string>();
                     playerHand.ResetFinishedDrawingStartOfTurnCards();
 
-                    TickDownStatusEffectDurations("enemy");
+                    TickDownStatusEffectDurations("Enemy");
                     whoseTurn = "enemy";
                     actionDisabled = true;
                     enemy.StartTurn();

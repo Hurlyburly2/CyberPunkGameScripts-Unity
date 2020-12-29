@@ -21,6 +21,7 @@ public class EnemyHand : MonoBehaviour
     public void DrawInitialHand(int handSize)
     {
         handSize += handBuff;
+        handSize += FindObjectOfType<Enemy>().GetPermaBuffAmount(StatusEffect.PermaBuffType.HandSize);
         // minimum hand size is 1, debuffs shouldn't prevent them from every playing anything
         handSize = Mathf.Clamp(handSize - FindObjectOfType<BattleData>().GetEnemyHandSizeDebuff(), 1, 999999);
         handBuff = 0;
@@ -61,7 +62,7 @@ public class EnemyHand : MonoBehaviour
         }
     }
 
-    public void BuffHandSize(int amountToBuff)
+    public void AlterHandSize(int amountToBuff)
     {
         handBuff += amountToBuff;
     }

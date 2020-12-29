@@ -4,22 +4,9 @@ using UnityEngine;
 
 public class EnemyCollection : MonoBehaviour
 {
-    [SerializeField] Enemy[] allEnemies;
-
-    public Enemy[] GetEnemyArray()
-    {
-        return allEnemies;
-    }
-
     public Enemy GetAnEnemyByArea(Job.JobArea area, int securityLevel, Job job, bool isBoss)
     {
-        //switch (area)
-        //{
-        //    case Job.JobArea.Slums:
-        //        return GetEnemy(area, securityLevel, job, isBoss);
-        //}
         return GetEnemy(area, securityLevel, job, isBoss);
-        //return allEnemies[0];
     }
 
     private Enemy GetEnemy(Job.JobArea area, int securityLevel, Job job, bool isBoss)
@@ -32,7 +19,7 @@ public class EnemyCollection : MonoBehaviour
                 enemyIds.AddRange(slumEnemyIds);
                 break;
             case Job.JobArea.Downtown:
-                int[] downtownEnemyIds = { 0, 1, 2 };
+                int[] downtownEnemyIds = { 3, 4, 5 };
                 enemyIds.AddRange(downtownEnemyIds);
                 break;
         }
@@ -41,8 +28,8 @@ public class EnemyCollection : MonoBehaviour
         List<Enemy> enemyPossibilities = new List<Enemy>();
         foreach (int id in enemyIds)
         {
-            //Enemy newEnemy = Resources.Load<Enemy>("Enemies/Enemy" + id.ToString());
             Enemy newEnemy = Resources.Load<Enemy>("Enemies/Enemy" + id.ToString());
+
             foreach (Job.EnemyType type in jobEnemyTypes)
             {
                 if (newEnemy.GetEnemyTypes().Contains(type) && newEnemy.GetIsBoss() == isBoss && newEnemy.GetStarRating() <= job.GetJobDifficulty())

@@ -388,4 +388,9 @@ public class PlayerHand : MonoBehaviour
     {
         return finishedDrawingStartOfTurnCards;
     }
+
+    public void KillEnemy()
+    {
+        FindObjectOfType<Enemy>().TakeDamage(99999999);
+    }
 }

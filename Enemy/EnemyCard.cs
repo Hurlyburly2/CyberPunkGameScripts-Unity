@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class EnemyCard : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class EnemyCard : MonoBehaviour
     [SerializeField] bool isTrap = false;
     EnemyDeck enemyDeck;
     EnemyDiscard enemyDiscard;
+    TextMeshProUGUI cardText;
 
     public enum EnemyCardKeyword { Bio, Tech, Mech, Cyber, Virus };
     [SerializeField] List<EnemyCardKeyword> enemyCardKeywords;
@@ -35,6 +37,11 @@ public class EnemyCard : MonoBehaviour
         // save the card image and replace it with nothing (back of card)
         GetComponent<Animator>().Play("CardSpin");
         SpriteRenderer imageComponent = GetImageComponentByName("CardImage");
+
+        // Rework this if more than one canvas is ever on the card
+        cardText = GetComponentInChildren<TextMeshProUGUI>();
+        cardText.gameObject.SetActive(false);
+
         cardImage = imageComponent.sprite;
         imageComponent.sprite = null;
         SetSpriteLayers(count);
@@ -82,6 +89,7 @@ public class EnemyCard : MonoBehaviour
     private void SetSpriteLayers(int cardCount)
     {
         SpriteRenderer[] imageComponents = GetComponentsInChildren<SpriteRenderer>();
+        Canvas[] textCanvases = GetComponentsInChildren<Canvas>();
         int layerCount = 0;
 
         int sortType = 2000;
@@ -93,6 +101,11 @@ public class EnemyCard : MonoBehaviour
         foreach(SpriteRenderer spriteRenderer in imageComponents)
         {
             spriteRenderer.sortingOrder = sortType + (cardCount * 10) + layerCount;
+            layerCount++;
+        }
+        foreach(Canvas canvas in textCanvases)
+        {
+            canvas.sortingOrder = sortType + (cardCount * 10) + layerCount;
             layerCount++;
         }
     }
@@ -160,6 +173,7 @@ public class EnemyCard : MonoBehaviour
 
     public void FlipOver()
     {
+        cardText.gameObject.SetActive(true);
         GetImageComponentByName("CardImage").sprite = cardImage;
     }
 
@@ -185,7 +199,7 @@ public class EnemyCard : MonoBehaviour
                 case 3: // MINOR TRAP
                     GainStatus(StatusEffect.StatusType.Vulnerable, 1);
                     SelfDamage(1);
-                    BuffHandSize(1);
+                    AlterHandSize(1);
                     destroyOnPlay = true;
                     break;
                 case 4: // Lit Fuse
@@ -210,6 +224,60 @@ public class EnemyCard : MonoBehaviour
                     break;
                 case 9: // Underhanded
                     InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
+                    break;
+                case 10: // Punch
+                    DealDamage(2);
+                    break;
+                case 11: // Brutalize
+                    DealDamage(3);
+                    InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
+                    break;
+                case 12: // Reflexes
+                    DealDamage(1);
+                    GainStatus(StatusEffect.StatusType.Dodge, 2);
+                    break;
+                case 13: // Overpower
+                    DealDamage(2);
+                    InflictStatus(StatusEffect.StatusType.FizzleChance, 15);
+                    break;
+                case 14: // Riot Shield
+                    GainStatus(StatusEffect.StatusType.DamageResist, 3);
+                    break;
+                case 15: // Shoot
+                    DealDamage(2);
+                    break;
+                case 16: // Homing Shot
+                    DealDamage(2, 50);
+                    break;
+                case 17: // Concussion Grenade
+                    DealDamage(6);
+                    destroyOnPlay = true;
+                    break;
+                case 18: // Call for Backup
+                    GainStatus(StatusEffect.StatusType.Momentum, 1);
+                    GainPermaBuff(StatusEffect.PermaBuffType.HandSize, 1);
+                    break;
+                case 19: // Smoke Grenade
+                    GainStatus(StatusEffect.StatusType.Dodge, 4, 2);
+                    destroyOnPlay = true;
+                    break;
+                case 20: // Crush
+                    DealDamage(4);
+                    break;
+                case 21: // Deflection Plate
+                    GainStatus(StatusEffect.StatusType.DamageResist, 2);
+                    break;
+                case 22: // Electrified Plate
+                    GainStatus(StatusEffect.StatusType.Retaliate, 2);
+                    break;
+                case 23: // Flashbang
+                    DealDamage(2);
+                    InflictStatus(StatusEffect.StatusType.FizzleChance, 25);
+                    break;
+                case 24: // Recharge
+                    AlterHandSize(-2);
+                    Heal(10);
+                    GainStatus(StatusEffect.StatusType.Vulnerable, 3);
                     break;
                 default:
                     Debug.Log("Card not implemented");
@@ -239,9 +307,14 @@ public class EnemyCard : MonoBehaviour
         FindObjectOfType<Enemy>().TakeDamage(amount);
     }
 
-    private void BuffHandSize(int buffAmount)
+    private void AlterHandSize(int buffAmount)
     {
-        FindObjectOfType<EnemyHand>().BuffHandSize(buffAmount);
+        FindObjectOfType<EnemyHand>().AlterHandSize(buffAmount);
+    }
+
+    private void Heal(int amount)
+    {
+        FindObjectOfType<Enemy>().Heal(amount);
     }
 
     private void DealDamage(int damageAmount, int critChance = 0)
@@ -249,6 +322,11 @@ public class EnemyCard : MonoBehaviour
         int modifiedDamage = Mathf.Clamp(CalculateModifiedDamage(damageAmount, critChance), 0, 999999);
         CharacterData character = FindObjectOfType<BattleData>().GetCharacter();
         character.TakeDamage(modifiedDamage);
+
+        if (modifiedDamage > 0)
+        {
+            SelfDamage(FindObjectOfType<ConfigData>().GetPlayerStatusEffects().GetRetaliateStacks());
+        }
     }
 
     private int CalculateModifiedDamage(int damageAmount, int critChance)
@@ -315,6 +393,13 @@ public class EnemyCard : MonoBehaviour
         enemyCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy);
     }
 
+    private void GainStatus(StatusEffect.StatusType statusType, int stacks, int duration)
+    {
+        ConfigData configData = FindObjectOfType<ConfigData>();
+        enemyCurrentStatusEffects = configData.GetEnemyStatusEffects();
+        enemyCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy, duration);
+    }
+
     private bool PercentChance(int percentChance)
     {
         int randomNumber = Mathf.CeilToInt(Random.Range(0, 100));
@@ -323,6 +408,11 @@ public class EnemyCard : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private void GainPermaBuff(StatusEffect.PermaBuffType buffType, int amount)
+    {
+        FindObjectOfType<Enemy>().GainPermaBuff(buffType, amount);
     }
 
     public void DiscardCard()

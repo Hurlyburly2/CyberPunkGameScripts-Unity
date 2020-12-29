@@ -35,6 +35,8 @@ public class Enemy : MonoBehaviour
     EnemyHand enemyHand;
     EnemyDiscard enemyDiscard;
 
+    int handSizePermaBuff = 0;
+
     int incrementorOne = 0;
 
     public void BattleSetup(float setupTimeInSeconds)
@@ -102,14 +104,25 @@ public class Enemy : MonoBehaviour
         if (currentHealth - damageInflicted < 1)
         {
             currentHealth = 0;
-            UpdateHealthText();
-            healthPipManager.ChangeValue(currentHealth);
         } else
         {
             currentHealth -= damageInflicted;
-            UpdateHealthText();
-            healthPipManager.ChangeValue(currentHealth);
         }
+        UpdateHealthText();
+        healthPipManager.ChangeValue(currentHealth);
+    }
+
+    public void Heal(int amount)
+    {
+        if (currentHealth + amount > maxHealth)
+        {
+            currentHealth = maxHealth;
+        } else
+        {
+            currentHealth += amount;
+        }
+        UpdateHealthText();
+        healthPipManager.ChangeValue(currentHealth);
     }
 
     private void SetupHealthAndEnergyText()
@@ -205,5 +218,25 @@ public class Enemy : MonoBehaviour
             default:
                 return incrementorOne;
         }
+    }
+
+    public void GainPermaBuff(StatusEffect.PermaBuffType buffType, int amount)
+    {
+        switch (buffType)
+        {
+            case StatusEffect.PermaBuffType.HandSize:
+                handSizePermaBuff += amount;
+                break;
+        }
+    }
+
+    public int GetPermaBuffAmount(StatusEffect.PermaBuffType buffType)
+    {
+        switch (buffType)
+        {
+            case StatusEffect.PermaBuffType.HandSize:
+                return handSizePermaBuff;
+        }
+        return 0;
     }
 }

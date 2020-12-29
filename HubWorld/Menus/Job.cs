@@ -6,7 +6,7 @@ public class Job : ScriptableObject
 {
     public enum JobType { GetItem, Assassination };
     public enum JobArea { Slums, HomeBase, Downtown };
-    public enum EnemyType { Gang };
+    public enum EnemyType { Gang, City };
 
     string jobName;
     string jobDescription;
@@ -122,6 +122,7 @@ public class Job : ScriptableObject
                         jobName = slumAssassinationJobNames[index];
                         jobDescription = slumAssassinationJobDescriptions[index];
                         enemyTypes.Add(EnemyType.Gang);
+                        enemyTypes.Add(EnemyType.City);
 
                         jobIntroText = "You've arrived downtown, in %gangName%'s. Kill their leader and get out quick, before they're onto you.";
                         jobMiddleTextOne = "After making your way through %gangName% streets, you finally come across their leader, %personName%. Time to take them down.";
@@ -143,6 +144,7 @@ public class Job : ScriptableObject
                         jobName = slumGetItemJobNames[index];
                         jobDescription = slumGetItemJobDescriptions[index];
                         enemyTypes.Add(EnemyType.Gang);
+                        enemyTypes.Add(EnemyType.City);
 
                         switch (index)
                         {

@@ -135,6 +135,18 @@ public class StatusEffectHolder : MonoBehaviour
         }
     }
 
+    public int GetRetaliateStacks()
+    {
+        int retaliateIndex = GetStatusIndex(StatusEffect.StatusType.Retaliate);
+        if (retaliateIndex == -1)
+        {
+            return 0;
+        } else
+        {
+            return statusEffects[retaliateIndex].GetStacks();
+        }
+    }
+
     public void TickDownStatusEffects(string whoseEffectsToTick)
     {
         foreach(StatusEffect statusEffect in statusEffects)
@@ -224,6 +236,8 @@ public class StatusEffectHolder : MonoBehaviour
                 return images[6];
             case StatusEffect.StatusType.CritChance:
                 return images[7];
+            case StatusEffect.StatusType.Retaliate:
+                return images[8];
             default:
                 // default empty status
                 return images[0];
