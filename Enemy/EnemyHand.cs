@@ -62,7 +62,7 @@ public class EnemyHand : MonoBehaviour
         }
     }
 
-    public void BuffHandSize(int amountToBuff)
+    public void AlterHandSize(int amountToBuff)
     {
         handBuff += amountToBuff;
     }

@@ -199,7 +199,7 @@ public class EnemyCard : MonoBehaviour
                 case 3: // MINOR TRAP
                     GainStatus(StatusEffect.StatusType.Vulnerable, 1);
                     SelfDamage(1);
-                    BuffHandSize(1);
+                    AlterHandSize(1);
                     destroyOnPlay = true;
                     break;
                 case 4: // Lit Fuse
@@ -270,6 +270,15 @@ public class EnemyCard : MonoBehaviour
                 case 22: // Electrified Plate
                     GainStatus(StatusEffect.StatusType.Retaliate, 2);
                     break;
+                case 23: // Flashbang
+                    DealDamage(2);
+                    InflictStatus(StatusEffect.StatusType.FizzleChance, 25);
+                    break;
+                case 24: // Recharge
+                    AlterHandSize(-2);
+                    Heal(10);
+                    GainStatus(StatusEffect.StatusType.Vulnerable, 3);
+                    break;
                 default:
                     Debug.Log("Card not implemented");
                     break;
@@ -298,9 +307,14 @@ public class EnemyCard : MonoBehaviour
         FindObjectOfType<Enemy>().TakeDamage(amount);
     }
 
-    private void BuffHandSize(int buffAmount)
+    private void AlterHandSize(int buffAmount)
     {
-        FindObjectOfType<EnemyHand>().BuffHandSize(buffAmount);
+        FindObjectOfType<EnemyHand>().AlterHandSize(buffAmount);
+    }
+
+    private void Heal(int amount)
+    {
+        FindObjectOfType<Enemy>().Heal(amount);
     }
 
     private void DealDamage(int damageAmount, int critChance = 0)

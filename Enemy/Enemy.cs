@@ -104,14 +104,25 @@ public class Enemy : MonoBehaviour
         if (currentHealth - damageInflicted < 1)
         {
             currentHealth = 0;
-            UpdateHealthText();
-            healthPipManager.ChangeValue(currentHealth);
         } else
         {
             currentHealth -= damageInflicted;
-            UpdateHealthText();
-            healthPipManager.ChangeValue(currentHealth);
         }
+        UpdateHealthText();
+        healthPipManager.ChangeValue(currentHealth);
+    }
+
+    public void Heal(int amount)
+    {
+        if (currentHealth + amount > maxHealth)
+        {
+            currentHealth = maxHealth;
+        } else
+        {
+            currentHealth += amount;
+        }
+        UpdateHealthText();
+        healthPipManager.ChangeValue(currentHealth);
     }
 
     private void SetupHealthAndEnergyText()
