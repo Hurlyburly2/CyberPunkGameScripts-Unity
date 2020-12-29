@@ -35,6 +35,8 @@ public class Enemy : MonoBehaviour
     EnemyHand enemyHand;
     EnemyDiscard enemyDiscard;
 
+    int handSizePermaBuff = 0;
+
     int incrementorOne = 0;
 
     public void BattleSetup(float setupTimeInSeconds)
@@ -205,5 +207,25 @@ public class Enemy : MonoBehaviour
             default:
                 return incrementorOne;
         }
+    }
+
+    public void GainPermaBuff(StatusEffect.PermaBuffType buffType, int amount)
+    {
+        switch (buffType)
+        {
+            case StatusEffect.PermaBuffType.HandSize:
+                handSizePermaBuff += amount;
+                break;
+        }
+    }
+
+    public int GetPermaBuffAmount(StatusEffect.PermaBuffType buffType)
+    {
+        switch (buffType)
+        {
+            case StatusEffect.PermaBuffType.HandSize:
+                return handSizePermaBuff;
+        }
+        return 0;
     }
 }

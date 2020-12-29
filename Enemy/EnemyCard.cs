@@ -240,6 +240,27 @@ public class EnemyCard : MonoBehaviour
                     DealDamage(2);
                     InflictStatus(StatusEffect.StatusType.FizzleChance, 15);
                     break;
+                case 14: // Riot Shield
+                    GainStatus(StatusEffect.StatusType.DamageResist, 3);
+                    break;
+                case 15: // Shoot
+                    DealDamage(2);
+                    break;
+                case 16: // Homing Shot
+                    DealDamage(2, 50);
+                    break;
+                case 17: // Concussion Grenade
+                    DealDamage(6);
+                    destroyOnPlay = true;
+                    break;
+                case 18: // Call for Backup
+                    GainStatus(StatusEffect.StatusType.Momentum, 1);
+                    GainPermaBuff(StatusEffect.PermaBuffType.HandSize, 1);
+                    break;
+                case 19: // Smoke Grenade
+                    GainStatus(StatusEffect.StatusType.Dodge, 4, 2);
+                    destroyOnPlay = true;
+                    break;
                 default:
                     Debug.Log("Card not implemented");
                     break;
@@ -344,6 +365,13 @@ public class EnemyCard : MonoBehaviour
         enemyCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy);
     }
 
+    private void GainStatus(StatusEffect.StatusType statusType, int stacks, int duration)
+    {
+        ConfigData configData = FindObjectOfType<ConfigData>();
+        enemyCurrentStatusEffects = configData.GetEnemyStatusEffects();
+        enemyCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy, duration);
+    }
+
     private bool PercentChance(int percentChance)
     {
         int randomNumber = Mathf.CeilToInt(Random.Range(0, 100));
@@ -352,6 +380,11 @@ public class EnemyCard : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private void GainPermaBuff(StatusEffect.PermaBuffType buffType, int amount)
+    {
+        FindObjectOfType<Enemy>().GainPermaBuff(buffType, amount);
     }
 
     public void DiscardCard()

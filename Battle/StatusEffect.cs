@@ -10,7 +10,9 @@ public class StatusEffect : MonoBehaviour
     TextMeshProUGUI numberOfStacksTextField;
 
     public enum StatusType { None, Default, Dodge, Momentum, DamageResist, AutoCrit, Vulnerable, FizzleChance, CritChance };
-    // PREVIOUSLY: DAMAGE RESIST, CRITUP
+        // PREVIOUSLY: DAMAGE RESIST, CRITUP
+    public enum PermaBuffType { HandSize };
+        // Not used by status effects, but similar enough that this seems the best place to define them
     int remainingDuration;
     int stacks;
     StatusType statusType;
