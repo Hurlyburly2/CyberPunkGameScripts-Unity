@@ -261,6 +261,9 @@ public class EnemyCard : MonoBehaviour
                     GainStatus(StatusEffect.StatusType.Dodge, 4, 2);
                     destroyOnPlay = true;
                     break;
+                case 20: // Crush
+                    DealDamage(4);
+                    break;
                 default:
                     Debug.Log("Card not implemented");
                     break;

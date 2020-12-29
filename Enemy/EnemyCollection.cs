@@ -19,8 +19,7 @@ public class EnemyCollection : MonoBehaviour
                 enemyIds.AddRange(slumEnemyIds);
                 break;
             case Job.JobArea.Downtown:
-                //TODO: REMOVE 3 ONCE A BOSS FOR CITY IS CREATED
-                int[] downtownEnemyIds = { 3, 2, 4 };
+                int[] downtownEnemyIds = { 3, 4, 5 };
                 enemyIds.AddRange(downtownEnemyIds);
                 break;
         }
