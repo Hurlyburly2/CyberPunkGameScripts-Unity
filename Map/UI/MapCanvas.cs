@@ -20,6 +20,8 @@ public class MapCanvas : MonoBehaviour
 
     public void OpenPowerUpsMenu()
     {
+        FindObjectOfType<MapConfig>().SetIsAMenuOpen(true);
         powerUpsMenu.gameObject.SetActive(true);
+        powerUpsMenu.SetupPowerUpsMenu();
     }
 }
