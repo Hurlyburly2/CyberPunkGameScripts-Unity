@@ -114,7 +114,8 @@ public class SceneLoader : MonoBehaviour
         if (mapData.ShouldGoalWindowOpenAfterCombat())
         {
             FindObjectOfType<MapConfig>().GetGoalWindow().OpenGoalWindow(currentSquare);
-        } else if (mapData.GetShouldExtractionWindowOpenAfterCombat())
+        }
+        else if (mapData.GetShouldExtractionWindowOpenAfterCombat())
         {
             FindObjectOfType<MapConfig>().GetExtractionWindow().OpenExtractionWindow();
         }
@@ -151,7 +152,7 @@ public class SceneLoader : MonoBehaviour
         currentBattle = Instantiate(battleData);
         currentBattle.SetCharacterData(currentRunner, currentHacker);
         currentBattle.GetDataFromMapSquare(currentSquare);
-        currentBattle.GetDataFromMapData(FindObjectOfType<MapData>());
+        currentBattle.GetPowerUpDataFromMap(FindObjectOfType<MapData>());
         currentBattle.SetMapGrid(mapGrid);
         currentBattle.LoadModifiersFromMap(currentBattle.GetMapSquare().GetPackageOfModifiers());
 
@@ -283,7 +284,7 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(WaitForHubToLoadFromMap(job, creditsEarned, goalModifier, enemiesDefeated, hacksCompleted, false));
     }
 
-    private IEnumerator WaitForHubToLoadFromMap(Job job, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted, bool victory=true)
+    private IEnumerator WaitForHubToLoadFromMap(Job job, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted, bool victory = true)
     {
         while (SceneManager.GetActiveScene().name != hubSceneName)
         {
@@ -323,7 +324,7 @@ public class SceneLoader : MonoBehaviour
         SaveData data = SaveSystem.LoadSaveData();
         Debug.Log("random number loaded: " + data.GetRandomNumber());
         Debug.Log("random number list:");
-        foreach(int number in data.GetRandomNumbers())
+        foreach (int number in data.GetRandomNumbers())
         {
             Debug.Log(number);
         }

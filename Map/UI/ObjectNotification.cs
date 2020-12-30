@@ -8,6 +8,7 @@ public class ObjectNotification : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI titleText;
     [SerializeField] TextMeshProUGUI descriptorText;
+    [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] Image iconImage;
     MapConfig mapConfig;
     MapObject currentObject;
@@ -23,6 +24,7 @@ public class ObjectNotification : MonoBehaviour
         iconImage.sprite = FindObjectOfType<MapSquareImageHolder>().GetButtonImageByName(currentObject.GetObjectType(), true);
         titleText.text = currentObject.GetObjectTypeNameForDisplay();
         descriptorText.text = currentObject.DoObjectAction();
+        nameText.text = currentObject.GetName();
     }
 
     public void CloseMenu()

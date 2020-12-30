@@ -28,6 +28,7 @@ public class MapData : MonoBehaviour
     bool wasPlayerOnGoalBeforeCombat = false;
         // remember if the player was able to trigger the goal state before loading combat. Ditto for extraction
     bool wasPlayerOnExtractionBeforeCombat = false;
+    List<PowerUp> powerUps = new List<PowerUp>();
 
     // reward stuff
     int creditsEarned; // in match
@@ -435,6 +436,27 @@ public class MapData : MonoBehaviour
             handSizeBoostChance = handSizeBoostChance + Mathf.FloorToInt(boost);
         }
         Debug.Log("Hand size boost chance: " + handSizeBoostChance.ToString());
+    }
+
+    public void AddPowerUp(PowerUp newPowerUp)
+    {
+        powerUps.Add(newPowerUp);
+    }
+
+    public List<PowerUp> GetPowerUpsOfType(PowerUp.PowerUpType powerUpType)
+    {
+        List<PowerUp> foundPowerUps = new List<PowerUp>();
+        foreach (PowerUp powerUp in powerUps)
+        {
+            if (powerUp.GetPowerUpType() == powerUpType)
+                foundPowerUps.Add(powerUp);
+        }
+        return foundPowerUps;
+    }
+
+    public List<PowerUp> GetPowerUps()
+    {
+        return powerUps;
     }
 
     public int GetHandSizeBoostChance()

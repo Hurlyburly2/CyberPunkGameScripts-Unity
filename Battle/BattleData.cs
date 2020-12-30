@@ -45,7 +45,7 @@ public class BattleData : MonoBehaviour
     int cardsDrawnThisTurn = 0;
 
     // buffs from powerups
-    int extraCardChanceFromMap = 0;
+    List<PowerUp> powerUps = new List<PowerUp>();
 
     // buffs for "when a card is played"
     public enum PlayerOnPlayedEffects { PlayWeaponDrawCard };
@@ -247,9 +247,9 @@ public class BattleData : MonoBehaviour
         enemyLoaded = true;
     }
 
-    public void GetDataFromMapData(MapData mapData)
+    public void GetPowerUpDataFromMap(MapData mapData)
     {
-        extraCardChanceFromMap = mapData.GetHandSizeBoostChance();
+        powerUps.AddRange(mapData.GetPowerUps());
     }
 
     private int GetEnemyIDFromMapSquare(MapSquare square)
@@ -366,11 +366,6 @@ public class BattleData : MonoBehaviour
         }
     }
 
-    public int GetExtraCardDrawFromMapChance()
-    {
-        return extraCardChanceFromMap;
-    }
-
     public void CountPlayedCard(Card card)
     {
         cardsPlayedThisTurn++;
@@ -468,5 +463,16 @@ public class BattleData : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    public List<PowerUp> GetPowerUpsOfType(PowerUp.PowerUpType powerUpType)
+    {
+        List<PowerUp> foundPowerUps = new List<PowerUp>();
+        foreach (PowerUp powerUp in powerUps)
+        {
+            if (powerUp.GetPowerUpType() == powerUpType)
+                foundPowerUps.Add(powerUp);
+        }
+        return foundPowerUps;
     }
 }
