@@ -10,6 +10,7 @@ public class PowerUp : ScriptableObject
 
     PowerUpType powerUpType;
     int amount;
+    string powerUpName = "";
     string description = "";
 
     public string SetupNewPowerUp()
@@ -25,7 +26,8 @@ public class PowerUp : ScriptableObject
         {
             case PowerUpType.DrawExtraCardChance:
                 amount = 25;
-                description = "Combat: 25% chance to draw an extra card at the beginning of each turn";
+                powerUpName = "Agility";
+                description = "25% chance to draw an extra card at the beginning of each turn";
                 break;
         }
     }
@@ -49,5 +51,10 @@ public class PowerUp : ScriptableObject
     public int GetAmount()
     {
         return amount;
+    }
+
+    public string GetName()
+    {
+        return powerUpName;
     }
 }

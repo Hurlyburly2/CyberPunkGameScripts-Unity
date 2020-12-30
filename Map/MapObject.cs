@@ -8,11 +8,13 @@ public class MapObject : ScriptableObject
     string mapObjectType;
         // options are fed to it by mapSquare:
         // "Trap", "Reward", "PowerUp", "Upgrade", "First Aid Station"
+
     bool isActive;
         // IF IT IS A TRAP AND IT IS NOT ACTIVE IT SHOULDN'T TRIGGER
 
     string trapType;
     int damageDealt = 0;
+    PowerUp powerup;
 
     public void SetupMapObject(string newMapObjectType)
     {
@@ -81,6 +83,7 @@ public class MapObject : ScriptableObject
         PowerUp newPowerUp = ScriptableObject.CreateInstance<PowerUp>();
         newPowerUp.SetupNewPowerUp();
         FindObjectOfType<MapData>().AddPowerUp(newPowerUp);
+        powerup = newPowerUp;
         return newPowerUp.GetPowerUpDescription();
     }
 
@@ -155,5 +158,15 @@ public class MapObject : ScriptableObject
     public bool GetIsActive()
     {
         return isActive;
+    }
+
+    public string GetName()
+    {
+        switch (mapObjectType)
+        {
+            case "PowerUp":
+                return powerup.GetName();
+        }
+        return "Something went wrong";
     }
 }
