@@ -53,10 +53,7 @@ public class PlayerHand : MonoBehaviour
     {
         int modifiedHandSize = startingHandSize + battleData.GetPlayerHandMapBuff();
 
-        if (CheckPercentageChance(battleData.GetExtraCardDrawFromMapChance()))
-        {
-            modifiedHandSize++;
-        }
+        modifiedHandSize += ExtraCardDrawFromPowerUps();
 
         float timePerCardDraw = setupTimeInSeconds / modifiedHandSize;
 
@@ -100,10 +97,7 @@ public class PlayerHand : MonoBehaviour
         if (cardTarget > initialHandSize)
             TriggerAcceleration(initialHandSize - cardTarget);
 
-        if (CheckPercentageChance(battleData.GetExtraCardDrawFromMapChance()))
-        {
-            cardTarget++;
-        }
+        cardTarget += ExtraCardDrawFromPowerUps();
 
         if (cardsInHand.Count < cardTarget)
         {
@@ -115,6 +109,17 @@ public class PlayerHand : MonoBehaviour
         // NEED TO PASS SOMETHING HERE TO PRESERVE THE DEBUFF AND ONLY RESET ON TURN END
         playerHandDebuff = 0;
         playerHandBuff = 0;
+    }
+
+    private int ExtraCardDrawFromPowerUps()
+    {
+        int extraCards = 0;
+        foreach (PowerUp cardDrawBuff in battleData.GetPowerUpsOfType(PowerUp.PowerUpType.DrawExtraCardChance))
+        {
+            if (CheckPercentageChance(cardDrawBuff.GetAmount()))
+                extraCards++;
+        }
+        return extraCards;
     }
 
     public void InflictHandDebuff(int amount)

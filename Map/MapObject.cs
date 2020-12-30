@@ -16,6 +16,8 @@ public class MapObject : ScriptableObject
 
     public void SetupMapObject(string newMapObjectType)
     {
+        // TODO: GET RID OF THIS
+        newMapObjectType = "PowerUp";
         isActive = true;
         mapObjectType = newMapObjectType;
         mapType = FindObjectOfType<MapData>().GetMapType();
@@ -76,16 +78,10 @@ public class MapObject : ScriptableObject
 
     private string GainPowerUp()
     {
-        int random = Mathf.FloorToInt(Random.Range(1, 2));
-        string returnString = "";
-        switch (random)
-        {
-            case 1:
-                returnString = "Combat: Chance each turn to draw an extra card";
-                FindObjectOfType<MapData>().RaiseHandSizeBoostChance();
-                break;
-        }
-        return returnString;
+        PowerUp newPowerUp = ScriptableObject.CreateInstance<PowerUp>();
+        newPowerUp.SetupNewPowerUp();
+        FindObjectOfType<MapData>().AddPowerUp(newPowerUp);
+        return newPowerUp.GetPowerUpDescription();
     }
 
     private string GainUpgrade()
