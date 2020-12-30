@@ -6,6 +6,7 @@ public class MapCanvas : MonoBehaviour
 {
     [SerializeField] MissionStartMenu missionStartMenu;
     [SerializeField] PreBossGoalWindow preBossGoalWindow;
+    [SerializeField] PowerUpsMenu powerUpsMenu;
 
     public MissionStartMenu GetMissionStartMenu()
     {
@@ -15,5 +16,10 @@ public class MapCanvas : MonoBehaviour
     public PreBossGoalWindow GetPreBossGoalWindow()
     {
         return preBossGoalWindow;
+    }
+
+    public void OpenPowerUpsMenu()
+    {
+        powerUpsMenu.gameObject.SetActive(true);
     }
 }
