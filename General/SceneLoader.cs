@@ -277,17 +277,23 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(WaitForHubToLoadFromMap(job, creditsEarned, goalModifier, enemiesDefeated, hacksCompleted));
     }
 
-    private IEnumerator WaitForHubToLoadFromMap(Job job, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted)
+    public void LoadHubFromAbandonedMap(Job job, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted)
+    {
+        SceneManager.LoadScene(hubSceneName);
+        StartCoroutine(WaitForHubToLoadFromMap(job, creditsEarned, goalModifier, enemiesDefeated, hacksCompleted, false));
+    }
+
+    private IEnumerator WaitForHubToLoadFromMap(Job job, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted, bool victory=true)
     {
         while (SceneManager.GetActiveScene().name != hubSceneName)
         {
             yield return null;
         }
 
-        ReturnToHubWorld(job, creditsEarned, goalModifier, enemiesDefeated, hacksCompleted);
+        ReturnToHubWorld(job, creditsEarned, goalModifier, enemiesDefeated, hacksCompleted, victory);
     }
 
-    private void ReturnToHubWorld(Job job, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted)
+    private void ReturnToHubWorld(Job job, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted, bool victory)
     {
         musicPlayer.ChangeTrack(Job.JobArea.HomeBase);
 
@@ -296,7 +302,7 @@ public class SceneLoader : MonoBehaviour
 
         MissionCompleteMenu missionCompleteMenu = FindObjectOfType<HubMenuButton>().GetMissionCompleteMenu();
         missionCompleteMenu.gameObject.SetActive(true);
-        missionCompleteMenu.SetupMissionCompleteMenu(job, creditsEarned, goalModifier, enemiesDefeated, hacksCompleted);
+        missionCompleteMenu.SetupMissionCompleteMenu(job, creditsEarned, goalModifier, enemiesDefeated, hacksCompleted, victory);
     }
 
     private void ChangeMusicTrack(Job.JobArea trackName)
