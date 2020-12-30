@@ -13,7 +13,14 @@ public class MapMenuButtons : MonoBehaviour
 
     public void AbandonRunButtonClick()
     {
-        Debug.Log("Attempt to Abandon Run");
+        MapData mapData = FindObjectOfType<MapData>();
+        Job job = mapData.GetJob();
+        int creditsEarned = mapData.GetEarnedMoneyAmount();
+        int goalModifier = mapData.GetGoalModifier();
+        int enemiesDefeated = mapData.GetDefeatedEnemyCount();
+        int hacksCompleted = mapData.GetCompletedHackCount();
+
+        FindObjectOfType<SceneLoader>().LoadHubFromAbandonedMap(job, creditsEarned, goalModifier, enemiesDefeated, hacksCompleted);
     }
 
     public void OpenSettingsWindow()

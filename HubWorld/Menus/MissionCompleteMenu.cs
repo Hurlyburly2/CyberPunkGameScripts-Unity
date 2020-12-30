@@ -16,14 +16,18 @@ public class MissionCompleteMenu : MonoBehaviour
     [SerializeField] Image itemIcon;
     [SerializeField] Image newJobsAndItems;
 
-    public void SetupMissionCompleteMenu(Job oldJob, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted)
+    [SerializeField] Sprite jobCompleteSprite;
+    [SerializeField] Sprite jobFailedSprite;
+    [SerializeField] Image jobStatusTxtImg;
+
+    public void SetupMissionCompleteMenu(Job oldJob, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted, bool victory)
     {
         Debug.Log("Setup Mission Complete Menu");
         enemiesDefeatedField.text = enemiesDefeated.ToString();
         hacksCompletedField.text = hacksCompleted.ToString();
-        baseWageField.text = oldJob.GetRewardMoney().ToString();
 
         int totalWages;
+        int baseWages;
         if (goalModifier != 0)
         {
             multiplierField.text = "+" + goalModifier.ToString() + "%";
@@ -33,9 +37,23 @@ public class MissionCompleteMenu : MonoBehaviour
             multiplierField.text = "+0%";
             totalWages = oldJob.GetRewardMoney();
         }
-        
+
+        // Victory vs Defeat stuff
+        if (victory)
+        {
+            jobStatusTxtImg.sprite = jobCompleteSprite;
+            baseWages = oldJob.GetRewardMoney();
+        }
+        else
+        {
+            jobStatusTxtImg.sprite = jobFailedSprite;
+            totalWages = 0;
+            baseWages = 0;
+        }
+
         totalWagesField.text = totalWages.ToString();
         bonusCreditsField.text = creditsEarned.ToString();
+        baseWageField.text = baseWages.ToString();
 
         // Generate New Jobs
         PlayerData playerData = FindObjectOfType<PlayerData>();
