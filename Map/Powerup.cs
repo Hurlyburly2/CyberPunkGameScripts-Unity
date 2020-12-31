@@ -6,15 +6,18 @@ public class PowerUp : ScriptableObject
 {
     public enum PowerUpType {
         Agility,
+        BioElectricField,
         DeadEye,
         DireWound,
         ElementOfSurprise,
+        PersonalShield,
         Strength,
         TheBestDefense,
     }
 
     PowerUpType powerUpType;
     int amount;
+    int amount2;
     string powerUpName = "";
     string description = "";
 
@@ -22,9 +25,11 @@ public class PowerUp : ScriptableObject
     {
         PowerUpType[] powerUpTypes = {
             PowerUpType.Agility,
+            PowerUpType.BioElectricField,
             PowerUpType.DeadEye,
             PowerUpType.DireWound,
             PowerUpType.ElementOfSurprise,
+            PowerUpType.PersonalShield,
             PowerUpType.Strength,
             PowerUpType.TheBestDefense,
         };
@@ -47,6 +52,12 @@ public class PowerUp : ScriptableObject
                 powerUpName = "Agility";
                 description = "25% chance to draw an extra card at the beginning of each turn";
                 break;
+            case PowerUpType.BioElectricField:
+                amount = 50;
+                amount2 = 1;
+                powerUpName = "Bioelectric Field";
+                description = "Every time you play a Bio card: " + amount + "% chance to deal " + amount2 + " Damage";
+                break;
             case PowerUpType.DeadEye:
                 amount = 15;
                 powerUpName = "DeadEye";
@@ -61,6 +72,11 @@ public class PowerUp : ScriptableObject
                 amount = 2;
                 powerUpName = "Element of Surprise";
                 description = "Begin each battle with 2 Momentum";
+                break;
+            case PowerUpType.PersonalShield:
+                amount = 1;
+                powerUpName = "Personal Shield";
+                description = "Take no damage when you are hit by an enemy attack. Functions once per combat.";
                 break;
             case PowerUpType.Strength:
                 amount = 1;
@@ -93,5 +109,10 @@ public class PowerUp : ScriptableObject
     public string GetName()
     {
         return powerUpName;
+    }
+
+    public int GetAmount2()
+    {
+        return amount2;
     }
 }

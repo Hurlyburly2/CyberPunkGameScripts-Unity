@@ -29,8 +29,6 @@ public class ObjectNotification : MonoBehaviour
 
     public void CloseMenu()
     {
-        mapConfig.SetIsAMenuOpen(false);
-
         MapSquare currentSquare = FindObjectOfType<CurrentNodeMenu>().GetMapSquare();
         FindObjectOfType<CurrentNodeMenu>().InitializeMenu(currentSquare);
 

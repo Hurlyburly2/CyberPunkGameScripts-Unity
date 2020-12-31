@@ -320,8 +320,14 @@ public class EnemyCard : MonoBehaviour
     private void DealDamage(int damageAmount, int critChance = 0)
     {
         int modifiedDamage = Mathf.Clamp(CalculateModifiedDamage(damageAmount, critChance), 0, 999999);
-        CharacterData character = FindObjectOfType<BattleData>().GetCharacter();
-        character.TakeDamage(modifiedDamage);
+        BattleData battleData = FindObjectOfType<BattleData>();
+        CharacterData character = battleData.GetCharacter();
+
+        if (battleData.GetPersonalShieldStacks() > 0)
+            battleData.ConsumePersonalShieldStack();
+        else
+            character.TakeDamage(modifiedDamage);
+
 
         if (modifiedDamage > 0)
         {

@@ -13,6 +13,8 @@ public class PipManagerEnemy : MonoBehaviour
     int maximumNumberOfPips;
     int currentNumberOfPips;
 
+    int targetNumberOfPips;
+
     int maximumValue;
     int currentValue;
 
@@ -40,13 +42,20 @@ public class PipManagerEnemy : MonoBehaviour
     public void ChangeValue(int newValue)
     {
         currentValue = newValue;
+        if (isAnimatingDamage)
+        {
+            // If it was already running, we allow the target to change on the fly
+            targetNumberOfPips = Mathf.CeilToInt(currentValue / pipValue);
+            // TODO: We may also need to change the time per pip on the fly as well!
+            return;
+        }
         isAnimatingDamage = true;
         StartCoroutine(ChangeNumberOfPips(.05f));
     }
 
     private IEnumerator ChangeNumberOfPips(float transitionTime)
     {
-        int targetNumberOfPips = Mathf.CeilToInt(currentValue / pipValue);
+        targetNumberOfPips = Mathf.CeilToInt(currentValue / pipValue);
 
         float timePerPip = transitionTime / targetNumberOfPips;
         if (targetNumberOfPips == 0)
@@ -67,7 +76,7 @@ public class PipManagerEnemy : MonoBehaviour
 
         isAnimatingDamage = false;
 
-        if (pipList.Count == 0)
+        if (currentValue == 0)
         {
             Debug.Log("Enemy Dead!");
             FindObjectOfType<SceneLoader>().LoadMapFromBattle();

@@ -119,6 +119,7 @@ public class MapSquare : MonoBehaviour
 
     private void OnMouseDown()
     {
+        mapConfig = FindObjectOfType<MapConfig>();
         if (!shroud && !mapConfig.GetIsAMenuOpen())
         {
             SetState("movingDown");

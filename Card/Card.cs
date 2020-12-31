@@ -160,12 +160,14 @@ public class Card : MonoBehaviour
         }
 
         // Card played successfully
-        CheckOnPlayedEffects();
+        CheckOnPlayedEffectsInBattleData();
         battleData.CountPlayedCard(this);
 
         List<string> keywordList = new List<string>(keywords);
         if (keywordList.Contains("Stance"))
             battleData.SetPlayedStance();
+
+        CheckPlayCardEffects(); // For example, powerups
 
         bool furtherAction = PlayCardActions();
         DiscardCard();
@@ -173,6 +175,23 @@ public class Card : MonoBehaviour
         if (!furtherAction)
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void CheckPlayCardEffects()
+    {
+        List<string> keywordsList = new List<string>();
+        keywordsList.AddRange(keywords);
+
+        if (keywordsList.Contains("Bio"))
+        {
+            // BioElectric Field
+            List<PowerUp> bioElectricFields = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.BioElectricField);
+            foreach (PowerUp powerUp in bioElectricFields)
+            {
+                if (PercentChance(powerUp.GetAmount()))
+                    DealUnmodifiedDamage(powerUp.GetAmount2());
+            }
         }
     }
 
@@ -1160,19 +1179,19 @@ public class Card : MonoBehaviour
             case 194: // DOUBLE TAP 1
             case 195: // DOUBLE TAP 2
                 DealDamage(1);
-                StartCoroutine(WaitForSomethingToFinish("dealingDamage"));
-                return true;
+                DealDamage(1);
+                break;
             case 196: // DOUBLE TAP 3
             case 197: // DOUBLE TAP 4
                 GainStatus(StatusEffect.StatusType.Momentum, 1);
                 DealDamage(1);
-                StartCoroutine(WaitForSomethingToFinish("dealingDamage"));
-                return true;
+                DealDamage(1);
+                break;
             case 198: // DOUBLE TAP 5
                 GainStatus(StatusEffect.StatusType.Momentum, 2);
                 DealDamage(1);
-                StartCoroutine(WaitForSomethingToFinish("dealingDamage"));
-                return true;
+                DealDamage(1);
+                break;
             case 199: // SHOOT 1
             case 200: // SHOOT 2
                 DealDamage(1);
@@ -1462,13 +1481,6 @@ public class Card : MonoBehaviour
                 DiscardCardsWithTag("Weakness");
                 EndTurn();
                 break;
-            case 194: // DOUBLE TAP 1
-            case 195: // DOUBLE TAP 2
-            case 196: // DOUBLE TAP 3
-            case 197: // DOUBLE TAP 4
-            case 198: // DOUBLE TAP 5
-                DealDamage(1);
-                break;
         }
         // NOW we can destroy the gameobject
         Destroy(gameObject);
@@ -1641,6 +1653,11 @@ public class Card : MonoBehaviour
         }
     }
 
+    private void DealUnmodifiedDamage(int amount)
+    {
+        battleData.GetEnemy().TakeDamage(amount);
+    }
+
     private int CheckAndApplyCritical(int damageAmount, int critChance)
     {
         // Check for crit
@@ -1806,7 +1823,7 @@ public class Card : MonoBehaviour
         energyCostzone.GetComponentInChildren<TextMeshProUGUI>().text = energyCost.ToString();
     }
 
-    private void CheckOnPlayedEffects()
+    private void CheckOnPlayedEffectsInBattleData()
     {
         battleData.CheckOnPlayedEffects(this);
     }

@@ -46,6 +46,7 @@ public class BattleData : MonoBehaviour
 
     // buffs from powerups
     List<PowerUp> powerUps = new List<PowerUp>();
+    int personalShieldStacks = 0;
 
     // buffs for "when a card is played"
     public enum PlayerOnPlayedEffects { PlayWeaponDrawCard };
@@ -474,7 +475,11 @@ public class BattleData : MonoBehaviour
         // ELEMENT OF SURPRISE
         StatusEffectHolder playerCurrentStatusEffects = configData.GetPlayerStatusEffects();
         int startingMomentum = GetCombinedAmountFromPowerUps(GetPowerUpsOfType(PowerUp.PowerUpType.ElementOfSurprise));
-        playerCurrentStatusEffects.InflictStatus(StatusEffect.StatusType.Momentum, startingMomentum, playerOrEnemy);
+        if (startingMomentum > 0)
+            playerCurrentStatusEffects.InflictStatus(StatusEffect.StatusType.Momentum, startingMomentum, playerOrEnemy);
+
+        // PERSONAL SHIELD
+        personalShieldStacks = GetCombinedAmountFromPowerUps(GetPowerUpsOfType(PowerUp.PowerUpType.PersonalShield));
     }
 
     private int GetCombinedAmountFromPowerUps(List<PowerUp> powerUps)
@@ -496,5 +501,15 @@ public class BattleData : MonoBehaviour
                 foundPowerUps.Add(powerUp);
         }
         return foundPowerUps;
+    }
+
+    public int GetPersonalShieldStacks()
+    {
+        return personalShieldStacks;
+    }
+
+    public void ConsumePersonalShieldStack()
+    {
+        personalShieldStacks--;
     }
 }
