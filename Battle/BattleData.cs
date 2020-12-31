@@ -101,6 +101,8 @@ public class BattleData : MonoBehaviour
 
         playerHand.DrawStartingHand(character.GetStartingHandSize(), setupTimeInSeconds);
 
+        SetupStartingBuffs();
+
         StartCoroutine(EnablePlayAfterSetup());
     }
 
@@ -463,6 +465,26 @@ public class BattleData : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    private void SetupStartingBuffs()
+    {
+        string playerOrEnemy = "player";
+
+        // ELEMENT OF SURPRISE
+        StatusEffectHolder playerCurrentStatusEffects = configData.GetPlayerStatusEffects();
+        int startingMomentum = GetCombinedAmountFromPowerUps(GetPowerUpsOfType(PowerUp.PowerUpType.ElementOfSurprise));
+        playerCurrentStatusEffects.InflictStatus(StatusEffect.StatusType.Momentum, startingMomentum, playerOrEnemy);
+    }
+
+    private int GetCombinedAmountFromPowerUps(List<PowerUp> powerUps)
+    {
+        int count = 0;
+        foreach (PowerUp powerUp in powerUps)
+        {
+            count += powerUp.GetAmount();
+        }
+        return count;
     }
 
     public List<PowerUp> GetPowerUpsOfType(PowerUp.PowerUpType powerUpType)
