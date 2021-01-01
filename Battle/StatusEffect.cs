@@ -9,7 +9,7 @@ public class StatusEffect : MonoBehaviour
 {
     TextMeshProUGUI numberOfStacksTextField;
 
-    public enum StatusType { None, Default, Dodge, Momentum, DamageResist, AutoCrit, Vulnerable, FizzleChance, CritChance, Retaliate };
+    public enum StatusType { None, Default, Dodge, Momentum, DamageResist, AutoCrit, Vulnerable, FizzleChance, CritChance, Retaliate, Weakness };
         // PREVIOUSLY: DAMAGE RESIST, CRITUP
     public enum PermaBuffType { HandSize };
         // Not used by status effects, but similar enough that this seems the best place to define them
@@ -73,6 +73,8 @@ public class StatusEffect : MonoBehaviour
                 return "Your damage has an extra " + stacks + "% chance to Critically Hit";
             case StatusType.Retaliate:
                 return "Deal " + stacks + " damage every time you are damaged by the opponent.";
+            case StatusType.Weakness:
+                return "Deal -" + stacks + " damage.";
             default:
                 return "THIS AIN'T IT, CHIEF";
         }
@@ -172,6 +174,7 @@ public class StatusEffect : MonoBehaviour
         {
             case StatusType.Vulnerable:
             case StatusType.FizzleChance:
+            case StatusType.Weakness:
                 return true;
             default:
                 return false;

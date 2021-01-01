@@ -193,6 +193,20 @@ public class Card : MonoBehaviour
                     DealUnmodifiedDamage(powerUp.GetAmount2());
             }
         }
+
+        if (keywordsList.Contains("Mech"))
+        {
+            // Grinding Gears
+            List<PowerUp> grindingGears = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.GrindingGears);
+            foreach (PowerUp powerUp in grindingGears)
+            {
+                if (PercentChance(powerUp.GetAmount()))
+                {
+                    if (!enemyCurrentStatusEffects.PurgeBuff())
+                        InflictStatus(StatusEffect.StatusType.Weakness, 1);
+                }
+            }
+        }
     }
 
     public void DiscardFromHand()
@@ -1631,6 +1645,7 @@ public class Card : MonoBehaviour
         damageAmount += enemyCurrentStatusEffects.GetVulnerableStacks();
         damageAmount += FindObjectOfType<BattleData>().GetEnemyVulnerabilityMapDebuff();
         damageAmount -= enemyCurrentStatusEffects.GetDamageResistStacks();
+        damageAmount -= playerCurrentStatusEffects.GetWeaknessStacks();
 
         int dodgeChance = enemyCurrentStatusEffects.GetDodgeChance();
         if (PercentChance(dodgeChance))

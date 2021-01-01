@@ -351,12 +351,14 @@ public class EnemyCard : MonoBehaviour
         damageAmount += enemyCurrentStatusEffects.GetMomentumStacks();
         damageAmount += playerCurrentStatusEffects.GetVulnerableStacks();
         damageAmount -= playerCurrentStatusEffects.GetDamageResistStacks();
+        damageAmount -= enemyCurrentStatusEffects.GetWeaknessStacks();
 
         BattleData battleData = FindObjectOfType<BattleData>();
         damageAmount -= battleData.GetEnemyDamageDebuff();
 
-        if (damageAmount < 1)
-            damageAmount = 1;
+        // Minimum damage = 1 is probably not necessary any more...
+        //if (damageAmount < 1)
+        //    damageAmount = 1;
 
         damageAmount -= battleData.GetPlayerDefenseBuff();
 

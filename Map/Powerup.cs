@@ -10,6 +10,7 @@ public class PowerUp : ScriptableObject
         DeadEye,
         DireWound,
         ElementOfSurprise,
+        GrindingGears,
         PersonalShield,
         Strength,
         TheBestDefense,
@@ -29,6 +30,7 @@ public class PowerUp : ScriptableObject
             PowerUpType.DeadEye,
             PowerUpType.DireWound,
             PowerUpType.ElementOfSurprise,
+            PowerUpType.GrindingGears,
             PowerUpType.PersonalShield,
             PowerUpType.Strength,
             PowerUpType.TheBestDefense,
@@ -50,7 +52,7 @@ public class PowerUp : ScriptableObject
             case PowerUpType.Agility:
                 amount = 25;
                 powerUpName = "Agility";
-                description = "25% chance to draw an extra card at the beginning of each turn";
+                description = amount + "% chance to draw an extra card at the beginning of each turn";
                 break;
             case PowerUpType.BioElectricField:
                 amount = 50;
@@ -61,32 +63,37 @@ public class PowerUp : ScriptableObject
             case PowerUpType.DeadEye:
                 amount = 15;
                 powerUpName = "DeadEye";
-                description = "Base Critical Hit Chance increased by 15%";
+                description = "Base Critical Hit Chance increased by " + amount + "%";
                 break;
             case PowerUpType.DireWound:
                 amount = 50;
                 powerUpName = "Dire Wound";
-                description = "Your Critical Hits deal an extra 50% Damage";
+                description = "Your Critical Hits deal an extra " + amount + "% Damage";
                 break;
             case PowerUpType.ElementOfSurprise:
                 amount = 2;
                 powerUpName = "Element of Surprise";
-                description = "Begin each battle with 2 Momentum";
+                description = "Begin each battle with " + amount + " Momentum";
+                break;
+            case PowerUpType.GrindingGears:
+                amount = 25;
+                powerUpName = "Grinding Gears";
+                description = "Every time you play a Mech card: " + amount + "% chance to remove a random enemy buff. If no buffs were removed, inflict Weakness.";
                 break;
             case PowerUpType.PersonalShield:
                 amount = 1;
                 powerUpName = "Personal Shield";
-                description = "Take no damage when you are hit by an enemy attack. Functions once per combat.";
+                description = "Take no damage when you are hit by an enemy attack. Functions " + amount + " time per combat.";
                 break;
             case PowerUpType.Strength:
                 amount = 1;
                 powerUpName = "Strength";
-                description = "When gaining Momentum, gain an extra stack";
+                description = "When gaining Momentum, gain " + amount + " extra stack";
                 break;
             case PowerUpType.TheBestDefense:
                 amount = 1;
                 powerUpName = "The Best Defense";
-                description = "Every time you gain Damage Resist or Dodge, gain 1 Momentum";
+                description = "Every time you gain Damage Resist or Dodge, gain " + amount + " Momentum";
                 break;
         }
     }
