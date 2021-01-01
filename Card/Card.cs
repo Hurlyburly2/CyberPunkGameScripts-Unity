@@ -1597,12 +1597,24 @@ public class Card : MonoBehaviour
 
     private void GainStatus(StatusEffect.StatusType statusType, int stacks)
     {
-        playerCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy);
-        GainStatusPowerUpChecks(statusType, stacks);
+        GainStatus(statusType, stacks, 0);
     }
 
     private void GainStatus(StatusEffect.StatusType statusType, int stacks, int duration)
     {
+        if (StatusEffect.IsBuff(statusType))
+        {
+            // Slowed Metabolism
+            List<PowerUp> slowedMetabolism = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.SlowedMetabolism);
+            if (duration == 0)
+                duration = playerCurrentStatusEffects.GetDefaultStatusDuration(statusType);
+            foreach (PowerUp powerUp in slowedMetabolism)
+            {
+                if (PercentChance(powerUp.GetAmount()))
+                    duration += powerUp.GetAmount2();
+            }
+        }
+
         playerCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy, duration);
         GainStatusPowerUpChecks(statusType, stacks);
     }
@@ -1653,16 +1665,21 @@ public class Card : MonoBehaviour
     {
         if (stacks > 0)
         {
-            List<PowerUp> networkPenetration = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.NetworkPenetration);
-            if (networkPenetration.Count > 0)
+            // Network Penetration
+            if (StatusEffect.IsDebuff(statusType))
             {
-                // We need to get the default duration for the status effect in order to properly modify it
-                // A duration of 0 always defaults to the default duration
-                duration = enemyCurrentStatusEffects.GetDefaultStatusDuration(statusType);
-                foreach (PowerUp powerUp in networkPenetration)
+                List<PowerUp> networkPenetration = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.NetworkPenetration);
+                if (networkPenetration.Count > 0)
                 {
-                    if (PercentChance(powerUp.GetAmount()))
+                    // We need to get the default duration for the status effect in order to properly modify it
+                    // A duration of 0 always defaults to the default duration
+                    if (duration == 0)
+                        duration = enemyCurrentStatusEffects.GetDefaultStatusDuration(statusType);
+                    foreach (PowerUp powerUp in networkPenetration)
+                    {
+                        //if (PercentChance(powerUp.GetAmount()))
                         duration += powerUp.GetAmount2();
+                    }
                 }
             }
 

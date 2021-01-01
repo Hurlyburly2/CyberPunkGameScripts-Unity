@@ -14,6 +14,7 @@ public class PowerUp : ScriptableObject
         GrindingGears,
         NetworkPenetration,
         PersonalShield,
+        SlowedMetabolism,
         Strength,
         Technologist,
         TheBestDefense,
@@ -37,6 +38,7 @@ public class PowerUp : ScriptableObject
             PowerUpType.GrindingGears,
             PowerUpType.NetworkPenetration,
             PowerUpType.PersonalShield,
+            PowerUpType.SlowedMetabolism,
             PowerUpType.Strength,
             PowerUpType.Technologist,
             PowerUpType.TheBestDefense,
@@ -101,6 +103,12 @@ public class PowerUp : ScriptableObject
                 amount = 1;
                 powerUpName = "Personal Shield";
                 description = "Take no damage when you are hit by an enemy attack. Functions " + amount + " time per combat.";
+                break;
+            case PowerUpType.SlowedMetabolism:
+                amount = 25;
+                amount2 = 1;
+                powerUpName = "Slowed Metabolism";
+                description = "Every time you gain a buff: " + amount + "% chance to increase the duration by " + amount2;
                 break;
             case PowerUpType.Strength:
                 amount = 1;

@@ -149,6 +149,11 @@ public class StatusEffect : MonoBehaviour
 
     public bool IsBuff()
     {
+        return IsBuff(statusType);
+    }
+
+    static public bool IsBuff(StatusType statusType)
+    {
         switch (statusType)
         {
             case StatusType.Dodge:
@@ -169,6 +174,11 @@ public class StatusEffect : MonoBehaviour
     }
 
     public bool IsDebuff()
+    {
+        return IsDebuff(statusType);
+    }
+
+    static public bool IsDebuff(StatusType statusType)
     {
         switch (statusType)
         {
