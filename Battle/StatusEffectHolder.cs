@@ -292,7 +292,7 @@ public class StatusEffectHolder : MonoBehaviour
         return -1;
     }
 
-    private int GetDefaultStatusDuration(StatusEffect.StatusType statusType)
+    public int GetDefaultStatusDuration(StatusEffect.StatusType statusType)
     {
         switch(statusType)
         {

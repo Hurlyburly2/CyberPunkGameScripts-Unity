@@ -207,6 +207,28 @@ public class Card : MonoBehaviour
                 }
             }
         }
+
+        if (keywordsList.Contains("Tech"))
+        {
+            // Technologist
+            List<PowerUp> technologist = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.Technologist);
+            foreach (PowerUp powerUp in technologist)
+            {
+                if (PercentChance(powerUp.GetAmount()))
+                    DrawXCards(1);
+            }
+        }
+
+        if (keywordsList.Contains("Cyber"))
+        {
+            // Malware Exposure
+            List<PowerUp> malwareExposure = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.MalwareExposure);
+            foreach (PowerUp powerUp in malwareExposure)
+            {
+                if (PercentChance(powerUp.GetAmount()))
+                    InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
+            }
+        }
     }
 
     public void DiscardFromHand()
@@ -1627,9 +1649,25 @@ public class Card : MonoBehaviour
         playerCurrentStatusEffects.PowerupStatus(type, buffAmount, durationBuffAmount);
     }
 
-    private void InflictStatus(StatusEffect.StatusType statusType, int stacks)
+    private void InflictStatus(StatusEffect.StatusType statusType, int stacks, int duration=0)
     {
-        enemyCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy);
+        if (stacks > 0)
+        {
+            List<PowerUp> networkPenetration = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.NetworkPenetration);
+            if (networkPenetration.Count > 0)
+            {
+                // We need to get the default duration for the status effect in order to properly modify it
+                // A duration of 0 always defaults to the default duration
+                duration = enemyCurrentStatusEffects.GetDefaultStatusDuration(statusType);
+                foreach (PowerUp powerUp in networkPenetration)
+                {
+                    if (PercentChance(powerUp.GetAmount()))
+                        duration += powerUp.GetAmount2();
+                }
+            }
+
+            enemyCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy, duration);
+        }
     }
 
     private void SelfDamage(int damageAmount)

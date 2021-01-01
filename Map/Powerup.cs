@@ -10,9 +10,12 @@ public class PowerUp : ScriptableObject
         DeadEye,
         DireWound,
         ElementOfSurprise,
+        MalwareExposure,
         GrindingGears,
+        NetworkPenetration,
         PersonalShield,
         Strength,
+        Technologist,
         TheBestDefense,
     }
 
@@ -30,9 +33,12 @@ public class PowerUp : ScriptableObject
             PowerUpType.DeadEye,
             PowerUpType.DireWound,
             PowerUpType.ElementOfSurprise,
+            PowerUpType.MalwareExposure,
             PowerUpType.GrindingGears,
+            PowerUpType.NetworkPenetration,
             PowerUpType.PersonalShield,
             PowerUpType.Strength,
+            PowerUpType.Technologist,
             PowerUpType.TheBestDefense,
         };
         return powerUpTypes[Random.Range(0, powerUpTypes.Length)];
@@ -75,10 +81,21 @@ public class PowerUp : ScriptableObject
                 powerUpName = "Element of Surprise";
                 description = "Begin each battle with " + amount + " Momentum";
                 break;
+            case PowerUpType.MalwareExposure:
+                amount = 25;
+                powerUpName = "Malware Exposure";
+                description = "Every time you play a Cyber card: " + amount + "% Chance to inflict Vulnerable";
+                break;
             case PowerUpType.GrindingGears:
                 amount = 25;
                 powerUpName = "Grinding Gears";
                 description = "Every time you play a Mech card: " + amount + "% chance to remove a random enemy buff. If no buffs were removed, inflict Weakness.";
+                break;
+            case PowerUpType.NetworkPenetration:
+                amount = 25;
+                amount2 = 1;
+                powerUpName = "Network Penetration";
+                description = "Every time you inflict a Debuff: " + amount + "% chance to increase the duration by " + amount2;
                 break;
             case PowerUpType.PersonalShield:
                 amount = 1;
@@ -89,6 +106,11 @@ public class PowerUp : ScriptableObject
                 amount = 1;
                 powerUpName = "Strength";
                 description = "When gaining Momentum, gain " + amount + " extra stack";
+                break;
+            case PowerUpType.Technologist:
+                amount = 25;
+                powerUpName = "Technologist";
+                description = "Every time you play a Tech card: " + amount + "% Chance to Draw 1 card";
                 break;
             case PowerUpType.TheBestDefense:
                 amount = 1;
