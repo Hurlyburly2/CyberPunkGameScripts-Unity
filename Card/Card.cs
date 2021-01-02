@@ -1636,6 +1636,10 @@ public class Card : MonoBehaviour
                 powerUps = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.TheBestDefense);
                 if (powerUps.Count > 0)
                     playerCurrentStatusEffects.InflictStatus(StatusEffect.StatusType.Momentum, GetCombinedAmountFromPowerUps(powerUps), playerOrEnemy);
+
+                powerUps = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.TankMode);
+                if (powerUps.Count > 0)
+                    playerCurrentStatusEffects.InflictStatus(StatusEffect.StatusType.Retaliate, GetCombinedAmountFromPowerUps(powerUps), playerOrEnemy);
                 break;
             case StatusEffect.StatusType.Dodge:
                 // THE BEST DEFENSE

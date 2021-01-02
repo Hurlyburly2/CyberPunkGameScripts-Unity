@@ -7,6 +7,7 @@ public class PowerUp : ScriptableObject
     public enum PowerUpType {
         Agility,
         BioElectricField,
+        Counterattack,
         DeadEye,
         DireWound,
         ElementOfSurprise,
@@ -16,6 +17,7 @@ public class PowerUp : ScriptableObject
         PersonalShield,
         SlowedMetabolism,
         Strength,
+        TankMode,
         Technologist,
         TheBestDefense,
     }
@@ -31,6 +33,7 @@ public class PowerUp : ScriptableObject
         PowerUpType[] powerUpTypes = {
             PowerUpType.Agility,
             PowerUpType.BioElectricField,
+            PowerUpType.Counterattack,
             PowerUpType.DeadEye,
             PowerUpType.DireWound,
             PowerUpType.ElementOfSurprise,
@@ -40,6 +43,7 @@ public class PowerUp : ScriptableObject
             PowerUpType.PersonalShield,
             PowerUpType.SlowedMetabolism,
             PowerUpType.Strength,
+            PowerUpType.TankMode,
             PowerUpType.Technologist,
             PowerUpType.TheBestDefense,
         };
@@ -67,6 +71,11 @@ public class PowerUp : ScriptableObject
                 amount2 = 1;
                 powerUpName = "Bioelectric Field";
                 description = "Every time you play a Bio card: " + amount + "% chance to deal " + amount2 + " Damage";
+                break;
+            case PowerUpType.Counterattack:
+                amount = 3;
+                powerUpName = "Counterattack";
+                description = "Every time you dodge an attack, deal " + amount + " damage";
                 break;
             case PowerUpType.DeadEye:
                 amount = 15;
@@ -114,6 +123,11 @@ public class PowerUp : ScriptableObject
                 amount = 1;
                 powerUpName = "Strength";
                 description = "When gaining Momentum, gain " + amount + " extra stack";
+                break;
+            case PowerUpType.TankMode:
+                amount = 1;
+                powerUpName = "Tank Mode";
+                description = "Every time you gain Damage Resist, Gain " + amount + " Retaliate";
                 break;
             case PowerUpType.Technologist:
                 amount = 25;

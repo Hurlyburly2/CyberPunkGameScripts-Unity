@@ -338,6 +338,7 @@ public class EnemyCard : MonoBehaviour
     private int CalculateModifiedDamage(int damageAmount, int critChance)
     {
         ConfigData configData = FindObjectOfType<ConfigData>();
+        BattleData battleData = FindObjectOfType<BattleData>();
         playerCurrentStatusEffects = configData.GetPlayerStatusEffects();
         enemyCurrentStatusEffects = configData.GetEnemyStatusEffects();
         
@@ -345,6 +346,12 @@ public class EnemyCard : MonoBehaviour
         if (PercentChance(dodgeChance))
         {
             Debug.Log("Dodged!");
+            // Counterattack
+            List<PowerUp> counterattacks = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.Counterattack);
+            foreach (PowerUp powerUp in counterattacks)
+            {
+                SelfDamage(powerUp.GetAmount());
+            }
             return 0;
         }
 
@@ -353,7 +360,6 @@ public class EnemyCard : MonoBehaviour
         damageAmount -= playerCurrentStatusEffects.GetDamageResistStacks();
         damageAmount -= enemyCurrentStatusEffects.GetWeaknessStacks();
 
-        BattleData battleData = FindObjectOfType<BattleData>();
         damageAmount -= battleData.GetEnemyDamageDebuff();
 
         // Minimum damage = 1 is probably not necessary any more...
