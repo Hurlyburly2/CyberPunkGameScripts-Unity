@@ -18,8 +18,6 @@ public class MapObject : ScriptableObject
 
     public void SetupMapObject(string newMapObjectType)
     {
-        // TODO: GET RID OF THIS
-        newMapObjectType = "PowerUp";
         isActive = true;
         mapObjectType = newMapObjectType;
         mapType = FindObjectOfType<MapData>().GetMapType();

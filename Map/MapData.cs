@@ -16,6 +16,7 @@ public class MapData : MonoBehaviour
 
     // state
     int securityLevel;
+    int securityLevelRaiseAmount = 5;
     int enemyHindrance = 0;
         // enemyHindrance helps to hinder enemy spawn, each tick lowers the level by one.
         // Capped at 40%. Spawn chance minimum 5% so matter what this value is
@@ -241,7 +242,17 @@ public class MapData : MonoBehaviour
             // TODO: THIS???
         } else
         {
-            AdjustSecurityLevel(5);
+            int adjustedSecurityLevelRaiseAmount = securityLevelRaiseAmount;
+            List<PowerUp> hackedTerminals = GetPowerUpsOfType(PowerUp.PowerUpType.HackedTerminal);
+            foreach (PowerUp powerUp in hackedTerminals)
+            {
+                float multiplier = (float)powerUp.GetAmount2() / 100;
+                adjustedSecurityLevelRaiseAmount -= Mathf.FloorToInt(securityLevelRaiseAmount * multiplier);
+            }
+
+            if (adjustedSecurityLevelRaiseAmount < 1)
+                adjustedSecurityLevelRaiseAmount = 1;
+            AdjustSecurityLevel(adjustedSecurityLevelRaiseAmount);
         }
     }
 
@@ -441,6 +452,19 @@ public class MapData : MonoBehaviour
     public void AddPowerUp(PowerUp newPowerUp)
     {
         powerUps.Add(newPowerUp);
+        OnAddPowerUpEffects(newPowerUp);
+    }
+
+    private void OnAddPowerUpEffects(PowerUp newPowerUp)
+    {
+        switch (newPowerUp.GetPowerUpType())
+        {
+            case PowerUp.PowerUpType.HackedTerminal:
+                float modifier = (float)newPowerUp.GetAmount() / 100;
+                int securityReduction = Mathf.FloorToInt(securityLevel * modifier);
+                AdjustSecurityLevel(-securityReduction);
+                break;
+        }
     }
 
     public List<PowerUp> GetPowerUpsOfType(PowerUp.PowerUpType powerUpType)

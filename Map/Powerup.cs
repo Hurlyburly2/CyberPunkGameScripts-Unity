@@ -12,6 +12,7 @@ public class PowerUp : ScriptableObject
         DireWound,
         ElementOfSurprise,
         EnergySiphon,
+        HackedTerminal,
         MalwareExposure,
         GrindingGears,
         NetworkPenetration,
@@ -41,6 +42,7 @@ public class PowerUp : ScriptableObject
             PowerUpType.DireWound,
             PowerUpType.ElementOfSurprise,
             PowerUpType.EnergySiphon,
+            PowerUpType.HackedTerminal,
             PowerUpType.MalwareExposure,
             PowerUpType.GrindingGears,
             PowerUpType.NetworkPenetration,
@@ -53,10 +55,6 @@ public class PowerUp : ScriptableObject
             PowerUpType.TheBestDefense,
             PowerUpType.TheBestOffense
         };
-        //PowerUpType[] powerUpTypes =
-        //{
-        //    PowerUpType.TheBestOffense
-        //};
         return powerUpTypes[Random.Range(0, powerUpTypes.Length)];
     }
 
@@ -106,6 +104,12 @@ public class PowerUp : ScriptableObject
                 amount = 1;
                 powerUpName = "Energy Siphon";
                 description = "Gain " + amount + " energy at the start of each of your turns";
+                break;
+            case PowerUpType.HackedTerminal:
+                amount = 50;
+                amount2 = 20;
+                powerUpName = "Hacked Terminal";
+                description = "Half the current security level. Security level will rise slower";
                 break;
             case PowerUpType.MalwareExposure:
                 amount = 25;
