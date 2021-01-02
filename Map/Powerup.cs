@@ -22,6 +22,7 @@ public class PowerUp : ScriptableObject
         TankMode,
         Technologist,
         TheBestDefense,
+        TheBestOffense
     }
 
     PowerUpType powerUpType;
@@ -50,10 +51,11 @@ public class PowerUp : ScriptableObject
             PowerUpType.TankMode,
             PowerUpType.Technologist,
             PowerUpType.TheBestDefense,
+            PowerUpType.TheBestOffense
         };
         //PowerUpType[] powerUpTypes =
         //{
-        //    PowerUpType.PowerCoil
+        //    PowerUpType.TheBestOffense
         //};
         return powerUpTypes[Random.Range(0, powerUpTypes.Length)];
     }
@@ -157,6 +159,11 @@ public class PowerUp : ScriptableObject
                 amount = 1;
                 powerUpName = "The Best Defense";
                 description = "Every time you gain Damage Resist or Dodge, gain " + amount + " Momentum";
+                break;
+            case PowerUpType.TheBestOffense:
+                amount = 1;
+                powerUpName = "The Best Offense";
+                description = "Permanent Retaliate 1 Buff";
                 break;
         }
     }

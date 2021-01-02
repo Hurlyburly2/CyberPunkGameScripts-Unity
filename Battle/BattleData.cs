@@ -492,6 +492,11 @@ public class BattleData : MonoBehaviour
 
         // PERSONAL SHIELD
         personalShieldStacks = GetCombinedAmountFromPowerUps(GetPowerUpsOfType(PowerUp.PowerUpType.PersonalShield));
+
+        // THE BEST OFFENSE
+        int startingRetaliation = GetCombinedAmountFromPowerUps(GetPowerUpsOfType(PowerUp.PowerUpType.TheBestOffense));
+        if (startingRetaliation > 0)
+            playerCurrentStatusEffects.InflictStatus(StatusEffect.StatusType.Retaliate, startingRetaliation, playerOrEnemy, 99999);
     }
 
     private int GetCombinedAmountFromPowerUps(List<PowerUp> powerUps)
