@@ -16,6 +16,7 @@ public class PowerUp : ScriptableObject
         GrindingGears,
         NetworkPenetration,
         PersonalShield,
+        PowerCoil,
         SlowedMetabolism,
         Strength,
         TankMode,
@@ -43,12 +44,17 @@ public class PowerUp : ScriptableObject
             PowerUpType.GrindingGears,
             PowerUpType.NetworkPenetration,
             PowerUpType.PersonalShield,
+            PowerUpType.PowerCoil,
             PowerUpType.SlowedMetabolism,
             PowerUpType.Strength,
             PowerUpType.TankMode,
             PowerUpType.Technologist,
             PowerUpType.TheBestDefense,
         };
+        //PowerUpType[] powerUpTypes =
+        //{
+        //    PowerUpType.PowerCoil
+        //};
         return powerUpTypes[Random.Range(0, powerUpTypes.Length)];
     }
 
@@ -119,6 +125,12 @@ public class PowerUp : ScriptableObject
                 amount = 1;
                 powerUpName = "Personal Shield";
                 description = "Take no damage when you are hit by an enemy attack. Functions " + amount + " time per combat.";
+                break;
+            case PowerUpType.PowerCoil:
+                amount = 15;
+                amount2 = 100;
+                powerUpName = "Power Coil";
+                description = amount + "% Chance every time you play a card: Refund " + amount2 + "% of that card's energy cost";
                 break;
             case PowerUpType.SlowedMetabolism:
                 amount = 25;

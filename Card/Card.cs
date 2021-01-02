@@ -102,7 +102,17 @@ public class Card : MonoBehaviour
 
             if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player" && CanPlayCard())
             {
-                runner.SpendEnergy(energyCost);
+                // Power Coil
+                bool refund = false;
+                List<PowerUp> powerCoil = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.PowerCoil);
+                foreach (PowerUp power in powerCoil)
+                {
+                    if (PercentChance(power.GetAmount()))
+                        refund = true;
+                }
+                if (!refund)
+                    runner.SpendEnergy(energyCost);
+
                 SetState("played");
                 playerHand.RemoveCard(GetComponent<Card>());
                 PlayCard();
