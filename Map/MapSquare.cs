@@ -286,7 +286,7 @@ public class MapSquare : MonoBehaviour
         availableHackTypes.AddRange(hackTypes);
 
         availableObjectTypes = new List<string>();
-        string[] objectTypes = { "Trap", "Reward", "PowerUp", "Upgrade", "First Aid Station" };
+        string[] objectTypes = { "Trap", "Reward", "PowerUp", "PowerUp", "Upgrade", "First Aid Station" };
         availableObjectTypes.AddRange(objectTypes);
 
         if (isFirstSquare)

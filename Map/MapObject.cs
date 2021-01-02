@@ -164,6 +164,14 @@ public class MapObject : ScriptableObject
         {
             case "PowerUp":
                 return powerup.GetName();
+            case "First Aid Station":
+                return "First Aid Station";
+            case "Reward":
+                return "Reward";
+            case "Trap":
+                return "TRAPNAME NOT IMPLMENTED";
+            case "Upgrade":
+                return "UPGRADE NOT IMPLEMENTED";
         }
         return "Something went wrong";
     }
