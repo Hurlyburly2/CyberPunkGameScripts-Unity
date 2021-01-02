@@ -11,6 +11,7 @@ public class PowerUp : ScriptableObject
         DeadEye,
         DireWound,
         ElementOfSurprise,
+        EnergySiphon,
         MalwareExposure,
         GrindingGears,
         NetworkPenetration,
@@ -37,6 +38,7 @@ public class PowerUp : ScriptableObject
             PowerUpType.DeadEye,
             PowerUpType.DireWound,
             PowerUpType.ElementOfSurprise,
+            PowerUpType.EnergySiphon,
             PowerUpType.MalwareExposure,
             PowerUpType.GrindingGears,
             PowerUpType.NetworkPenetration,
@@ -91,6 +93,11 @@ public class PowerUp : ScriptableObject
                 amount = 2;
                 powerUpName = "Element of Surprise";
                 description = "Begin each battle with " + amount + " Momentum";
+                break;
+            case PowerUpType.EnergySiphon:
+                amount = 1;
+                powerUpName = "Energy Siphon";
+                description = "Gain " + amount + " energy at the start of each of your turns";
                 break;
             case PowerUpType.MalwareExposure:
                 amount = 25;

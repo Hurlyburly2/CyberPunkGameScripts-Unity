@@ -103,6 +103,7 @@ public class BattleData : MonoBehaviour
         playerHand.DrawStartingHand(character.GetStartingHandSize(), setupTimeInSeconds);
 
         SetupStartingBuffs();
+        PlayerStartTurnChecks();
 
         StartCoroutine(EnablePlayAfterSetup());
     }
@@ -163,9 +164,20 @@ public class BattleData : MonoBehaviour
                 }
                 playerHand.DrawToMaxHandSize();
             }
+            PlayerStartTurnChecks();
             TickDownStatusEffectDurations("player");
             whoseTurn = "player";
             actionDisabled = false;
+        }
+    }
+
+    private void PlayerStartTurnChecks()
+    {
+        // Energy Siphon
+        int energySiphon = GetCombinedAmountFromPowerUps(GetPowerUpsOfType(PowerUp.PowerUpType.EnergySiphon));
+        if (energySiphon > 0)
+        {
+            character.GainEnergy(energySiphon);
         }
     }
 
