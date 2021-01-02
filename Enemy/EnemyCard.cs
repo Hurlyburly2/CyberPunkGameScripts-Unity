@@ -320,8 +320,14 @@ public class EnemyCard : MonoBehaviour
     private void DealDamage(int damageAmount, int critChance = 0)
     {
         int modifiedDamage = Mathf.Clamp(CalculateModifiedDamage(damageAmount, critChance), 0, 999999);
-        CharacterData character = FindObjectOfType<BattleData>().GetCharacter();
-        character.TakeDamage(modifiedDamage);
+        BattleData battleData = FindObjectOfType<BattleData>();
+        CharacterData character = battleData.GetCharacter();
+
+        if (battleData.GetPersonalShieldStacks() > 0)
+            battleData.ConsumePersonalShieldStack();
+        else
+            character.TakeDamage(modifiedDamage);
+
 
         if (modifiedDamage > 0)
         {
@@ -332,6 +338,7 @@ public class EnemyCard : MonoBehaviour
     private int CalculateModifiedDamage(int damageAmount, int critChance)
     {
         ConfigData configData = FindObjectOfType<ConfigData>();
+        BattleData battleData = FindObjectOfType<BattleData>();
         playerCurrentStatusEffects = configData.GetPlayerStatusEffects();
         enemyCurrentStatusEffects = configData.GetEnemyStatusEffects();
         
@@ -339,18 +346,25 @@ public class EnemyCard : MonoBehaviour
         if (PercentChance(dodgeChance))
         {
             Debug.Log("Dodged!");
+            // Counterattack
+            List<PowerUp> counterattacks = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.Counterattack);
+            foreach (PowerUp powerUp in counterattacks)
+            {
+                SelfDamage(powerUp.GetAmount());
+            }
             return 0;
         }
 
         damageAmount += enemyCurrentStatusEffects.GetMomentumStacks();
         damageAmount += playerCurrentStatusEffects.GetVulnerableStacks();
         damageAmount -= playerCurrentStatusEffects.GetDamageResistStacks();
+        damageAmount -= enemyCurrentStatusEffects.GetWeaknessStacks();
 
-        BattleData battleData = FindObjectOfType<BattleData>();
         damageAmount -= battleData.GetEnemyDamageDebuff();
 
-        if (damageAmount < 1)
-            damageAmount = 1;
+        // Minimum damage = 1 is probably not necessary any more...
+        //if (damageAmount < 1)
+        //    damageAmount = 1;
 
         damageAmount -= battleData.GetPlayerDefenseBuff();
 

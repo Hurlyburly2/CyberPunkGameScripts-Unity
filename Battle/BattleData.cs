@@ -46,6 +46,7 @@ public class BattleData : MonoBehaviour
 
     // buffs from powerups
     List<PowerUp> powerUps = new List<PowerUp>();
+    int personalShieldStacks = 0;
 
     // buffs for "when a card is played"
     public enum PlayerOnPlayedEffects { PlayWeaponDrawCard };
@@ -100,6 +101,9 @@ public class BattleData : MonoBehaviour
         deck.SetupDeck(deckCardIds);
 
         playerHand.DrawStartingHand(character.GetStartingHandSize(), setupTimeInSeconds);
+
+        SetupStartingBuffs();
+        PlayerStartTurnChecks();
 
         StartCoroutine(EnablePlayAfterSetup());
     }
@@ -160,9 +164,20 @@ public class BattleData : MonoBehaviour
                 }
                 playerHand.DrawToMaxHandSize();
             }
+            PlayerStartTurnChecks();
             TickDownStatusEffectDurations("player");
             whoseTurn = "player";
             actionDisabled = false;
+        }
+    }
+
+    private void PlayerStartTurnChecks()
+    {
+        // Energy Siphon
+        int energySiphon = GetCombinedAmountFromPowerUps(GetPowerUpsOfType(PowerUp.PowerUpType.EnergySiphon));
+        if (energySiphon > 0)
+        {
+            character.GainEnergy(energySiphon);
         }
     }
 
@@ -465,6 +480,35 @@ public class BattleData : MonoBehaviour
         return false;
     }
 
+    private void SetupStartingBuffs()
+    {
+        string playerOrEnemy = "player";
+
+        // ELEMENT OF SURPRISE
+        StatusEffectHolder playerCurrentStatusEffects = configData.GetPlayerStatusEffects();
+        int startingMomentum = GetCombinedAmountFromPowerUps(GetPowerUpsOfType(PowerUp.PowerUpType.ElementOfSurprise));
+        if (startingMomentum > 0)
+            playerCurrentStatusEffects.InflictStatus(StatusEffect.StatusType.Momentum, startingMomentum, playerOrEnemy);
+
+        // PERSONAL SHIELD
+        personalShieldStacks = GetCombinedAmountFromPowerUps(GetPowerUpsOfType(PowerUp.PowerUpType.PersonalShield));
+
+        // THE BEST OFFENSE
+        int startingRetaliation = GetCombinedAmountFromPowerUps(GetPowerUpsOfType(PowerUp.PowerUpType.TheBestOffense));
+        if (startingRetaliation > 0)
+            playerCurrentStatusEffects.InflictStatus(StatusEffect.StatusType.Retaliate, startingRetaliation, playerOrEnemy, 99999);
+    }
+
+    private int GetCombinedAmountFromPowerUps(List<PowerUp> powerUps)
+    {
+        int count = 0;
+        foreach (PowerUp powerUp in powerUps)
+        {
+            count += powerUp.GetAmount();
+        }
+        return count;
+    }
+
     public List<PowerUp> GetPowerUpsOfType(PowerUp.PowerUpType powerUpType)
     {
         List<PowerUp> foundPowerUps = new List<PowerUp>();
@@ -474,5 +518,15 @@ public class BattleData : MonoBehaviour
                 foundPowerUps.Add(powerUp);
         }
         return foundPowerUps;
+    }
+
+    public int GetPersonalShieldStacks()
+    {
+        return personalShieldStacks;
+    }
+
+    public void ConsumePersonalShieldStack()
+    {
+        personalShieldStacks--;
     }
 }

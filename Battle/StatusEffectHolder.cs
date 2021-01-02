@@ -53,6 +53,15 @@ public class StatusEffectHolder : MonoBehaviour
         }
     }
 
+    public int GetWeaknessStacks()
+    {
+        int weaknessIndex = GetStatusIndex(StatusEffect.StatusType.Weakness);
+        if (weaknessIndex == -1)
+            return 0;
+        else
+            return statusEffects[weaknessIndex].GetStacks();
+    }
+
     public int GetCritUpStacks()
     {
         int critUpIndex = GetStatusIndex(StatusEffect.StatusType.AutoCrit);
@@ -165,9 +174,7 @@ public class StatusEffectHolder : MonoBehaviour
     {
         List<StatusEffect> debuffs = FindDebuffs();
         if (debuffs.Count < 1)
-        {
             return;
-        }
 
         int randomIndex = Mathf.FloorToInt(Random.Range(0, debuffs.Count));
 
@@ -176,18 +183,43 @@ public class StatusEffectHolder : MonoBehaviour
         RejiggerStatusIcons();
     }
 
+    public bool PurgeBuff()
+    {
+        // Return true if purge successful, false if there were no debuffs
+        List<StatusEffect> buffs = FindBuffs();
+        if (buffs.Count < 1)
+            return false;
+
+        int randomIndex = Mathf.FloorToInt(Random.Range(0, buffs.Count));
+
+        StatusEffect buffToPurge = buffs[randomIndex];
+        DestroyStatus(buffToPurge);
+        RejiggerStatusIcons();
+        return true;
+    }
+
     private List<StatusEffect> FindDebuffs()
     {
         List<StatusEffect> debuffs = new List<StatusEffect>();
         foreach(StatusEffect statusEffect in statusEffects)
         {
             if (statusEffect.IsDebuff())
-            {
                 debuffs.Add(statusEffect);
-            }
         }
 
         return debuffs;
+    }
+
+    private List<StatusEffect> FindBuffs()
+    {
+        List<StatusEffect> buffs = new List<StatusEffect>();
+        foreach (StatusEffect statusEffect in statusEffects)
+        {
+            if (statusEffect.IsBuff())
+                buffs.Add(statusEffect);
+        }
+
+        return buffs;
     }
 
     private void CheckDestroyStatus(StatusEffect statusEffect)
@@ -238,6 +270,8 @@ public class StatusEffectHolder : MonoBehaviour
                 return images[7];
             case StatusEffect.StatusType.Retaliate:
                 return images[8];
+            case StatusEffect.StatusType.Weakness:
+                return images[9];
             default:
                 // default empty status
                 return images[0];
@@ -258,7 +292,7 @@ public class StatusEffectHolder : MonoBehaviour
         return -1;
     }
 
-    private int GetDefaultStatusDuration(StatusEffect.StatusType statusType)
+    public int GetDefaultStatusDuration(StatusEffect.StatusType statusType)
     {
         switch(statusType)
         {

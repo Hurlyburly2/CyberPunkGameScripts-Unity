@@ -114,7 +114,7 @@ public class PlayerHand : MonoBehaviour
     private int ExtraCardDrawFromPowerUps()
     {
         int extraCards = 0;
-        foreach (PowerUp cardDrawBuff in battleData.GetPowerUpsOfType(PowerUp.PowerUpType.DrawExtraCardChance))
+        foreach (PowerUp cardDrawBuff in battleData.GetPowerUpsOfType(PowerUp.PowerUpType.Agility))
         {
             if (CheckPercentageChance(cardDrawBuff.GetAmount()))
                 extraCards++;

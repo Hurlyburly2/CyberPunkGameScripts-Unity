@@ -102,7 +102,17 @@ public class Card : MonoBehaviour
 
             if (mouseY > configData.GetCardPlayedLine() && battleData.WhoseTurnIsIt() == "player" && CanPlayCard())
             {
-                runner.SpendEnergy(energyCost);
+                // Power Coil
+                bool refund = false;
+                List<PowerUp> powerCoil = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.PowerCoil);
+                foreach (PowerUp power in powerCoil)
+                {
+                    if (PercentChance(power.GetAmount()))
+                        refund = true;
+                }
+                if (!refund)
+                    runner.SpendEnergy(energyCost);
+
                 SetState("played");
                 playerHand.RemoveCard(GetComponent<Card>());
                 PlayCard();
@@ -160,12 +170,14 @@ public class Card : MonoBehaviour
         }
 
         // Card played successfully
-        CheckOnPlayedEffects();
+        CheckOnPlayedEffectsInBattleData();
         battleData.CountPlayedCard(this);
 
         List<string> keywordList = new List<string>(keywords);
         if (keywordList.Contains("Stance"))
             battleData.SetPlayedStance();
+
+        CheckPlayCardEffects(); // For example, powerups
 
         bool furtherAction = PlayCardActions();
         DiscardCard();
@@ -173,6 +185,59 @@ public class Card : MonoBehaviour
         if (!furtherAction)
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void CheckPlayCardEffects()
+    {
+        List<string> keywordsList = new List<string>();
+        keywordsList.AddRange(keywords);
+
+        if (keywordsList.Contains("Bio"))
+        {
+            // BioElectric Field
+            List<PowerUp> bioElectricFields = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.BioElectricField);
+            foreach (PowerUp powerUp in bioElectricFields)
+            {
+                if (PercentChance(powerUp.GetAmount()))
+                    DealUnmodifiedDamage(powerUp.GetAmount2());
+            }
+        }
+
+        if (keywordsList.Contains("Mech"))
+        {
+            // Grinding Gears
+            List<PowerUp> grindingGears = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.GrindingGears);
+            foreach (PowerUp powerUp in grindingGears)
+            {
+                if (PercentChance(powerUp.GetAmount()))
+                {
+                    if (!enemyCurrentStatusEffects.PurgeBuff())
+                        InflictStatus(StatusEffect.StatusType.Weakness, 1);
+                }
+            }
+        }
+
+        if (keywordsList.Contains("Tech"))
+        {
+            // Technologist
+            List<PowerUp> technologist = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.Technologist);
+            foreach (PowerUp powerUp in technologist)
+            {
+                if (PercentChance(powerUp.GetAmount()))
+                    DrawXCards(1);
+            }
+        }
+
+        if (keywordsList.Contains("Cyber"))
+        {
+            // Malware Exposure
+            List<PowerUp> malwareExposure = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.MalwareExposure);
+            foreach (PowerUp powerUp in malwareExposure)
+            {
+                if (PercentChance(powerUp.GetAmount()))
+                    InflictStatus(StatusEffect.StatusType.Vulnerable, 1);
+            }
         }
     }
 
@@ -1160,19 +1225,19 @@ public class Card : MonoBehaviour
             case 194: // DOUBLE TAP 1
             case 195: // DOUBLE TAP 2
                 DealDamage(1);
-                StartCoroutine(WaitForSomethingToFinish("dealingDamage"));
-                return true;
+                DealDamage(1);
+                break;
             case 196: // DOUBLE TAP 3
             case 197: // DOUBLE TAP 4
                 GainStatus(StatusEffect.StatusType.Momentum, 1);
                 DealDamage(1);
-                StartCoroutine(WaitForSomethingToFinish("dealingDamage"));
-                return true;
+                DealDamage(1);
+                break;
             case 198: // DOUBLE TAP 5
                 GainStatus(StatusEffect.StatusType.Momentum, 2);
                 DealDamage(1);
-                StartCoroutine(WaitForSomethingToFinish("dealingDamage"));
-                return true;
+                DealDamage(1);
+                break;
             case 199: // SHOOT 1
             case 200: // SHOOT 2
                 DealDamage(1);
@@ -1462,13 +1527,6 @@ public class Card : MonoBehaviour
                 DiscardCardsWithTag("Weakness");
                 EndTurn();
                 break;
-            case 194: // DOUBLE TAP 1
-            case 195: // DOUBLE TAP 2
-            case 196: // DOUBLE TAP 3
-            case 197: // DOUBLE TAP 4
-            case 198: // DOUBLE TAP 5
-                DealDamage(1);
-                break;
         }
         // NOW we can destroy the gameobject
         Destroy(gameObject);
@@ -1549,12 +1607,67 @@ public class Card : MonoBehaviour
 
     private void GainStatus(StatusEffect.StatusType statusType, int stacks)
     {
-        playerCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy);
+        GainStatus(statusType, stacks, 0);
     }
 
     private void GainStatus(StatusEffect.StatusType statusType, int stacks, int duration)
     {
+        if (StatusEffect.IsBuff(statusType))
+        {
+            // Slowed Metabolism
+            List<PowerUp> slowedMetabolism = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.SlowedMetabolism);
+            if (duration == 0)
+                duration = playerCurrentStatusEffects.GetDefaultStatusDuration(statusType);
+            foreach (PowerUp powerUp in slowedMetabolism)
+            {
+                if (PercentChance(powerUp.GetAmount()))
+                    duration += powerUp.GetAmount2();
+            }
+        }
+
         playerCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy, duration);
+        GainStatusPowerUpChecks(statusType, stacks);
+    }
+
+    private void GainStatusPowerUpChecks(StatusEffect.StatusType statusType, int stacks)
+    {
+        // Check for powerups related to the new status boost
+        List<PowerUp> powerUps;
+        switch (statusType)
+        {
+            case StatusEffect.StatusType.Momentum:
+                // Strength Powerup
+                powerUps = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.Strength);
+                if (powerUps.Count > 0)
+                    playerCurrentStatusEffects.InflictStatus(StatusEffect.StatusType.Momentum, GetCombinedAmountFromPowerUps(powerUps), playerOrEnemy);
+                break;
+            case StatusEffect.StatusType.DamageResist:
+                // THE BEST DEFENSE
+                powerUps = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.TheBestDefense);
+                if (powerUps.Count > 0)
+                    playerCurrentStatusEffects.InflictStatus(StatusEffect.StatusType.Momentum, GetCombinedAmountFromPowerUps(powerUps), playerOrEnemy);
+
+                powerUps = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.TankMode);
+                if (powerUps.Count > 0)
+                    playerCurrentStatusEffects.InflictStatus(StatusEffect.StatusType.Retaliate, GetCombinedAmountFromPowerUps(powerUps), playerOrEnemy);
+                break;
+            case StatusEffect.StatusType.Dodge:
+                // THE BEST DEFENSE
+                powerUps = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.TheBestDefense);
+                if (powerUps.Count > 0)
+                    playerCurrentStatusEffects.InflictStatus(StatusEffect.StatusType.Momentum, GetCombinedAmountFromPowerUps(powerUps), playerOrEnemy);
+                break;
+        }
+    }
+
+    private int GetCombinedAmountFromPowerUps(List<PowerUp> powerUps)
+    {
+        int count = 0;
+        foreach (PowerUp powerUp in powerUps)
+        {
+            count += powerUp.GetAmount();
+        }
+        return count;
     }
 
     private void PowerupStatus(string type, int buffAmount, int durationBuffAmount)
@@ -1562,9 +1675,30 @@ public class Card : MonoBehaviour
         playerCurrentStatusEffects.PowerupStatus(type, buffAmount, durationBuffAmount);
     }
 
-    private void InflictStatus(StatusEffect.StatusType statusType, int stacks)
+    private void InflictStatus(StatusEffect.StatusType statusType, int stacks, int duration=0)
     {
-        enemyCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy);
+        if (stacks > 0)
+        {
+            // Network Penetration
+            if (StatusEffect.IsDebuff(statusType))
+            {
+                List<PowerUp> networkPenetration = battleData.GetPowerUpsOfType(PowerUp.PowerUpType.NetworkPenetration);
+                if (networkPenetration.Count > 0)
+                {
+                    // We need to get the default duration for the status effect in order to properly modify it
+                    // A duration of 0 always defaults to the default duration
+                    if (duration == 0)
+                        duration = enemyCurrentStatusEffects.GetDefaultStatusDuration(statusType);
+                    foreach (PowerUp powerUp in networkPenetration)
+                    {
+                        //if (PercentChance(powerUp.GetAmount()))
+                        duration += powerUp.GetAmount2();
+                    }
+                }
+            }
+
+            enemyCurrentStatusEffects.InflictStatus(statusType, stacks, playerOrEnemy, duration);
+        }
     }
 
     private void SelfDamage(int damageAmount)
@@ -1580,6 +1714,7 @@ public class Card : MonoBehaviour
         damageAmount += enemyCurrentStatusEffects.GetVulnerableStacks();
         damageAmount += FindObjectOfType<BattleData>().GetEnemyVulnerabilityMapDebuff();
         damageAmount -= enemyCurrentStatusEffects.GetDamageResistStacks();
+        damageAmount -= playerCurrentStatusEffects.GetWeaknessStacks();
 
         int dodgeChance = enemyCurrentStatusEffects.GetDodgeChance();
         if (PercentChance(dodgeChance))
@@ -1588,7 +1723,9 @@ public class Card : MonoBehaviour
             damageAmount = 0;
         } else
         {
-            int modifiedCritChance = Mathf.Clamp(critChance + FindObjectOfType<BattleData>().GetPlayerCritMapBuff() + playerCurrentStatusEffects.GetCritChanceStacks(), 0, 100);
+            // DEADEYE
+            int critFromPowerUps = GetCombinedAmountFromPowerUps(battleData.GetPowerUpsOfType(PowerUp.PowerUpType.DeadEye));
+            int modifiedCritChance = Mathf.Clamp(critChance + critFromPowerUps + battleData.GetPlayerCritMapBuff() + playerCurrentStatusEffects.GetCritChanceStacks(), 0, 100);
             damageAmount = CheckAndApplyCritical(damageAmount, modifiedCritChance);
         }
 
@@ -1598,6 +1735,11 @@ public class Card : MonoBehaviour
         {
             SelfDamage(configData.GetEnemyStatusEffects().GetRetaliateStacks());
         }
+    }
+
+    private void DealUnmodifiedDamage(int amount)
+    {
+        battleData.GetEnemy().TakeDamage(amount);
     }
 
     private int CheckAndApplyCritical(int damageAmount, int critChance)
@@ -1618,7 +1760,9 @@ public class Card : MonoBehaviour
         int calculatedDamage = damageAmount;
         if (criticalHit)
         {
-            calculatedDamage = Mathf.FloorToInt(critModifier * calculatedDamage);
+            // DIRE WOUND
+            float extraCritModifier = GetCombinedAmountFromPowerUps(battleData.GetPowerUpsOfType(PowerUp.PowerUpType.DireWound)) / 100;
+            calculatedDamage = Mathf.FloorToInt((critModifier + extraCritModifier) * calculatedDamage);
         }
         return calculatedDamage;
     }
@@ -1763,7 +1907,7 @@ public class Card : MonoBehaviour
         energyCostzone.GetComponentInChildren<TextMeshProUGUI>().text = energyCost.ToString();
     }
 
-    private void CheckOnPlayedEffects()
+    private void CheckOnPlayedEffectsInBattleData()
     {
         battleData.CheckOnPlayedEffects(this);
     }
