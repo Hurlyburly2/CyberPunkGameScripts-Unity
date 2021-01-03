@@ -192,7 +192,7 @@ public class MapData : MonoBehaviour
         {
             if (mapObject.GetObjectType() == "Trap" && mapObject.GetIsActive() == true)
             {
-                mapObject.TriggerTrap();
+                mapObject.TriggerTrap(square);
                 return true;
             }
         }

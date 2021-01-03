@@ -44,6 +44,9 @@ public class BattleData : MonoBehaviour
     int weaponsPlayedThisTurn = 0;
     int cardsDrawnThisTurn = 0;
 
+    // effects from traps
+    MapObject.TrapTypes trapType;
+
     // buffs from powerups
     List<PowerUp> powerUps = new List<PowerUp>();
     int personalShieldStacks = 0;
@@ -97,7 +100,11 @@ public class BattleData : MonoBehaviour
         character.BattleSetup(setupTimeInSeconds);
 
         List<int> deckCardIds = character.GetLoadout().GetAllCardIds();
-        deckCardIds.AddRange(hacker.GetHackerLoadout().GetCardIds());
+
+        // Do not load hacker cards if triggered a Faraday Cage trap
+        if (trapType != MapObject.TrapTypes.FaradayCage)
+            deckCardIds.AddRange(hacker.GetHackerLoadout().GetCardIds());
+
         deck.SetupDeck(deckCardIds);
 
         playerHand.DrawStartingHand(character.GetStartingHandSize(), setupTimeInSeconds);
@@ -260,6 +267,7 @@ public class BattleData : MonoBehaviour
         mapSquare = newCurrentSquare;
         enemyId = GetEnemyIDFromMapSquare(newCurrentSquare);
         enemyLoaded = true;
+        trapType = mapSquare.GetTriggeredTrapType();
     }
 
     public void GetPowerUpDataFromMap(MapData mapData)
