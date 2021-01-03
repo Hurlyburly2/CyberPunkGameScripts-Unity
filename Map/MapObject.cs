@@ -12,7 +12,13 @@ public class MapObject : ScriptableObject
     bool isActive;
     // IF IT IS A TRAP AND IT IS NOT ACTIVE IT SHOULDN'T TRIGGER
 
-    public enum TrapTypes { DirectDamage, FaradayCage, EMP };
+    public enum TrapTypes {
+        DirectDamage,
+        EMP,
+        FaradayCage,
+        NerveGas,
+        RustAgent
+    };
     TrapTypes trapType;
     PowerUp powerup;
     string trapName = "";
@@ -123,6 +129,8 @@ public class MapObject : ScriptableObject
                 isActive = false;
                 break;
             case TrapTypes.EMP:
+            case TrapTypes.RustAgent:
+            case TrapTypes.NerveGas:
                 mapSquare.SetTriggeredTrapType(trapType, trapAmount);
                 isActive = false;
                 break;
@@ -143,8 +151,10 @@ public class MapObject : ScriptableObject
     {
         TrapTypes[] potentialTrapTypes = {
             TrapTypes.DirectDamage,
+            TrapTypes.EMP,
             TrapTypes.FaradayCage,
-            TrapTypes.EMP
+            TrapTypes.NerveGas,
+            TrapTypes.RustAgent
         };
         trapType = potentialTrapTypes[Random.Range(0, potentialTrapTypes.Length)];
         switch (trapType)
@@ -169,6 +179,16 @@ public class MapObject : ScriptableObject
                 trapName = "EMP";
                 trapAmount = 30;
                 trapDescription = "On this location: Your Cyber and Tech cards have a " + trapAmount + "% chance to fizzle";
+                break;
+            case TrapTypes.RustAgent:
+                trapName = "Rust Agent";
+                trapAmount = 30;
+                trapDescription = "On this location: Your Mech cards have a " + trapAmount + "% chance to fizzle";
+                break;
+            case TrapTypes.NerveGas:
+                trapName = "Nerve Gas";
+                trapAmount = 30;
+                trapDescription = "On this location: Your Bio cards have a " + trapAmount + "% chance to fizzle";
                 break;
         }
     }

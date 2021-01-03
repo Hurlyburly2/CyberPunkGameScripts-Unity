@@ -1923,6 +1923,14 @@ public class Card : MonoBehaviour
                 if (keywordsList.Contains("Cyber") || keywordsList.Contains("Tech"))
                     fizzleModifier += battleData.GetTrapAmount();
                 break;
+            case MapObject.TrapTypes.RustAgent:
+                if (keywordsList.Contains("Mech"))
+                    fizzleModifier += battleData.GetTrapAmount();
+                break;
+            case MapObject.TrapTypes.NerveGas:
+                if (keywordsList.Contains("Bio"))
+                    fizzleModifier += battleData.GetTrapAmount();
+                break;
         }
         return fizzleModifier;
     }
