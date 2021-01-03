@@ -32,6 +32,9 @@ public class HackBattleData : MonoBehaviour
     // Passive abilities variables
     List<PassiveAbility> passiveAbilities;
 
+    // Traptype
+    MapObject.TrapTypes trapType;
+
     public void Iunno()
     {
         Debug.Log("test");
@@ -66,7 +69,10 @@ public class HackBattleData : MonoBehaviour
         allHackCards = FindObjectOfType<AllHackCards>();
 
         List<int> cardIds = runner.GetLoadout().GetAllCardIds();
-        cardIds.AddRange(hacker.GetHackerLoadout().GetCardIds());
+
+        // Block Hacker cards if faraday cage
+        if (trapType != MapObject.TrapTypes.FaradayCage)
+            cardIds.AddRange(hacker.GetHackerLoadout().GetCardIds());
 
         // Create a deck from here, but for now we use nonsense cards
         LogAllCardIds(cardIds);
@@ -323,6 +329,7 @@ public class HackBattleData : MonoBehaviour
         mapGrid.gameObject.SetActive(false);
         currentMapSquare = mapSquare;
         hackTarget = newHackTarget;
+        trapType = mapSquare.GetTriggeredTrapType();
     }
 
     public MapGrid GetMapGrid()
