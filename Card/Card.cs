@@ -155,11 +155,12 @@ public class Card : MonoBehaviour
     public void PlayCard()
     {
         // A card fizzling removes it from your hand... Weaknesses cannot Fizzle
-        if (playerCurrentStatusEffects.GetFizzleChance() > 0)
+        int fizzleChance = GetFizzleModifier() + playerCurrentStatusEffects.GetFizzleChance();
+        if (fizzleChance > 0)
         {
             List<string> checkKeywords = new List<string>();
             checkKeywords.AddRange(keywords);
-            if (PercentChance(playerCurrentStatusEffects.GetFizzleChance()) && !checkKeywords.Contains("Weakness"))
+            if (PercentChance(fizzleChance) && !checkKeywords.Contains("Weakness"))
             {
                 FindObjectOfType<PopupHolder>().SpawnFizzledPopup();
                 DiscardCard();
@@ -1910,5 +1911,19 @@ public class Card : MonoBehaviour
     private void CheckOnPlayedEffectsInBattleData()
     {
         battleData.CheckOnPlayedEffects(this);
+    }
+
+    private int GetFizzleModifier()
+    {
+        List<string> keywordsList = new List<string>(keywords);
+        int fizzleModifier = 0;
+        switch (battleData.GetTrapType())
+        {
+            case MapObject.TrapTypes.EMP:
+                if (keywordsList.Contains("Cyber") || keywordsList.Contains("Tech"))
+                    fizzleModifier += battleData.GetTrapAmount();
+                break;
+        }
+        return fizzleModifier;
     }
 }

@@ -41,6 +41,7 @@ public class MapSquare : MonoBehaviour
     bool explored = false; // has player visited this square? Used primarily to determine enemy spawns
 
     MapObject.TrapTypes triggeredTrapType;
+    int triggeredTrapAmount;
 
     // objects and hacks
     List<HackTarget> hackTargets;
@@ -595,8 +596,19 @@ public class MapSquare : MonoBehaviour
         triggeredTrapType = newTrapType;
     }
 
+    public void SetTriggeredTrapType(MapObject.TrapTypes newTrapType, int newTrapAmount)
+    {
+        triggeredTrapType = newTrapType;
+        triggeredTrapAmount = newTrapAmount;
+    }
+
     public MapObject.TrapTypes GetTriggeredTrapType()
     {
         return triggeredTrapType;
+    }
+
+    public int GetTriggeredTrapAmount()
+    {
+        return triggeredTrapAmount;
     }
 }

@@ -12,7 +12,7 @@ public class MapObject : ScriptableObject
     bool isActive;
     // IF IT IS A TRAP AND IT IS NOT ACTIVE IT SHOULDN'T TRIGGER
 
-    public enum TrapTypes { DirectDamage, FaradayCage };
+    public enum TrapTypes { DirectDamage, FaradayCage, EMP };
     TrapTypes trapType;
     PowerUp powerup;
     string trapName = "";
@@ -119,8 +119,11 @@ public class MapObject : ScriptableObject
                 isActive = false;
                 break;
             case TrapTypes.FaradayCage:
-                // Nothing happens
                 mapSquare.SetTriggeredTrapType(trapType);
+                isActive = false;
+                break;
+            case TrapTypes.EMP:
+                mapSquare.SetTriggeredTrapType(trapType, trapAmount);
                 isActive = false;
                 break;
         }
@@ -139,8 +142,9 @@ public class MapObject : ScriptableObject
     private void SetupTrap()
     {
         TrapTypes[] potentialTrapTypes = {
-            //TrapTypes.DirectDamage,
-            TrapTypes.FaradayCage
+            TrapTypes.DirectDamage,
+            TrapTypes.FaradayCage,
+            TrapTypes.EMP
         };
         trapType = potentialTrapTypes[Random.Range(0, potentialTrapTypes.Length)];
         switch (trapType)
@@ -161,7 +165,17 @@ public class MapObject : ScriptableObject
                 trapName = "Faraday Cage";
                 trapDescription = "On this location: Block use of Hacker cards";
                 break;
+            case TrapTypes.EMP:
+                trapName = "EMP";
+                trapAmount = 30;
+                trapDescription = "On this location: Your Cyber and Tech cards have a " + trapAmount + "% chance to fizzle";
+                break;
         }
+    }
+
+    public int GetTrapAmount()
+    {
+        return trapAmount;
     }
 
     public void SetIsActive(bool state)

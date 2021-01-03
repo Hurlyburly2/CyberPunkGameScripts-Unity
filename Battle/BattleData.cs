@@ -46,6 +46,7 @@ public class BattleData : MonoBehaviour
 
     // effects from traps
     MapObject.TrapTypes trapType;
+    int trapAmount;
 
     // buffs from powerups
     List<PowerUp> powerUps = new List<PowerUp>();
@@ -268,6 +269,7 @@ public class BattleData : MonoBehaviour
         enemyId = GetEnemyIDFromMapSquare(newCurrentSquare);
         enemyLoaded = true;
         trapType = mapSquare.GetTriggeredTrapType();
+        trapAmount = mapSquare.GetTriggeredTrapAmount();
     }
 
     public void GetPowerUpDataFromMap(MapData mapData)
@@ -536,5 +538,15 @@ public class BattleData : MonoBehaviour
     public void ConsumePersonalShieldStack()
     {
         personalShieldStacks--;
+    }
+
+    public MapObject.TrapTypes GetTrapType()
+    {
+        return trapType;
+    }
+
+    public int GetTrapAmount()
+    {
+        return trapAmount;
     }
 }
