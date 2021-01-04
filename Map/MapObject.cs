@@ -19,6 +19,7 @@ public class MapObject : ScriptableObject
         EMP,
         FaradayCage,
         NerveGas,
+        NeurotoxinCloud,
         ParalysisAgent,
         RustAgent
     };
@@ -127,6 +128,11 @@ public class MapObject : ScriptableObject
                 FindObjectOfType<MapData>().GetRunner().TakeDamageFromMap(trapAmount);
                 isActive = false;
                 break;
+            case TrapTypes.NeurotoxinCloud:
+                FindObjectOfType<MapData>().GetRunner().TakeDamageFromMap(trapAmount);
+                mapSquare.SetTriggeredTrapType(trapType, trapAmount);
+                isActive = false;
+                break;
             case TrapTypes.FaradayCage:
             case TrapTypes.ParalysisAgent:
             case TrapTypes.ConcussiveBlast:
@@ -160,6 +166,7 @@ public class MapObject : ScriptableObject
             TrapTypes.EMP,
             TrapTypes.FaradayCage,
             TrapTypes.NerveGas,
+            TrapTypes.NeurotoxinCloud,
             TrapTypes.ParalysisAgent,
             TrapTypes.RustAgent
         };
@@ -191,6 +198,16 @@ public class MapObject : ScriptableObject
                 trapAmount = 30;
                 trapDescription = "On this location: Your Cyber and Tech cards have a " + trapAmount + "% chance to fizzle";
                 break;
+            case TrapTypes.NerveGas:
+                trapName = "Nerve Gas";
+                trapAmount = 30;
+                trapDescription = "On this location: Your Bio cards have a " + trapAmount + "% chance to fizzle";
+                break;
+            case TrapTypes.NeurotoxinCloud:
+                trapName = "Neurotoxin Cloud";
+                trapAmount = 1;
+                trapDescription = "Take " + trapAmount + " Damage. During combat on this location: Take " + trapAmount + " Damage at the start of each of your turns";
+                break;
             case TrapTypes.ParalysisAgent:
                 trapName = "Paralysis Agent";
                 trapDescription = "On this location: Block use of Arm and Leg cards";
@@ -199,11 +216,6 @@ public class MapObject : ScriptableObject
                 trapName = "Rust Agent";
                 trapAmount = 30;
                 trapDescription = "On this location: Your Mech cards have a " + trapAmount + "% chance to fizzle";
-                break;
-            case TrapTypes.NerveGas:
-                trapName = "Nerve Gas";
-                trapAmount = 30;
-                trapDescription = "On this location: Your Bio cards have a " + trapAmount + "% chance to fizzle";
                 break;
         }
     }

@@ -199,6 +199,10 @@ public class BattleData : MonoBehaviour
         {
             character.GainEnergy(energySiphon);
         }
+
+        // Neurotoxin Cloud
+        if (trapType == MapObject.TrapTypes.NeurotoxinCloud)
+            character.TakeDamage(trapAmount);
     }
 
     private void TickDownStatusEffectDurations(string whoseEffectsToTick)
