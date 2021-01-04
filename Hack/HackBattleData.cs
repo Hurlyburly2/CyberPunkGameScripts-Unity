@@ -74,6 +74,10 @@ public class HackBattleData : MonoBehaviour
             // Paralysis Agent Trap: Blocks arm and leg mods
             List<Item.ItemTypes> blockedItemTypes = new List<Item.ItemTypes> { Item.ItemTypes.Arm, Item.ItemTypes.Leg };
             cardIds.AddRange(runner.GetLoadout().GetAllCardIds(blockedItemTypes));
+        } else if (trapType == MapObject.TrapTypes.ConcussiveBlast)
+        {
+            List<Item.ItemTypes> blockedItemTypes = new List<Item.ItemTypes> { Item.ItemTypes.Head, Item.ItemTypes.Exoskeleton };
+            cardIds.AddRange(runner.GetLoadout().GetAllCardIds(blockedItemTypes));
         }
         else
         {

@@ -104,7 +104,10 @@ public class BattleData : MonoBehaviour
         if (trapType == MapObject.TrapTypes.ParalysisAgent)
         {
             // Paralysis Agent Trap: Blocks arm and leg mods
-            List<Item.ItemTypes> blockedItemTypes = new List<Item.ItemTypes>{ Item.ItemTypes.Arm, Item.ItemTypes.Leg };
+            List<Item.ItemTypes> blockedItemTypes = new List<Item.ItemTypes> { Item.ItemTypes.Arm, Item.ItemTypes.Leg };
+            deckCardIds.AddRange(character.GetLoadout().GetAllCardIds(blockedItemTypes));
+        } else if (trapType == MapObject.TrapTypes.ConcussiveBlast) {
+            List<Item.ItemTypes> blockedItemTypes = new List<Item.ItemTypes> { Item.ItemTypes.Head, Item.ItemTypes.Exoskeleton };
             deckCardIds.AddRange(character.GetLoadout().GetAllCardIds(blockedItemTypes));
         } else
         {

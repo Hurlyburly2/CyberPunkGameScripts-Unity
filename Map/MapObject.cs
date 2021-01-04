@@ -13,6 +13,8 @@ public class MapObject : ScriptableObject
     // IF IT IS A TRAP AND IT IS NOT ACTIVE IT SHOULDN'T TRIGGER
 
     public enum TrapTypes {
+        None,
+        ConcussiveBlast,
         DirectDamage,
         EMP,
         FaradayCage,
@@ -127,6 +129,7 @@ public class MapObject : ScriptableObject
                 break;
             case TrapTypes.FaradayCage:
             case TrapTypes.ParalysisAgent:
+            case TrapTypes.ConcussiveBlast:
                 mapSquare.SetTriggeredTrapType(trapType);
                 isActive = false;
                 break;
@@ -152,6 +155,7 @@ public class MapObject : ScriptableObject
     private void SetupTrap()
     {
         TrapTypes[] potentialTrapTypes = {
+            TrapTypes.ConcussiveBlast,
             TrapTypes.DirectDamage,
             TrapTypes.EMP,
             TrapTypes.FaradayCage,
@@ -162,6 +166,10 @@ public class MapObject : ScriptableObject
         trapType = potentialTrapTypes[Random.Range(0, potentialTrapTypes.Length)];
         switch (trapType)
         {
+            case TrapTypes.ConcussiveBlast:
+                trapName = "Concussive Blast";
+                trapDescription = "On this Location: Block use of Head and Exoskeleton cards";
+                break;
             case TrapTypes.DirectDamage:
                 // Deal 15% damage
                 CharacterData runner = FindObjectOfType<MapData>().GetRunner();
