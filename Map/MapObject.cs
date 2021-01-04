@@ -17,6 +17,7 @@ public class MapObject : ScriptableObject
         EMP,
         FaradayCage,
         NerveGas,
+        ParalysisAgent,
         RustAgent
     };
     TrapTypes trapType;
@@ -125,6 +126,7 @@ public class MapObject : ScriptableObject
                 isActive = false;
                 break;
             case TrapTypes.FaradayCage:
+            case TrapTypes.ParalysisAgent:
                 mapSquare.SetTriggeredTrapType(trapType);
                 isActive = false;
                 break;
@@ -154,6 +156,7 @@ public class MapObject : ScriptableObject
             TrapTypes.EMP,
             TrapTypes.FaradayCage,
             TrapTypes.NerveGas,
+            TrapTypes.ParalysisAgent,
             TrapTypes.RustAgent
         };
         trapType = potentialTrapTypes[Random.Range(0, potentialTrapTypes.Length)];
@@ -179,6 +182,10 @@ public class MapObject : ScriptableObject
                 trapName = "EMP";
                 trapAmount = 30;
                 trapDescription = "On this location: Your Cyber and Tech cards have a " + trapAmount + "% chance to fizzle";
+                break;
+            case TrapTypes.ParalysisAgent:
+                trapName = "Paralysis Agent";
+                trapDescription = "On this location: Block use of Arm and Leg cards";
                 break;
             case TrapTypes.RustAgent:
                 trapName = "Rust Agent";

@@ -107,6 +107,20 @@ public class Loadout : ScriptableObject
         return allCardIds;
     }
 
+    public List<int> GetAllCardIds(List<Item.ItemTypes> disabledMods)
+    {
+        RunnerMod[] allMods = GetAllMods();
+        List<int> allCardIds = new List<int>();
+
+        foreach(RunnerMod mod in allMods)
+        {
+            if (!disabledMods.Contains(mod.GetItemType()))
+                allCardIds.AddRange(mod.GetCardIds());
+        }
+
+        return allCardIds;
+    }
+
     private RunnerMod[] GetAllMods()
     {
         RunnerMod[] allMods = new RunnerMod[] { headMod, torsoMod, exoskeletonMod, leftArm, rightArm, leftLeg, rightLeg, weapon };

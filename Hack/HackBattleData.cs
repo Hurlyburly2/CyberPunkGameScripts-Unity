@@ -68,7 +68,17 @@ public class HackBattleData : MonoBehaviour
         hackDiscard = FindObjectOfType<HackDiscard>();
         allHackCards = FindObjectOfType<AllHackCards>();
 
-        List<int> cardIds = runner.GetLoadout().GetAllCardIds();
+        List<int> cardIds = new List<int>();
+        if (trapType == MapObject.TrapTypes.ParalysisAgent)
+        {
+            // Paralysis Agent Trap: Blocks arm and leg mods
+            List<Item.ItemTypes> blockedItemTypes = new List<Item.ItemTypes> { Item.ItemTypes.Arm, Item.ItemTypes.Leg };
+            cardIds.AddRange(runner.GetLoadout().GetAllCardIds(blockedItemTypes));
+        }
+        else
+        {
+            cardIds.AddRange(runner.GetLoadout().GetAllCardIds());
+        }
 
         // Block Hacker cards if faraday cage
         if (trapType != MapObject.TrapTypes.FaradayCage)

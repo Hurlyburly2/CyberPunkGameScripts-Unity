@@ -100,7 +100,16 @@ public class BattleData : MonoBehaviour
 
         character.BattleSetup(setupTimeInSeconds);
 
-        List<int> deckCardIds = character.GetLoadout().GetAllCardIds();
+        List<int> deckCardIds = new List<int>();
+        if (trapType == MapObject.TrapTypes.ParalysisAgent)
+        {
+            // Paralysis Agent Trap: Blocks arm and leg mods
+            List<Item.ItemTypes> blockedItemTypes = new List<Item.ItemTypes>{ Item.ItemTypes.Arm, Item.ItemTypes.Leg };
+            deckCardIds.AddRange(character.GetLoadout().GetAllCardIds(blockedItemTypes));
+        } else
+        {
+            deckCardIds.AddRange(character.GetLoadout().GetAllCardIds());
+        }
 
         // Do not load hacker cards if triggered a Faraday Cage trap
         if (trapType != MapObject.TrapTypes.FaradayCage)
