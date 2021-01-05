@@ -63,6 +63,10 @@ public class BattleData : MonoBehaviour
     // list that resets every turn. Keywords in this list are disallowed from play.
     List<string> prohibitedKeywordsFromPlay = new List<string>();
 
+    List<int> temporaryCardIds = new List<int>();
+    List<int> temporaryCardIdsToDestroy = new List<int>();
+        // Tracks temporary card ids to remove from the list, destroying them permanently after battle
+
     private void Awake()
     {
         int count = FindObjectsOfType<BattleData>().Length;
@@ -117,6 +121,8 @@ public class BattleData : MonoBehaviour
         // Do not load hacker cards if triggered a Faraday Cage trap
         if (trapType != MapObject.TrapTypes.FaradayCage)
             deckCardIds.AddRange(hacker.GetHackerLoadout().GetCardIds());
+
+        deckCardIds.AddRange(temporaryCardIds);
 
         deck.SetupDeck(deckCardIds);
 
@@ -291,6 +297,7 @@ public class BattleData : MonoBehaviour
     public void GetPowerUpDataFromMap(MapData mapData)
     {
         powerUps.AddRange(mapData.GetPowerUps());
+        temporaryCardIds.AddRange(mapData.GetTemporaryCardIds());
     }
 
     private int GetEnemyIDFromMapSquare(MapSquare square)
@@ -564,5 +571,15 @@ public class BattleData : MonoBehaviour
     public int GetTrapAmount()
     {
         return trapAmount;
+    }
+
+    public void AddToTemporaryCardToDestroyList(int cardId)
+    {
+        temporaryCardIdsToDestroy.Add(cardId);
+    }
+
+    public List<int> GetTemporaryCardsToDestroyList()
+    {
+        return temporaryCardIdsToDestroy;
     }
 }

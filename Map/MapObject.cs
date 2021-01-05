@@ -19,10 +19,12 @@ public class MapObject : ScriptableObject
         EMP,
         FaradayCage,
         ElectrifiedZone,
+        MalwareInjection,
         NerveGas,
         NeurotoxinCloud,
         ParalysisAgent,
-        RustAgent
+        RustAgent,
+        Spam
     };
     TrapTypes trapType;
     PowerUp powerup;
@@ -135,6 +137,20 @@ public class MapObject : ScriptableObject
                 mapSquare.SetTriggeredTrapType(trapType, trapAmount);
                 isActive = false;
                 break;
+            case TrapTypes.Spam:
+                for (int i = 0; i < trapAmount; i++)
+                {
+                    FindObjectOfType<MapData>().AddToTemporaryCardIds(209);
+                }
+                isActive = false;
+                break;
+            case TrapTypes.MalwareInjection:
+                for (int i = 0; i < trapAmount; i++)
+                {
+                    FindObjectOfType<MapData>().AddToTemporaryCardIds(210);
+                }
+                isActive = false;
+                break;
             case TrapTypes.FaradayCage:
             case TrapTypes.ParalysisAgent:
             case TrapTypes.ConcussiveBlast:
@@ -168,10 +184,12 @@ public class MapObject : ScriptableObject
             TrapTypes.ElectrifiedZone,
             TrapTypes.EMP,
             TrapTypes.FaradayCage,
+            TrapTypes.MalwareInjection,
             TrapTypes.NerveGas,
             TrapTypes.NeurotoxinCloud,
             TrapTypes.ParalysisAgent,
-            TrapTypes.RustAgent
+            TrapTypes.RustAgent,
+            TrapTypes.Spam
         };
         trapType = potentialTrapTypes[Random.Range(0, potentialTrapTypes.Length)];
         switch (trapType)
@@ -206,6 +224,11 @@ public class MapObject : ScriptableObject
                 trapName = "Faraday Cage";
                 trapDescription = "On this location: Block use of Hacker cards";
                 break;
+            case TrapTypes.MalwareInjection:
+                trapName = "Malware Injection";
+                trapAmount = 5;
+                trapDescription = "Add " + trapAmount + " Malware cards to your deck. These cards are destroyed when used";
+                break;
             case TrapTypes.NerveGas:
                 trapName = "Nerve Gas";
                 trapAmount = 30;
@@ -224,6 +247,11 @@ public class MapObject : ScriptableObject
                 trapName = "Rust Agent";
                 trapAmount = 30;
                 trapDescription = "On this location: Your Mech cards have a " + trapAmount + "% chance to fizzle";
+                break;
+            case TrapTypes.Spam:
+                trapName = "Spam";
+                trapAmount = 1;
+                trapDescription = "Add " + trapAmount + " Spam card to your deck";
                 break;
         }
     }
