@@ -144,6 +144,13 @@ public class MapData : MonoBehaviour
     {
         CheckRegen();
         AttemptToSpawnEnemy();
+
+        // Elecrified Zone
+        if (currentSquare.GetTriggeredTrapType() == MapObject.TrapTypes.ElectrifiedZone)
+        {
+            runner.TakeDamageFromMap(currentSquare.GetTriggeredTrapAmount());
+        }
+
         RaiseSecurityLevel(currentSquare);
         bool didTrapsSpring = TrapsSpring(currentSquare);
 

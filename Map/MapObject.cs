@@ -18,6 +18,7 @@ public class MapObject : ScriptableObject
         DirectDamage,
         EMP,
         FaradayCage,
+        ElectrifiedZone,
         NerveGas,
         NeurotoxinCloud,
         ParalysisAgent,
@@ -129,6 +130,7 @@ public class MapObject : ScriptableObject
                 isActive = false;
                 break;
             case TrapTypes.NeurotoxinCloud:
+            case TrapTypes.ElectrifiedZone:
                 FindObjectOfType<MapData>().GetRunner().TakeDamageFromMap(trapAmount);
                 mapSquare.SetTriggeredTrapType(trapType, trapAmount);
                 isActive = false;
@@ -163,6 +165,7 @@ public class MapObject : ScriptableObject
         TrapTypes[] potentialTrapTypes = {
             TrapTypes.ConcussiveBlast,
             TrapTypes.DirectDamage,
+            TrapTypes.ElectrifiedZone,
             TrapTypes.EMP,
             TrapTypes.FaradayCage,
             TrapTypes.NerveGas,
@@ -189,14 +192,19 @@ public class MapObject : ScriptableObject
 
                 trapDescription = "Took " + trapAmount.ToString() + " damage.";
                 break;
-            case TrapTypes.FaradayCage:
-                trapName = "Faraday Cage";
-                trapDescription = "On this location: Block use of Hacker cards";
+            case TrapTypes.ElectrifiedZone:
+                trapName = "Electrified Zone";
+                trapAmount = 3;
+                trapDescription = "Take " + trapAmount + " Damage. Every time you move onto this location, take " + trapAmount + " damage";
                 break;
             case TrapTypes.EMP:
                 trapName = "EMP";
                 trapAmount = 30;
                 trapDescription = "On this location: Your Cyber and Tech cards have a " + trapAmount + "% chance to fizzle";
+                break;
+            case TrapTypes.FaradayCage:
+                trapName = "Faraday Cage";
+                trapDescription = "On this location: Block use of Hacker cards";
                 break;
             case TrapTypes.NerveGas:
                 trapName = "Nerve Gas";
