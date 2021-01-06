@@ -191,6 +191,8 @@ public class Card : MonoBehaviour
         playerHand.RemoveFromHand(this);
         if (!furtherAction)
         {
+            GameObject newEffect = Instantiate(FindObjectOfType<BattleEffects>().GetRadialEffect(), transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
+            newEffect.SetActive(true);
             Destroy(gameObject);
         }
     }
