@@ -89,6 +89,7 @@ public class SceneLoader : MonoBehaviour
 
         currentMap = FindObjectOfType<MapData>();
         currentMap.TrackDefeatedEnemy();
+        currentMap.RemoveFromTemporaryCardIds(previousBattle.GetTemporaryCardsToDestroyList());
 
         MapSquare currentSquare = previousBattle.GetMapSquare();
         currentSquare.DespawnEnemy();
@@ -253,6 +254,7 @@ public class SceneLoader : MonoBehaviour
         currentMap.TrackCompletedHack();
 
         HackBattleData previousHack = FindObjectOfType<HackBattleData>();
+        currentMap.RemoveFromTemporaryCardIds(previousHack.GetTemporaryCardIdsToRemove());
         Destroy(previousHack.gameObject);
 
         StartCoroutine(WaitForMapToLoadFromHack(mapGrid, currentSquare, currentHackTarget, redPoints, bluePoints, greenPoints));

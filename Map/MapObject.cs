@@ -10,28 +10,41 @@ public class MapObject : ScriptableObject
         // "Trap", "Reward", "PowerUp", "Upgrade", "First Aid Station"
 
     bool isActive;
-        // IF IT IS A TRAP AND IT IS NOT ACTIVE IT SHOULDN'T TRIGGER
+    // IF IT IS A TRAP AND IT IS NOT ACTIVE IT SHOULDN'T TRIGGER
 
-    string trapType;
-    int damageDealt = 0;
+    public enum TrapTypes {
+        None,
+        ConcussiveBlast,
+        DirectDamage,
+        EMP,
+        FaradayCage,
+        ElectrifiedZone,
+        MalwareInjection,
+        NerveGas,
+        NeurotoxinCloud,
+        ParalysisAgent,
+        RustAgent,
+        Spam
+    };
+    TrapTypes trapType;
     PowerUp powerup;
+    string trapName = "";
+    string trapDescription = "";
+    int trapAmount;
 
     public void SetupMapObject(string newMapObjectType)
     {
         isActive = true;
         mapObjectType = newMapObjectType;
         mapType = FindObjectOfType<MapData>().GetMapType();
-        //SetupTestObject();
+
+        // TODO: REMOVE THIS WHEN DONE WORKING ON TRAPS
+        //mapObjectType = "Trap";
 
         if (mapObjectType == "Trap")
         {
             SetupTrap();
         }
-    }
-
-    private void SetupTestObject()
-    {
-        mapObjectType = "Trap";
     }
 
     public string DoObjectAction()
@@ -87,7 +100,7 @@ public class MapObject : ScriptableObject
 
     private string GainUpgrade()
     {
-        return "PERMANENTLY GAIN NEW MOD: NOT IMPLEMENTED. RARE.";
+        return "UPGRADE YOUR POWERUPS";
     }
 
     private string GainFirstAidStation()
@@ -110,37 +123,142 @@ public class MapObject : ScriptableObject
         }
     }
 
-    public void TriggerTrap()
+    public void TriggerTrap(MapSquare mapSquare)
     {
         switch (trapType)
         {
-            case "DirectDamage":
-                CharacterData runner = FindObjectOfType<MapData>().GetRunner();
-                float maxHealth = runner.GetMaximumHealth();
-                int damageToTake = Mathf.FloorToInt(maxHealth * 0.2f);
-                if (damageToTake < 1)
-                    damageToTake = 1;
-                damageDealt = damageToTake;
-                runner.TakeDamageFromMap(damageToTake);
+            case TrapTypes.DirectDamage:
+                FindObjectOfType<MapData>().GetRunner().TakeDamageFromMap(trapAmount);
+                isActive = false;
+                break;
+            case TrapTypes.NeurotoxinCloud:
+            case TrapTypes.ElectrifiedZone:
+                FindObjectOfType<MapData>().GetRunner().TakeDamageFromMap(trapAmount);
+                mapSquare.SetTriggeredTrapType(trapType, trapAmount);
+                isActive = false;
+                break;
+            case TrapTypes.Spam:
+                for (int i = 0; i < trapAmount; i++)
+                {
+                    FindObjectOfType<MapData>().AddToTemporaryCardIds(209);
+                }
+                isActive = false;
+                break;
+            case TrapTypes.MalwareInjection:
+                for (int i = 0; i < trapAmount; i++)
+                {
+                    FindObjectOfType<MapData>().AddToTemporaryCardIds(210);
+                }
+                isActive = false;
+                break;
+            case TrapTypes.FaradayCage:
+            case TrapTypes.ParalysisAgent:
+            case TrapTypes.ConcussiveBlast:
+                mapSquare.SetTriggeredTrapType(trapType);
+                isActive = false;
+                break;
+            case TrapTypes.EMP:
+            case TrapTypes.RustAgent:
+            case TrapTypes.NerveGas:
+                mapSquare.SetTriggeredTrapType(trapType, trapAmount);
                 isActive = false;
                 break;
         }
     }
 
-    public string GetTrapTextFromSquare()
+    public string GetTrapDescription()
     {
-        switch (trapType)
-        {
-            case "DirectDamage":
-                return "Took " + damageDealt.ToString() + " damage.";
-        }
-        return "";
+        return trapDescription;
+    }
+
+    public string GetTrapName()
+    {
+        return trapName;
     }
 
     private void SetupTrap()
     {
-        // TODO: EXPAND TRAP TYPES HERE
-        trapType = "DirectDamage";
+        TrapTypes[] potentialTrapTypes = {
+            TrapTypes.ConcussiveBlast,
+            TrapTypes.DirectDamage,
+            TrapTypes.ElectrifiedZone,
+            TrapTypes.EMP,
+            TrapTypes.FaradayCage,
+            TrapTypes.MalwareInjection,
+            TrapTypes.NerveGas,
+            TrapTypes.NeurotoxinCloud,
+            TrapTypes.ParalysisAgent,
+            TrapTypes.RustAgent,
+            TrapTypes.Spam
+        };
+        trapType = potentialTrapTypes[Random.Range(0, potentialTrapTypes.Length)];
+        switch (trapType)
+        {
+            case TrapTypes.ConcussiveBlast:
+                trapName = "Concussive Blast";
+                trapDescription = "On this Location: Block use of Head and Exoskeleton cards";
+                break;
+            case TrapTypes.DirectDamage:
+                // Deal 15% damage
+                CharacterData runner = FindObjectOfType<MapData>().GetRunner();
+                float maxHealth = runner.GetMaximumHealth();
+                int damageToTake = Mathf.FloorToInt(maxHealth * 0.2f);
+                if (damageToTake < 1)
+                    damageToTake = 1;
+                trapAmount = damageToTake;
+                trapName = "Trap";
+
+                trapDescription = "Took " + trapAmount.ToString() + " damage.";
+                break;
+            case TrapTypes.ElectrifiedZone:
+                trapName = "Electrified Zone";
+                trapAmount = 3;
+                trapDescription = "Take " + trapAmount + " Damage. Every time you move onto this location, take " + trapAmount + " damage";
+                break;
+            case TrapTypes.EMP:
+                trapName = "EMP";
+                trapAmount = 30;
+                trapDescription = "On this location: Your Cyber and Tech cards have a " + trapAmount + "% chance to fizzle";
+                break;
+            case TrapTypes.FaradayCage:
+                trapName = "Faraday Cage";
+                trapDescription = "On this location: Block use of Hacker cards";
+                break;
+            case TrapTypes.MalwareInjection:
+                trapName = "Malware Injection";
+                trapAmount = 5;
+                trapDescription = "Add " + trapAmount + " Malware cards to your deck. These cards are destroyed when used";
+                break;
+            case TrapTypes.NerveGas:
+                trapName = "Nerve Gas";
+                trapAmount = 30;
+                trapDescription = "On this location: Your Bio cards have a " + trapAmount + "% chance to fizzle";
+                break;
+            case TrapTypes.NeurotoxinCloud:
+                trapName = "Neurotoxin Cloud";
+                trapAmount = 1;
+                trapDescription = "Take " + trapAmount + " Damage. During combat on this location: Take " + trapAmount + " Damage at the start of each of your turns";
+                break;
+            case TrapTypes.ParalysisAgent:
+                trapName = "Paralysis Agent";
+                trapDescription = "On this location: Block use of Arm and Leg cards";
+                break;
+            case TrapTypes.RustAgent:
+                trapName = "Rust Agent";
+                trapAmount = 30;
+                trapDescription = "On this location: Your Mech cards have a " + trapAmount + "% chance to fizzle";
+                break;
+            case TrapTypes.Spam:
+                trapName = "Spam";
+                trapAmount = 1;
+                trapDescription = "Add " + trapAmount + " Spam card to your deck";
+                break;
+        }
+    }
+
+    public int GetTrapAmount()
+    {
+        return trapAmount;
     }
 
     public void SetIsActive(bool state)

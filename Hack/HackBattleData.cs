@@ -32,6 +32,11 @@ public class HackBattleData : MonoBehaviour
     // Passive abilities variables
     List<PassiveAbility> passiveAbilities;
 
+    // Traptype
+    MapObject.TrapTypes trapType;
+
+    List<int> temporaryCardIdsToRemove = new List<int>();
+
     public void Iunno()
     {
         Debug.Log("test");
@@ -65,8 +70,27 @@ public class HackBattleData : MonoBehaviour
         hackDiscard = FindObjectOfType<HackDiscard>();
         allHackCards = FindObjectOfType<AllHackCards>();
 
-        List<int> cardIds = runner.GetLoadout().GetAllCardIds();
-        cardIds.AddRange(hacker.GetHackerLoadout().GetCardIds());
+        List<int> cardIds = new List<int>();
+        if (trapType == MapObject.TrapTypes.ParalysisAgent)
+        {
+            // Paralysis Agent Trap: Blocks arm and leg mods
+            List<Item.ItemTypes> blockedItemTypes = new List<Item.ItemTypes> { Item.ItemTypes.Arm, Item.ItemTypes.Leg };
+            cardIds.AddRange(runner.GetLoadout().GetAllCardIds(blockedItemTypes));
+        } else if (trapType == MapObject.TrapTypes.ConcussiveBlast)
+        {
+            List<Item.ItemTypes> blockedItemTypes = new List<Item.ItemTypes> { Item.ItemTypes.Head, Item.ItemTypes.Exoskeleton };
+            cardIds.AddRange(runner.GetLoadout().GetAllCardIds(blockedItemTypes));
+        }
+        else
+        {
+            cardIds.AddRange(runner.GetLoadout().GetAllCardIds());
+        }
+
+        // Block Hacker cards if faraday cage
+        if (trapType != MapObject.TrapTypes.FaradayCage)
+            cardIds.AddRange(hacker.GetHackerLoadout().GetCardIds());
+
+        cardIds.AddRange(FindObjectOfType<MapData>().GetTemporaryCardIds());
 
         // Create a deck from here, but for now we use nonsense cards
         LogAllCardIds(cardIds);
@@ -302,13 +326,18 @@ public class HackBattleData : MonoBehaviour
         greenPointIconHolder.UpdatePointDisplay(greenPoints);
     }
 
-    public void OnCardPlacement()
+    public void OnCardPlacement(int cardId)
     {
         switch(securityType)
         {
             case "default":
                 DefaultSecurityOnCardPlacement();
                 break;
+        }
+
+        if (cardId == 210)
+        {
+            temporaryCardIdsToRemove.Add(cardId);
         }
     }
 
@@ -323,10 +352,16 @@ public class HackBattleData : MonoBehaviour
         mapGrid.gameObject.SetActive(false);
         currentMapSquare = mapSquare;
         hackTarget = newHackTarget;
+        trapType = mapSquare.GetTriggeredTrapType();
     }
 
     public MapGrid GetMapGrid()
     {
         return mapGrid;
+    }
+
+    public List<int> GetTemporaryCardIdsToRemove()
+    {
+        return temporaryCardIdsToRemove;
     }
 }

@@ -42,7 +42,9 @@ public class MapData : MonoBehaviour
     int handSizeBoostChance = 0;
 
     bool hasBossTextBeenRead = false;
-        // this is used to determine if the boss text has been read in the StartBattleIfEnemyExists method
+    // this is used to determine if the boss text has been read in the StartBattleIfEnemyExists method
+
+    List<int> temporaryCardIds = new List<int>();
 
     private void Awake()
     {
@@ -144,6 +146,13 @@ public class MapData : MonoBehaviour
     {
         CheckRegen();
         AttemptToSpawnEnemy();
+
+        // Elecrified Zone
+        if (currentSquare.GetTriggeredTrapType() == MapObject.TrapTypes.ElectrifiedZone)
+        {
+            runner.TakeDamageFromMap(currentSquare.GetTriggeredTrapAmount());
+        }
+
         RaiseSecurityLevel(currentSquare);
         bool didTrapsSpring = TrapsSpring(currentSquare);
 
@@ -192,7 +201,7 @@ public class MapData : MonoBehaviour
         {
             if (mapObject.GetObjectType() == "Trap" && mapObject.GetIsActive() == true)
             {
-                mapObject.TriggerTrap();
+                mapObject.TriggerTrap(square);
                 return true;
             }
         }
@@ -557,5 +566,23 @@ public class MapData : MonoBehaviour
     public int GetGoalModifier()
     {
         return goalMultiplier;
+    }
+
+    public void AddToTemporaryCardIds(int newCardId)
+    {
+        temporaryCardIds.Add(newCardId);
+    }
+
+    public List<int> GetTemporaryCardIds()
+    {
+        return temporaryCardIds;
+    }
+
+    public void RemoveFromTemporaryCardIds(List<int> removeIds)
+    {
+        foreach (int id in removeIds)
+        {
+            temporaryCardIds.Remove(id);
+        }
     }
 }

@@ -43,6 +43,11 @@ public class Card : MonoBehaviour
     string playerOrEnemy = "player";
         // tracks if the player or enemy is using the card, used for status effects
 
+    bool destroyOnPlay = false;
+        // Destroy this card when it's played, preventing it from entering discard
+        // Temporary cards can be permanently destroyed with a call to battledata, which
+        // will inform the map of removal when the battle is over
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -155,11 +160,12 @@ public class Card : MonoBehaviour
     public void PlayCard()
     {
         // A card fizzling removes it from your hand... Weaknesses cannot Fizzle
-        if (playerCurrentStatusEffects.GetFizzleChance() > 0)
+        int fizzleChance = GetFizzleModifier() + playerCurrentStatusEffects.GetFizzleChance();
+        if (fizzleChance > 0)
         {
             List<string> checkKeywords = new List<string>();
             checkKeywords.AddRange(keywords);
-            if (PercentChance(playerCurrentStatusEffects.GetFizzleChance()) && !checkKeywords.Contains("Weakness"))
+            if (PercentChance(fizzleChance) && !checkKeywords.Contains("Weakness"))
             {
                 FindObjectOfType<PopupHolder>().SpawnFizzledPopup();
                 DiscardCard();
@@ -180,7 +186,8 @@ public class Card : MonoBehaviour
         CheckPlayCardEffects(); // For example, powerups
 
         bool furtherAction = PlayCardActions();
-        DiscardCard();
+        if (!destroyOnPlay)
+            DiscardCard();
         playerHand.RemoveFromHand(this);
         if (!furtherAction)
         {
@@ -1262,6 +1269,13 @@ public class Card : MonoBehaviour
             case 208: // RELOAD 5
                 Debug.Log("No on-played effect");
                 break;
+            case 209: // SPAM
+                Debug.Log("No on-played effect");
+                break;
+            case 210: // MALWARE INJECTION
+                destroyOnPlay = true;
+                battleData.AddToTemporaryCardToDestroyList(cardId);
+                break;
             default:
                 Debug.Log("That card doesn't exist or doesn't have any actions on it built yet");
                 break;
@@ -1514,6 +1528,10 @@ public class Card : MonoBehaviour
             case 207:
             case 208:
                 return 49;
+            case 209:
+                return 51;
+            case 210:
+                return 52;
             default:
                 return cardId;
         }
@@ -1910,5 +1928,27 @@ public class Card : MonoBehaviour
     private void CheckOnPlayedEffectsInBattleData()
     {
         battleData.CheckOnPlayedEffects(this);
+    }
+
+    private int GetFizzleModifier()
+    {
+        List<string> keywordsList = new List<string>(keywords);
+        int fizzleModifier = 0;
+        switch (battleData.GetTrapType())
+        {
+            case MapObject.TrapTypes.EMP:
+                if (keywordsList.Contains("Cyber") || keywordsList.Contains("Tech"))
+                    fizzleModifier += battleData.GetTrapAmount();
+                break;
+            case MapObject.TrapTypes.RustAgent:
+                if (keywordsList.Contains("Mech"))
+                    fizzleModifier += battleData.GetTrapAmount();
+                break;
+            case MapObject.TrapTypes.NerveGas:
+                if (keywordsList.Contains("Bio"))
+                    fizzleModifier += battleData.GetTrapAmount();
+                break;
+        }
+        return fizzleModifier;
     }
 }

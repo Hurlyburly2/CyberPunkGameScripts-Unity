@@ -44,6 +44,10 @@ public class BattleData : MonoBehaviour
     int weaponsPlayedThisTurn = 0;
     int cardsDrawnThisTurn = 0;
 
+    // effects from traps
+    MapObject.TrapTypes trapType;
+    int trapAmount;
+
     // buffs from powerups
     List<PowerUp> powerUps = new List<PowerUp>();
     int personalShieldStacks = 0;
@@ -58,6 +62,10 @@ public class BattleData : MonoBehaviour
 
     // list that resets every turn. Keywords in this list are disallowed from play.
     List<string> prohibitedKeywordsFromPlay = new List<string>();
+
+    List<int> temporaryCardIds = new List<int>();
+    List<int> temporaryCardIdsToDestroy = new List<int>();
+        // Tracks temporary card ids to remove from the list, destroying them permanently after battle
 
     private void Awake()
     {
@@ -96,8 +104,26 @@ public class BattleData : MonoBehaviour
 
         character.BattleSetup(setupTimeInSeconds);
 
-        List<int> deckCardIds = character.GetLoadout().GetAllCardIds();
-        deckCardIds.AddRange(hacker.GetHackerLoadout().GetCardIds());
+        List<int> deckCardIds = new List<int>();
+        if (trapType == MapObject.TrapTypes.ParalysisAgent)
+        {
+            // Paralysis Agent Trap: Blocks arm and leg mods
+            List<Item.ItemTypes> blockedItemTypes = new List<Item.ItemTypes> { Item.ItemTypes.Arm, Item.ItemTypes.Leg };
+            deckCardIds.AddRange(character.GetLoadout().GetAllCardIds(blockedItemTypes));
+        } else if (trapType == MapObject.TrapTypes.ConcussiveBlast) {
+            List<Item.ItemTypes> blockedItemTypes = new List<Item.ItemTypes> { Item.ItemTypes.Head, Item.ItemTypes.Exoskeleton };
+            deckCardIds.AddRange(character.GetLoadout().GetAllCardIds(blockedItemTypes));
+        } else
+        {
+            deckCardIds.AddRange(character.GetLoadout().GetAllCardIds());
+        }
+
+        // Do not load hacker cards if triggered a Faraday Cage trap
+        if (trapType != MapObject.TrapTypes.FaradayCage)
+            deckCardIds.AddRange(hacker.GetHackerLoadout().GetCardIds());
+
+        deckCardIds.AddRange(temporaryCardIds);
+
         deck.SetupDeck(deckCardIds);
 
         playerHand.DrawStartingHand(character.GetStartingHandSize(), setupTimeInSeconds);
@@ -179,6 +205,10 @@ public class BattleData : MonoBehaviour
         {
             character.GainEnergy(energySiphon);
         }
+
+        // Neurotoxin Cloud
+        if (trapType == MapObject.TrapTypes.NeurotoxinCloud)
+            character.TakeDamage(trapAmount);
     }
 
     private void TickDownStatusEffectDurations(string whoseEffectsToTick)
@@ -260,11 +290,14 @@ public class BattleData : MonoBehaviour
         mapSquare = newCurrentSquare;
         enemyId = GetEnemyIDFromMapSquare(newCurrentSquare);
         enemyLoaded = true;
+        trapType = mapSquare.GetTriggeredTrapType();
+        trapAmount = mapSquare.GetTriggeredTrapAmount();
     }
 
     public void GetPowerUpDataFromMap(MapData mapData)
     {
         powerUps.AddRange(mapData.GetPowerUps());
+        temporaryCardIds.AddRange(mapData.GetTemporaryCardIds());
     }
 
     private int GetEnemyIDFromMapSquare(MapSquare square)
@@ -528,5 +561,25 @@ public class BattleData : MonoBehaviour
     public void ConsumePersonalShieldStack()
     {
         personalShieldStacks--;
+    }
+
+    public MapObject.TrapTypes GetTrapType()
+    {
+        return trapType;
+    }
+
+    public int GetTrapAmount()
+    {
+        return trapAmount;
+    }
+
+    public void AddToTemporaryCardToDestroyList(int cardId)
+    {
+        temporaryCardIdsToDestroy.Add(cardId);
+    }
+
+    public List<int> GetTemporaryCardsToDestroyList()
+    {
+        return temporaryCardIdsToDestroy;
     }
 }

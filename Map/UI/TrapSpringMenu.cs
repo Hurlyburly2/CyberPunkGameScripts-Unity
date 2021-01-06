@@ -6,6 +6,7 @@ using TMPro;
 public class TrapSpringMenu : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI textField;
+    [SerializeField] TextMeshProUGUI nameTextField;
     MapSquare currentSquare;
     MapConfig mapConfig;
 
@@ -23,21 +24,25 @@ public class TrapSpringMenu : MonoBehaviour
         currentSquare = newSquare;
         goalAfterTrap = isGoalReady;
 
-        textField.text = GetTrapTextFromSquare();
+        MapObject trapObject = GetTrapObjectFromSquare();
+
+        nameTextField.text = trapObject.GetTrapName();
+        textField.text = trapObject.GetTrapDescription();
     }
 
-    private string GetTrapTextFromSquare()
+    private MapObject GetTrapObjectFromSquare()
     {
         List<MapObject> mapObjects = currentSquare.GetMapObjects();
         foreach (MapObject mapObject in mapObjects)
         {
             if (mapObject.GetObjectType() == "Trap")
             {
-                return mapObject.GetTrapTextFromSquare();
+                return mapObject;
             }
         }
 
-        return "";
+        // This should never happen...
+        return mapObjects[0];
     }
 
     public void OkButtonClicked()
