@@ -70,7 +70,11 @@ public class SceneLoader : MonoBehaviour
     public void LoadMap(Job.JobArea mapType, int mapSize, Job job)
     {
         PlayerData playerData = FindObjectOfType<PlayerData>();
+
         currentRunner = playerData.GetCurrentRunner();
+
+        currentRunner.ResetHealthAndEnergy();
+
         currentHacker = playerData.GetCurrentHacker();
         currentMap = Instantiate(mapData);
         currentMap.SetMapData(currentRunner, currentHacker, mapType, 10, mapSize, job);

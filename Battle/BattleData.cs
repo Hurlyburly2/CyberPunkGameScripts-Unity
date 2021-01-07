@@ -152,6 +152,7 @@ public class BattleData : MonoBehaviour
     {
         if (whoseTurn == "player")
         {
+            FindObjectOfType<EndTurnButton>().GetComponent<Button>().interactable = false;
             bool foundWeaknesses = false;
             if (!skipEndTurnDiscard)
             {
@@ -194,6 +195,7 @@ public class BattleData : MonoBehaviour
             TickDownStatusEffectDurations("player");
             whoseTurn = "player";
             actionDisabled = false;
+            FindObjectOfType<EndTurnButton>().GetComponent<Button>().interactable = true;
         }
     }
 
