@@ -170,7 +170,7 @@ public class Card : MonoBehaviour
                 FindObjectOfType<PopupHolder>().SpawnFizzledPopup();
                 DiscardCard();
                 playerHand.RemoveFromHand(this);
-                Destroy(gameObject);
+                DestroyThisCard();
                 return;
             }
         }
@@ -191,9 +191,7 @@ public class Card : MonoBehaviour
         playerHand.RemoveFromHand(this);
         if (!furtherAction)
         {
-            GameObject newEffect = Instantiate(FindObjectOfType<BattleEffects>().GetRadialEffect(), transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
-            newEffect.SetActive(true);
-            Destroy(gameObject);
+            DestroyThisCard();
         }
     }
 
@@ -369,6 +367,13 @@ public class Card : MonoBehaviour
         {
             cardHelperText.Deactivate();
         }
+    }
+
+    private void DestroyThisCard()
+    {
+        GameObject newEffect = Instantiate(FindObjectOfType<BattleEffects>().GetRadialEffect(), transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
+        newEffect.SetActive(true);
+        Destroy(gameObject);
     }
 
     private List<string> GetKeywordsToDefine()
@@ -1549,7 +1554,7 @@ public class Card : MonoBehaviour
                 break;
         }
         // NOW we can destroy the gameobject
-        Destroy(gameObject);
+        DestroyThisCard();
     }
 
     private IEnumerator WaitForSomethingToFinish(string finishWhat)
