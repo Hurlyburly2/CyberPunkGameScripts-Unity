@@ -349,5 +349,11 @@ public class CharacterData : ScriptableObject
     {
         takeExtraDamageMultiplier = amount;
     }
+
+    public void ResetHealthAndEnergy()
+    {
+        currentHealth = maximumHealth;
+        currentEnergy = maximumEnergy;
+    }
 }
 
