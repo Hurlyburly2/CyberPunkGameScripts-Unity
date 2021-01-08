@@ -29,6 +29,7 @@ public class PowerUp : ScriptableObject
     PowerUpType powerUpType;
     int amount;
     int amount2;
+    int level;
     string powerUpName = "";
     string description = "";
 
@@ -62,6 +63,7 @@ public class PowerUp : ScriptableObject
     {
         powerUpType = GetRandomPowerUpType();
         SetupSpecifics();
+        level = 1;
         return description;
     }
 
@@ -195,5 +197,10 @@ public class PowerUp : ScriptableObject
     public int GetAmount2()
     {
         return amount2;
+    }
+
+    public int GetLevel()
+    {
+        return level;
     }
 }
