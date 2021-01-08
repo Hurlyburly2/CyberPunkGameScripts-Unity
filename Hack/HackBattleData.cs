@@ -194,7 +194,10 @@ public class HackBattleData : MonoBehaviour
             {
                 if (square.GetSquareNumber() >= squareHomeX && square.GetSquareNumber() < squareHomeX + safeZoneSize)
                 {
-                    isSafe = true;
+                    if (IsEdgeSquare(square))
+                        isSafe = false;
+                    else
+                        isSafe = true;
                 }
             }
             square.SetSafe(isSafe);
@@ -208,10 +211,20 @@ public class HackBattleData : MonoBehaviour
             {
                 isPlacementLegal = false;
             }
+            if (IsEdgeSquare(square))
+                isPlacementLegal = false;
             square.SetLegality(isPlacementLegal);
 
         }
         hackSecurityUI.UpdateHackSecurityUI(securityLevel);
+    }
+
+    private bool IsEdgeSquare(HackGridSquare square)
+    {
+        if (square.GetParentRowNumber() == 0 || square.GetParentRowNumber() == 16 || square.GetSquareNumber() == 0 || square.GetSquareNumber() == 12)
+            return true;
+        else
+            return false;
     }
 
     private List<HackCard> GetCardsByIds(List<int> cardIds)
