@@ -100,6 +100,8 @@ public class MapObject : ScriptableObject
 
     private string GainUpgrade()
     {
+        Debug.Log("Gain Upgrade!");
+        // Ok this is happening...!
         return "UPGRADE YOUR POWERUPS";
     }
 
