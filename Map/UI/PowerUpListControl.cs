@@ -10,6 +10,7 @@ public class PowerUpListControl : MonoBehaviour
 
     public void GenerateList(List<PowerUp> powerUps)
     {
+        ClearList();
         foreach (PowerUp powerUp in powerUps)
         {
             PowerUpListItem powerUpItem = Instantiate(powerUpListItemTemplate);

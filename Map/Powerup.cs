@@ -29,9 +29,10 @@ public class PowerUp : ScriptableObject
     PowerUpType powerUpType;
     int amount;
     int amount2;
+    int maxAmount;
     int level;
+    int levelUpAmount;
     string powerUpName = "";
-    string description = "";
 
     private PowerUpType GetRandomPowerUpType()
     {
@@ -61,10 +62,10 @@ public class PowerUp : ScriptableObject
 
     public string SetupNewPowerUp()
     {
+        level = 1;
         powerUpType = GetRandomPowerUpType();
         SetupSpecifics();
-        level = 1;
-        return description;
+        return GetDescription();
     }
 
     private void SetupSpecifics()
@@ -73,103 +74,187 @@ public class PowerUp : ScriptableObject
         {
             case PowerUpType.Agility:
                 amount = 25;
+                maxAmount = 100;
+                levelUpAmount = 15;
                 powerUpName = "Agility";
-                description = amount + "% chance to draw an extra card at the beginning of each turn";
                 break;
             case PowerUpType.BioElectricField:
                 amount = 50;
+                maxAmount = 100;
+                levelUpAmount = 15;
                 amount2 = 1;
                 powerUpName = "Bioelectric Field";
-                description = "Every time you play a Bio card: " + amount + "% chance to deal " + amount2 + " Damage";
                 break;
             case PowerUpType.Counterattack:
                 amount = 3;
+                maxAmount = 10;
+                levelUpAmount = 1;
                 powerUpName = "Counterattack";
-                description = "Every time you dodge an attack, deal " + amount + " damage";
                 break;
             case PowerUpType.DeadEye:
                 amount = 15;
+                maxAmount = 100;
+                levelUpAmount = 5;
                 powerUpName = "DeadEye";
-                description = "Base Critical Hit Chance increased by " + amount + "%";
                 break;
             case PowerUpType.DireWound:
                 amount = 50;
+                maxAmount = 250;
+                levelUpAmount = 25;
                 powerUpName = "Dire Wound";
-                description = "Your Critical Hits deal an extra " + amount + "% Damage";
                 break;
             case PowerUpType.ElementOfSurprise:
                 amount = 2;
+                maxAmount = 10;
+                levelUpAmount = 1;
                 powerUpName = "Element of Surprise";
-                description = "Begin each battle with " + amount + " Momentum";
                 break;
             case PowerUpType.EnergySiphon:
                 amount = 1;
+                maxAmount = 10;
+                levelUpAmount = 1;
                 powerUpName = "Energy Siphon";
-                description = "Gain " + amount + " energy at the start of each of your turns";
                 break;
             case PowerUpType.HackedTerminal:
                 amount = 50;
                 amount2 = 20;
+                maxAmount = 80;
+                levelUpAmount = 20;
                 powerUpName = "Hacked Terminal";
-                description = "Half the current security level. Security level will rise slower";
-                break;
-            case PowerUpType.MalwareExposure:
-                amount = 25;
-                powerUpName = "Malware Exposure";
-                description = "Every time you play a Cyber card: " + amount + "% Chance to inflict Vulnerable";
                 break;
             case PowerUpType.GrindingGears:
                 amount = 25;
+                levelUpAmount = 15;
+                maxAmount = 100;
                 powerUpName = "Grinding Gears";
-                description = "Every time you play a Mech card: " + amount + "% chance to remove a random enemy buff. If no buffs were removed, inflict Weakness.";
+                break;
+            case PowerUpType.MalwareExposure:
+                amount = 25;
+                levelUpAmount = 15;
+                maxAmount = 100;
+                powerUpName = "Malware Exposure";
                 break;
             case PowerUpType.NetworkPenetration:
                 amount = 25;
                 amount2 = 1;
+                maxAmount = 100;
+                levelUpAmount = 15;
                 powerUpName = "Network Penetration";
-                description = "Every time you inflict a Debuff: " + amount + "% chance to increase the duration by " + amount2;
                 break;
             case PowerUpType.PersonalShield:
                 amount = 1;
+                maxAmount = 5;
                 powerUpName = "Personal Shield";
-                description = "Take no damage when you are hit by an enemy attack. Functions " + amount + " time per combat.";
                 break;
             case PowerUpType.PowerCoil:
                 amount = 15;
+                maxAmount = 100;
                 amount2 = 100;
+                levelUpAmount = 10;
                 powerUpName = "Power Coil";
-                description = amount + "% Chance every time you play a card: Refund " + amount2 + "% of that card's energy cost";
                 break;
             case PowerUpType.SlowedMetabolism:
                 amount = 25;
                 amount2 = 1;
+                maxAmount = 100;
+                levelUpAmount = 15;
                 powerUpName = "Slowed Metabolism";
-                description = "Every time you gain a buff: " + amount + "% chance to increase the duration by " + amount2;
                 break;
             case PowerUpType.Strength:
                 amount = 1;
+                levelUpAmount = 1;
+                maxAmount = 10;
                 powerUpName = "Strength";
-                description = "When gaining Momentum, gain " + amount + " extra stack";
                 break;
             case PowerUpType.TankMode:
                 amount = 1;
+                maxAmount = 10;
+                levelUpAmount = 1;
                 powerUpName = "Tank Mode";
-                description = "Every time you gain Damage Resist, Gain " + amount + " Retaliate";
                 break;
             case PowerUpType.Technologist:
                 amount = 25;
+                maxAmount = 100;
+                levelUpAmount = 15;
                 powerUpName = "Technologist";
-                description = "Every time you play a Tech card: " + amount + "% Chance to Draw 1 card";
                 break;
             case PowerUpType.TheBestDefense:
                 amount = 1;
+                maxAmount = 10;
+                levelUpAmount = 1;
                 powerUpName = "The Best Defense";
-                description = "Every time you gain Damage Resist or Dodge, gain " + amount + " Momentum";
                 break;
             case PowerUpType.TheBestOffense:
                 amount = 1;
+                maxAmount = 10;
+                levelUpAmount = 1;
                 powerUpName = "The Best Offense";
-                description = "Permanent Retaliate 1 Buff";
+                break;
+        }
+    }
+
+    private string GetDescription()
+    {
+        switch (powerUpType)
+        {
+            case PowerUpType.Agility:
+                return amount + "% chance to draw an extra card at the beginning of each turn";
+            case PowerUpType.BioElectricField:
+                return "Every time you play a Bio card: " + amount + "% chance to deal " + amount2 + " Damage";
+            case PowerUpType.Counterattack:
+                return "Every time you dodge an attack, deal " + amount + " damage";
+            case PowerUpType.DeadEye:
+                return "Base Critical Hit Chance increased by " + amount + "%";
+            case PowerUpType.DireWound:
+                return "Your Critical Hits deal an extra " + amount + "% Damage";
+            case PowerUpType.ElementOfSurprise:
+                return "Begin each battle with " + amount + " Momentum";
+            case PowerUpType.EnergySiphon:
+                return "Gain " + amount + " energy at the start of each of your turns";
+            case PowerUpType.HackedTerminal:
+                return "Half the current security level. Security level will rise slower";
+            case PowerUpType.MalwareExposure:
+                return "Every time you play a Cyber card: " + amount + "% Chance to inflict Vulnerable";
+            case PowerUpType.GrindingGears:
+                return "Every time you play a Mech card: " + amount + "% chance to remove a random enemy buff. If no buffs were removed, inflict Weakness.";
+            case PowerUpType.NetworkPenetration:
+                return "Every time you inflict a Debuff: " + amount + "% chance to increase the duration by " + amount2;
+            case PowerUpType.PersonalShield:
+                return "Take no damage when you are hit by an enemy attack. Functions " + amount + " time per combat.";
+            case PowerUpType.PowerCoil:
+                return amount + "% Chance every time you play a card: Refund " + amount2 + "% of that card's energy cost";
+            case PowerUpType.SlowedMetabolism:
+                return "Every time you gain a buff: " + amount + "% chance to increase the duration by " + amount2;
+            case PowerUpType.Strength:
+                return "When gaining Momentum, gain " + amount + " extra stack";
+            case PowerUpType.TankMode:
+                return "Every time you gain Damage Resist, Gain " + amount + " Retaliate";
+            case PowerUpType.Technologist:
+                return "Every time you play a Tech card: " + amount + "% Chance to Draw 1 card";
+            case PowerUpType.TheBestDefense:
+                return "Every time you gain Damage Resist or Dodge, gain " + amount + " Momentum";
+            case PowerUpType.TheBestOffense:
+                return "Permanent Retaliate 1 Buff";
+        }
+        return "";
+    }
+
+    public void UpgradePowerUp()
+    {
+        level++;
+        switch (powerUpType)
+        {
+            case PowerUpType.PersonalShield:
+            case PowerUpType.Strength:
+            case PowerUpType.TheBestOffense:
+                if ((float)level % 2 != 0)
+                    amount = Mathf.Clamp(amount + levelUpAmount, 0, maxAmount);
+                break;
+            case PowerUpType.HackedTerminal:
+                amount2 = Mathf.Clamp(amount2 + levelUpAmount, 0, maxAmount);
+                break;
+            default:
+                amount = Mathf.Clamp(amount += levelUpAmount, 0, maxAmount);
                 break;
         }
     }
@@ -181,7 +266,7 @@ public class PowerUp : ScriptableObject
 
     public string GetPowerUpDescription()
     {
-        return description;
+        return GetDescription();
     }
 
     public int GetAmount()
