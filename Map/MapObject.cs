@@ -103,17 +103,21 @@ public class MapObject : ScriptableObject
         List<PowerUp> powerups = new List<PowerUp>();
         powerups.AddRange(FindObjectOfType<MapData>().GetPowerUps());
         int amountOfUpgrades = Random.Range(1, 4);
+        string upgradedPowerups = "Upgraded the ";
         for (int i = 0; i < amountOfUpgrades; i++)
         {
             if (powerups.Count > 0)
             {
                 Debug.Log("Is this happening???");
                 PowerUp foundPowerup = powerups[Random.Range(0, powerups.Count)];
+                upgradedPowerups += foundPowerup.GetName() + ", ";
                 foundPowerup.UpgradePowerUp();
                 powerups.Remove(foundPowerup);
             }
         }
-        return "UPGRADE YOUR POWERUPS";
+        upgradedPowerups = upgradedPowerups.Substring(0, upgradedPowerups.Length - 2);
+        upgradedPowerups += " powerups";
+        return upgradedPowerups;
     }
 
     private string GainFirstAidStation()
@@ -302,7 +306,7 @@ public class MapObject : ScriptableObject
             case "Trap":
                 return "TRAPNAME NOT IMPLMENTED";
             case "Upgrade":
-                return "UPGRADE NOT IMPLEMENTED";
+                return "Upgrade Powerups";
         }
         return "Something went wrong";
     }
