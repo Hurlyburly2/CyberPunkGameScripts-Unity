@@ -35,7 +35,7 @@ public class PlayerData : MonoBehaviour
     {
         // TODO: CHANGE THIS BACK TO ZERO
         playerLevel = 1;
-        currentCredits = 1000;
+        currentCredits = 100000;
 
         ownedRunners = new List<CharacterData>();
         ownedHackers = new List<HackerData>();
