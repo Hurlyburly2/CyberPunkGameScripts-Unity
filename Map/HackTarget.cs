@@ -422,7 +422,7 @@ public class HackTarget : ScriptableObject
 
             // DEFENSE SYSTEM OPTIONS
             case "Disable Trap":
-                DisableATrap();
+                DisableATrap(square);
                 break;
             //case "Reduce Security Level":
                 // THIS IS ALREADY PART OF THE ABOVE, AND IT WORKS FOR BOTH
@@ -660,7 +660,7 @@ public class HackTarget : ScriptableObject
         }
     }
 
-    private void DisableATrap()
+    private void DisableATrap(MapSquare currentSquare)
     {
         MapSquare[] squares = FindObjectsOfType<MapSquare>();
         List<MapSquare> squaresWithTraps = new List<MapSquare>();
@@ -679,9 +679,12 @@ public class HackTarget : ScriptableObject
             }
         }
 
+        // Sort to get the nearest trap
+        squaresWithTraps.Sort(SortByDistance);
+
         if (squaresWithTraps.Count > 0)
         {
-            MapSquare squareToDisable = squaresWithTraps[Random.Range(0, squaresWithTraps.Count)];
+            MapSquare squareToDisable = squaresWithTraps[0];
             List<MapObject> mapObjects = squareToDisable.GetMapObjects();
             foreach (MapObject mapObject in mapObjects)
             {
@@ -692,6 +695,11 @@ public class HackTarget : ScriptableObject
                 }
             }
         }
+    }
+
+    private int SortByDistance(MapSquare square1, MapSquare square2)
+    {
+        return square1.GetDistanceMeasurement().CompareTo(square2.GetDistanceMeasurement());
     }
 
     private void DamageEnemies(int percentage, MapSquare currentSquare)
