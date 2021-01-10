@@ -55,6 +55,11 @@ public class HackTarget : ScriptableObject
         redPoints = newRedPoints;
         bluePoints = newBluePoints;
         greenPoints = newGreenPoints;
+
+        //redPoints = 99;
+        //bluePoints = 99;
+        //greenPoints = 99;
+
         hackIsDone = true;
     }
 
@@ -221,7 +226,7 @@ public class HackTarget : ScriptableObject
         "Despawn an enemy of average strength from a random square"
     };
     string[] securityCameraColors = { blue, blue, blue, red, red, green, green };
-    int[] securityCameraCosts = { 5, 10, 15, 10, 20, 15, 25 };
+    int[] securityCameraCosts = { 5, 10, 15, 10, 20, 10, 15 };
 
     string[] combatServerOptions =
     {
@@ -235,13 +240,13 @@ public class HackTarget : ScriptableObject
     };
     string[] combatServerHelperText =
     {
-        "Gain Dodge chance when in combat on any adjacent square",
-        "Enemies on adjacent squares are more vulnerable to combat damage",
-        "Gain Crit Chance when in combat on any adjacent square",
-        "Increase your hand size when in combat on any adjacent square",
-        "Take less damage when in combat on any adjacent square",
-        "Enemies on adjacent squares have a reduced hand size",
-        "Cards played by enemies on adjacent squares have a chance to fizzle, having no effect"
+        "Gain 10% Dodge chance on this and adjacent squares",
+        "Enemies on this and adjacent squares take +1 damage",
+        "Gain 15% Crit Chance when on this and adjacent squares",
+        "Hand size increased by 1 on this and adjacent squares",
+        "Take -1 damage on this and adjacent squares",
+        "Enemies on this and adjacent squares have -1 hand size (minimum 1)",
+        "Cards enemies play on this and adjacent squares have a 15% chance to have no effect"
     };
     string[] combatServerColors = { blue, blue, red, red, red, green, green };
     int[] combatServerCosts = { 10, 20, 8, 12, 18, 10, 20 };
@@ -259,11 +264,11 @@ public class HackTarget : ScriptableObject
     {
         "Reduce Security Level",
         "Gain extra credits upon Job completion",
-        "Gain 5% increased credits to your base contract reward and to credits earned during this Job",
+        "Base reward and bonus credits earned are increased by 10%",
         "Gain credits, but also raise the security level",
         "Gain extra credits upon Job completion",
-        "Increase your base contract reward by 15% upon Job completion",
-        "Increase your base contract reward by 25% upon Job completion"
+        "Increase your base contract reward by 20% upon Job completion",
+        "Increase your base contract reward by 40% upon Job completion"
     };
     string[] databaseColors = { blue, blue, blue, red, red, green, green };
     int[] databaseCosts = { 10, 10, 20, 5, 15, 10, 15 };
@@ -280,16 +285,16 @@ public class HackTarget : ScriptableObject
     };
     string[] defenseSystemsHelperText =
     {
-        "Disable a random trap somewhere on the map",
+        "Disable the nearest trap",
         "Lower the security level",
-        "Cards played by enemies on adjacent squares have a chance to fizzle, having no effect",
-        "Deal damage to enemies in adjacent squares",
-        "During combat on adjacent squares, enemies will take a small amount of damage every turn",
-        "Enemies on adjacent squares deal less damage in combat",
-        "Despawn a strong enemy from somewhere on the map"
+        "Cards enemies play on this and adjacent squares have a 15% chance to have no effect",
+        "Deal damage to enemies in adjacent squares equal to 15% of their health",
+        "During combat on this and adjacent squares, enemies will take 5% of their health in damage every turn",
+        "Enemies on adjacent squares deal -1 damage in combat",
+        "Despawn a strong enemy somewhere on the map"
     };
     string[] defenseSystemColors = { blue, blue, blue, red, red, green, green };
-    int[] defenseSystemCosts = { 20, 10, 15, 10, 20, 10, 20 };
+    int[] defenseSystemCosts = { 10, 10, 15, 10, 20, 10, 15 };
 
     string[] transportationOptions =
     {
@@ -303,7 +308,7 @@ public class HackTarget : ScriptableObject
     };
     string[] transportationHelperText =
     {
-        "Moving to adjacent squares will not raise the security level",
+        "Moving to this and adjacent squares will not raise the security level",
         "The next time you move onto a square with an enemy, avoid combat",
         "Open the metro station on this square. Metro stations allow you to move to other open metro stations.",
         "Open a random metro station on another square. Metro stations allow you to move to other open metro stations.",
@@ -312,7 +317,7 @@ public class HackTarget : ScriptableObject
         "The next time an enemy would spawn, block that spawn"
     };
     string[] transportationColors = { blue, blue, red, red, red, green, green };
-    int[] transportationCosts = { 10, 20, 5, 15, 30, 10, 20 };
+    int[] transportationCosts = { 10, 20, 5, 10, 25, 10, 10 };
 
     string[] medicalServerOptions = {
         "Gain Health and Energy Regeneration",
@@ -325,13 +330,13 @@ public class HackTarget : ScriptableObject
     };
     string[] medicalServerHelperText =
     {
-        "Regenerate a small amount of health and energy when you move. Limited duration.",
-        "During combat on adjacent squares, enemies will take a small amount of damage every turn",
+        "Every time you move, regain 10% health and energy. Lasts for the next 5 moves.",
+        "During combat on this and adjacent squares, enemies will take 5% of their health in damage every turn",
         "Gain extra credits upon Job completion",
-        "Gain a moderate amount of health",
-        "Gain a moderate amount of energy",
-        "Gain a moderate amount of health and energy",
-        "Buff your Dodge, Hand Size, and Critical Chance when in combat on adjacent squares."
+        "Heal for 25% of your maximum health",
+        "Refill your energy",
+        "Heal for 25% of your maximum health and gain 50% energy",
+        "On this and adjacent squares, gain 10% dodge, +1 hand size, and 15% Crit Chance"
     };
     string[] medicalServerColors = { blue, blue, blue, red, red, green, green };
     int[] medicalServerCosts = { 10, 10, 10, 15, 15, 15, 15 };
@@ -384,7 +389,7 @@ public class HackTarget : ScriptableObject
                 DebuffEnemyHandSize(1, square);
                 break;
             case "Sabotage Enemy Tech":
-                AddToEnemyFizzleChance(10, square);
+                AddToEnemyFizzleChance(15, square);
                 break;
 
             // DATABASE OPTIONS
@@ -392,24 +397,27 @@ public class HackTarget : ScriptableObject
                 ReduceSecurityLevel(5);
                 break;
             case "Upload and Sell Financial Data":
-                GainMoney(600);
+                int jobDifficulty = FindObjectOfType<MapData>().GetJob().GetJobDifficulty();
+                GainMoney(Random.Range(50, 101) * (jobDifficulty + 1));
                 break;
             case "Install Backdoor":
-                RaiseMoneyMultiplier(5);
-                RaiseGoalMultiplier(5);
+                RaiseMoneyMultiplier(10);
+                RaiseGoalMultiplier(10);
                 break;
             case "Brute Force Passwords":
-                GainMoney(300);
-                RaiseSecurityLevel(5);
+                jobDifficulty = FindObjectOfType<MapData>().GetJob().GetJobDifficulty();
+                GainMoney(Random.Range(1, 51) * (jobDifficulty + 1));
+                RaiseSecurityLevel(7);
                 break;
             case "Upload and Sell Personal Data":
-                GainMoney(400);
+                jobDifficulty = FindObjectOfType<MapData>().GetJob().GetJobDifficulty();
+                GainMoney(Random.Range(75, 151) * (jobDifficulty + 1));
                 break;
             case "Download Buyer List":
-                RaiseGoalMultiplier(15);
+                RaiseGoalMultiplier(20);
                 break;
             case "Download VIP Buyer List":
-                RaiseGoalMultiplier(25);
+                RaiseGoalMultiplier(40);
                 break;
 
             // DEFENSE SYSTEM OPTIONS
@@ -420,13 +428,13 @@ public class HackTarget : ScriptableObject
                 // THIS IS ALREADY PART OF THE ABOVE, AND IT WORKS FOR BOTH
                 // break;
             case "Detonate EMP":
-                AddToEnemyFizzleChance(10, square);
+                AddToEnemyFizzleChance(15, square);
                 break;
             case "Turn Turrets on Enemies":
-                DamageEnemies(10, square);
+                DamageEnemies(15, square);
                 break;
             case "Control Attack Drones":
-                DotEnemies(2, square);
+                DotEnemies(5, square);
                 break;
             case "Infect Weapon Systems":
                 DebuffEnemyDamage(1, square);
@@ -464,25 +472,26 @@ public class HackTarget : ScriptableObject
                 GainEnergyRegeneration(5);
                 break;
             case "Sabotage Medicines":
-                DotEnemies(4, square);
+                DotEnemies(5, square);
                 break;
             case "Upload and Sell Medical Research":
-                GainMoney(600);
+                jobDifficulty = FindObjectOfType<MapData>().GetJob().GetJobDifficulty();
+                GainMoney(Random.Range(50, 101) * (jobDifficulty + 1));
                 break;
             case "Healing Boost":
-                GainHealth(15);
+                GainHealth(25);
                 break;
             case "Energy Infusion":
-                GainEnergy(15);
+                GainEnergy(100);
                 break;
             case "Heal and Gain Energy":
-                GainHealth(10);
-                GainEnergy(10);
+                GainHealth(25);
+                GainEnergy(50);
                 break;
             case "Injest Stimulants":
                 BuffPlayerDodge(10, square);
                 BuffPlayerHandSize(1, square);
-                BuffPlayerCritChance(10, square);
+                BuffPlayerCritChance(15, square);
                 break;
         }
         switch (color)
@@ -583,15 +592,17 @@ public class HackTarget : ScriptableObject
 
     private void BuffPlayerDodge(int amount, MapSquare currentSquare)
     {
+        currentSquare.AdjustPlayerDodge(amount);
         List<MapSquare> squares = currentSquare.GetAdjacentSquares();
         foreach (MapSquare square in squares)
         {
-            square.AdjustPlayerDodge(10);
+            square.AdjustPlayerDodge(amount);
         }
     }
 
     private void IncreaseEnemyVulnerability(int amount, MapSquare currentSquare)
     {
+        currentSquare.AdjustEnemyVulnerability(amount);
         List<MapSquare> squares = currentSquare.GetAdjacentSquares();
         foreach (MapSquare square in squares)
         {
@@ -601,6 +612,7 @@ public class HackTarget : ScriptableObject
 
     private void BuffPlayerCritChance(int amount, MapSquare currentSquare)
     {
+        currentSquare.AdjustPlayerCritChance(amount);
         List<MapSquare> squares = currentSquare.GetAdjacentSquares();
         foreach (MapSquare square in squares)
         {
@@ -610,6 +622,7 @@ public class HackTarget : ScriptableObject
 
     private void BuffPlayerHandSize(int amount, MapSquare currentSquare)
     {
+        currentSquare.AdjustPlayerHandSize(amount);
         List<MapSquare> squares = currentSquare.GetAdjacentSquares();
         foreach (MapSquare square in squares)
         {
@@ -619,6 +632,7 @@ public class HackTarget : ScriptableObject
 
     private void BuffPlayerDefense(int amount, MapSquare currentSquare)
     {
+        currentSquare.AdjustPlayerDefenseBuff(amount);
         List<MapSquare> squares = currentSquare.GetAdjacentSquares();
         foreach (MapSquare square in squares)
         {
@@ -628,6 +642,7 @@ public class HackTarget : ScriptableObject
 
     private void DebuffEnemyHandSize(int amount, MapSquare currentSquare)
     {
+        currentSquare.AdjustEnemyHandSizeDebuff(amount);
         List<MapSquare> squares = currentSquare.GetAdjacentSquares();
         foreach (MapSquare square in squares)
         {
@@ -637,6 +652,7 @@ public class HackTarget : ScriptableObject
 
     private void AddToEnemyFizzleChance(int amount, MapSquare currentSquare)
     {
+        currentSquare.AdjustEnemyFizzleChance(amount);
         List<MapSquare> squares = currentSquare.GetAdjacentSquares();
         foreach (MapSquare square in squares)
         {
@@ -680,6 +696,7 @@ public class HackTarget : ScriptableObject
 
     private void DamageEnemies(int percentage, MapSquare currentSquare)
     {
+        currentSquare.AdjustPercentDamageToEnemy(percentage);
         List<MapSquare> squares = currentSquare.GetAdjacentSquares();
         foreach (MapSquare square in squares)
         {
@@ -689,6 +706,7 @@ public class HackTarget : ScriptableObject
 
     private void DotEnemies(int amount, MapSquare currentSquare)
     {
+        currentSquare.AdjustDotDamageToEnemy(amount);
         List<MapSquare> squares = currentSquare.GetAdjacentSquares();
         foreach (MapSquare square in squares)
         {
@@ -698,6 +716,7 @@ public class HackTarget : ScriptableObject
 
     private void DebuffEnemyDamage(int amount, MapSquare currentSquare)
     {
+        currentSquare.AdjustEnemyDamageDebuff(amount);
         List<MapSquare> squares = currentSquare.GetAdjacentSquares();
         foreach (MapSquare square in squares)
         {
