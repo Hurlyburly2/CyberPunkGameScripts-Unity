@@ -226,7 +226,7 @@ public class PlayerData : MonoBehaviour
         // Only put in shop items that the player does not own
         foreach (Item item in ownedItems)
         {
-            if (applicableItems.Contains(item.GetItemName()))
+            if (applicableItems.Contains(item.GetItemName()) && item.GetItemType() != Item.ItemTypes.Arm && item.GetItemType() != Item.ItemTypes.Leg)
                 applicableItems.Remove(item.GetItemName());
         }
 
@@ -267,6 +267,7 @@ public class PlayerData : MonoBehaviour
                     success = createAsHackerInstall.SetupChip(itemName);
                     if (success)
                     {
+                        // TODO: CREATE EXTRA COPIES TO ADD TO LIST
                         shopItems.Add(createAsHackerInstall);
                     }
                 } else
@@ -275,7 +276,28 @@ public class PlayerData : MonoBehaviour
                 }
             } else
             {
-                shopItems.Add(createAsRunnerMod);
+                bool addToShop = true;
+                if (createAsRunnerMod.GetItemType() == Item.ItemTypes.Arm || createAsRunnerMod.GetItemType() == Item.ItemTypes.Leg)
+                {
+                    // If arm or leg, we need to count them
+                    List<Item> sameItems = ownedItems.FindAll(curentItem => createAsRunnerMod.GetItemName() == curentItem.GetItemName());
+                    Debug.Log("Same items: " + sameItems.Count);
+                    switch (sameItems.Count)
+                    {
+                        case 0:
+                            RunnerMod secondCopy = ScriptableObject.CreateInstance<RunnerMod>();
+                            secondCopy.SetupMod(itemName);
+                            shopItems.Add(secondCopy);
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            addToShop = false;
+                            break;
+                    }
+                }
+                if (addToShop)
+                    shopItems.Add(createAsRunnerMod);
             }
         }
 
