@@ -175,6 +175,11 @@ public class Item : ScriptableObject
         {
             itemLevel++;
         }
+        if (this.IsHackerMod())
+        {
+            HackerMod modToCheck = this as HackerMod;
+            modToCheck.FillExtraSlotsWithEmptyMods();
+        }
     }
 
     public int GetItemPrice()

@@ -190,7 +190,7 @@ public class RunnerMod : Item
             case "Adaptable CranioPatch":
                 itemType = ItemTypes.Head;
                 itemDescription = "The headpiece of Vance CryptoTronix's popular Pointman line of Pistolier augmentations. For when you really need to make your shots count.";
-                itemPrice = 1000;
+                itemPrice = 106;
                 levelOneCards.Add(73);  // Quick Targetting 1
                 levelOneCards.Add(73);  // Quick Targetting 1
                 levelOneCards.Add(78); // Pinpoint Accuracy 1
@@ -218,7 +218,7 @@ public class RunnerMod : Item
             case "Adrenal Injector":
                 itemType = ItemTypes.Torso;
                 itemDescription = "One of the more experiemental reflex enhancers designed by Vance CryptoTronix. Signing a waiver is required before installation, as cardiac side-effects are not uncommon.";
-                itemPrice = 10000;
+                itemPrice = 107;
 
                 levelOneCards.Add(87); // Stim Injection 1
                 levelOneCards.Add(92); // Raise Heartrate 1
@@ -248,7 +248,7 @@ public class RunnerMod : Item
             case "Sensory Regulator":
                 itemType = ItemTypes.Exoskeleton;
                 itemDescription = "Enhance the best parts of life, and depress the worst, with Vance CyptoTronix' popular, lightweight nerve graft.";
-                itemPrice = 1000;
+                itemPrice = 108;
 
                 levelOneCards.Add(101); // Deaden Senses 1
                 levelOneCards.Add(106); // HEIGHTENED RECEPTORS 1
@@ -276,7 +276,7 @@ public class RunnerMod : Item
             case "Automated Digits":
                 itemType = ItemTypes.Arm;
                 itemDescription = "Premiere Vance CyptoTronix hand replacement. Stronger, and more dexterous than any organic hand, with a hidden defensive blade.";
-                itemPrice = 1000;
+                itemPrice = 109;
 
                 levelOneCards.Add(116); // LIGHTNING RELOAD 1
                 levelOneCards.Add(121); // AUTO-UNHOLSTER 1
@@ -305,7 +305,7 @@ public class RunnerMod : Item
             case "Polymorphic Support":
                 itemType = ItemTypes.Leg;
                 itemDescription = "TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO";
-                itemPrice = 1000;
+                itemPrice = 110;
 
                 levelOneCards.Add(135); // STABILIZED STANCE 1
                 levelOneCards.Add(140); // PREPARED STANCE 1
@@ -339,7 +339,7 @@ public class RunnerMod : Item
             case "Tornado Handgun T-492":
                 itemType = ItemTypes.Weapon;
                 itemDescription = "TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO";
-                itemPrice = 1000;
+                itemPrice = 111;
 
                 levelOneCards.Add(159); // BARRAGE 1
                 levelOneCards.Add(164); // SHOOT 1
@@ -384,7 +384,7 @@ public class RunnerMod : Item
             case "Volt HandCannon V-1":
                 itemType = ItemTypes.Weapon;
                 itemDescription = "TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO";
-                itemPrice = 1000;
+                itemPrice = 112;
 
                 levelOneCards.Add(184); // CHARGED SHOT 1
                 levelOneCards.Add(184); // CHARGED SHOT 1

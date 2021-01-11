@@ -792,19 +792,23 @@ public class Card : MonoBehaviour
                 break;
             case 73: // QUICK TARGETTING 1
                 GainStatus(StatusEffect.StatusType.Momentum, 1);
+                GainEnergy(1);
                 DrawXCards(1);
                 break;
-            case 74: // Quick Targetting 1
-            case 75: // Quick Targetting 2
+            case 74: // Quick Targetting 2
+            case 75: // Quick Targetting 3
                 GainStatus(StatusEffect.StatusType.Momentum, 2);
+                GainEnergy(2);
                 DrawXCards(1);
                 break;
-            case 76: // Quick Targeting 3
+            case 76: // Quick Targeting 4
                 GainStatus(StatusEffect.StatusType.Momentum, 2);
+                GainEnergy(3);
                 DrawXCards(2);
                 break;
-            case 77: // Quick TARGETING 4
+            case 77: // Quick TARGETING 5
                 GainStatus(StatusEffect.StatusType.Momentum, 3);
+                GainEnergy(3);
                 DrawXCards(2);
                 break;
             case 78: // PINPOINT ACCURACY 1

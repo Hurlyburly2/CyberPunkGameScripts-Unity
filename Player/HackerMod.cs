@@ -195,20 +195,24 @@ public class HackerMod : Item
     {
         for (int i = 0; i < GetMaxSlotCount(); i++)
         {
-            HackerModChip emptyMod = CreateInstance<HackerModChip>();
-            emptyMod.SetupChip("Empty");
-            modChips.Add(emptyMod);
+            modChips.Add(CreateEmptyInstall());
         }
     }
 
-    private void FillExtraSlotsWithEmptyMods()
+    public void FillExtraSlotsWithEmptyMods()
     {
         for (int i = modChips.Count; i < GetMaxSlotCount(); i++)
         {
-            HackerModChip emptyMod = CreateInstance<HackerModChip>();
-            emptyMod.SetupChip("Empty");
-            modChips.Add(emptyMod);
+            modChips.Add(CreateEmptyInstall());
         }
+    }
+
+    private HackerModChip CreateEmptyInstall()
+    {
+        HackerModChip emptyInstall = CreateInstance<HackerModChip>();
+        emptyInstall.SetupChip("Empty");
+
+        return emptyInstall;
     }
 
     public void InstallChip(HackerModChip newHackerModChip, int slot)

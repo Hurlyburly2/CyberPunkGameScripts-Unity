@@ -183,7 +183,7 @@ public class MapData : MonoBehaviour
         if (playerEnergyRegenDuration > 0)
         {
             float maxEnergy = runner.GetMaximumEnergy();
-            int amountToGain = Mathf.FloorToInt(maxEnergy * 0.05f);
+            int amountToGain = Mathf.FloorToInt(maxEnergy * 0.10f);
             if (amountToGain < 1)
             {
                 amountToGain = 1;
@@ -399,9 +399,9 @@ public class MapData : MonoBehaviour
     {
         enemyHindrance += amount;
         // We max this value out at 40% for now
-        if (enemyHindrance > 40)
+        if (enemyHindrance > 50)
         {
-            enemyHindrance = 40;
+            enemyHindrance = 50;
         }
     }
 

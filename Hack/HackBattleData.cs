@@ -25,6 +25,9 @@ public class HackBattleData : MonoBehaviour
     int safeZoneSize;
     int securityLevel = 0;
 
+    bool usedABuffer;
+    int bufferCount;
+
     PointIconHolder redPointIconHolder;
     PointIconHolder bluePointIconHolder;
     PointIconHolder greenPointIconHolder;
@@ -121,6 +124,13 @@ public class HackBattleData : MonoBehaviour
         {
             passiveAbilities.Add(chip.SetupPassiveAbility());
         }
+
+        bufferCount = 0;
+        foreach (PassiveAbility passiveAbility in passiveAbilities)
+        {
+            if (passiveAbility.GetAbilityType() == PassiveAbility.PassiveAbilityType.dangerZoneBuffer)
+                bufferCount += passiveAbility.GetRemainingUses();
+        }
     }
 
     private void SetupAbilityButtons()
@@ -156,27 +166,39 @@ public class HackBattleData : MonoBehaviour
             safeZoneSize += 2;
             SetupSafeSquares();
             hackSecurityUI.UpdateHackSecurityUI(securityLevel);
+            usedABuffer = false;
+        } else
+        {
+            bufferCount--;
+            usedABuffer = true;
         }
     }
 
     public void LowerSecurityLevel()
     {
-        securityLevel--;
-        safeZoneSize -= 2;
-        SetupSafeSquares();
+        // Refund a buffer if one was used
+        if (usedABuffer)
+        {
+            bufferCount++;
+            usedABuffer = false;
+        }
+
+        if (!IsThereADangerZoneBuffer())
+        {
+            securityLevel--;
+            safeZoneSize -= 2;
+            SetupSafeSquares();
+        } else
+        {
+            SetupSafeSquares();
+        }
         hackSecurityUI.UpdateHackSecurityUI(securityLevel);
     }
 
     public bool IsThereADangerZoneBuffer()
     {
-        foreach(PassiveAbility passiveAbility in passiveAbilities)
-        {
-            if (passiveAbility.GetAbilityType() == PassiveAbility.PassiveAbilityType.dangerZoneBuffer && passiveAbility.GetRemainingUses() > 0)
-            {
-                passiveAbility.UseOne();
-                return true;
-            }
-        }
+        if (bufferCount > 0)
+            return true;
         return false;
     }
 

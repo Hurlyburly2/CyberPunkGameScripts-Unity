@@ -108,7 +108,6 @@ public class MapObject : ScriptableObject
         {
             if (powerups.Count > 0)
             {
-                Debug.Log("Is this happening???");
                 PowerUp foundPowerup = powerups[Random.Range(0, powerups.Count)];
                 upgradedPowerups += foundPowerup.GetName() + ", ";
                 foundPowerup.UpgradePowerUp();
