@@ -217,11 +217,11 @@ public class HackTarget : ScriptableObject
     };
     string[] securityCameraHelperText =
     {
-        "Scout the presence of hack targets and points of interest in adjacent squares",
+        "Scout the presence of hack targets and points of interest in all squares up to 2 spaces away",
         "Lower the security level",
-        "Fully reveal the hack targets and points of interest in adjacent squares",
-        "Scout the presence of enemies in adjacent squares",
-        "Fully reveal enemies in adjacent squares",
+        "Fully reveal the hack targets and points of interest in all squares up to 2 spaces away",
+        "Scout the presence of enemies in all squares up to 2 spaces away",
+        "Fully reveal enemies in all squares up to 2 spaces away",
         "Despawn a weak enemy from a random square",
         "Despawn an enemy of average strength from a random square"
     };
@@ -511,18 +511,36 @@ public class HackTarget : ScriptableObject
     private void ScoutPointOfInterest(int newScoutLevel, MapSquare square)
     {
         List<MapSquare> adjacentSquares = square.GetAdjacentSquares();
+
+        List<MapSquare> squaresToSearch = new List<MapSquare>();
+        squaresToSearch.AddRange(adjacentSquares);
+
         foreach(MapSquare adjSquare in adjacentSquares)
         {
-            adjSquare.SetPOIScoutLevel(newScoutLevel);
+            squaresToSearch.AddRange(adjSquare.GetAdjacentSquares());
+        }
+
+        foreach (MapSquare squareToSearch in squaresToSearch)
+        {
+            squareToSearch.SetPOIScoutLevel(newScoutLevel);
         }
     }
 
     private void ScoutEnemies(int newScoutLevel, MapSquare square)
     {
         List<MapSquare> adjacentSquares = square.GetAdjacentSquares();
-        foreach(MapSquare adjSquare in adjacentSquares)
+
+        List<MapSquare> squaresToSearch = new List<MapSquare>();
+        squaresToSearch.AddRange(adjacentSquares);
+
+        foreach (MapSquare adjSquare in adjacentSquares)
         {
-            adjSquare.SetEnemyScoutLevel(newScoutLevel);
+            squaresToSearch.AddRange(adjSquare.GetAdjacentSquares());
+        }
+
+        foreach(MapSquare squareToSearch in squaresToSearch)
+        {
+            squareToSearch.SetEnemyScoutLevel(newScoutLevel);
         }
     }
 

@@ -368,13 +368,25 @@ public class MapSquare : MonoBehaviour
     public void SetPOIScoutLevel(int newScoutLevel)
     {
         if (newScoutLevel > poiScoutLevel)
+        {
             poiScoutLevel = newScoutLevel;
+            if (poiScoutLevel > 1)
+            {
+                RemoveShroud();
+            }
+        }
     }
 
     public void SetEnemyScoutLevel(int newScoutLevel)
     {
         if (newScoutLevel > enemyScoutLevel)
+        {
             enemyScoutLevel = newScoutLevel;
+            if (enemyScoutLevel > 1)
+            {
+                RemoveShroud();
+            }
+        }
     }
 
     private void SetState(string newState)
