@@ -55,7 +55,8 @@ public class MapSquare : MonoBehaviour
     List<int> enemyBuffs;
     List<int> enemyDebuffs;
 
-    // player/enemy status effects
+    // player/enemy status effects. New effects here need to also be represented in the
+    // ShouldEffectsButtonAppear() and GetEffectsListStrings() methods
     int playerDodgeBuff = 0;
     int enemyVulnerability = 0;
     int playerCritBuff = 0;
@@ -622,5 +623,114 @@ public class MapSquare : MonoBehaviour
     public int GetTriggeredTrapAmount()
     {
         return triggeredTrapAmount;
+    }
+
+    public int GetPlayerDodgeBuff()
+    {
+        return playerDodgeBuff;
+    }
+
+    public int GetEnemyVulnerability()
+    {
+        return enemyVulnerability;
+    }
+
+    public int GetPlayerCritBuff()
+    {
+        return playerCritBuff;
+    }
+
+    public int GetPlayerHandSizeBuff()
+    {
+        return playerHandSizeBuff;
+    }
+
+    public int GetPlayerDefenseBuff()
+    {
+        return playerDefenseBuff;
+    }
+
+    public int GetEnemyHandSizeDebuff()
+    {
+        return enemyHandSizeDebuff;
+    }
+
+    public int GetEnemyFizzleChance()
+    {
+        return enemyFizzleChance;
+    }
+
+    public int GetDotDamageToEnemy()
+    {
+        return dotDamageToEnemy;
+    }
+
+    public int GetEnemyDamageDebuff()
+    {
+        return enemyDamageDebuff;
+    }
+    
+    public List<string> GetEffectsListStrings()
+    {
+        List<string> effects = new List<string>();
+
+        if (GetIsVentilationMapped())
+            effects.Add("Moving here will not raise the security level");
+        if (triggeredTrapType == MapObject.TrapTypes.ElectrifiedZone)
+            effects.Add("Take " + triggeredTrapAmount + " damage when moving onto this square");
+        if (triggeredTrapType == MapObject.TrapTypes.EMP)
+            effects.Add("Your Cyber and Tech cards have " + triggeredTrapAmount + "% chance to have no effect on this square");
+        if (triggeredTrapType == MapObject.TrapTypes.FaradayCage)
+            effects.Add("Hacker cards are blocked on this square");
+        if (triggeredTrapType == MapObject.TrapTypes.NerveGas)
+            effects.Add("Your Bio cards have a " + triggeredTrapAmount + "% chance to have no effect on this square");
+        if (triggeredTrapType == MapObject.TrapTypes.NeurotoxinCloud)
+            effects.Add("In combat on this location, take " + triggeredTrapAmount + " damage each turn");
+        if (triggeredTrapType == MapObject.TrapTypes.ParalysisAgent)
+            effects.Add("Arm and Leg cards are blocked on this square");
+        if (playerDodgeBuff > 0)
+            effects.Add("Gain " + playerDodgeBuff.ToString() + "% Dodge on this square");
+        if (enemyVulnerability > 0)
+            effects.Add("Enemies take +" + enemyVulnerability.ToString() + " damage on this square");
+        if (playerCritBuff > 0)
+            effects.Add("Gain " + playerCritBuff.ToString() + "% crit chance on this square");
+        if (playerHandSizeBuff > 0)
+            effects.Add("Hand size increased by " + playerHandSizeBuff + " on this square");
+        if (playerDefenseBuff > 0)
+            effects.Add("Take -" + playerDefenseBuff + " damage on this location");
+        if (enemyHandSizeDebuff > 0)
+            effects.Add("Enemy hand size decreased by " + enemyHandSizeDebuff + " on this location");
+        if (enemyFizzleChance > 0)
+            effects.Add("Enemy cards have a " + enemyFizzleChance.ToString() + "% chance to have no effect on this square");
+        if (dotDamageToEnemy > 0)
+            effects.Add("In Combat: Enemies take " + dotDamageToEnemy.ToString() + "% of their health as damage each turn");
+        if (enemyDamageDebuff > 0)
+            effects.Add("Enemies deal -" + enemyDamageDebuff.ToString() + " damage on this square");
+
+        return effects;
+    }
+
+    public bool ShouldEffectsButtonAppear()
+    {
+        if (GetIsVentilationMapped() ||
+            GetTriggeredTrapType() == MapObject.TrapTypes.ElectrifiedZone ||
+            GetTriggeredTrapType() == MapObject.TrapTypes.EMP ||
+            GetTriggeredTrapType() == MapObject.TrapTypes.FaradayCage ||
+            GetTriggeredTrapType() == MapObject.TrapTypes.NerveGas ||
+            GetTriggeredTrapType() == MapObject.TrapTypes.NeurotoxinCloud ||
+            GetTriggeredTrapType() == MapObject.TrapTypes.ParalysisAgent ||
+            GetPlayerDodgeBuff() > 0 ||
+            GetEnemyVulnerability() > 0 ||
+            GetPlayerCritBuff() > 0 ||
+            GetPlayerHandSizeBuff() > 0 ||
+            GetPlayerDefenseBuff() > 0 ||
+            GetEnemyHandSizeDebuff() > 0 ||
+            GetEnemyFizzleChance() > 0 ||
+            GetDotDamageToEnemy() > 0 ||
+            GetEnemyDamageDebuff() > 0)
+        {
+            return true;
+        }
+        return false;
     }
 }

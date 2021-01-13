@@ -10,6 +10,10 @@ public class CurrentNodeMenu : MonoBehaviour
     MapSquare square;
     Sprite locationImage;
 
+    [SerializeField] Button effectsInfoButton;
+    [SerializeField] EffectsListControl effectsListControl;
+    bool effectsListOpen;
+
     public void InitializeMenu(MapSquare newSquare)
     {
         gameObject.SetActive(true);
@@ -30,6 +34,22 @@ public class CurrentNodeMenu : MonoBehaviour
 
         poiMenu.SetupButtons(square.GetMapObjects());
         hackMenu.SetupButtons(square.GetHackTargets());
+
+        UpdateEffectsButton();
+    }
+
+    public void UpdateEffectsButton()
+    {
+        effectsListControl.gameObject.SetActive(false);
+        effectsListOpen = false;
+        if (square.ShouldEffectsButtonAppear())
+        {
+            effectsInfoButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            effectsInfoButton.gameObject.SetActive(false);
+        }
     }
 
     public void ReopenHackMenu(HackTarget hackTarget)
@@ -48,5 +68,19 @@ public class CurrentNodeMenu : MonoBehaviour
     public MapSquare GetMapSquare()
     {
         return square;
+    }
+
+    public void ClickEffectsButton()
+    {
+        if (!effectsListOpen)
+        {
+            effectsListControl.gameObject.SetActive(true);
+            effectsListControl.GenerateEffectsList(square);
+            effectsListOpen = true;
+        } else
+        {
+            effectsListOpen = false;
+            effectsListControl.gameObject.SetActive(false);
+        }
     }
 }
