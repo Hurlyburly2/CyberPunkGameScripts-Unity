@@ -11,6 +11,10 @@ public class NeighboringNodeMenu : MonoBehaviour
     [SerializeField] GameObject levelTwoAndThreeScoutPOI;
     [SerializeField] Button moveButton;
 
+    [SerializeField] Button effectsInfoButton;
+    [SerializeField] EffectsListControl effectsListControl;
+    bool effectsListOpen;
+
     MapSquare square;
     MapSquare playerLocation;
     Sprite locationImage;
@@ -54,6 +58,21 @@ public class NeighboringNodeMenu : MonoBehaviour
 
         SetupHackTargets();
         CheckIsPlayerAdjacent();
+        UpdateEffectsButton();
+    }
+
+    public void UpdateEffectsButton()
+    {
+        effectsListControl.gameObject.SetActive(false);
+        effectsListOpen = false;
+        if (square.ShouldEffectsButtonAppear())
+        {
+            effectsInfoButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            effectsInfoButton.gameObject.SetActive(false);
+        }
     }
 
     private void CheckIsPlayerAdjacent()
@@ -160,5 +179,20 @@ public class NeighboringNodeMenu : MonoBehaviour
         locationImage = null;
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);
         gameObject.SetActive(false);
+    }
+
+    public void ClickEffectsButton()
+    {
+        if (!effectsListOpen)
+        {
+            effectsListControl.gameObject.SetActive(true);
+            effectsListControl.GenerateEffectsList(square);
+            effectsListOpen = true;
+        }
+        else
+        {
+            effectsListOpen = false;
+            effectsListControl.gameObject.SetActive(false);
+        }
     }
 }
