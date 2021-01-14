@@ -27,6 +27,10 @@ public class MapObject : ScriptableObject
         Spam
     };
     TrapTypes trapType;
+    // If creating a new trap type that stays on the map square, you must add to the mapSquare
+    // ShouldEffectsButtonAppear() and GetEffectsListStrings() methods
+    // as well as filling in its info here
+
     PowerUp powerup;
     string trapName = "";
     string trapDescription = "";

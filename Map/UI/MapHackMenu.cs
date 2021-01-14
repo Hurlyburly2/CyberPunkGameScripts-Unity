@@ -95,6 +95,7 @@ public class MapHackMenu : MonoBehaviour
         Debug.Log("is hack still active: " + hackTarget.GetIsActive());
         List<HackTarget> hackTargets = FindObjectOfType<CurrentNodeMenu>().GetMapSquare().GetHackTargets();
         FindObjectOfType<CurrentNodeMenuHacks>().SetupButtons(hackTargets);
+        FindObjectOfType<CurrentNodeMenu>().UpdateEffectsButton();
         gameObject.SetActive(false);
     }
 
