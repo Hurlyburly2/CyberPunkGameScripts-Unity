@@ -63,7 +63,13 @@ public class MapObject : ScriptableObject
             case "PowerUp":
                 return GainPowerUp();
             case "Upgrade":
-                return GainUpgrade();
+                string upgradeString = GainUpgrade();
+                if (upgradeString == "")
+                {
+                    isActive = true;
+                    return "You have no powerups to upgrade";
+                }
+                return upgradeString;
             case "First Aid Station":
                 return GainFirstAidStation();
 
@@ -106,6 +112,10 @@ public class MapObject : ScriptableObject
     {
         List<PowerUp> powerups = new List<PowerUp>();
         powerups.AddRange(FindObjectOfType<MapData>().GetPowerUps());
+
+        if (powerups.Count == 0)
+            return "";
+
         int amountOfUpgrades = Random.Range(1, 4);
         string upgradedPowerups = "Upgraded the ";
         for (int i = 0; i < amountOfUpgrades; i++)
