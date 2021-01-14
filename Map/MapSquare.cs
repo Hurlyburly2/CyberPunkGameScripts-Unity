@@ -173,6 +173,11 @@ public class MapSquare : MonoBehaviour
 
     public void SetPlayerStart()
     {
+        // If any player marker still exists, destroy it
+        PlayerMarker[] oldPlayerMarkers = FindObjectsOfType<PlayerMarker>();
+        foreach (PlayerMarker oldMarker in oldPlayerMarkers)
+            Destroy(oldMarker.gameObject);
+
         SetPlayerPosition();
         PlayerMarker playerMarkerPrefab = parentRow.GetMapGrid().GetPlayerMarkerPrefab();
         Vector3 markerPosition = GetPlayerMarkerPosition();
