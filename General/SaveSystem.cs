@@ -5,7 +5,7 @@ using System.IO;
 
 public static class SaveSystem
 {
-    private static readonly string SAVE_FOLDER = Application.dataPath + "/Saves/";
+    private static readonly string SAVE_FOLDER = Application.persistentDataPath + "/Saves/";
 
     public static void Init()
     {
