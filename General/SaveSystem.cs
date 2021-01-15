@@ -1,39 +1,35 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
-    public static void SaveGame (SaveData data)
+    private static readonly string SAVE_FOLDER = Application.dataPath + "/Saves/";
+
+    public static void Init()
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/edenCipher.sav";
-
-        FileStream stream = new FileStream(path, FileMode.Create);
-
-        formatter.Serialize(stream, data);
-        stream.Close();
+        if (!Directory.Exists(SAVE_FOLDER))
+        {
+            Directory.CreateDirectory(SAVE_FOLDER);
+        }
     }
 
-    public static SaveData LoadSaveData()
+    public static void Save(string saveString)
     {
-        string path = Application.persistentDataPath + "/edenCipher.sav";
-        if (File.Exists(path))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
+        File.WriteAllText(SAVE_FOLDER + "/save.txt", saveString);
+    }
 
-            SaveData data = formatter.Deserialize(stream) as SaveData;
-            stream.Close();
-
-            return data;
-        }
-        else
+    public static string Load()
+    {
+        if (File.Exists(SAVE_FOLDER + "/save.txt"))
         {
-            Debug.Log("Save file not found in " + path);
+            string saveString = File.ReadAllText(SAVE_FOLDER + "/save.txt");
+
+            return saveString;
+        } else
+        {
             return null;
         }
     }
 }
-
-

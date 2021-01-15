@@ -94,8 +94,8 @@ public class PlayerHand : MonoBehaviour
 
         int cardTarget = initialHandSize + cardsInHand.Count + playerHandBuff - playerHandDebuff + battleData.GetPlayerHandMapBuff();
 
-        if (cardTarget > initialHandSize)
-            TriggerAcceleration(initialHandSize - cardTarget);
+        // Ensure we don't get negative acceleration
+        TriggerAcceleration(Mathf.Clamp(playerHandBuff - playerHandDebuff + battleData.GetPlayerHandMapBuff(), 0, 99999));
 
         cardTarget += ExtraCardDrawFromPowerUps();
 
@@ -373,6 +373,7 @@ public class PlayerHand : MonoBehaviour
 
     public void TriggerAcceleration(int accelerateTimes)
     {
+        Debug.Log("accelerate times: " + accelerateTimes);
         foreach (Card card in cardsInHand)
         {
             List<string> keywords = new List<string>();

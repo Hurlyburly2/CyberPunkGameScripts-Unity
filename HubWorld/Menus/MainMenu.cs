@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] LoadoutMenu loadoutMenu;
     [SerializeField] InventoryMenu inventoryMenu;
     [SerializeField] ShopMenu shopMenu;
+    [SerializeField] TextMeshProUGUI loadTestText;
 
     public void CloseMainMenu()
     {
@@ -42,5 +44,19 @@ public class MainMenu : MonoBehaviour
     {
         // Test if this actually works on ipad
         Application.Quit();
+    }
+
+    public void SaveGame()
+    {
+        PlayerData playerData = FindObjectOfType<PlayerData>();
+        playerData.SavePlayer();
+    }
+
+    public void LoadGame()
+    {
+        PlayerData playerData = FindObjectOfType<PlayerData>();
+        string loadedText = playerData.LoadPlayer();
+
+        loadTestText.text = loadedText;
     }
 }

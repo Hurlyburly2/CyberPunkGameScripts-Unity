@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,7 +36,7 @@ public class PlayerData : MonoBehaviour
     {
         // TODO: CHANGE THIS BACK TO ZERO
         playerLevel = 1;
-        currentCredits = 100000;
+        currentCredits = 1000000;
 
         ownedRunners = new List<CharacterData>();
         ownedHackers = new List<HackerData>();
@@ -349,5 +350,41 @@ public class PlayerData : MonoBehaviour
     public void RemoveItemFromForSale(Item itemToRemove)
     {
         itemsForSale.Remove(itemToRemove);
+    }
+
+    public void SavePlayer()
+    {
+        SaveSystem.Init();
+
+        SaveObject saveObject = new SaveObject
+        {
+            playerCredits = currentCredits,
+        };
+        string jsonString = JsonUtility.ToJson(saveObject);
+
+        Debug.Log("test test");
+
+        SaveSystem.Save(jsonString);
+    }
+
+    public string LoadPlayer()
+    {
+        SaveSystem.Init();
+
+        string saveString = SaveSystem.Load();
+
+        if (saveString != null)
+        {
+            SaveObject loadedSaveObject = JsonUtility.FromJson<SaveObject>(saveString);
+            Debug.Log(loadedSaveObject.playerCredits);
+
+            return loadedSaveObject.playerCredits.ToString();
+        }
+        return "";
+    }
+
+    class SaveObject
+    {
+        public int playerCredits;
     }
 }
