@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,7 +36,7 @@ public class PlayerData : MonoBehaviour
     {
         // TODO: CHANGE THIS BACK TO ZERO
         playerLevel = 1;
-        currentCredits = 100000;
+        currentCredits = 1000000;
 
         ownedRunners = new List<CharacterData>();
         ownedHackers = new List<HackerData>();
@@ -71,52 +72,52 @@ public class PlayerData : MonoBehaviour
         lockedHackerTwo.CreateNewHackerByClassId(2);
         ownedHackers.Add(lockedHackerTwo);
 
-        //RunnerMod adaptableCranioPatch = ScriptableObject.CreateInstance<RunnerMod>();
-        //adaptableCranioPatch.SetupMod("Adaptable CranioPatch");
-        ////adaptableCranioPatch.SetItemLevel(2);
-        //ownedItems.Add(adaptableCranioPatch);
+        RunnerMod adaptableCranioPatch = ScriptableObject.CreateInstance<RunnerMod>();
+        adaptableCranioPatch.SetupMod("Adaptable CranioPatch");
+        //adaptableCranioPatch.SetItemLevel(2);
+        ownedItems.Add(adaptableCranioPatch);
 
-        //RunnerMod adrenalInjector = ScriptableObject.CreateInstance<RunnerMod>();
-        //adrenalInjector.SetupMod("Adrenal Injector");
-        //ownedItems.Add(adrenalInjector);
+        RunnerMod adrenalInjector = ScriptableObject.CreateInstance<RunnerMod>();
+        adrenalInjector.SetupMod("Adrenal Injector");
+        ownedItems.Add(adrenalInjector);
 
-        //RunnerMod sensoryRegulator = ScriptableObject.CreateInstance<RunnerMod>();
-        //sensoryRegulator.SetupMod("Sensory Regulator");
-        //ownedItems.Add(sensoryRegulator);
+        RunnerMod sensoryRegulator = ScriptableObject.CreateInstance<RunnerMod>();
+        sensoryRegulator.SetupMod("Sensory Regulator");
+        ownedItems.Add(sensoryRegulator);
 
-        //RunnerMod automatedDigits = ScriptableObject.CreateInstance<RunnerMod>();
-        //automatedDigits.SetupMod("Automated Digits");
-        //ownedItems.Add(automatedDigits);
+        RunnerMod automatedDigits = ScriptableObject.CreateInstance<RunnerMod>();
+        automatedDigits.SetupMod("Automated Digits");
+        ownedItems.Add(automatedDigits);
 
-        //RunnerMod automatedDigitsTwo = ScriptableObject.CreateInstance<RunnerMod>();
-        //automatedDigitsTwo.SetupMod("Automated Digits");
-        //ownedItems.Add(automatedDigitsTwo);
+        RunnerMod automatedDigitsTwo = ScriptableObject.CreateInstance<RunnerMod>();
+        automatedDigitsTwo.SetupMod("Automated Digits");
+        ownedItems.Add(automatedDigitsTwo);
 
-        //RunnerMod polymorphicSupport = ScriptableObject.CreateInstance<RunnerMod>();
-        //polymorphicSupport.SetupMod("Polymorphic Support");
-        //ownedItems.Add(polymorphicSupport);
+        RunnerMod polymorphicSupport = ScriptableObject.CreateInstance<RunnerMod>();
+        polymorphicSupport.SetupMod("Polymorphic Support");
+        ownedItems.Add(polymorphicSupport);
 
-        //RunnerMod polymorphicSupportTwo = ScriptableObject.CreateInstance<RunnerMod>();
-        //polymorphicSupportTwo.SetupMod("Polymorphic Support");
-        //ownedItems.Add(polymorphicSupportTwo);
+        RunnerMod polymorphicSupportTwo = ScriptableObject.CreateInstance<RunnerMod>();
+        polymorphicSupportTwo.SetupMod("Polymorphic Support");
+        ownedItems.Add(polymorphicSupportTwo);
 
-        //RunnerMod tornadoHandgun = ScriptableObject.CreateInstance<RunnerMod>();
-        //tornadoHandgun.SetupMod("Tornado Handgun T-492");
-        //ownedItems.Add(tornadoHandgun);
+        RunnerMod tornadoHandgun = ScriptableObject.CreateInstance<RunnerMod>();
+        tornadoHandgun.SetupMod("Tornado Handgun T-492");
+        ownedItems.Add(tornadoHandgun);
 
-        //RunnerMod voltHandCannon = ScriptableObject.CreateInstance<RunnerMod>();
-        //voltHandCannon.SetupMod("Volt HandCannon V-1");
-        //ownedItems.Add(voltHandCannon);
+        RunnerMod voltHandCannon = ScriptableObject.CreateInstance<RunnerMod>();
+        voltHandCannon.SetupMod("Volt HandCannon V-1");
+        ownedItems.Add(voltHandCannon);
 
         Loadout runnerLoadout = currentRunner.GetLoadout();
-        //runnerLoadout.EquipItem(adaptableCranioPatch);
-        //runnerLoadout.EquipItem(adrenalInjector);
-        //runnerLoadout.EquipItem(sensoryRegulator);
-        //runnerLoadout.EquipItem(automatedDigits, Loadout.LeftOrRight.Left);
-        //runnerLoadout.EquipItem(automatedDigitsTwo, Loadout.LeftOrRight.Right);
-        //runnerLoadout.EquipItem(polymorphicSupport, Loadout.LeftOrRight.Left);
-        //runnerLoadout.EquipItem(polymorphicSupportTwo, Loadout.LeftOrRight.Right);
-        //runnerLoadout.EquipItem(tornadoHandgun);
+        runnerLoadout.EquipItem(adaptableCranioPatch);
+        runnerLoadout.EquipItem(adrenalInjector);
+        runnerLoadout.EquipItem(sensoryRegulator);
+        runnerLoadout.EquipItem(automatedDigits, Loadout.LeftOrRight.Left);
+        runnerLoadout.EquipItem(automatedDigitsTwo, Loadout.LeftOrRight.Right);
+        runnerLoadout.EquipItem(polymorphicSupport, Loadout.LeftOrRight.Left);
+        runnerLoadout.EquipItem(polymorphicSupportTwo, Loadout.LeftOrRight.Right);
+        runnerLoadout.EquipItem(tornadoHandgun);
         //runnerLoadout.EquipItem(voltHandCannon);
 
         GenerateJobOptions();
@@ -349,5 +350,41 @@ public class PlayerData : MonoBehaviour
     public void RemoveItemFromForSale(Item itemToRemove)
     {
         itemsForSale.Remove(itemToRemove);
+    }
+
+    public void SavePlayer()
+    {
+        SaveSystem.Init();
+
+        SaveObject saveObject = new SaveObject
+        {
+            playerCredits = currentCredits,
+        };
+        string jsonString = JsonUtility.ToJson(saveObject);
+
+        Debug.Log("test test");
+
+        SaveSystem.Save(jsonString);
+    }
+
+    public string LoadPlayer()
+    {
+        SaveSystem.Init();
+
+        string saveString = SaveSystem.Load();
+
+        if (saveString != null)
+        {
+            SaveObject loadedSaveObject = JsonUtility.FromJson<SaveObject>(saveString);
+            Debug.Log(loadedSaveObject.playerCredits);
+
+            return loadedSaveObject.playerCredits.ToString();
+        }
+        return "";
+    }
+
+    class SaveObject
+    {
+        public int playerCredits;
     }
 }
