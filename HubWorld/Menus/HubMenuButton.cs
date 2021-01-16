@@ -44,6 +44,7 @@ public class HubMenuButton : MonoBehaviour
     private void OpenFirstMenu()
     {
         firstMenu.gameObject.SetActive(true);
+        firstMenu.SetupFirstMenu();
     }
 
     private void OpenMainMenu()

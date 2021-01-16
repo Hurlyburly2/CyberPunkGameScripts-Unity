@@ -27,7 +27,8 @@ public static class SaveSystem
             string saveString = File.ReadAllText(SAVE_FOLDER + "/save.txt");
 
             return saveString;
-        } else
+        }
+        else
         {
             return null;
         }

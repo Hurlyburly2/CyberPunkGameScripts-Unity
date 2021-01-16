@@ -27,10 +27,12 @@ public class PlayerData : MonoBehaviour
     List<Item> itemsForSale = new List<Item>();
 
     bool isPlayerLoaded = false;
+    int saveSlot;
     // Represents the difference between an empty player object and an object that a player has been loaded into
 
-    public void SetupNewGame()
+    public void SetupNewGame(int newSaveSlot)
     {
+        saveSlot = newSaveSlot;
         isPlayerLoaded = true;
 
         // TODO: CHANGE THIS BACK TO ZERO
@@ -356,8 +358,15 @@ public class PlayerData : MonoBehaviour
         return isPlayerLoaded;
     }
 
+    public int GetSaveSlot()
+    {
+        return saveSlot;
+    }
+
     public void SavePlayer()
     {
+        SavePrefs.SavePrefsFromPlayer(this);
+
         SaveSystem.Init();
 
         SaveObject saveObject = new SaveObject
