@@ -26,13 +26,7 @@ public class PlayerData : MonoBehaviour
     List<ShopMenu.ShopForSaleType> previousShopTypes = new List<ShopMenu.ShopForSaleType>();
     List<Item> itemsForSale = new List<Item>();
 
-    private void Start()
-    {
-        Debug.Log(currentShopType.ToString());
-        SetupNewGame();
-    }
-
-    private void SetupNewGame()
+    public void SetupNewGame()
     {
         // TODO: CHANGE THIS BACK TO ZERO
         playerLevel = 1;
