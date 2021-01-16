@@ -26,8 +26,13 @@ public class PlayerData : MonoBehaviour
     List<ShopMenu.ShopForSaleType> previousShopTypes = new List<ShopMenu.ShopForSaleType>();
     List<Item> itemsForSale = new List<Item>();
 
+    bool isPlayerLoaded = false;
+    // Represents the difference between an empty player object and an object that a player has been loaded into
+
     public void SetupNewGame()
     {
+        isPlayerLoaded = true;
+
         // TODO: CHANGE THIS BACK TO ZERO
         playerLevel = 1;
         currentCredits = 1000000;
@@ -346,6 +351,11 @@ public class PlayerData : MonoBehaviour
         itemsForSale.Remove(itemToRemove);
     }
 
+    public bool GetIsPlayerLoaded()
+    {
+        return isPlayerLoaded;
+    }
+
     public void SavePlayer()
     {
         SaveSystem.Init();
@@ -381,4 +391,5 @@ public class PlayerData : MonoBehaviour
     {
         public int playerCredits;
     }
+
 }
