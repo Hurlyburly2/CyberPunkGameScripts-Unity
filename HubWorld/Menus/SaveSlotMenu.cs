@@ -5,10 +5,20 @@ using UnityEngine;
 public class SaveSlotMenu : MonoBehaviour
 {
     [SerializeField] FirstMenu firstMenu;
+    [SerializeField] List<SaveSlotUI> saveSlotUIs;
 
-    public void SetupSaveSlotMenu(bool newGame = false)
+    bool newGame;
+
+    public void SetupSaveSlotMenu(bool newGameFromFirstMenu = false)
     {
-        Debug.Log("Doesn't do anything yet...");
+        newGame = newGameFromFirstMenu;
+
+        int slotNumber = 0;
+        foreach (SaveSlotUI saveSlot in saveSlotUIs)
+        {
+            slotNumber++;
+            saveSlot.SetupSaveSlot(slotNumber);
+        }
     }
 
     public void CloseSaveSelectMenu()
