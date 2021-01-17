@@ -118,4 +118,32 @@ public static class SavePrefs
         }
         return "";
     }
+
+    public static int GetCurrentRunnerId(int saveSlot)
+    {
+        switch (saveSlot)
+        {
+            case 1:
+                return PlayerPrefs.GetInt(SAVE_SLOT_1_CURRENTRUNNER_ID);
+            case 2:
+                return PlayerPrefs.GetInt(SAVE_SLOT_2_CURRENTRUNNER_ID);
+            case 3:
+                return PlayerPrefs.GetInt(SAVE_SLOT_3_CURRENTRUNNER_ID);
+        }
+        return 999;
+    }
+
+    public static int GetCurrentHackerId(int saveSlot)
+    {
+        switch (saveSlot)
+        {
+            case 1:
+                return PlayerPrefs.GetInt(SAVE_SLOT_1_CURRENTHACKER_ID);
+            case 2:
+                return PlayerPrefs.GetInt(SAVE_SLOT_2_CURRENTHACKER_ID);
+            case 3:
+                return PlayerPrefs.GetInt(SAVE_SLOT_3_CURRENTHACKER_ID);
+        }
+        return 999;
+    }
 }

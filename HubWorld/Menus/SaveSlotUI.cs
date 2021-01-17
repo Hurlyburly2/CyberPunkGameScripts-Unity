@@ -15,6 +15,8 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField] GameObject content;
     [SerializeField] TextMeshProUGUI chapterNameText;
     [SerializeField] TextMeshProUGUI creditsText;
+    [SerializeField] Image runnerPortrait;
+    [SerializeField] Image hackerPortrait;
 
     public void SetupSaveSlot(int slotNumber)
     {
@@ -31,6 +33,8 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             content.SetActive(true);
             chapterNameText.text = chapterName;
             creditsText.text = SavePrefs.GetCreditsAmount(slotNumber);
+            runnerPortrait.sprite = Resources.Load<Sprite>("Characters/Runner" + SavePrefs.GetCurrentRunnerId(slotNumber).ToString() + "-Portrait");
+            hackerPortrait.sprite = Resources.Load<Sprite>("Characters/Hacker" + SavePrefs.GetCurrentRunnerId(slotNumber).ToString() + "-Portrait");
         }
     }
 
