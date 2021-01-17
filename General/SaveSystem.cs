@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Newtonsoft.Json;
 
 public static class SaveSystem
 {
@@ -32,5 +33,51 @@ public static class SaveSystem
         {
             return null;
         }
+    }
+
+    public static void SavePlayerData(PlayerData playerData)
+    {
+        SavePrefs.SavePrefsFromPlayer(playerData);
+
+        Init();
+
+        SaveObject saveObject = new SaveObject
+        {
+            playerCredits = playerData.GetCreditsAmount(),
+            items = JsonConvert.SerializeObject(playerData.GetPlayerItems().ToArray(), Formatting.Indented),
+        };
+        string jsonString = JsonConvert.SerializeObject(saveObject, Formatting.Indented);
+        Debug.Log(jsonString);
+
+        Save(jsonString);
+    }
+
+    public static string LoadPlayerData()
+    {
+        Init();
+
+        string saveString = Load();
+
+        if (saveString != null)
+        {
+            SaveObject loadedSaveObject = JsonUtility.FromJson<SaveObject>(saveString);
+            Debug.Log(loadedSaveObject.playerCredits);
+            Debug.Log(loadedSaveObject.items);
+            List<Item> deserializedItems = JsonConvert.DeserializeObject<List<Item>>(loadedSaveObject.items);
+            foreach (Item item in deserializedItems)
+            {
+                Debug.Log(item.GetItemName());
+                Debug.Log(item.GetItemLevel());
+            }
+
+            return loadedSaveObject.playerCredits.ToString();
+        }
+        return "";
+    }
+
+    class SaveObject
+    {
+        public int playerCredits;
+        public string items;
     }
 }

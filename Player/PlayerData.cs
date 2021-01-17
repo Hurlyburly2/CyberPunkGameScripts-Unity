@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class PlayerData : MonoBehaviour
 {
@@ -283,7 +284,6 @@ public class PlayerData : MonoBehaviour
                 {
                     // If arm or leg, we need to count them
                     List<Item> sameItems = ownedItems.FindAll(curentItem => createAsRunnerMod.GetItemName() == curentItem.GetItemName());
-                    Debug.Log("Same items: " + sameItems.Count);
                     switch (sameItems.Count)
                     {
                         case 0:
@@ -370,38 +370,11 @@ public class PlayerData : MonoBehaviour
 
     public void SavePlayer()
     {
-        SavePrefs.SavePrefsFromPlayer(this);
-
-        SaveSystem.Init();
-
-        SaveObject saveObject = new SaveObject
-        {
-            playerCredits = currentCredits,
-        };
-        string jsonString = JsonUtility.ToJson(saveObject);
-
-        SaveSystem.Save(jsonString);
+        SaveSystem.SavePlayerData(this);
     }
 
     public string LoadPlayer()
     {
-        SaveSystem.Init();
-
-        string saveString = SaveSystem.Load();
-
-        if (saveString != null)
-        {
-            SaveObject loadedSaveObject = JsonUtility.FromJson<SaveObject>(saveString);
-            Debug.Log(loadedSaveObject.playerCredits);
-
-            return loadedSaveObject.playerCredits.ToString();
-        }
-        return "";
+        return SaveSystem.LoadPlayerData();
     }
-
-    class SaveObject
-    {
-        public int playerCredits;
-    }
-
 }
