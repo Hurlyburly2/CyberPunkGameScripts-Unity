@@ -27,6 +27,7 @@ public class HackerMod : Item
         itemLevel = 1;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Hacker;
+        itemId = FindObjectOfType<PlayerData>().GetItemId();
 
         return result;
     }
