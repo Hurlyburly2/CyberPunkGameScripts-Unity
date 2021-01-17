@@ -8,8 +8,19 @@ public static class SavePrefs
     const string MOST_RECENTLY_USED_SAVE_SLOT = "MOST_RECENTLY_USED_SAVE_SLOT";
 
     const string SAVE_SLOT_1_CHAPTER = "SAVE_SLOT_1_CHAPTER";
+    const string SAVE_SLOT_1_CREDITS = "SAVE_SLOT_1_CREDITS";
+    const string SAVE_SLOT_1_CURRENTRUNNER_ID = "SAVE_SLOT_1_CURRENTRUNNER_ID";
+    const string SAVE_SLOT_1_CURRENTHACKER_ID = "SAVE_SLOT_1_CURRENTHACKER_ID";
+
     const string SAVE_SLOT_2_CHAPTER = "SAVE_SLOT_2_CHAPTER";
+    const string SAVE_SLOT_2_CREDITS = "SAVE_SLOT_2_CREDITS";
+    const string SAVE_SLOT_2_CURRENTRUNNER_ID = "SAVE_SLOT_2_CURRENTRUNNER_ID";
+    const string SAVE_SLOT_2_CURRENTHACKER_ID = "SAVE_SLOT_2_CURRENTHACKER_ID";
+
     const string SAVE_SLOT_3_CHAPTER = "SAVE_SLOT_3_CHAPTER";
+    const string SAVE_SLOT_3_CREDITS = "SAVE_SLOT_3_CREDITS";
+    const string SAVE_SLOT_3_CURRENTRUNNER_ID = "SAVE_SLOT_3_CURRENTRUNNER_ID";
+    const string SAVE_SLOT_3_CURRENTHACKER_ID = "SAVE_SLOT_3_CURRENTHACKER_ID";
 
     public static string GetSaveSlotArea(int saveSlot)
     {
@@ -41,5 +52,70 @@ public static class SavePrefs
     public static void SavePrefsFromPlayer(PlayerData playerData)
     {
         PlayerPrefs.SetInt(MOST_RECENTLY_USED_SAVE_SLOT, playerData.GetSaveSlot());
+        string chapterName = "";
+        switch (playerData.GetPlayerLevel())
+        {
+            case 0:
+                chapterName = "Prologue";
+                break;
+            case 1:
+                chapterName = "Chapter 1";
+                break;
+            default:
+                chapterName = "Chapter " + playerData.GetPlayerLevel().ToString();
+                break;
+        }
+        string creditsAmount = playerData.GetCreditsAmount().ToString();
+        int currentRunnerId = playerData.GetCurrentRunner().GetRunnerId();
+        int currentHackerId = playerData.GetCurrentHacker().GetHackerId();
+
+        switch(playerData.GetSaveSlot())
+        {
+            case 1:
+                PlayerPrefs.SetString(SAVE_SLOT_1_CHAPTER, chapterName);
+                PlayerPrefs.SetString(SAVE_SLOT_1_CREDITS, creditsAmount);
+                PlayerPrefs.SetInt(SAVE_SLOT_1_CURRENTRUNNER_ID, currentRunnerId);
+                PlayerPrefs.SetInt(SAVE_SLOT_1_CURRENTHACKER_ID, currentHackerId);
+                break;
+            case 2:
+                PlayerPrefs.SetString(SAVE_SLOT_2_CHAPTER, chapterName);
+                PlayerPrefs.SetString(SAVE_SLOT_2_CREDITS, creditsAmount);
+                PlayerPrefs.SetInt(SAVE_SLOT_2_CURRENTRUNNER_ID, currentRunnerId);
+                PlayerPrefs.SetInt(SAVE_SLOT_2_CURRENTHACKER_ID, currentHackerId);
+                break;
+            case 3:
+                PlayerPrefs.SetString(SAVE_SLOT_3_CHAPTER, chapterName);
+                PlayerPrefs.SetString(SAVE_SLOT_3_CREDITS, creditsAmount);
+                PlayerPrefs.SetInt(SAVE_SLOT_3_CURRENTRUNNER_ID, currentRunnerId);
+                PlayerPrefs.SetInt(SAVE_SLOT_3_CURRENTHACKER_ID, currentHackerId);
+                break;
+        }
+    }
+
+    public static string GetCurrentChapterString(int saveSlot)
+    {
+        switch (saveSlot) {
+            case 1:
+                return PlayerPrefs.GetString(SAVE_SLOT_1_CHAPTER);
+            case 2:
+                return PlayerPrefs.GetString(SAVE_SLOT_2_CHAPTER);
+            case 3:
+                return PlayerPrefs.GetString(SAVE_SLOT_3_CHAPTER);
+        }
+        return "";
+    }
+
+    public static string GetCreditsAmount(int saveSlot)
+    {
+        switch (saveSlot)
+        {
+            case 1:
+                return PlayerPrefs.GetString(SAVE_SLOT_1_CREDITS);
+            case 2:
+                return PlayerPrefs.GetString(SAVE_SLOT_2_CREDITS);
+            case 3:
+                return PlayerPrefs.GetString(SAVE_SLOT_3_CREDITS);
+        }
+        return "";
     }
 }

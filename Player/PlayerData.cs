@@ -363,6 +363,11 @@ public class PlayerData : MonoBehaviour
         return saveSlot;
     }
 
+    public int GetPlayerLevel()
+    {
+        return playerLevel;
+    }
+
     public void SavePlayer()
     {
         SavePrefs.SavePrefsFromPlayer(this);

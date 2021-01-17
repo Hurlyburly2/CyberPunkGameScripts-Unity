@@ -77,7 +77,7 @@ public class HackerData : ScriptableObject
         return hackerLoadout;
     }
 
-    public int GetId()
+    public int GetHackerId()
     {
         return id;
     }

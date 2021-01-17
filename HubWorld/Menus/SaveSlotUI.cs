@@ -12,15 +12,26 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField] TextMeshProUGUI slotNumberText;
     [SerializeField] TextMeshProUGUI emptyText;
 
+    [SerializeField] GameObject content;
+    [SerializeField] TextMeshProUGUI chapterNameText;
+    [SerializeField] TextMeshProUGUI creditsText;
+
     public void SetupSaveSlot(int slotNumber)
     {
         slotNumberText.text = slotNumber.ToString();
 
         string chapterName = SavePrefs.GetSaveSlotArea(slotNumber);
         if (chapterName == "")
+        {
             emptyText.gameObject.SetActive(true);
-        else
+            content.SetActive(false);
+        } else
+        {
             emptyText.gameObject.SetActive(false);
+            content.SetActive(true);
+            chapterNameText.text = chapterName;
+            creditsText.text = SavePrefs.GetCreditsAmount(slotNumber);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)

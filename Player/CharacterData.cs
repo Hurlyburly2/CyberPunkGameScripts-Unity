@@ -314,7 +314,7 @@ public class CharacterData : ScriptableObject
         return loadout;
     }
 
-    public int getId()
+    public int GetRunnerId()
     {
         return id;
     }
