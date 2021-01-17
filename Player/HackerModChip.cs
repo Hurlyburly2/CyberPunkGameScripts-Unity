@@ -15,13 +15,15 @@ public class HackerModChip : Item
     public bool SetupChip(string newChipName)
     {
         itemName = newChipName;
-        bool result = SetChipProperties();
+        bool success = SetChipProperties();
         itemLevel = 1;
         itemMaxLevel = 3;
         hackerOrRunner = HackerRunner.Hacker;
-        itemId = FindObjectOfType<PlayerData>().GetItemId();
 
-        return result;
+        if (success)
+            itemId = FindObjectOfType<PlayerData>().GetItemId();
+
+        return success;
     }
 
     private bool SetChipProperties()
