@@ -48,6 +48,7 @@ public static class SaveSystem
             SaveItem newItem = new SaveItem
             {
                 itemName = item.GetItemName(),
+                itemId = item.GetItemId(),
                 itemType = (int)item.GetItemType(),
                 itemLevel = item.GetItemLevel(),
                 hackerOrRunner = (int)item.GetHackerOrRunner()
@@ -81,9 +82,7 @@ public static class SaveSystem
             foreach (SaveItem item in deserializedSaveItems)
             {
                 Debug.Log(item.itemName);
-                Debug.Log(item.itemLevel);
-                Debug.Log(item.hackerOrRunner);
-                Debug.Log(item.itemType);
+                Debug.Log("item id: " + item.itemId);
             }
 
             return loadedSaveObject.playerCredits.ToString();
@@ -94,6 +93,7 @@ public static class SaveSystem
     class SaveItem
     {
         public string itemName;
+        public int itemId;
         public int itemType;
         public int itemLevel;
         public int hackerOrRunner;

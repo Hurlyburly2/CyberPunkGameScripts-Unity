@@ -11,7 +11,7 @@ public class Item : ScriptableObject
     public enum HackerRunner { Hacker, Runner };
     public enum ItemTypes { Head, Torso, Exoskeleton, Arm, Leg, Weapon, Rig, NeuralImplant, Uplink, Software, Wetware, Chipset, None };
 
-    protected int itemId;
+    protected int itemId = 0;
     protected string itemName;
     protected string itemDescription;
 
@@ -187,5 +187,10 @@ public class Item : ScriptableObject
     public int GetItemPrice()
     {
         return itemPrice;
+    }
+
+    public int GetItemId()
+    {
+        return itemId;
     }
 }

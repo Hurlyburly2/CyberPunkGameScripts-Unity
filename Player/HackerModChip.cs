@@ -19,6 +19,7 @@ public class HackerModChip : Item
         itemLevel = 1;
         itemMaxLevel = 3;
         hackerOrRunner = HackerRunner.Hacker;
+        itemId = FindObjectOfType<PlayerData>().GetItemId();
 
         return result;
     }

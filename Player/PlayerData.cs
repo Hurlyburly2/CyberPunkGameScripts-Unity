@@ -29,6 +29,7 @@ public class PlayerData : MonoBehaviour
 
     bool isPlayerLoaded = false;
     int saveSlot;
+    int generatedItemId = 0;
     // Represents the difference between an empty player object and an object that a player has been loaded into
 
     public void SetupNewGame(int newSaveSlot)
@@ -376,5 +377,15 @@ public class PlayerData : MonoBehaviour
     public string LoadPlayer()
     {
         return SaveSystem.LoadPlayerData();
+    }
+
+    public int GetItemId(bool increment=true)
+    {
+        int idToReturn = generatedItemId;
+
+        if (increment)
+            generatedItemId++;
+
+        return idToReturn;
     }
 }
