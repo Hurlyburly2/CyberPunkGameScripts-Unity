@@ -41,10 +41,24 @@ public static class SaveSystem
 
         Init();
 
+        // Generate Save Items...
+        List<SaveItem> saveItems = new List<SaveItem>();
+        foreach (Item item in playerData.GetPlayerItems())
+        {
+            SaveItem newItem = new SaveItem
+            {
+                itemName = item.GetItemName(),
+                itemType = (int)item.GetItemType(),
+                itemLevel = item.GetItemLevel(),
+                hackerOrRunner = (int)item.GetHackerOrRunner()
+            };
+            saveItems.Add(newItem);
+        }
+
         SaveObject saveObject = new SaveObject
         {
             playerCredits = playerData.GetCreditsAmount(),
-            items = JsonConvert.SerializeObject(playerData.GetPlayerItems().ToArray(), Formatting.Indented),
+            items = JsonConvert.SerializeObject(saveItems, Formatting.Indented)
         };
         string jsonString = JsonConvert.SerializeObject(saveObject, Formatting.Indented);
         Debug.Log(jsonString);
@@ -63,16 +77,26 @@ public static class SaveSystem
             SaveObject loadedSaveObject = JsonUtility.FromJson<SaveObject>(saveString);
             Debug.Log(loadedSaveObject.playerCredits);
             Debug.Log(loadedSaveObject.items);
-            List<Item> deserializedItems = JsonConvert.DeserializeObject<List<Item>>(loadedSaveObject.items);
-            foreach (Item item in deserializedItems)
+            List<SaveItem> deserializedSaveItems = JsonConvert.DeserializeObject<List<SaveItem>>(loadedSaveObject.items);
+            foreach (SaveItem item in deserializedSaveItems)
             {
-                Debug.Log(item.GetItemName());
-                Debug.Log(item.GetItemLevel());
+                Debug.Log(item.itemName);
+                Debug.Log(item.itemLevel);
+                Debug.Log(item.hackerOrRunner);
+                Debug.Log(item.itemType);
             }
 
             return loadedSaveObject.playerCredits.ToString();
         }
         return "";
+    }
+
+    class SaveItem
+    {
+        public string itemName;
+        public int itemType;
+        public int itemLevel;
+        public int hackerOrRunner;
     }
 
     class SaveObject

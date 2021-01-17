@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Newtonsoft.Json;
 using System;
 
 [Serializable]
@@ -13,7 +12,6 @@ public class Item : ScriptableObject
     public enum ItemTypes { Head, Torso, Exoskeleton, Arm, Leg, Weapon, Rig, NeuralImplant, Uplink, Software, Wetware, Chipset, None };
 
     protected int itemId;
-    [JsonProperty]
     protected string itemName;
     protected string itemDescription;
 
@@ -30,7 +28,6 @@ public class Item : ScriptableObject
     // runnerMods: Head, Torso, Exoskeleton, LeftArm, RightArm, LeftLeg, RightLeg, Weapon
     // hackerMods: Rig, NeuralImplant, Uplink
     // hackerModInstalls: Software, Wetware, Chipset
-    [JsonProperty]
     protected int itemLevel;
     protected int itemMaxLevel;
     protected int itemPrice;
