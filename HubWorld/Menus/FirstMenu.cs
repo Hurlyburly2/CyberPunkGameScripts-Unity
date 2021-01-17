@@ -23,8 +23,6 @@ public class FirstMenu : MonoBehaviour
 
     public void NewGameBtnPress()
     {
-        // TODO: REMOVE THIS
-        FindObjectOfType<PlayerData>().SetupNewGame(1);
         saveSlotMenu.gameObject.SetActive(true);
         saveSlotMenu.SetupSaveSlotMenu(true);
         gameObject.SetActive(false);
@@ -33,7 +31,7 @@ public class FirstMenu : MonoBehaviour
     public void LoadGameBtnPress()
     {
         saveSlotMenu.gameObject.SetActive(true);
-        saveSlotMenu.SetupSaveSlotMenu();
+        saveSlotMenu.SetupSaveSlotMenu(false);
         gameObject.SetActive(false);
     }
 

@@ -9,7 +9,7 @@ public class SaveSlotMenu : MonoBehaviour
 
     bool newGame;
 
-    public void SetupSaveSlotMenu(bool newGameFromFirstMenu = false)
+    public void SetupSaveSlotMenu(bool newGameFromFirstMenu)
     {
         newGame = newGameFromFirstMenu;
 
@@ -17,7 +17,7 @@ public class SaveSlotMenu : MonoBehaviour
         foreach (SaveSlotUI saveSlot in saveSlotUIs)
         {
             slotNumber++;
-            saveSlot.SetupSaveSlot(slotNumber);
+            saveSlot.SetupSaveSlot(slotNumber, newGameFromFirstMenu, this);
         }
     }
 

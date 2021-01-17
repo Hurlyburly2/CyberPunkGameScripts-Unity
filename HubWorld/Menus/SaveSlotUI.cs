@@ -18,8 +18,15 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField] Image runnerPortrait;
     [SerializeField] Image hackerPortrait;
 
-    public void SetupSaveSlot(int slotNumber)
+    int slotNumber;
+    bool isNewGame;
+    SaveSlotMenu parentMenu;
+
+    public void SetupSaveSlot(int newSlotNumber, bool newIsNewGame, SaveSlotMenu newParentMenu)
     {
+        parentMenu = newParentMenu;
+        slotNumber = newSlotNumber;
+        isNewGame = newIsNewGame;
         slotNumberText.text = slotNumber.ToString();
 
         string chapterName = SavePrefs.GetSaveSlotArea(slotNumber);
@@ -35,6 +42,19 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             creditsText.text = SavePrefs.GetCreditsAmount(slotNumber);
             runnerPortrait.sprite = Resources.Load<Sprite>("Characters/Runner" + SavePrefs.GetCurrentRunnerId(slotNumber).ToString() + "-Portrait");
             hackerPortrait.sprite = Resources.Load<Sprite>("Characters/Hacker" + SavePrefs.GetCurrentRunnerId(slotNumber).ToString() + "-Portrait");
+        }
+    }
+
+    public void ClickSaveSlot()
+    {
+        if (isNewGame)
+        {
+            PlayerData playerData = FindObjectOfType<PlayerData>();
+            playerData.SetupNewGame(slotNumber);
+            playerData.SavePlayer();
+
+            FindObjectOfType<HubMenuButton>().OpenMenu();
+            parentMenu.gameObject.SetActive(false);
         }
     }
 

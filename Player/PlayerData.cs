@@ -380,8 +380,6 @@ public class PlayerData : MonoBehaviour
         };
         string jsonString = JsonUtility.ToJson(saveObject);
 
-        Debug.Log("test test");
-
         SaveSystem.Save(jsonString);
     }
 
