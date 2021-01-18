@@ -55,7 +55,7 @@ public class MainMenu : MonoBehaviour
     public void LoadGame()
     {
         PlayerData playerData = FindObjectOfType<PlayerData>();
-        string loadedText = playerData.LoadPlayer();
+        string loadedText = playerData.LoadPlayer(1);
 
         loadTestText.text = loadedText;
     }

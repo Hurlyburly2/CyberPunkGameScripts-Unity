@@ -16,16 +16,16 @@ public static class SaveSystem
         }
     }
 
-    public static void Save(string saveString)
+    public static void Save(string saveString, int saveSlot)
     {
-        File.WriteAllText(SAVE_FOLDER + "/save.txt", saveString);
+        File.WriteAllText(SAVE_FOLDER + "/save" + saveSlot + ".txt", saveString);
     }
 
-    public static string Load()
+    public static string Load(int saveSlot)
     {
-        if (File.Exists(SAVE_FOLDER + "/save.txt"))
+        if (File.Exists(SAVE_FOLDER + "/save" + saveSlot + ".txt"))
         {
-            string saveString = File.ReadAllText(SAVE_FOLDER + "/save.txt");
+            string saveString = File.ReadAllText(SAVE_FOLDER + "/save" + saveSlot + ".txt");
 
             return saveString;
         }
@@ -51,7 +51,7 @@ public static class SaveSystem
                 itemId = item.GetItemId(),
                 itemType = (int)item.GetItemType(),
                 itemLevel = item.GetItemLevel(),
-                hackerOrRunner = (int)item.GetHackerOrRunner()
+                hackerOrRunner = (int)item.GetHackerOrRunner(),
             };
             saveItems.Add(newItem);
         }
@@ -59,19 +59,22 @@ public static class SaveSystem
         SaveObject saveObject = new SaveObject
         {
             playerCredits = playerData.GetCreditsAmount(),
-            items = JsonConvert.SerializeObject(saveItems, Formatting.Indented)
+            currentRunner = playerData.GetCurrentRunner().GetRunnerId(),
+            currentHacker = playerData.GetCurrentHacker().GetHackerId(),
+            items = JsonConvert.SerializeObject(saveItems, Formatting.Indented),
+            saveSlot = playerData.GetSaveSlot()
         };
         string jsonString = JsonConvert.SerializeObject(saveObject, Formatting.Indented);
         Debug.Log(jsonString);
 
-        Save(jsonString);
+        Save(jsonString, playerData.GetSaveSlot());
     }
 
-    public static string LoadPlayerData()
+    public static string LoadPlayerData(int saveSlot)
     {
         Init();
 
-        string saveString = Load();
+        string saveString = Load(saveSlot);
 
         if (saveString != null)
         {
@@ -79,11 +82,12 @@ public static class SaveSystem
             Debug.Log(loadedSaveObject.playerCredits);
             Debug.Log(loadedSaveObject.items);
             List<SaveItem> deserializedSaveItems = JsonConvert.DeserializeObject<List<SaveItem>>(loadedSaveObject.items);
-            foreach (SaveItem item in deserializedSaveItems)
-            {
-                Debug.Log(item.itemName);
-                Debug.Log("item id: " + item.itemId);
-            }
+            //foreach (SaveItem item in deserializedSaveItems)
+            //{
+            //    Debug.Log(item.itemName);
+            //    Debug.Log("item id: " + item.itemId);
+            //}
+            Debug.Log("Player Credits: " + loadedSaveObject.playerCredits);
 
             return loadedSaveObject.playerCredits.ToString();
         }
@@ -102,6 +106,15 @@ public static class SaveSystem
     class SaveObject
     {
         public int playerCredits;
+        public int currentRunner;
+        public int currentHacker;
         public string items;
+        public int saveSlot;
+        // OWNED RUNNERS
+        // OWNED HACKERS
+        // CURRENT JOB OPTIONS
+        // CURRENT SHOP TYPE
+        // PREVIOUS SHOP TYPES
+        // ITEMS FOR SALE
     }
 }

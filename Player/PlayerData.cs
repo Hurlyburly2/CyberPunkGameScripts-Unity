@@ -374,9 +374,9 @@ public class PlayerData : MonoBehaviour
         SaveSystem.SavePlayerData(this);
     }
 
-    public string LoadPlayer()
+    public string LoadPlayer(int saveSlotToLoad)
     {
-        return SaveSystem.LoadPlayerData();
+        return SaveSystem.LoadPlayerData(saveSlotToLoad);
     }
 
     public int GetItemId(bool increment=true)

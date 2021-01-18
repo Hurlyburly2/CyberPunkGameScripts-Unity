@@ -11,6 +11,7 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField] Image mouseOverBackRect;
     [SerializeField] TextMeshProUGUI slotNumberText;
     [SerializeField] TextMeshProUGUI emptyText;
+    [SerializeField] Button mainButton;
 
     [SerializeField] GameObject content;
     [SerializeField] TextMeshProUGUI chapterNameText;
@@ -30,19 +31,46 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         slotNumberText.text = slotNumber.ToString();
 
         string chapterName = SavePrefs.GetSaveSlotArea(slotNumber);
-        if (chapterName == "")
+        if (isNewGame)
         {
-            emptyText.gameObject.SetActive(true);
-            content.SetActive(false);
+            if (chapterName == "")
+            {
+                DeactivateContent();
+                mainButton.interactable = true;
+            }
+            else
+            {
+                ActivateContent(chapterName);
+                mainButton.interactable = true;
+            }
         } else
         {
-            emptyText.gameObject.SetActive(false);
-            content.SetActive(true);
-            chapterNameText.text = chapterName;
-            creditsText.text = SavePrefs.GetCreditsAmount(slotNumber);
-            runnerPortrait.sprite = Resources.Load<Sprite>("Characters/Runner" + SavePrefs.GetCurrentRunnerId(slotNumber).ToString() + "-Portrait");
-            hackerPortrait.sprite = Resources.Load<Sprite>("Characters/Hacker" + SavePrefs.GetCurrentRunnerId(slotNumber).ToString() + "-Portrait");
+            if (chapterName == "")
+            {
+                DeactivateContent();
+                mainButton.interactable = false;
+            } else
+            {
+                ActivateContent(chapterName);
+                mainButton.interactable = true;
+            }
         }
+    }
+
+    private void ActivateContent(string chapterName)
+    {
+        emptyText.gameObject.SetActive(false);
+        content.SetActive(true);
+        chapterNameText.text = chapterName;
+        creditsText.text = SavePrefs.GetCreditsAmount(slotNumber);
+        runnerPortrait.sprite = Resources.Load<Sprite>("Characters/Runner" + SavePrefs.GetCurrentRunnerId(slotNumber).ToString() + "-Portrait");
+        hackerPortrait.sprite = Resources.Load<Sprite>("Characters/Hacker" + SavePrefs.GetCurrentRunnerId(slotNumber).ToString() + "-Portrait");
+    }
+
+    private void DeactivateContent()
+    {
+        emptyText.gameObject.SetActive(true);
+        content.SetActive(false);
     }
 
     public void ClickSaveSlot()
@@ -55,6 +83,10 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
             FindObjectOfType<HubMenuButton>().OpenMenu();
             parentMenu.gameObject.SetActive(false);
+        } else
+        {
+            PlayerData playerData = FindObjectOfType<PlayerData>();
+            playerData.LoadPlayer(slotNumber);
         }
     }
 
