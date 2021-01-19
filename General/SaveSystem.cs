@@ -41,7 +41,7 @@ public static class SaveSystem
 
         Init();
 
-        // Generate Save Items...
+        // Save Items...
         List<SaveItem> saveItems = new List<SaveItem>();
         foreach (Item item in playerData.GetPlayerItems())
         {
@@ -56,12 +56,58 @@ public static class SaveSystem
             saveItems.Add(newItem);
         }
 
+        // Save Runner
+        List<SaveRunner> runners = new List<SaveRunner>();
+        foreach (CharacterData runner in playerData.GetRunnerList())
+        {
+            if (runner.GetIsLocked())
+            {
+                SaveRunner saveRunner = new SaveRunner
+                {
+                    id = runner.GetRunnerId(),
+                    locked = runner.GetIsLocked(),
+                    bio = runner.GetBio(),
+                    runnerName = runner.GetRunnerName(),
+                    maximumHealth = runner.GetMaximumHealth(),
+                    currentHealth = runner.GetCurrentHealth(),
+                    maximumEnergy = runner.GetMaximumEnergy(),
+                    currentEnergy = runner.GetCurrentEnergy(),
+                    handSize = runner.GetStartingHandSize()
+                };
+                runners.Add(saveRunner);
+            } else
+            {
+                SaveRunner saveRunner = new SaveRunner
+                {
+                    id = runner.GetRunnerId(),
+                    locked = runner.GetIsLocked(),
+                    bio = runner.GetBio(),
+                    runnerName = runner.GetRunnerName(),
+                    maximumHealth = runner.GetMaximumHealth(),
+                    currentHealth = runner.GetCurrentHealth(),
+                    maximumEnergy = runner.GetMaximumEnergy(),
+                    currentEnergy = runner.GetCurrentEnergy(),
+                    handSize = runner.GetStartingHandSize(),
+                    headItemId = runner.GetLoadout().GetEquippedModByItemType(Item.ItemTypes.Head, Loadout.LeftOrRight.None).GetItemId(),
+                    torsoModId = runner.GetLoadout().GetEquippedModByItemType(Item.ItemTypes.Torso, Loadout.LeftOrRight.None).GetItemId(),
+                    exoskeletonModId = runner.GetLoadout().GetEquippedModByItemType(Item.ItemTypes.Exoskeleton, Loadout.LeftOrRight.None).GetItemId(),
+                    leftArmModId = runner.GetLoadout().GetEquippedModByItemType(Item.ItemTypes.Arm, Loadout.LeftOrRight.Left).GetItemId(),
+                    rightArmModId = runner.GetLoadout().GetEquippedModByItemType(Item.ItemTypes.Arm, Loadout.LeftOrRight.Right).GetItemId(),
+                    leftLegModId = runner.GetLoadout().GetEquippedModByItemType(Item.ItemTypes.Leg, Loadout.LeftOrRight.Left).GetItemId(),
+                    rightLegModId = runner.GetLoadout().GetEquippedModByItemType(Item.ItemTypes.Leg, Loadout.LeftOrRight.Right).GetItemId(),
+                    weaponModId = runner.GetLoadout().GetEquippedModByItemType(Item.ItemTypes.Weapon, Loadout.LeftOrRight.None).GetItemId()
+                };
+                runners.Add(saveRunner);
+            }
+        }
+
         SaveObject saveObject = new SaveObject
         {
             playerCredits = playerData.GetCreditsAmount(),
             currentRunner = playerData.GetCurrentRunner().GetRunnerId(),
             currentHacker = playerData.GetCurrentHacker().GetHackerId(),
             items = JsonConvert.SerializeObject(saveItems, Formatting.Indented),
+            runners = JsonConvert.SerializeObject(runners, Formatting.Indented),
             saveSlot = playerData.GetSaveSlot()
         };
         string jsonString = JsonConvert.SerializeObject(saveObject, Formatting.Indented);
@@ -94,6 +140,27 @@ public static class SaveSystem
         return "";
     }
 
+    class SaveRunner
+    {
+        public int id;
+        public bool locked;
+        public string bio;
+        public string runnerName;
+        public int maximumHealth;
+        public int currentHealth;
+        public int maximumEnergy;
+        public int currentEnergy;
+        public int handSize;
+        public int headItemId;
+        public int torsoModId;
+        public int exoskeletonModId;
+        public int leftArmModId;
+        public int rightArmModId;
+        public int leftLegModId;
+        public int rightLegModId;
+        public int weaponModId;
+    }
+
     class SaveItem
     {
         public string itemName;
@@ -110,7 +177,7 @@ public static class SaveSystem
         public int currentHacker;
         public string items;
         public int saveSlot;
-        // OWNED RUNNERS
+        public string runners;
         // OWNED HACKERS
         // CURRENT JOB OPTIONS
         // CURRENT SHOP TYPE
