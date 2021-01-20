@@ -75,52 +75,52 @@ public class PlayerData : MonoBehaviour
         lockedHackerTwo.CreateNewHackerByClassId(2);
         ownedHackers.Add(lockedHackerTwo);
 
-        RunnerMod adaptableCranioPatch = ScriptableObject.CreateInstance<RunnerMod>();
-        adaptableCranioPatch.SetupMod("Adaptable CranioPatch");
-        //adaptableCranioPatch.SetItemLevel(2);
-        ownedItems.Add(adaptableCranioPatch);
+        //RunnerMod adaptableCranioPatch = ScriptableObject.CreateInstance<RunnerMod>();
+        //adaptableCranioPatch.SetupMod("Adaptable CranioPatch");
+        ////adaptableCranioPatch.SetItemLevel(2);
+        //ownedItems.Add(adaptableCranioPatch);
 
-        RunnerMod adrenalInjector = ScriptableObject.CreateInstance<RunnerMod>();
-        adrenalInjector.SetupMod("Adrenal Injector");
-        ownedItems.Add(adrenalInjector);
+        //RunnerMod adrenalInjector = ScriptableObject.CreateInstance<RunnerMod>();
+        //adrenalInjector.SetupMod("Adrenal Injector");
+        //ownedItems.Add(adrenalInjector);
 
-        RunnerMod sensoryRegulator = ScriptableObject.CreateInstance<RunnerMod>();
-        sensoryRegulator.SetupMod("Sensory Regulator");
-        ownedItems.Add(sensoryRegulator);
+        //RunnerMod sensoryRegulator = ScriptableObject.CreateInstance<RunnerMod>();
+        //sensoryRegulator.SetupMod("Sensory Regulator");
+        //ownedItems.Add(sensoryRegulator);
 
-        RunnerMod automatedDigits = ScriptableObject.CreateInstance<RunnerMod>();
-        automatedDigits.SetupMod("Automated Digits");
-        ownedItems.Add(automatedDigits);
+        //RunnerMod automatedDigits = ScriptableObject.CreateInstance<RunnerMod>();
+        //automatedDigits.SetupMod("Automated Digits");
+        //ownedItems.Add(automatedDigits);
 
-        RunnerMod automatedDigitsTwo = ScriptableObject.CreateInstance<RunnerMod>();
-        automatedDigitsTwo.SetupMod("Automated Digits");
-        ownedItems.Add(automatedDigitsTwo);
+        //RunnerMod automatedDigitsTwo = ScriptableObject.CreateInstance<RunnerMod>();
+        //automatedDigitsTwo.SetupMod("Automated Digits");
+        //ownedItems.Add(automatedDigitsTwo);
 
-        RunnerMod polymorphicSupport = ScriptableObject.CreateInstance<RunnerMod>();
-        polymorphicSupport.SetupMod("Polymorphic Support");
-        ownedItems.Add(polymorphicSupport);
+        //RunnerMod polymorphicSupport = ScriptableObject.CreateInstance<RunnerMod>();
+        //polymorphicSupport.SetupMod("Polymorphic Support");
+        //ownedItems.Add(polymorphicSupport);
 
-        RunnerMod polymorphicSupportTwo = ScriptableObject.CreateInstance<RunnerMod>();
-        polymorphicSupportTwo.SetupMod("Polymorphic Support");
-        ownedItems.Add(polymorphicSupportTwo);
+        //RunnerMod polymorphicSupportTwo = ScriptableObject.CreateInstance<RunnerMod>();
+        //polymorphicSupportTwo.SetupMod("Polymorphic Support");
+        //ownedItems.Add(polymorphicSupportTwo);
 
-        RunnerMod tornadoHandgun = ScriptableObject.CreateInstance<RunnerMod>();
-        tornadoHandgun.SetupMod("Tornado Handgun T-492");
-        ownedItems.Add(tornadoHandgun);
+        //RunnerMod tornadoHandgun = ScriptableObject.CreateInstance<RunnerMod>();
+        //tornadoHandgun.SetupMod("Tornado Handgun T-492");
+        //ownedItems.Add(tornadoHandgun);
 
-        RunnerMod voltHandCannon = ScriptableObject.CreateInstance<RunnerMod>();
-        voltHandCannon.SetupMod("Volt HandCannon V-1");
-        ownedItems.Add(voltHandCannon);
+        //RunnerMod voltHandCannon = ScriptableObject.CreateInstance<RunnerMod>();
+        //voltHandCannon.SetupMod("Volt HandCannon V-1");
+        //ownedItems.Add(voltHandCannon);
 
         Loadout runnerLoadout = currentRunner.GetLoadout();
-        runnerLoadout.EquipItem(adaptableCranioPatch);
-        runnerLoadout.EquipItem(adrenalInjector);
-        runnerLoadout.EquipItem(sensoryRegulator);
-        runnerLoadout.EquipItem(automatedDigits, Loadout.LeftOrRight.Left);
-        runnerLoadout.EquipItem(automatedDigitsTwo, Loadout.LeftOrRight.Right);
-        runnerLoadout.EquipItem(polymorphicSupport, Loadout.LeftOrRight.Left);
-        runnerLoadout.EquipItem(polymorphicSupportTwo, Loadout.LeftOrRight.Right);
-        runnerLoadout.EquipItem(tornadoHandgun);
+        //runnerLoadout.EquipItem(adaptableCranioPatch);
+        //runnerLoadout.EquipItem(adrenalInjector);
+        //runnerLoadout.EquipItem(sensoryRegulator);
+        //runnerLoadout.EquipItem(automatedDigits, Loadout.LeftOrRight.Left);
+        //runnerLoadout.EquipItem(automatedDigitsTwo, Loadout.LeftOrRight.Right);
+        //runnerLoadout.EquipItem(polymorphicSupport, Loadout.LeftOrRight.Left);
+        //runnerLoadout.EquipItem(polymorphicSupportTwo, Loadout.LeftOrRight.Right);
+        //runnerLoadout.EquipItem(tornadoHandgun);
         //runnerLoadout.EquipItem(voltHandCannon);
 
         GenerateJobOptions();
@@ -367,6 +367,11 @@ public class PlayerData : MonoBehaviour
     public int GetPlayerLevel()
     {
         return playerLevel;
+    }
+
+    public List<ShopMenu.ShopForSaleType> GetPreviousShopTypes()
+    {
+        return previousShopTypes;
     }
 
     public void SavePlayer()
