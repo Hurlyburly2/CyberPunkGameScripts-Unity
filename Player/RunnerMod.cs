@@ -462,4 +462,13 @@ public class RunnerMod : Item
     {
         return levelFiveCards;
     }
+
+    public void RecreateSavedRunnerMod(SaveItem saveItem)
+    {
+        itemId = saveItem.itemId;
+        itemName = saveItem.itemName;
+        itemLevel = saveItem.itemLevel;
+        itemMaxLevel = 5;
+        hackerOrRunner = HackerRunner.Runner;
+    }
 }

@@ -228,7 +228,7 @@ public static class SaveSystem
         Save(jsonString, playerData.GetSaveSlot());
     }
 
-    public static string LoadPlayerData(int saveSlot)
+    public static SaveObject LoadPlayerData(int saveSlot)
     {
         Init();
 
@@ -237,19 +237,9 @@ public static class SaveSystem
         if (saveString != null)
         {
             SaveObject loadedSaveObject = JsonUtility.FromJson<SaveObject>(saveString);
-            Debug.Log(loadedSaveObject.playerCredits);
-            Debug.Log(loadedSaveObject.items);
-            List<SaveItem> deserializedSaveItems = JsonConvert.DeserializeObject<List<SaveItem>>(loadedSaveObject.items);
-            //foreach (SaveItem item in deserializedSaveItems)
-            //{
-            //    Debug.Log(item.itemName);
-            //    Debug.Log("item id: " + item.itemId);
-            //}
-            Debug.Log("Player Credits: " + loadedSaveObject.playerCredits);
-
-            return loadedSaveObject.playerCredits.ToString();
+            return loadedSaveObject;
         }
-        return "";
+        return new SaveObject { };
     }
 
     class SaveRunner
@@ -293,15 +283,6 @@ public static class SaveSystem
         public int uplinkChipsetId3;
     }
 
-    class SaveItem
-    {
-        public string itemName;
-        public int itemId;
-        public int itemType;
-        public int itemLevel;
-        public int hackerOrRunner;
-    }
-
     class JobOption
     {
         public string jobName;
@@ -322,20 +303,29 @@ public static class SaveSystem
 
         public bool isStoryMission;
     }
+}
 
-    class SaveObject
-    {
-        public int playerCredits;
-        public int currentRunner;
-        public int currentHacker;
-        public int currentItemId;
-        public string items;
-        public int saveSlot;
-        public string runners;
-        public string hackers;
-        public string jobOptions;
-        public int currentShopType;
-        public string previousShopTypes;
-        public string itemsForSale;
-    }
+public class SaveItem
+{
+    public string itemName;
+    public int itemId;
+    public int itemType;
+    public int itemLevel;
+    public int hackerOrRunner;
+}
+
+public class SaveObject
+{
+    public int playerCredits;
+    public int currentRunner;
+    public int currentHacker;
+    public int currentItemId;
+    public string items;
+    public int saveSlot;
+    public string runners;
+    public string hackers;
+    public string jobOptions;
+    public int currentShopType;
+    public string previousShopTypes;
+    public string itemsForSale;
 }

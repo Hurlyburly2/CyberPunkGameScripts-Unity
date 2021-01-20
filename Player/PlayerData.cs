@@ -379,9 +379,54 @@ public class PlayerData : MonoBehaviour
         SaveSystem.SavePlayerData(this);
     }
 
-    public string LoadPlayer(int saveSlotToLoad)
+    public void LoadPlayer(int saveSlotToLoad)
     {
-        return SaveSystem.LoadPlayerData(saveSlotToLoad);
+        SaveObject saveObject = SaveSystem.LoadPlayerData(saveSlotToLoad);
+
+        // Recreate Owned Items
+        ownedItems = new List<Item>();
+        List<SaveItem> deserializedSaveItems = JsonConvert.DeserializeObject<List<SaveItem>>(saveObject.items);
+        foreach (SaveItem saveItem in deserializedSaveItems)
+        {
+            if (saveItem.hackerOrRunner == (int)Item.HackerRunner.Hacker)
+            {
+                // Hacker Items
+                if (saveItem.itemType == (int)Item.ItemTypes.Rig || saveItem.itemType == (int)Item.ItemTypes.NeuralImplant || saveItem.itemType == (int)Item.ItemTypes.Uplink)
+                {
+                    HackerMod newHackerMod = ScriptableObject.CreateInstance<HackerMod>();
+                    newHackerMod.RecreateSavedHackerMod(saveItem);
+                    ownedItems.Add(newHackerMod);
+                } else
+                {
+                    HackerModChip newHackerModChip = ScriptableObject.CreateInstance<HackerModChip>();
+                    newHackerModChip.RecreateSavedHackerModChip(saveItem);
+                    ownedItems.Add(newHackerModChip);
+                }
+
+            } else if (saveItem.hackerOrRunner == (int)Item.HackerRunner.Runner)
+            {
+                // Create Runner Items
+                RunnerMod newRunnerMod = ScriptableObject.CreateInstance<RunnerMod>();
+                newRunnerMod.RecreateSavedRunnerMod(saveItem);
+                ownedItems.Add(newRunnerMod);
+            }
+        }
+
+        // General Player Data
+        currentCredits = saveObject.playerCredits;
+        generatedItemId = saveObject.currentItemId;
+        saveSlot = saveObject.saveSlot;
+
+        //public int currentRunner;
+        //public int currentHacker;
+        //public string runners;
+        //public string hackers;
+        //public string jobOptions;
+        //public int currentShopType;
+        //public string previousShopTypes;
+        //public string itemsForSale;
+
+        isPlayerLoaded = true;
     }
 
     public int GetItemId(bool increment=true)

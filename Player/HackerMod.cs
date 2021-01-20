@@ -427,4 +427,15 @@ public class HackerMod : Item
                 return levelOneItemAbilityDescription;
         }
     }
+
+    public void RecreateSavedHackerMod(SaveItem saveItem)
+    {
+        itemId = saveItem.itemId;
+        itemName = saveItem.itemName;
+        itemLevel = saveItem.itemLevel;
+        itemMaxLevel = 5;
+        hackerOrRunner = HackerRunner.Hacker;
+
+        GetModProperties();
+    }
 }

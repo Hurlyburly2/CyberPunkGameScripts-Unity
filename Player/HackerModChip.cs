@@ -215,4 +215,13 @@ public class HackerModChip : Item
                 return levelOneItemAbilityDescription;
         }
     }
+
+    public void RecreateSavedHackerModChip(SaveItem saveItem)
+    {
+        itemId = saveItem.itemId;
+        itemName = saveItem.itemName;
+        itemLevel = saveItem.itemLevel;
+        itemMaxLevel = 3;
+        hackerOrRunner = HackerRunner.Hacker;
+    }
 }

@@ -87,6 +87,8 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             PlayerData playerData = FindObjectOfType<PlayerData>();
             playerData.LoadPlayer(slotNumber);
+            FindObjectOfType<HubMenuButton>().OpenMenu();
+            parentMenu.gameObject.SetActive(false);
         }
     }
 
