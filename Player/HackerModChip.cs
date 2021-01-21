@@ -222,6 +222,8 @@ public class HackerModChip : Item
         itemName = saveItem.itemName;
         itemLevel = saveItem.itemLevel;
         itemMaxLevel = 3;
+        itemType = (Item.ItemTypes)saveItem.itemType;
+
         hackerOrRunner = HackerRunner.Hacker;
     }
 }

@@ -90,6 +90,21 @@ public class CharacterData : ScriptableObject
         }
     }
 
+    public void RecreateRunnerFromSaveData(SaveRunner savedRunner)
+    {
+        id = savedRunner.id;
+        locked = savedRunner.locked;
+        bio = savedRunner.bio;
+        runnerName = savedRunner.runnerName;
+        maximumHealth = savedRunner.maximumHealth;
+        currentHealth = savedRunner.currentHealth;
+        maximumEnergy = savedRunner.maximumEnergy;
+        currentEnergy = savedRunner.currentEnergy;
+        startingHandSize = savedRunner.handSize;
+
+        loadout = CreateInstance<Loadout>();
+    }
+
     // Setup Character
     private void SetupCharacter(string newRunnerName, int newMaxHealth, int newCurrentHealth, int newMaxEnergy, int newCurrentEnergy, int newStartingHandSize, string newBio)
     {

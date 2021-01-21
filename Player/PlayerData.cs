@@ -412,15 +412,76 @@ public class PlayerData : MonoBehaviour
             }
         }
 
+        // Create Runners
+        List<SaveRunner> saveRunners = JsonConvert.DeserializeObject<List<SaveRunner>>(saveObject.runners);
+        ownedRunners = new List<CharacterData>();
+        foreach (SaveRunner saveRunner in saveRunners)
+        {
+            CharacterData newRunner = ScriptableObject.CreateInstance<CharacterData>();
+            newRunner.RecreateRunnerFromSaveData(saveRunner);
+
+            Loadout runnerLoadout = newRunner.GetLoadout();
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.headItemId));
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.torsoModId));
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.exoskeletonModId));
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.leftArmModId), Loadout.LeftOrRight.Left);
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.rightArmModId), Loadout.LeftOrRight.Right);
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.leftLegModId), Loadout.LeftOrRight.Left);
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.rightLegModId), Loadout.LeftOrRight.Right);
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.weaponModId));
+
+            ownedRunners.Add(newRunner);
+            if (newRunner.GetRunnerId() == saveObject.currentRunner)
+                currentRunner = newRunner;
+        }
+
+        List<SaveHacker> saveHackers = JsonConvert.DeserializeObject<List<SaveHacker>>(saveObject.hackers);
+        ownedHackers = new List<HackerData>();
+        foreach (SaveHacker saveHacker in saveHackers)
+        {
+            HackerData newHacker = ScriptableObject.CreateInstance<HackerData>();
+            newHacker.RecreateHackerFromSave(saveHacker);
+
+            if (!newHacker.GetIsLocked())
+            {
+                HackerMod newRigMod = (HackerMod)GetLoadedItemById(saveHacker.rigModId);
+                if (saveHacker.rigSoftwareId1 != -1)
+                    newRigMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.rigSoftwareId1), 0);
+                if (saveHacker.rigSoftwareId2 != -1)
+                    newRigMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.rigSoftwareId2), 1);
+                if (saveHacker.rigSoftwareId3 != -1)
+                    newRigMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.rigSoftwareId3), 2);
+                newHacker.GetHackerLoadout().EquipRecreatedItem(newRigMod);
+
+                HackerMod newNeuralImplantMod = (HackerMod)GetLoadedItemById(saveHacker.neuralImplantId);
+                if (saveHacker.neuralWetwareId1 != -1)
+                    newNeuralImplantMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.neuralWetwareId1), 0);
+                if (saveHacker.neuralWetwareId2 != -1)
+                    newNeuralImplantMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.neuralWetwareId2), 1);
+                if (saveHacker.neuralWetwareId3 != -1)
+                    newNeuralImplantMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.neuralWetwareId3), 2);
+                newHacker.GetHackerLoadout().EquipRecreatedItem(newNeuralImplantMod);
+
+                HackerMod newUplinkMod = (HackerMod)GetLoadedItemById(saveHacker.uplinkId);
+                if (saveHacker.uplinkChipsetId1 != -1)
+                    newUplinkMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.uplinkChipsetId1), 0);
+                if (saveHacker.uplinkChipsetId2 != -1)
+                    newUplinkMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.uplinkChipsetId2), 1);
+                if (saveHacker.uplinkChipsetId3 != -1)
+                    newUplinkMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.uplinkChipsetId3), 2);
+                newHacker.GetHackerLoadout().EquipRecreatedItem(newUplinkMod);
+            }
+
+            ownedHackers.Add(newHacker);
+            if (newHacker.GetHackerId() == saveObject.currentHacker)
+                currentHacker = newHacker;
+        }
+
         // General Player Data
         currentCredits = saveObject.playerCredits;
         generatedItemId = saveObject.currentItemId;
         saveSlot = saveObject.saveSlot;
 
-        //public int currentRunner;
-        //public int currentHacker;
-        //public string runners;
-        //public string hackers;
         //public string jobOptions;
         //public int currentShopType;
         //public string previousShopTypes;
@@ -437,5 +498,17 @@ public class PlayerData : MonoBehaviour
             generatedItemId++;
 
         return idToReturn;
+    }
+
+    public Item GetLoadedItemById(int id)
+    {
+        foreach (Item item in ownedItems)
+        {
+            if (item.GetItemId() == id)
+                return item;
+        }
+
+        // This should never happen
+        return ScriptableObject.CreateInstance<Item>();
     }
 }

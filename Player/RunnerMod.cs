@@ -469,6 +469,8 @@ public class RunnerMod : Item
         itemName = saveItem.itemName;
         itemLevel = saveItem.itemLevel;
         itemMaxLevel = 5;
+        itemType = (Item.ItemTypes)saveItem.itemType;
+
         hackerOrRunner = HackerRunner.Runner;
     }
 }

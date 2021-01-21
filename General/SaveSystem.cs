@@ -242,47 +242,6 @@ public static class SaveSystem
         return new SaveObject { };
     }
 
-    class SaveRunner
-    {
-        public int id;
-        public bool locked;
-        public string bio;
-        public string runnerName;
-        public int maximumHealth;
-        public int currentHealth;
-        public int maximumEnergy;
-        public int currentEnergy;
-        public int handSize;
-        public int headItemId;
-        public int torsoModId;
-        public int exoskeletonModId;
-        public int leftArmModId;
-        public int rightArmModId;
-        public int leftLegModId;
-        public int rightLegModId;
-        public int weaponModId;
-    }
-
-    class SaveHacker
-    {
-        public int id;
-        public string hackerName;
-        public string bio;
-        public bool locked;
-        public int rigModId;
-        public int rigSoftwareId1;
-        public int rigSoftwareId2;
-        public int rigSoftwareId3;
-        public int neuralImplantId;
-        public int neuralWetwareId1;
-        public int neuralWetwareId2;
-        public int neuralWetwareId3;
-        public int uplinkId;
-        public int uplinkChipsetId1;
-        public int uplinkChipsetId2;
-        public int uplinkChipsetId3;
-    }
-
     class JobOption
     {
         public string jobName;
@@ -312,6 +271,47 @@ public class SaveItem
     public int itemType;
     public int itemLevel;
     public int hackerOrRunner;
+}
+
+public class SaveRunner
+{
+    public int id;
+    public bool locked;
+    public string bio;
+    public string runnerName;
+    public int maximumHealth;
+    public int currentHealth;
+    public int maximumEnergy;
+    public int currentEnergy;
+    public int handSize;
+    public int headItemId;
+    public int torsoModId;
+    public int exoskeletonModId;
+    public int leftArmModId;
+    public int rightArmModId;
+    public int leftLegModId;
+    public int rightLegModId;
+    public int weaponModId;
+}
+
+public class SaveHacker
+{
+    public int id;
+    public string hackerName;
+    public string bio;
+    public bool locked;
+    public int rigModId;
+    public int rigSoftwareId1;
+    public int rigSoftwareId2;
+    public int rigSoftwareId3;
+    public int neuralImplantId;
+    public int neuralWetwareId1;
+    public int neuralWetwareId2;
+    public int neuralWetwareId3;
+    public int uplinkId;
+    public int uplinkChipsetId1;
+    public int uplinkChipsetId2;
+    public int uplinkChipsetId3;
 }
 
 public class SaveObject
