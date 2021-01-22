@@ -174,14 +174,14 @@ public static class SaveSystem
             }
         }
 
-        List<JobOption> jobOptions = new List<JobOption>();
+        List<SaveJob> jobOptions = new List<SaveJob>();
         foreach (Job job in playerData.GetCurrentJobsList())
         {
             List<int> jobEnemyTypes = new List<int>();
             foreach (Job.EnemyType enemyType in job.GetEnemyTypes())
                 jobEnemyTypes.Add((int)enemyType);
 
-            JobOption newJobOption = new JobOption
+            SaveJob newJobOption = new SaveJob
             {
                 jobName = job.GetJobName(),
                 jobDescription = job.GetJobDescription(),
@@ -241,27 +241,27 @@ public static class SaveSystem
         }
         return new SaveObject { };
     }
+}
 
-    class JobOption
-    {
-        public string jobName;
-        public string jobDescription;
-        public int jobType;
-        public int jobArea;
-        public List<int> enemyTypes;
-        public int jobDifficulty;
+public class SaveJob
+{
+    public string jobName;
+    public string jobDescription;
+    public int jobType;
+    public int jobArea;
+    public List<int> enemyTypes;
+    public int jobDifficulty;
 
-        public string jobIntroText;
-        public string jobMiddleTextOne;
-        public string jobMiddleTextTwo;
-        public string jobEndText;
+    public string jobIntroText;
+    public string jobMiddleTextOne;
+    public string jobMiddleTextTwo;
+    public string jobEndText;
 
-        public int rewardItemType;
-        public int rewardMoney;
-        public int mapSize;
+    public int rewardItemType;
+    public int rewardMoney;
+    public int mapSize;
 
-        public bool isStoryMission;
-    }
+    public bool isStoryMission;
 }
 
 public class SaveItem

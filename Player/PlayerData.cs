@@ -477,15 +477,59 @@ public class PlayerData : MonoBehaviour
                 currentHacker = newHacker;
         }
 
+        List<SaveJob> saveJobs = JsonConvert.DeserializeObject<List<SaveJob>>(saveObject.jobOptions);
+        currentJobOptions = new List<Job>();
+        foreach (SaveJob saveJob in saveJobs)
+        {
+            Job newJob = ScriptableObject.CreateInstance<Job>();
+            newJob.LoadJobFromSave(saveJob);
+
+            currentJobOptions.Add(newJob);
+        }
+
         // General Player Data
         currentCredits = saveObject.playerCredits;
         generatedItemId = saveObject.currentItemId;
         saveSlot = saveObject.saveSlot;
 
-        //public string jobOptions;
-        //public int currentShopType;
-        //public string previousShopTypes;
-        //public string itemsForSale;
+        // Shop Stuff
+        currentShopType = (ShopMenu.ShopForSaleType)saveObject.currentShopType;
+        previousShopTypes = new List<ShopMenu.ShopForSaleType>();
+        List<int> shopTypeIds = JsonConvert.DeserializeObject<List<int>>(saveObject.previousShopTypes);
+        foreach (int shopTypeId in shopTypeIds)
+        {
+            previousShopTypes.Add((ShopMenu.ShopForSaleType)shopTypeId);
+        }
+
+        List<SaveItem> savedShopItems = JsonConvert.DeserializeObject<List<SaveItem>>(saveObject.itemsForSale);
+        itemsForSale = new List<Item>();
+        foreach (SaveItem saveItem in savedShopItems)
+        {
+            if (saveItem.hackerOrRunner == (int)Item.HackerRunner.Hacker)
+            {
+                // Hacker Items
+                if (saveItem.itemType == (int)Item.ItemTypes.Rig || saveItem.itemType == (int)Item.ItemTypes.NeuralImplant || saveItem.itemType == (int)Item.ItemTypes.Uplink)
+                {
+                    HackerMod newHackerMod = ScriptableObject.CreateInstance<HackerMod>();
+                    newHackerMod.RecreateSavedHackerMod(saveItem);
+                    itemsForSale.Add(newHackerMod);
+                }
+                else
+                {
+                    HackerModChip newHackerModChip = ScriptableObject.CreateInstance<HackerModChip>();
+                    newHackerModChip.RecreateSavedHackerModChip(saveItem);
+                    itemsForSale.Add(newHackerModChip);
+                }
+
+            }
+            else if (saveItem.hackerOrRunner == (int)Item.HackerRunner.Runner)
+            {
+                // Create Runner Items
+                RunnerMod newRunnerMod = ScriptableObject.CreateInstance<RunnerMod>();
+                newRunnerMod.RecreateSavedRunnerMod(saveItem);
+                itemsForSale.Add(newRunnerMod);
+            }
+        }
 
         isPlayerLoaded = true;
     }

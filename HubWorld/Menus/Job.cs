@@ -41,6 +41,32 @@ public class Job : ScriptableObject
         rewardMoney = GetRewardMoneyAmount();
     }
 
+    public void LoadJobFromSave(SaveJob saveJob)
+    {
+        jobName = saveJob.jobName;
+        jobDescription = saveJob.jobDescription;
+        jobType = (Job.JobType)saveJob.jobType;
+        jobArea = (Job.JobArea)saveJob.jobArea;
+        jobDifficulty = saveJob.jobDifficulty;
+
+        jobIntroText = saveJob.jobIntroText;
+        jobMiddleTextOne = saveJob.jobMiddleTextOne;
+        jobMiddleTextTwo = saveJob.jobMiddleTextTwo;
+        jobEndText = saveJob.jobEndText;
+
+        rewardItem = (Item.ItemTypes)saveJob.rewardItemType;
+        rewardMoney = saveJob.rewardMoney;
+        mapSize = saveJob.mapSize;
+
+        isStoryMission = saveJob.isStoryMission;
+
+        enemyTypes = new List<EnemyType>();
+        foreach (int enemyTypeId in saveJob.enemyTypes)
+        {
+            enemyTypes.Add((EnemyType)enemyTypeId);
+        }
+    }
+
     private void GenerateJobNameAndDescription()
     {
         switch (jobArea)
