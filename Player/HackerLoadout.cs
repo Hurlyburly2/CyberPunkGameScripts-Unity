@@ -55,6 +55,22 @@ public class HackerLoadout : ScriptableObject
         }
     }
 
+    public void EquipRecreatedItem(HackerMod hackerMod)
+    {
+        switch (hackerMod.GetItemType())
+        {
+            case Item.ItemTypes.Rig:
+                rig = hackerMod;
+                break;
+            case Item.ItemTypes.NeuralImplant:
+                neuralImplant = hackerMod;
+                break;
+            case Item.ItemTypes.Uplink:
+                uplink = hackerMod;
+                break;
+        }
+    }
+
     public List<int> GetCardIds()
     {
         List<int> cardIds = new List<int>();

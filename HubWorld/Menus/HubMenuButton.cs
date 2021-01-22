@@ -6,6 +6,7 @@ using TMPro;
 public class HubMenuButton : MonoBehaviour
 {
     [SerializeField] MainMenu mainMenu;
+    [SerializeField] FirstMenu firstMenu;
     [SerializeField] MissionCompleteMenu missionCompleteMenu;
 
     [SerializeField] private AnimationCurve fadeCurve;
@@ -27,7 +28,26 @@ public class HubMenuButton : MonoBehaviour
         text2.color = color;
     }
 
-    public void OpenMainMenu()
+    public void OpenMenu()
+    {
+        PlayerData playerData = FindObjectOfType<PlayerData>();
+
+        if (playerData.GetIsPlayerLoaded())
+        {
+            OpenMainMenu();
+        } else
+        {
+            OpenFirstMenu();
+        }
+    }
+
+    private void OpenFirstMenu()
+    {
+        firstMenu.gameObject.SetActive(true);
+        firstMenu.SetupFirstMenu();
+    }
+
+    private void OpenMainMenu()
     {
         mainMenu.gameObject.SetActive(true);
     }

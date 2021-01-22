@@ -15,12 +15,15 @@ public class HackerModChip : Item
     public bool SetupChip(string newChipName)
     {
         itemName = newChipName;
-        bool result = SetChipProperties();
+        bool success = SetChipProperties();
         itemLevel = 1;
         itemMaxLevel = 3;
         hackerOrRunner = HackerRunner.Hacker;
 
-        return result;
+        if (success)
+            itemId = FindObjectOfType<PlayerData>().GetItemId();
+
+        return success;
     }
 
     private bool SetChipProperties()
@@ -211,5 +214,16 @@ public class HackerModChip : Item
             default:
                 return levelOneItemAbilityDescription;
         }
+    }
+
+    public void RecreateSavedHackerModChip(SaveItem saveItem)
+    {
+        itemId = saveItem.itemId;
+        itemName = saveItem.itemName;
+        itemLevel = saveItem.itemLevel;
+        itemMaxLevel = 3;
+        itemType = (Item.ItemTypes)saveItem.itemType;
+
+        hackerOrRunner = HackerRunner.Hacker;
     }
 }

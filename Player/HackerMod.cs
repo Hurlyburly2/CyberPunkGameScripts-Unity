@@ -23,12 +23,15 @@ public class HackerMod : Item
     public bool SetupMod(string newModName)
     {
         itemName = newModName;
-        bool result = GetModProperties();
+        bool success = GetModProperties();
         itemLevel = 1;
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Hacker;
 
-        return result;
+        if (success)
+            itemId = FindObjectOfType<PlayerData>().GetItemId();
+
+        return success;
     }
 
     private bool GetModProperties()
@@ -211,6 +214,7 @@ public class HackerMod : Item
     {
         HackerModChip emptyInstall = CreateInstance<HackerModChip>();
         emptyInstall.SetupChip("Empty");
+        FindObjectOfType<PlayerData>().GetItemId();
 
         return emptyInstall;
     }
@@ -422,5 +426,18 @@ public class HackerMod : Item
             default:
                 return levelOneItemAbilityDescription;
         }
+    }
+
+    public void RecreateSavedHackerMod(SaveItem saveItem)
+    {
+        itemId = saveItem.itemId;
+        itemName = saveItem.itemName;
+        itemLevel = saveItem.itemLevel;
+        itemMaxLevel = 5;
+        itemType = (Item.ItemTypes)saveItem.itemType;
+        hackerOrRunner = HackerRunner.Hacker;
+
+        modChips = new List<HackerModChip>();
+        GetModProperties();
     }
 }

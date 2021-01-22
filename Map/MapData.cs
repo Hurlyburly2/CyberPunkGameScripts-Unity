@@ -18,16 +18,16 @@ public class MapData : MonoBehaviour
     int securityLevel;
     int securityLevelRaiseAmount = 5;
     int enemyHindrance = 0;
-        // enemyHindrance helps to hinder enemy spawn, each tick lowers the level by one.
-        // Capped at 40%. Spawn chance minimum 5% so matter what this value is
+    // enemyHindrance helps to hinder enemy spawn, each tick lowers the level by one.
+    // Capped at 40%. Spawn chance minimum 5% so matter what this value is
     int enemySpawnBlock = 0;
-        // enemySpawnBlock blocks a successful spawn, then goes down by one. If zero- doesn't function
+    // enemySpawnBlock blocks a successful spawn, then goes down by one. If zero- doesn't function
     int playerHealthRegenDuration = 0;
     int playerEnergyRegenDuration = 0;
     bool hasGoalBeenReached = false;
-        // remember if the player has or has not reached the goal
+    // remember if the player has or has not reached the goal
     bool wasPlayerOnGoalBeforeCombat = false;
-        // remember if the player was able to trigger the goal state before loading combat. Ditto for extraction
+    // remember if the player was able to trigger the goal state before loading combat. Ditto for extraction
     bool wasPlayerOnExtractionBeforeCombat = false;
     List<PowerUp> powerUps = new List<PowerUp>();
 
@@ -86,17 +86,20 @@ public class MapData : MonoBehaviour
             if (currentSquare.GetIsGoal() && !hasGoalBeenReached)
             {
                 wasPlayerOnGoalBeforeCombat = true;
-            } else if (currentSquare.GetIsExtraction())
+            }
+            else if (currentSquare.GetIsExtraction())
             {
                 wasPlayerOnExtractionBeforeCombat = true;
             }
             StartBattleIfEnemyExists(currentSquare);
-        } else
+        }
+        else
         {
             if (currentSquare.GetIsGoal() && !hasGoalBeenReached && currentSquare.GetEnemy() == null)
             {
                 goalReady = true;
-            } else if (currentSquare.GetIsExtraction() && currentSquare.GetEnemy() == null)
+            }
+            else if (currentSquare.GetIsExtraction() && currentSquare.GetEnemy() == null)
             {
                 extractionReady = true;
             }
@@ -107,7 +110,8 @@ public class MapData : MonoBehaviour
         if (currentSquare.GetIsGoal() && !hasGoalBeenReached && currentSquare.GetEnemy() == null && !trapSprung)
         {
             FindObjectOfType<MapConfig>().GetGoalWindow().OpenGoalWindow(currentSquare);
-        } else if (currentSquare.GetIsExtraction() && currentSquare.GetEnemy() == null && !trapSprung)
+        }
+        else if (currentSquare.GetIsExtraction() && currentSquare.GetEnemy() == null && !trapSprung)
         {
             FindObjectOfType<MapConfig>().GetExtractionWindow().OpenExtractionWindow();
         }
@@ -159,7 +163,8 @@ public class MapData : MonoBehaviour
         if (didTrapsSpring)
         {
             return false;
-        } else
+        }
+        else
         {
             return true;
         }
@@ -237,7 +242,8 @@ public class MapData : MonoBehaviour
                 mapGrid.AttemptToSpawnAnEnemy(securityLevel);
                 // TODO: Spawn an enemy?
             }
-        } else
+        }
+        else
         {
             Debug.Log("Enemy spawn failed...");
         }
@@ -249,7 +255,8 @@ public class MapData : MonoBehaviour
         {
             Debug.Log("Player Using Vents, Less or No Security Penalty");
             // TODO: THIS???
-        } else
+        }
+        else
         {
             int adjustedSecurityLevelRaiseAmount = securityLevelRaiseAmount;
             List<PowerUp> hackedTerminals = GetPowerUpsOfType(PowerUp.PowerUpType.HackedTerminal);
@@ -336,11 +343,11 @@ public class MapData : MonoBehaviour
         {
             if (portrait.name == "RunnerPortrait")
             {
-                portrait.SetRunnerPortrait(runner.getId());
+                portrait.SetRunnerPortrait(runner.GetRunnerId());
             }
             else if (portrait.name == "HackerPortrait")
             {
-                portrait.SetHackerPortrait(hacker.GetId());
+                portrait.SetHackerPortrait(hacker.GetHackerId());
             }
         }
     }
@@ -450,7 +457,8 @@ public class MapData : MonoBehaviour
         if (handSizeBoostChance <= 0)
         {
             handSizeBoostChance = 25;
-        } else
+        }
+        else
         {
             float boost = (float)handSizeBoostChance * 0.5f;
             handSizeBoostChance = handSizeBoostChance + Mathf.FloorToInt(boost);
@@ -502,7 +510,8 @@ public class MapData : MonoBehaviour
         if (!hasGoalBeenReached && wasPlayerOnGoalBeforeCombat)
         {
             return true;
-        } else
+        }
+        else
         {
             return false;
         }

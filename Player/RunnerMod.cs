@@ -17,6 +17,9 @@ public class RunnerMod : Item
         itemMaxLevel = 5;
         hackerOrRunner = HackerRunner.Runner;
 
+        if (success)
+            itemId = FindObjectOfType<PlayerData>().GetItemId();
+
         return success;
     }
 
@@ -458,5 +461,16 @@ public class RunnerMod : Item
     public List<int> GetLevelFiveCardIds()
     {
         return levelFiveCards;
+    }
+
+    public void RecreateSavedRunnerMod(SaveItem saveItem)
+    {
+        itemId = saveItem.itemId;
+        itemName = saveItem.itemName;
+        itemLevel = saveItem.itemLevel;
+        itemMaxLevel = 5;
+        itemType = (Item.ItemTypes)saveItem.itemType;
+
+        hackerOrRunner = HackerRunner.Runner;
     }
 }

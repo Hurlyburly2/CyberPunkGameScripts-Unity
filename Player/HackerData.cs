@@ -36,6 +36,16 @@ public class HackerData : ScriptableObject
         }
     }
 
+    public void RecreateHackerFromSave(SaveHacker saveHacker)
+    {
+        id = saveHacker.id;
+        hackerName = saveHacker.hackerName;
+        bio = saveHacker.bio;
+        locked = saveHacker.locked;
+
+        hackerLoadout = CreateInstance<HackerLoadout>();
+    }
+
     private void SetupHacker(string newHackerName, string newBio)
     {
         hackerName = newHackerName;
@@ -77,7 +87,7 @@ public class HackerData : ScriptableObject
         return hackerLoadout;
     }
 
-    public int GetId()
+    public int GetHackerId()
     {
         return id;
     }

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class PlayerData : MonoBehaviour
 {
@@ -26,14 +27,16 @@ public class PlayerData : MonoBehaviour
     List<ShopMenu.ShopForSaleType> previousShopTypes = new List<ShopMenu.ShopForSaleType>();
     List<Item> itemsForSale = new List<Item>();
 
-    private void Start()
-    {
-        Debug.Log(currentShopType.ToString());
-        SetupNewGame();
-    }
+    bool isPlayerLoaded = false;
+    int saveSlot;
+    int generatedItemId = 0;
+    // Represents the difference between an empty player object and an object that a player has been loaded into
 
-    private void SetupNewGame()
+    public void SetupNewGame(int newSaveSlot)
     {
+        saveSlot = newSaveSlot;
+        isPlayerLoaded = true;
+
         // TODO: CHANGE THIS BACK TO ZERO
         playerLevel = 1;
         currentCredits = 1000000;
@@ -72,52 +75,52 @@ public class PlayerData : MonoBehaviour
         lockedHackerTwo.CreateNewHackerByClassId(2);
         ownedHackers.Add(lockedHackerTwo);
 
-        RunnerMod adaptableCranioPatch = ScriptableObject.CreateInstance<RunnerMod>();
-        adaptableCranioPatch.SetupMod("Adaptable CranioPatch");
-        //adaptableCranioPatch.SetItemLevel(2);
-        ownedItems.Add(adaptableCranioPatch);
+        //RunnerMod adaptableCranioPatch = ScriptableObject.CreateInstance<RunnerMod>();
+        //adaptableCranioPatch.SetupMod("Adaptable CranioPatch");
+        ////adaptableCranioPatch.SetItemLevel(2);
+        //ownedItems.Add(adaptableCranioPatch);
 
-        RunnerMod adrenalInjector = ScriptableObject.CreateInstance<RunnerMod>();
-        adrenalInjector.SetupMod("Adrenal Injector");
-        ownedItems.Add(adrenalInjector);
+        //RunnerMod adrenalInjector = ScriptableObject.CreateInstance<RunnerMod>();
+        //adrenalInjector.SetupMod("Adrenal Injector");
+        //ownedItems.Add(adrenalInjector);
 
-        RunnerMod sensoryRegulator = ScriptableObject.CreateInstance<RunnerMod>();
-        sensoryRegulator.SetupMod("Sensory Regulator");
-        ownedItems.Add(sensoryRegulator);
+        //RunnerMod sensoryRegulator = ScriptableObject.CreateInstance<RunnerMod>();
+        //sensoryRegulator.SetupMod("Sensory Regulator");
+        //ownedItems.Add(sensoryRegulator);
 
-        RunnerMod automatedDigits = ScriptableObject.CreateInstance<RunnerMod>();
-        automatedDigits.SetupMod("Automated Digits");
-        ownedItems.Add(automatedDigits);
+        //RunnerMod automatedDigits = ScriptableObject.CreateInstance<RunnerMod>();
+        //automatedDigits.SetupMod("Automated Digits");
+        //ownedItems.Add(automatedDigits);
 
-        RunnerMod automatedDigitsTwo = ScriptableObject.CreateInstance<RunnerMod>();
-        automatedDigitsTwo.SetupMod("Automated Digits");
-        ownedItems.Add(automatedDigitsTwo);
+        //RunnerMod automatedDigitsTwo = ScriptableObject.CreateInstance<RunnerMod>();
+        //automatedDigitsTwo.SetupMod("Automated Digits");
+        //ownedItems.Add(automatedDigitsTwo);
 
-        RunnerMod polymorphicSupport = ScriptableObject.CreateInstance<RunnerMod>();
-        polymorphicSupport.SetupMod("Polymorphic Support");
-        ownedItems.Add(polymorphicSupport);
+        //RunnerMod polymorphicSupport = ScriptableObject.CreateInstance<RunnerMod>();
+        //polymorphicSupport.SetupMod("Polymorphic Support");
+        //ownedItems.Add(polymorphicSupport);
 
-        RunnerMod polymorphicSupportTwo = ScriptableObject.CreateInstance<RunnerMod>();
-        polymorphicSupportTwo.SetupMod("Polymorphic Support");
-        ownedItems.Add(polymorphicSupportTwo);
+        //RunnerMod polymorphicSupportTwo = ScriptableObject.CreateInstance<RunnerMod>();
+        //polymorphicSupportTwo.SetupMod("Polymorphic Support");
+        //ownedItems.Add(polymorphicSupportTwo);
 
-        RunnerMod tornadoHandgun = ScriptableObject.CreateInstance<RunnerMod>();
-        tornadoHandgun.SetupMod("Tornado Handgun T-492");
-        ownedItems.Add(tornadoHandgun);
+        //RunnerMod tornadoHandgun = ScriptableObject.CreateInstance<RunnerMod>();
+        //tornadoHandgun.SetupMod("Tornado Handgun T-492");
+        //ownedItems.Add(tornadoHandgun);
 
-        RunnerMod voltHandCannon = ScriptableObject.CreateInstance<RunnerMod>();
-        voltHandCannon.SetupMod("Volt HandCannon V-1");
-        ownedItems.Add(voltHandCannon);
+        //RunnerMod voltHandCannon = ScriptableObject.CreateInstance<RunnerMod>();
+        //voltHandCannon.SetupMod("Volt HandCannon V-1");
+        //ownedItems.Add(voltHandCannon);
 
         Loadout runnerLoadout = currentRunner.GetLoadout();
-        runnerLoadout.EquipItem(adaptableCranioPatch);
-        runnerLoadout.EquipItem(adrenalInjector);
-        runnerLoadout.EquipItem(sensoryRegulator);
-        runnerLoadout.EquipItem(automatedDigits, Loadout.LeftOrRight.Left);
-        runnerLoadout.EquipItem(automatedDigitsTwo, Loadout.LeftOrRight.Right);
-        runnerLoadout.EquipItem(polymorphicSupport, Loadout.LeftOrRight.Left);
-        runnerLoadout.EquipItem(polymorphicSupportTwo, Loadout.LeftOrRight.Right);
-        runnerLoadout.EquipItem(tornadoHandgun);
+        //runnerLoadout.EquipItem(adaptableCranioPatch);
+        //runnerLoadout.EquipItem(adrenalInjector);
+        //runnerLoadout.EquipItem(sensoryRegulator);
+        //runnerLoadout.EquipItem(automatedDigits, Loadout.LeftOrRight.Left);
+        //runnerLoadout.EquipItem(automatedDigitsTwo, Loadout.LeftOrRight.Right);
+        //runnerLoadout.EquipItem(polymorphicSupport, Loadout.LeftOrRight.Left);
+        //runnerLoadout.EquipItem(polymorphicSupportTwo, Loadout.LeftOrRight.Right);
+        //runnerLoadout.EquipItem(tornadoHandgun);
         //runnerLoadout.EquipItem(voltHandCannon);
 
         GenerateJobOptions();
@@ -282,7 +285,6 @@ public class PlayerData : MonoBehaviour
                 {
                     // If arm or leg, we need to count them
                     List<Item> sameItems = ownedItems.FindAll(curentItem => createAsRunnerMod.GetItemName() == curentItem.GetItemName());
-                    Debug.Log("Same items: " + sameItems.Count);
                     switch (sameItems.Count)
                     {
                         case 0:
@@ -352,39 +354,205 @@ public class PlayerData : MonoBehaviour
         itemsForSale.Remove(itemToRemove);
     }
 
+    public bool GetIsPlayerLoaded()
+    {
+        return isPlayerLoaded;
+    }
+
+    public int GetSaveSlot()
+    {
+        return saveSlot;
+    }
+
+    public int GetPlayerLevel()
+    {
+        return playerLevel;
+    }
+
+    public List<ShopMenu.ShopForSaleType> GetPreviousShopTypes()
+    {
+        return previousShopTypes;
+    }
+
     public void SavePlayer()
     {
-        SaveSystem.Init();
-
-        SaveObject saveObject = new SaveObject
-        {
-            playerCredits = currentCredits,
-        };
-        string jsonString = JsonUtility.ToJson(saveObject);
-
-        Debug.Log("test test");
-
-        SaveSystem.Save(jsonString);
+        SaveSystem.SavePlayerData(this);
     }
 
-    public string LoadPlayer()
+    public void LoadPlayer(int saveSlotToLoad)
     {
-        SaveSystem.Init();
+        SaveObject saveObject = SaveSystem.LoadPlayerData(saveSlotToLoad);
 
-        string saveString = SaveSystem.Load();
-
-        if (saveString != null)
+        // Recreate Owned Items
+        ownedItems = new List<Item>();
+        List<SaveItem> deserializedSaveItems = JsonConvert.DeserializeObject<List<SaveItem>>(saveObject.items);
+        foreach (SaveItem saveItem in deserializedSaveItems)
         {
-            SaveObject loadedSaveObject = JsonUtility.FromJson<SaveObject>(saveString);
-            Debug.Log(loadedSaveObject.playerCredits);
+            if (saveItem.hackerOrRunner == (int)Item.HackerRunner.Hacker)
+            {
+                // Hacker Items
+                if (saveItem.itemType == (int)Item.ItemTypes.Rig || saveItem.itemType == (int)Item.ItemTypes.NeuralImplant || saveItem.itemType == (int)Item.ItemTypes.Uplink)
+                {
+                    HackerMod newHackerMod = ScriptableObject.CreateInstance<HackerMod>();
+                    newHackerMod.RecreateSavedHackerMod(saveItem);
+                    ownedItems.Add(newHackerMod);
+                } else
+                {
+                    HackerModChip newHackerModChip = ScriptableObject.CreateInstance<HackerModChip>();
+                    newHackerModChip.RecreateSavedHackerModChip(saveItem);
+                    ownedItems.Add(newHackerModChip);
+                }
 
-            return loadedSaveObject.playerCredits.ToString();
+            } else if (saveItem.hackerOrRunner == (int)Item.HackerRunner.Runner)
+            {
+                // Create Runner Items
+                RunnerMod newRunnerMod = ScriptableObject.CreateInstance<RunnerMod>();
+                newRunnerMod.RecreateSavedRunnerMod(saveItem);
+                ownedItems.Add(newRunnerMod);
+            }
         }
-        return "";
+
+        // Create Runners
+        List<SaveRunner> saveRunners = JsonConvert.DeserializeObject<List<SaveRunner>>(saveObject.runners);
+        ownedRunners = new List<CharacterData>();
+        foreach (SaveRunner saveRunner in saveRunners)
+        {
+            CharacterData newRunner = ScriptableObject.CreateInstance<CharacterData>();
+            newRunner.RecreateRunnerFromSaveData(saveRunner);
+
+            Loadout runnerLoadout = newRunner.GetLoadout();
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.headItemId));
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.torsoModId));
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.exoskeletonModId));
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.leftArmModId), Loadout.LeftOrRight.Left);
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.rightArmModId), Loadout.LeftOrRight.Right);
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.leftLegModId), Loadout.LeftOrRight.Left);
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.rightLegModId), Loadout.LeftOrRight.Right);
+            runnerLoadout.EquipItem((RunnerMod)GetLoadedItemById(saveRunner.weaponModId));
+
+            ownedRunners.Add(newRunner);
+            if (newRunner.GetRunnerId() == saveObject.currentRunner)
+                currentRunner = newRunner;
+        }
+
+        List<SaveHacker> saveHackers = JsonConvert.DeserializeObject<List<SaveHacker>>(saveObject.hackers);
+        ownedHackers = new List<HackerData>();
+        foreach (SaveHacker saveHacker in saveHackers)
+        {
+            HackerData newHacker = ScriptableObject.CreateInstance<HackerData>();
+            newHacker.RecreateHackerFromSave(saveHacker);
+
+            if (!newHacker.GetIsLocked())
+            {
+                HackerMod newRigMod = (HackerMod)GetLoadedItemById(saveHacker.rigModId);
+                if (saveHacker.rigSoftwareId1 != -1)
+                    newRigMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.rigSoftwareId1), 0);
+                if (saveHacker.rigSoftwareId2 != -1)
+                    newRigMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.rigSoftwareId2), 1);
+                if (saveHacker.rigSoftwareId3 != -1)
+                    newRigMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.rigSoftwareId3), 2);
+                newHacker.GetHackerLoadout().EquipRecreatedItem(newRigMod);
+
+                HackerMod newNeuralImplantMod = (HackerMod)GetLoadedItemById(saveHacker.neuralImplantId);
+                if (saveHacker.neuralWetwareId1 != -1)
+                    newNeuralImplantMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.neuralWetwareId1), 0);
+                if (saveHacker.neuralWetwareId2 != -1)
+                    newNeuralImplantMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.neuralWetwareId2), 1);
+                if (saveHacker.neuralWetwareId3 != -1)
+                    newNeuralImplantMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.neuralWetwareId3), 2);
+                newHacker.GetHackerLoadout().EquipRecreatedItem(newNeuralImplantMod);
+
+                HackerMod newUplinkMod = (HackerMod)GetLoadedItemById(saveHacker.uplinkId);
+                if (saveHacker.uplinkChipsetId1 != -1)
+                    newUplinkMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.uplinkChipsetId1), 0);
+                if (saveHacker.uplinkChipsetId2 != -1)
+                    newUplinkMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.uplinkChipsetId2), 1);
+                if (saveHacker.uplinkChipsetId3 != -1)
+                    newUplinkMod.InstallChip((HackerModChip)GetLoadedItemById(saveHacker.uplinkChipsetId3), 2);
+                newHacker.GetHackerLoadout().EquipRecreatedItem(newUplinkMod);
+            }
+
+            ownedHackers.Add(newHacker);
+            if (newHacker.GetHackerId() == saveObject.currentHacker)
+                currentHacker = newHacker;
+        }
+
+        List<SaveJob> saveJobs = JsonConvert.DeserializeObject<List<SaveJob>>(saveObject.jobOptions);
+        currentJobOptions = new List<Job>();
+        foreach (SaveJob saveJob in saveJobs)
+        {
+            Job newJob = ScriptableObject.CreateInstance<Job>();
+            newJob.LoadJobFromSave(saveJob);
+
+            currentJobOptions.Add(newJob);
+        }
+
+        // General Player Data
+        currentCredits = saveObject.playerCredits;
+        generatedItemId = saveObject.currentItemId;
+        saveSlot = saveObject.saveSlot;
+
+        // Shop Stuff
+        currentShopType = (ShopMenu.ShopForSaleType)saveObject.currentShopType;
+        previousShopTypes = new List<ShopMenu.ShopForSaleType>();
+        List<int> shopTypeIds = JsonConvert.DeserializeObject<List<int>>(saveObject.previousShopTypes);
+        foreach (int shopTypeId in shopTypeIds)
+        {
+            previousShopTypes.Add((ShopMenu.ShopForSaleType)shopTypeId);
+        }
+
+        List<SaveItem> savedShopItems = JsonConvert.DeserializeObject<List<SaveItem>>(saveObject.itemsForSale);
+        itemsForSale = new List<Item>();
+        foreach (SaveItem saveItem in savedShopItems)
+        {
+            if (saveItem.hackerOrRunner == (int)Item.HackerRunner.Hacker)
+            {
+                // Hacker Items
+                if (saveItem.itemType == (int)Item.ItemTypes.Rig || saveItem.itemType == (int)Item.ItemTypes.NeuralImplant || saveItem.itemType == (int)Item.ItemTypes.Uplink)
+                {
+                    HackerMod newHackerMod = ScriptableObject.CreateInstance<HackerMod>();
+                    newHackerMod.RecreateSavedHackerMod(saveItem);
+                    itemsForSale.Add(newHackerMod);
+                }
+                else
+                {
+                    HackerModChip newHackerModChip = ScriptableObject.CreateInstance<HackerModChip>();
+                    newHackerModChip.RecreateSavedHackerModChip(saveItem);
+                    itemsForSale.Add(newHackerModChip);
+                }
+
+            }
+            else if (saveItem.hackerOrRunner == (int)Item.HackerRunner.Runner)
+            {
+                // Create Runner Items
+                RunnerMod newRunnerMod = ScriptableObject.CreateInstance<RunnerMod>();
+                newRunnerMod.RecreateSavedRunnerMod(saveItem);
+                itemsForSale.Add(newRunnerMod);
+            }
+        }
+
+        isPlayerLoaded = true;
     }
 
-    class SaveObject
+    public int GetItemId(bool increment=true)
     {
-        public int playerCredits;
+        int idToReturn = generatedItemId;
+
+        if (increment)
+            generatedItemId++;
+
+        return idToReturn;
+    }
+
+    public Item GetLoadedItemById(int id)
+    {
+        foreach (Item item in ownedItems)
+        {
+            if (item.GetItemId() == id)
+                return item;
+        }
+
+        // This should never happen
+        return ScriptableObject.CreateInstance<Item>();
     }
 }
