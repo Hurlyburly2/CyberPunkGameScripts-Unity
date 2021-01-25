@@ -218,8 +218,10 @@ public class HackerModChip : Item
 
     public void RecreateSavedHackerModChip(SaveItem saveItem)
     {
-        itemId = saveItem.itemId;
         itemName = saveItem.itemName;
+        SetChipProperties();
+
+        itemId = saveItem.itemId;
         itemLevel = saveItem.itemLevel;
         itemMaxLevel = 3;
         itemType = (Item.ItemTypes)saveItem.itemType;

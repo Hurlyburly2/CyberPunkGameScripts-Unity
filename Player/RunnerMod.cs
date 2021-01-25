@@ -465,8 +465,10 @@ public class RunnerMod : Item
 
     public void RecreateSavedRunnerMod(SaveItem saveItem)
     {
-        itemId = saveItem.itemId;
         itemName = saveItem.itemName;
+        SetVariablesAndGetCards(itemName);
+
+        itemId = saveItem.itemId;
         itemLevel = saveItem.itemLevel;
         itemMaxLevel = 5;
         itemType = (Item.ItemTypes)saveItem.itemType;
