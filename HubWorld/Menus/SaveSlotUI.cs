@@ -12,6 +12,7 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField] TextMeshProUGUI slotNumberText;
     [SerializeField] TextMeshProUGUI emptyText;
     [SerializeField] Button mainButton;
+    [SerializeField] Button deleteButton;
 
     [SerializeField] GameObject content;
     [SerializeField] TextMeshProUGUI chapterNameText;
@@ -37,11 +38,13 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
                 DeactivateContent();
                 mainButton.interactable = true;
+                deleteButton.gameObject.SetActive(false);
             }
             else
             {
                 ActivateContent(chapterName);
                 mainButton.interactable = true;
+                deleteButton.gameObject.SetActive(true);
             }
         } else
         {
@@ -49,10 +52,12 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
                 DeactivateContent();
                 mainButton.interactable = false;
+                deleteButton.gameObject.SetActive(false);
             } else
-            {
+            { 
                 ActivateContent(chapterName);
                 mainButton.interactable = true;
+                deleteButton.gameObject.SetActive(true);
             }
         }
     }
@@ -102,5 +107,12 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         mouseOverBackRect.gameObject.SetActive(false);
         normalBackRect.gameObject.SetActive(true);
+    }
+
+    public void DeleteSave()
+    {
+        NotificationMenu notificationMenu = parentMenu.GetNotificationMenu();
+        notificationMenu.gameObject.SetActive(true);
+        notificationMenu.SetupNotification(NotificationMenu.HubNotificationType.DeletGameConfirm, slotNumber);
     }
 }

@@ -35,6 +35,12 @@ public static class SaveSystem
         }
     }
 
+    public static void DeleteSaveBySlot(int saveSlot)
+    {
+        SavePrefs.DeleteSavePrefsForSaveSlot(saveSlot);
+        Save("", saveSlot);
+    }
+
     public static void SavePlayerData(PlayerData playerData)
     {
         SavePrefs.SavePrefsFromPlayer(playerData);

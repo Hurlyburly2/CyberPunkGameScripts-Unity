@@ -6,6 +6,7 @@ public class SaveSlotMenu : MonoBehaviour
 {
     [SerializeField] FirstMenu firstMenu;
     [SerializeField] List<SaveSlotUI> saveSlotUIs;
+    [SerializeField] NotificationMenu notificationMenu;
 
     bool newGame;
 
@@ -21,9 +22,20 @@ public class SaveSlotMenu : MonoBehaviour
         }
     }
 
+    public void DeleteSaveBySlot(int slotNumber)
+    {
+        SaveSystem.DeleteSaveBySlot(slotNumber);
+        SetupSaveSlotMenu(newGame);
+    }
+
     public void CloseSaveSelectMenu()
     {
         firstMenu.gameObject.SetActive(true);
         gameObject.SetActive(false);
+    }
+
+    public NotificationMenu GetNotificationMenu()
+    {
+        return notificationMenu;
     }
 }
