@@ -22,6 +22,7 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     int slotNumber;
     bool isNewGame;
+    string chapterName;
     SaveSlotMenu parentMenu;
 
     public void SetupSaveSlot(int newSlotNumber, bool newIsNewGame, SaveSlotMenu newParentMenu)
@@ -31,7 +32,7 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         isNewGame = newIsNewGame;
         slotNumberText.text = slotNumber.ToString();
 
-        string chapterName = SavePrefs.GetSaveSlotArea(slotNumber);
+        chapterName = SavePrefs.GetSaveSlotArea(slotNumber);
         if (isNewGame)
         {
             if (chapterName == "")
@@ -82,12 +83,22 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (isNewGame)
         {
-            PlayerData playerData = FindObjectOfType<PlayerData>();
-            playerData.SetupNewGame(slotNumber);
-            playerData.SavePlayer();
+            if (chapterName != "")
+            {
+                // if there is a save, we confirm that user wants to overwrite
+                NotificationMenu notificationMenu = parentMenu.GetNotificationMenu();
+                notificationMenu.gameObject.SetActive(true);
+                notificationMenu.SetupNotification(NotificationMenu.HubNotificationType.NewGameOverwrite, slotNumber);
+            } else
+            {
+                // if not, we just create a new game on its own
+                PlayerData playerData = FindObjectOfType<PlayerData>();
+                playerData.SetupNewGame(slotNumber);
+                playerData.SavePlayer();
 
-            FindObjectOfType<HubMenuButton>().OpenMenu();
-            parentMenu.gameObject.SetActive(false);
+                FindObjectOfType<HubMenuButton>().OpenMenu();
+                parentMenu.gameObject.SetActive(false);
+            }
         } else
         {
             PlayerData playerData = FindObjectOfType<PlayerData>();

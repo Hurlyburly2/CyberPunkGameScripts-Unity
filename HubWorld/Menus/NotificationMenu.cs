@@ -38,8 +38,27 @@ public class NotificationMenu : MonoBehaviour
 
     public void ClickOkButton()
     {
-        saveSlotMenu.DeleteSaveBySlot(saveSlot);
-        gameObject.SetActive(false);
+        switch (notificationType)
+        {
+            case HubNotificationType.NewGameOverwrite:
+                // Delete the old game
+                saveSlotMenu.DeleteSaveBySlot(saveSlot);
+
+                // Create the new game
+                PlayerData playerData = FindObjectOfType<PlayerData>();
+                playerData.SetupNewGame(saveSlot);
+                playerData.SavePlayer();
+
+                FindObjectOfType<HubMenuButton>().OpenMenu();
+
+                saveSlotMenu.gameObject.SetActive(false);
+                gameObject.SetActive(false);
+                break;
+            case HubNotificationType.DeletGameConfirm:
+                saveSlotMenu.DeleteSaveBySlot(saveSlot);
+                gameObject.SetActive(false);
+                break;
+        }
     }
 
     public void ClickCancelButton()

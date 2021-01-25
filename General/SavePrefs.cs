@@ -94,6 +94,9 @@ public static class SavePrefs
 
     public static void DeleteSavePrefsForSaveSlot(int saveSlot)
     {
+        if (GetMostRecentlyUsedSaveSlot() == saveSlot)
+            PlayerPrefs.DeleteKey(MOST_RECENTLY_USED_SAVE_SLOT);
+
         switch (saveSlot)
         {
             case 1:

@@ -31,6 +31,7 @@ public class SaveSlotMenu : MonoBehaviour
     public void CloseSaveSelectMenu()
     {
         firstMenu.gameObject.SetActive(true);
+        firstMenu.SetupFirstMenu();
         gameObject.SetActive(false);
     }
 
