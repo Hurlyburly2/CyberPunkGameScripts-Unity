@@ -92,6 +92,35 @@ public static class SavePrefs
         }
     }
 
+    public static void DeleteSavePrefsForSaveSlot(int saveSlot)
+    {
+        if (GetMostRecentlyUsedSaveSlot() == saveSlot)
+            PlayerPrefs.DeleteKey(MOST_RECENTLY_USED_SAVE_SLOT);
+
+        switch (saveSlot)
+        {
+            case 1:
+                PlayerPrefs.SetString(SAVE_SLOT_1_CHAPTER, "");
+                PlayerPrefs.SetString(SAVE_SLOT_1_CREDITS, "0");
+                PlayerPrefs.SetInt(SAVE_SLOT_1_CURRENTRUNNER_ID, 0);
+                PlayerPrefs.SetInt(SAVE_SLOT_1_CURRENTHACKER_ID, 0);
+                break;
+            case 2:
+                Debug.Log("test test test");
+                PlayerPrefs.SetString(SAVE_SLOT_2_CHAPTER, "");
+                PlayerPrefs.SetString(SAVE_SLOT_2_CREDITS, "0");
+                PlayerPrefs.SetInt(SAVE_SLOT_2_CURRENTRUNNER_ID, 0);
+                PlayerPrefs.SetInt(SAVE_SLOT_2_CURRENTHACKER_ID, 0);
+                break;
+            case 3:
+                PlayerPrefs.SetString(SAVE_SLOT_3_CHAPTER, "");
+                PlayerPrefs.SetString(SAVE_SLOT_3_CREDITS, "0");
+                PlayerPrefs.SetInt(SAVE_SLOT_3_CURRENTRUNNER_ID, 0);
+                PlayerPrefs.SetInt(SAVE_SLOT_3_CURRENTHACKER_ID, 0);
+                break;
+        }
+    }
+
     public static string GetCurrentChapterString(int saveSlot)
     {
         switch (saveSlot) {

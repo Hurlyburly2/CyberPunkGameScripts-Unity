@@ -12,6 +12,7 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField] TextMeshProUGUI slotNumberText;
     [SerializeField] TextMeshProUGUI emptyText;
     [SerializeField] Button mainButton;
+    [SerializeField] Button deleteButton;
 
     [SerializeField] GameObject content;
     [SerializeField] TextMeshProUGUI chapterNameText;
@@ -21,6 +22,7 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     int slotNumber;
     bool isNewGame;
+    string chapterName;
     SaveSlotMenu parentMenu;
 
     public void SetupSaveSlot(int newSlotNumber, bool newIsNewGame, SaveSlotMenu newParentMenu)
@@ -30,18 +32,20 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         isNewGame = newIsNewGame;
         slotNumberText.text = slotNumber.ToString();
 
-        string chapterName = SavePrefs.GetSaveSlotArea(slotNumber);
+        chapterName = SavePrefs.GetSaveSlotArea(slotNumber);
         if (isNewGame)
         {
             if (chapterName == "")
             {
                 DeactivateContent();
                 mainButton.interactable = true;
+                deleteButton.gameObject.SetActive(false);
             }
             else
             {
                 ActivateContent(chapterName);
                 mainButton.interactable = true;
+                deleteButton.gameObject.SetActive(true);
             }
         } else
         {
@@ -49,10 +53,12 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
                 DeactivateContent();
                 mainButton.interactable = false;
+                deleteButton.gameObject.SetActive(false);
             } else
-            {
+            { 
                 ActivateContent(chapterName);
                 mainButton.interactable = true;
+                deleteButton.gameObject.SetActive(true);
             }
         }
     }
@@ -77,12 +83,22 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (isNewGame)
         {
-            PlayerData playerData = FindObjectOfType<PlayerData>();
-            playerData.SetupNewGame(slotNumber);
-            playerData.SavePlayer();
+            if (chapterName != "")
+            {
+                // if there is a save, we confirm that user wants to overwrite
+                NotificationMenu notificationMenu = parentMenu.GetNotificationMenu();
+                notificationMenu.gameObject.SetActive(true);
+                notificationMenu.SetupNotification(NotificationMenu.HubNotificationType.NewGameOverwrite, slotNumber);
+            } else
+            {
+                // if not, we just create a new game on its own
+                PlayerData playerData = FindObjectOfType<PlayerData>();
+                playerData.SetupNewGame(slotNumber);
+                playerData.SavePlayer();
 
-            FindObjectOfType<HubMenuButton>().OpenMenu();
-            parentMenu.gameObject.SetActive(false);
+                FindObjectOfType<HubMenuButton>().OpenMenu();
+                parentMenu.gameObject.SetActive(false);
+            }
         } else
         {
             PlayerData playerData = FindObjectOfType<PlayerData>();
@@ -102,5 +118,12 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         mouseOverBackRect.gameObject.SetActive(false);
         normalBackRect.gameObject.SetActive(true);
+    }
+
+    public void DeleteSave()
+    {
+        NotificationMenu notificationMenu = parentMenu.GetNotificationMenu();
+        notificationMenu.gameObject.SetActive(true);
+        notificationMenu.SetupNotification(NotificationMenu.HubNotificationType.DeletGameConfirm, slotNumber);
     }
 }

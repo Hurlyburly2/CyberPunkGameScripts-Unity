@@ -18,7 +18,10 @@ public class FirstMenu : MonoBehaviour
 
     public void ContinueButtonPress()
     {
-
+        PlayerData playerData = FindObjectOfType<PlayerData>();
+        playerData.LoadPlayer(SavePrefs.GetMostRecentlyUsedSaveSlot());
+        FindObjectOfType<HubMenuButton>().OpenMenu();
+        gameObject.SetActive(false);
     }
 
     public void NewGameBtnPress()
