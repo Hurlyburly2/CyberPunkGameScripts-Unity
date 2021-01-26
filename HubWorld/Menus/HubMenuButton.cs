@@ -12,6 +12,7 @@ public class HubMenuButton : MonoBehaviour
     [SerializeField] private AnimationCurve fadeCurve;
     [SerializeField] TextMeshProUGUI text1;
     [SerializeField] TextMeshProUGUI text2;
+    [SerializeField] HubWorldSFX hubworldSFX;
     Color color;
     float timer = 0f;
 
@@ -31,6 +32,7 @@ public class HubMenuButton : MonoBehaviour
     public void OpenMenu()
     {
         PlayerData playerData = FindObjectOfType<PlayerData>();
+        hubworldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.StartButton);
 
         if (playerData.GetIsPlayerLoaded())
         {
