@@ -29,10 +29,15 @@ public class HubMenuButton : MonoBehaviour
         text2.color = color;
     }
 
+    public void OpenMenuClick()
+    {
+        hubworldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.StartButton);
+        OpenMenu();
+    }
+
     public void OpenMenu()
     {
         PlayerData playerData = FindObjectOfType<PlayerData>();
-        hubworldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.StartButton);
 
         if (playerData.GetIsPlayerLoaded())
         {
