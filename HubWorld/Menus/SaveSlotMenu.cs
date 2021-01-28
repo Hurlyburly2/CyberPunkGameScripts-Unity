@@ -8,7 +8,13 @@ public class SaveSlotMenu : MonoBehaviour
     [SerializeField] List<SaveSlotUI> saveSlotUIs;
     [SerializeField] NotificationMenu notificationMenu;
 
+    HubWorldSFX hubWorldSFX;
     bool newGame;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
 
     public void SetupSaveSlotMenu(bool newGameFromFirstMenu)
     {
@@ -30,6 +36,7 @@ public class SaveSlotMenu : MonoBehaviour
 
     public void CloseSaveSelectMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         firstMenu.gameObject.SetActive(true);
         firstMenu.SetupFirstMenu();
         gameObject.SetActive(false);

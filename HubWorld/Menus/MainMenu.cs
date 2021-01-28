@@ -11,31 +11,43 @@ public class MainMenu : MonoBehaviour
     [SerializeField] ShopMenu shopMenu;
     [SerializeField] TextMeshProUGUI loadTestText;
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     public void CloseMainMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         gameObject.SetActive(false);
     }
 
     public void OpenJobSelectMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         jobSelectMenu.gameObject.SetActive(true);
         jobSelectMenu.SetupMenu();
     }
 
     public void OpenLoadoutMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         loadoutMenu.gameObject.SetActive(true);
         loadoutMenu.SetupLoadoutMenu();
     }
 
     public void OpenInventoryMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         inventoryMenu.gameObject.SetActive(true);
         inventoryMenu.SetupInventoryMenu();
     }
 
     public void OpenShopMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         shopMenu.gameObject.SetActive(true);
         shopMenu.SetupShopMenu();
     }

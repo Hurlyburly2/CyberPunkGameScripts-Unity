@@ -10,9 +10,13 @@ public class FirstMenu : MonoBehaviour
 
     HubWorldSFX hubWorldSFX;
 
-    public void SetupFirstMenu()
+    private void Awake()
     {
         hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
+    public void SetupFirstMenu()
+    {
         if (SavePrefs.GetMostRecentlyUsedSaveSlot() != 0)
             continueButton.interactable = true;
         else
@@ -21,7 +25,7 @@ public class FirstMenu : MonoBehaviour
 
     public void ContinueButtonPress()
     {
-        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
+        PlayButtonSound();
         PlayerData playerData = FindObjectOfType<PlayerData>();
         playerData.LoadPlayer(SavePrefs.GetMostRecentlyUsedSaveSlot());
         FindObjectOfType<HubMenuButton>().OpenMenu();
@@ -30,7 +34,7 @@ public class FirstMenu : MonoBehaviour
 
     public void NewGameBtnPress()
     {
-        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
+        PlayButtonSound();
         saveSlotMenu.gameObject.SetActive(true);
         saveSlotMenu.SetupSaveSlotMenu(true);
         gameObject.SetActive(false);
@@ -38,7 +42,7 @@ public class FirstMenu : MonoBehaviour
 
     public void LoadGameBtnPress()
     {
-        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
+        PlayButtonSound();
         saveSlotMenu.gameObject.SetActive(true);
         saveSlotMenu.SetupSaveSlotMenu(false);
         gameObject.SetActive(false);
@@ -51,7 +55,12 @@ public class FirstMenu : MonoBehaviour
 
     public void CloseFirstMenu()
     {
-        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
+        PlayButtonSound();
         gameObject.SetActive(false);
+    }
+
+    private void PlayButtonSound()
+    {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
     }
 }

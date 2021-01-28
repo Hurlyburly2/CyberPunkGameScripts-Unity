@@ -14,6 +14,13 @@ public class JobSelectMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI rewardField;
     [SerializeField] TextMeshProUGUI jobDescriptionField;
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     public void SetupMenu()
     {
         PlayerData playerData = FindObjectOfType<PlayerData>();
@@ -53,12 +60,14 @@ public class JobSelectMenu : MonoBehaviour
 
     public void OpenLoadoutMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         loadoutMenu.gameObject.SetActive(true);
         loadoutMenu.SetupLoadoutMenu(ItemDetailsMenu.ItemDetailMenuContextType.JobSelect);
     }
 
     public void HandleJobSquareButtonPress(JobSelectSquare pressedSquare)
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.Selecting);
         foreach (JobSelectSquare square in jobSelectSquares)
         {
             if (pressedSquare != square)
@@ -108,6 +117,7 @@ public class JobSelectMenu : MonoBehaviour
 
     public void CloseJobSelectMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         gameObject.SetActive(false);
     }
 }

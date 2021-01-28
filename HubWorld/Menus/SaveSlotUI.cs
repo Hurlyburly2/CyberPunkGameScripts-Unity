@@ -25,6 +25,13 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     string chapterName;
     SaveSlotMenu parentMenu;
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     public void SetupSaveSlot(int newSlotNumber, bool newIsNewGame, SaveSlotMenu newParentMenu)
     {
         parentMenu = newParentMenu;
@@ -81,6 +88,7 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void ClickSaveSlot()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         if (isNewGame)
         {
             if (chapterName != "")
@@ -122,6 +130,7 @@ public class SaveSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void DeleteSave()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         NotificationMenu notificationMenu = parentMenu.GetNotificationMenu();
         notificationMenu.gameObject.SetActive(true);
         notificationMenu.SetupNotification(NotificationMenu.HubNotificationType.DeletGameConfirm, slotNumber);
