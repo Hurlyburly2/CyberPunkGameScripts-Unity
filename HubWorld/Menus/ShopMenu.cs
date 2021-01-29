@@ -58,6 +58,13 @@ public class ShopMenu : MonoBehaviour
     const int MAX_LEVEL_3_UPGRADE_LEVEL_2_PRICE = 4000;
     const int MAX_LEVEL_3_UPGRADE_LEVEL_3_PRICE = 12000;
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     public void SetupShopMenu()
     {
         currentMode = null;
@@ -405,21 +412,25 @@ public class ShopMenu : MonoBehaviour
 
     public void ClickBuyTab()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         InitializeBuyScreen();
     }
 
     public void ClickSellTab()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         InitializeSellScreen();
     }
 
     public void ClickUpgradeTab()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         InitializeUpgradeScreen();
     }
 
     public void CloseShopMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         gameObject.SetActive(false);
     }
 

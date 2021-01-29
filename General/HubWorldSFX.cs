@@ -9,9 +9,10 @@ public class HubWorldSFX : MonoBehaviour
     [SerializeField] AudioClip startButtonSound;
     [SerializeField] List<AudioClip> buttonSounds;
     [SerializeField] List<AudioClip> selectSounds;
+    [SerializeField] List<AudioClip> selectInventorySlotSounds;
 
     int soundsCurrentlyPlaying = 0;
-    public enum HubSoundeffect { StartButton, ButtonPress, Selecting };
+    public enum HubSoundeffect { StartButton, ButtonPress, Selecting, SelectingInventorySlot };
 
     public void PlayHubSoundEffect(HubSoundeffect soundEffect)
     {
@@ -29,6 +30,10 @@ public class HubWorldSFX : MonoBehaviour
                 case HubSoundeffect.Selecting:
                     randomIndex = Random.Range(0, selectSounds.Count);
                     PlaySound(selectSounds[randomIndex], false);
+                    break;
+                case HubSoundeffect.SelectingInventorySlot:
+                    randomIndex = Random.Range(0, selectInventorySlotSounds.Count);
+                    PlaySound(selectInventorySlotSounds[randomIndex], false);
                     break;
             }
         }

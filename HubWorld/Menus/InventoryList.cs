@@ -25,6 +25,13 @@ public class InventoryList : MonoBehaviour
     List<InventoryListItem> itemsInList = new List<InventoryListItem>();
     ItemDetailsMenu.ItemDetailMenuContextType context;
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     public void SetupInventoryList(InventoryMenu.InventoryFields[] newHeaders, List<Item> itemsToList, ItemDetailsMenu.ItemDetailMenuContextType newContext)
     {
         context = newContext;
@@ -192,22 +199,26 @@ public class InventoryList : MonoBehaviour
 
     public void OpenDetailsMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         itemDetailsMenu.gameObject.SetActive(true);
         itemDetailsMenu.SetupItemDetailMenu(context, GetSelectedItem());
     }
 
     public void ClickHeaderOne()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.Selecting);
         AdjustSort(headers[0]);
     }
 
     public void ClickHeaderTwo()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.Selecting);
         AdjustSort(headers[1]);
     }
 
     public void ClickHeaderThree()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.Selecting);
         AdjustSort(headers[2]);
     }
 }

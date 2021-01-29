@@ -27,6 +27,13 @@ public class InventoryMenu : MonoBehaviour
 
     [SerializeField] InventoryList inventoryList;
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     public void SetupInventoryMenu()
     {
         ResetFilters();
@@ -154,6 +161,7 @@ public class InventoryMenu : MonoBehaviour
 
     public void CloseInventoryMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         inventoryList.DestroyListItems();
         gameObject.SetActive(false);
     }
@@ -179,6 +187,7 @@ public class InventoryMenu : MonoBehaviour
 
     public void PressRunnerFilterBtn()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         if (runnerFilterOn)
         {
             runnerFilterOn = false;
@@ -192,6 +201,7 @@ public class InventoryMenu : MonoBehaviour
 
     public void PressHackerFilterBtn()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         if (hackerFilterOn)
         {
             hackerFilterOn = false;
@@ -205,6 +215,7 @@ public class InventoryMenu : MonoBehaviour
 
     public void PressModFilterBtn()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         if (modFilterOn)
         {
             modFilterOn = false;
@@ -218,6 +229,7 @@ public class InventoryMenu : MonoBehaviour
 
     public void PressInstallFilterBtn()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         if (installFilterOn)
         {
             installFilterOn = false;

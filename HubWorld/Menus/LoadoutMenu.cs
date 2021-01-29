@@ -22,6 +22,13 @@ public class LoadoutMenu : MonoBehaviour
 
     ItemDetailsMenu.ItemDetailMenuContextType context;
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     public void SetupLoadoutMenu()
     {
         RefreshPlayerData();
@@ -48,22 +55,26 @@ public class LoadoutMenu : MonoBehaviour
 
     private void OpenCharacterSelectMenu(Item.HackerRunner hackerRunner)
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         characterSelectMenu.gameObject.SetActive(true);
         characterSelectMenu.SetupCharacterSelectMenu(hackerRunner);
     }
 
     public void OpenCharacterSelectMenuHacker()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         OpenCharacterSelectMenu(Item.HackerRunner.Hacker);
     }
 
     public void OpenCharacterSelectMenuRunner()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         OpenCharacterSelectMenu(Item.HackerRunner.Runner);
     }
 
     public void CloseLoadoutMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         gameObject.SetActive(false);
         if (context == ItemDetailsMenu.ItemDetailMenuContextType.JobSelect)
         {
@@ -74,12 +85,14 @@ public class LoadoutMenu : MonoBehaviour
 
     public void OpenLoadoutEquipmentMenuRunner()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         loadoutEquipmentMenu.gameObject.SetActive(true);
         loadoutEquipmentMenu.SetupLoadoutEquipmentMenu(currentRunner);
     }
 
     public void OpenLoadoutEquipmentMenuHacker()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         loadoutEquipmentMenu.gameObject.SetActive(true);
         loadoutEquipmentMenu.SetupLoadoutEquipmentMenu(currentHacker);
     }
