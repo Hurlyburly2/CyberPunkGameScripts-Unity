@@ -22,6 +22,13 @@ public class InventoryListItem : MonoBehaviour
 
     ItemDetailsMenu.ItemDetailMenuContextType context;
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     public void SetText(Item newItem, ItemDetailsMenu.ItemDetailMenuContextType newContext)
     {
         context = newContext;
@@ -79,6 +86,7 @@ public class InventoryListItem : MonoBehaviour
 
     public void SelectListItem()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.Selecting);
         if (isHighlighted)
         {
             isHighlighted = false;

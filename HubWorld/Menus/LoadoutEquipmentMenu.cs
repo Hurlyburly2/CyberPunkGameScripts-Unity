@@ -57,6 +57,13 @@ public class LoadoutEquipmentMenu : MonoBehaviour
     bool recentlyEquippedItem = false;
     bool waitingToEquip = false;
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     private void DoSetup()
     {
         InitialFilterSetup();
@@ -499,6 +506,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
 
     public void HandlePressedSlotButton(Item.ItemTypes itemTypeOnButton, Loadout.LeftOrRight leftOrRight, int slotNumber)
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.SelectingInventorySlot);
         List<LoadoutSlotBtn> currentLoadoutSlotBtns = GetCurrentLoadoutSlotBtns();
         foreach (LoadoutSlotBtn button in currentLoadoutSlotBtns)
         {
@@ -562,6 +570,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
 
     public void CloseLoadoutEquipmentMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         gameObject.SetActive(false);
     }
 }

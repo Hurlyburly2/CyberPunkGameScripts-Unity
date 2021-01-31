@@ -8,6 +8,13 @@ public class FirstMenu : MonoBehaviour
     [SerializeField] Button continueButton;
     [SerializeField] SaveSlotMenu saveSlotMenu;
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     public void SetupFirstMenu()
     {
         if (SavePrefs.GetMostRecentlyUsedSaveSlot() != 0)
@@ -18,6 +25,7 @@ public class FirstMenu : MonoBehaviour
 
     public void ContinueButtonPress()
     {
+        PlayButtonSound();
         PlayerData playerData = FindObjectOfType<PlayerData>();
         playerData.LoadPlayer(SavePrefs.GetMostRecentlyUsedSaveSlot());
         FindObjectOfType<HubMenuButton>().OpenMenu();
@@ -26,6 +34,7 @@ public class FirstMenu : MonoBehaviour
 
     public void NewGameBtnPress()
     {
+        PlayButtonSound();
         saveSlotMenu.gameObject.SetActive(true);
         saveSlotMenu.SetupSaveSlotMenu(true);
         gameObject.SetActive(false);
@@ -33,6 +42,7 @@ public class FirstMenu : MonoBehaviour
 
     public void LoadGameBtnPress()
     {
+        PlayButtonSound();
         saveSlotMenu.gameObject.SetActive(true);
         saveSlotMenu.SetupSaveSlotMenu(false);
         gameObject.SetActive(false);
@@ -45,6 +55,12 @@ public class FirstMenu : MonoBehaviour
 
     public void CloseFirstMenu()
     {
+        PlayButtonSound();
         gameObject.SetActive(false);
+    }
+
+    private void PlayButtonSound()
+    {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
     }
 }
