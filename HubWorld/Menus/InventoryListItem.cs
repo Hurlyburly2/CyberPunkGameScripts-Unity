@@ -84,9 +84,14 @@ public class InventoryListItem : MonoBehaviour
         }
     }
 
-    public void SelectListItem()
+    public void SelectListItemClick()
     {
         hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.Selecting);
+        SelectListItem();
+    }
+
+    public void SelectListItem(bool playSound = true)
+    {
         if (isHighlighted)
         {
             isHighlighted = false;
