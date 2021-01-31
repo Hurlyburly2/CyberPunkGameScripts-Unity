@@ -15,6 +15,12 @@ public class NotificationMenu : MonoBehaviour
     HubNotificationType notificationType;
 
     int saveSlot;
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
 
     public void SetupNotification(HubNotificationType newNotificationType, int newSaveSlot)
     {
@@ -38,6 +44,7 @@ public class NotificationMenu : MonoBehaviour
 
     public void ClickOkButton()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         switch (notificationType)
         {
             case HubNotificationType.NewGameOverwrite:
@@ -63,6 +70,7 @@ public class NotificationMenu : MonoBehaviour
 
     public void ClickCancelButton()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         gameObject.SetActive(false);
     }
 }

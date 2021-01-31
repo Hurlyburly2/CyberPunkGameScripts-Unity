@@ -20,6 +20,13 @@ public class MissionCompleteMenu : MonoBehaviour
     [SerializeField] Sprite jobFailedSprite;
     [SerializeField] Image jobStatusTxtImg;
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     public void SetupMissionCompleteMenu(Job oldJob, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted, bool victory)
     {
         Debug.Log("Setup Mission Complete Menu");
@@ -71,6 +78,7 @@ public class MissionCompleteMenu : MonoBehaviour
 
     public void CloseMissionCompleteMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         gameObject.SetActive(false);
     }
 }

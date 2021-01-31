@@ -129,6 +129,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                     {
                         if (loadoutSlot.GetItemType() == selectedItem.GetItemType() && loadoutSlot.GetIsActive())
                         {
+                            hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.EquipItem);
                             runnerLoadout.EquipItem(selectedItem as RunnerMod, loadoutSlot.GetLeftOrRight());
                             recentlyEquippedItem = true;
                         }
@@ -149,6 +150,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                     }
                 } else
                 {
+                    hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.EquipItem);
                     runnerLoadout.EquipItem(selectedItem as RunnerMod);
                     recentlyEquippedItem = true;
                 }
@@ -158,6 +160,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
 
                 if (selectedItem.IsHackerMod())
                 {
+                    hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.EquipItem);
                     hackerLoadout.EquipItem(selectedItem as HackerMod);
                     recentlyEquippedItem = true;
                     SetupActiveHackerSlots();
@@ -167,6 +170,7 @@ public class LoadoutEquipmentMenu : MonoBehaviour
                     {
                         if (loadoutSlot.GetItemType() == selectedItem.GetItemType() && loadoutSlot.GetIsActive())
                         {
+                            hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.EquipItem);
                             hackerLoadout.EquipItem(selectedItem as HackerModChip, loadoutSlot.GetSlotNumber() - 1);
                             recentlyEquippedItem = true;
                         }
@@ -504,9 +508,12 @@ public class LoadoutEquipmentMenu : MonoBehaviour
         }
     }
 
-    public void HandlePressedSlotButton(Item.ItemTypes itemTypeOnButton, Loadout.LeftOrRight leftOrRight, int slotNumber)
+    public void HandlePressedSlotButton(Item.ItemTypes itemTypeOnButton, Loadout.LeftOrRight leftOrRight, int slotNumber, bool playEquipSound=false)
     {
-        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.SelectingInventorySlot);
+        if (playEquipSound)
+            hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.EquipItem);
+        else
+            hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.SelectingInventorySlot);
         List<LoadoutSlotBtn> currentLoadoutSlotBtns = GetCurrentLoadoutSlotBtns();
         foreach (LoadoutSlotBtn button in currentLoadoutSlotBtns)
         {

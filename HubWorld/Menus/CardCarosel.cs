@@ -19,6 +19,13 @@ public class CardCarosel : MonoBehaviour
 
     bool showRunnerCards = true; // toggle to false to show hacker cards
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     public void InitializeToggle()
     {
         rightButton.sprite = buttonOn;
@@ -62,6 +69,7 @@ public class CardCarosel : MonoBehaviour
 
     public void ToggleHackerOrRunner()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.Selecting);
         if (showRunnerCards)
         {
             ToggleToHackerCards();

@@ -17,6 +17,13 @@ public class JobSelectSquare : MonoBehaviour
     Job job;
     bool isSelected;
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     public void SetupJobSelectSquare(Job newJob)
     {
         isSelected = false;
@@ -33,7 +40,7 @@ public class JobSelectSquare : MonoBehaviour
         return job;
     }
 
-    public void ButtonPress()
+    public void SelectJob()
     {
         if (!isSelected)
         {
@@ -41,6 +48,12 @@ public class JobSelectSquare : MonoBehaviour
         }
         UpdateHolderImage();
         parentMenu.HandleJobSquareButtonPress(this);
+    }
+
+    public void ButtonPress()
+    {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.Selecting);
+        SelectJob();
     }
 
     public void SetInactive()

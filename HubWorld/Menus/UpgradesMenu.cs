@@ -60,6 +60,13 @@ public class UpgradesMenu : MonoBehaviour
     [SerializeField] Image runnerLevel5MarkerSelected;
     [SerializeField] List<UpgradesMenuUpgradeBtn> runnerUpgradeButtons;
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     public void SetupUpgradesMenu(ItemDetailsMenu.ItemDetailMenuContextType newContext, Item newItem)
     {
         context = newContext;
@@ -420,6 +427,8 @@ public class UpgradesMenu : MonoBehaviour
 
     public void DoUpgrades(int price, int targetLevel)
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.UpgradeItem);
+        // TODO: PLAY UPGRADE BUY SOUND
         PlayerData playerData = FindObjectOfType<PlayerData>();
         if (playerData.GetCreditsAmount() >= price)
         {
@@ -436,6 +445,7 @@ public class UpgradesMenu : MonoBehaviour
 
     public void CloseUpgradesMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         // Turn off all level markers
         List<GameObject> turnOffMarkers = GetActiveLevelMarkers();
         foreach (GameObject marker in turnOffMarkers)
