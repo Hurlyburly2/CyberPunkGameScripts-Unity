@@ -65,6 +65,13 @@ public class ItemDetailsMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI hackerInstallShopPriceAmountField;
     [SerializeField] TextMeshProUGUI hackerInstallPriceLabel;
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     public void SetupItemDetailMenu(ItemDetailMenuContextType newContext, Item newItem)
     {
         context = newContext;
@@ -340,6 +347,7 @@ public class ItemDetailsMenu : MonoBehaviour
 
     public void CloseItemDetailsMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         runnerShopLoadoutContext.SetActive(false);
         runnerInventoryContext.SetActive(false);
 
@@ -351,6 +359,7 @@ public class ItemDetailsMenu : MonoBehaviour
 
     public void OpenUpgradesMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         upgradesMenu.gameObject.SetActive(true);
         upgradesMenu.SetupUpgradesMenu(context, item);
     }
