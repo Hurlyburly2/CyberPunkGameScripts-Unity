@@ -70,7 +70,7 @@ public class LoadoutSlotBtn : MonoBehaviour
             // Tried to equip an arm/leg/install without having selected a slot
             waitingForInput = false;
             SetActive();
-            parentMenu.HandlePressedSlotButton(itemType, leftOrRight, slotNumber);
+            parentMenu.HandlePressedSlotButton(itemType, leftOrRight, slotNumber, true);
             parentMenu.EquipItem();
         }
     }
