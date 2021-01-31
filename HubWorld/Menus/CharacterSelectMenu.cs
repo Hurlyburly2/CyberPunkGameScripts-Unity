@@ -26,6 +26,13 @@ public class CharacterSelectMenu : MonoBehaviour
     List<HackerData> hackers;
     int currentIndex;
 
+    HubWorldSFX hubWorldSFX;
+
+    private void Awake()
+    {
+        hubWorldSFX = FindObjectOfType<HubWorldSFX>();
+    }
+
     public void SetupCharacterSelectMenu(Item.HackerRunner newHackerOrRunner)
     {
         hackerOrRunner = newHackerOrRunner;
@@ -89,6 +96,7 @@ public class CharacterSelectMenu : MonoBehaviour
 
     public void LeftBtnPress()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         switch (hackerOrRunner)
         {
             case Item.HackerRunner.Runner:
@@ -117,6 +125,7 @@ public class CharacterSelectMenu : MonoBehaviour
 
     public void RightBtnPress()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         switch (hackerOrRunner)
         {
             case Item.HackerRunner.Runner:
@@ -158,6 +167,7 @@ public class CharacterSelectMenu : MonoBehaviour
 
     public void ConfirmSelectBtnPress()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         PlayerData playerData = FindObjectOfType<PlayerData>();
         switch (hackerOrRunner)
         {
@@ -173,6 +183,7 @@ public class CharacterSelectMenu : MonoBehaviour
 
     public void CloseCharacterSelectMenu()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         loadoutMenu.SetupLoadoutMenu();
         gameObject.SetActive(false);
     }

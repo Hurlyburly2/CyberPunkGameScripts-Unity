@@ -28,7 +28,7 @@ public class JobSelectMenu : MonoBehaviour
         hackerPortrait.sprite = playerData.GetCurrentHacker().GetHackerPortraitSmall();
 
         SetupJobButtons(playerData.GetCurrentJobsList());
-        jobSelectSquares[1].ButtonPress(); // Select the middle square to populate the info fields
+        jobSelectSquares[1].SelectJob(); // Select the middle square to populate the info fields
     }
 
     private void SetupJobButtons(List<Job> currentJobsList)
@@ -67,7 +67,6 @@ public class JobSelectMenu : MonoBehaviour
 
     public void HandleJobSquareButtonPress(JobSelectSquare pressedSquare)
     {
-        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.Selecting);
         foreach (JobSelectSquare square in jobSelectSquares)
         {
             if (pressedSquare != square)
