@@ -11,9 +11,11 @@ public class HubWorldSFX : MonoBehaviour
     [SerializeField] List<AudioClip> selectSounds;
     [SerializeField] List<AudioClip> selectInventorySlotSounds;
     [SerializeField] List<AudioClip> equipItemSounds;
+    [SerializeField] AudioClip buyItemSound;
+    [SerializeField] AudioClip upgradeItemSound;
 
     int soundsCurrentlyPlaying = 0;
-    public enum HubSoundeffect { StartButton, ButtonPress, Selecting, SelectingInventorySlot, EquipItem };
+    public enum HubSoundeffect { StartButton, ButtonPress, Selecting, SelectingInventorySlot, EquipItem, BuyItem, UpgradeItem };
 
     public void PlayHubSoundEffect(HubSoundeffect soundEffect)
     {
@@ -22,30 +24,37 @@ public class HubWorldSFX : MonoBehaviour
             switch (soundEffect)
             {
                 case HubSoundeffect.StartButton:
-                    PlaySound(startButtonSound, false);
+                    PlaySound(startButtonSound);
                     break;
                 case HubSoundeffect.ButtonPress:
                     int randomIndex = Random.Range(0, buttonSounds.Count);
-                    PlaySound(buttonSounds[randomIndex], false);
+                    PlaySound(buttonSounds[randomIndex]);
                     break;
                 case HubSoundeffect.Selecting:
                     randomIndex = Random.Range(0, selectSounds.Count);
-                    PlaySound(selectSounds[randomIndex], false);
+                    PlaySound(selectSounds[randomIndex]);
                     break;
                 case HubSoundeffect.SelectingInventorySlot:
                     randomIndex = Random.Range(0, selectInventorySlotSounds.Count);
-                    PlaySound(selectInventorySlotSounds[randomIndex], false);
+                    PlaySound(selectInventorySlotSounds[randomIndex]);
                     break;
                 case HubSoundeffect.EquipItem:
                     randomIndex = Random.Range(0, equipItemSounds.Count);
-                    PlaySound(equipItemSounds[randomIndex], false);
+                    PlaySound(equipItemSounds[randomIndex]);
+                    break;
+                case HubSoundeffect.BuyItem:
+                    PlaySound(buyItemSound);
+                    break;
+                case HubSoundeffect.UpgradeItem:
+                    PlaySound(upgradeItemSound);
                     break;
             }
         }
     }
 
-    private void PlaySound(AudioClip soundToPlay, bool loop)
+    private void PlaySound(AudioClip soundToPlay, bool loop=false)
     {
+        // By default, play without a loop
         SoundEffectObject newSound = Instantiate(soundEffectObject);
         newSound.transform.SetParent(this.transform);
         soundsCurrentlyPlaying++;

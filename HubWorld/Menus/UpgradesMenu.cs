@@ -427,6 +427,7 @@ public class UpgradesMenu : MonoBehaviour
 
     public void DoUpgrades(int price, int targetLevel)
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.UpgradeItem);
         // TODO: PLAY UPGRADE BUY SOUND
         PlayerData playerData = FindObjectOfType<PlayerData>();
         if (playerData.GetCreditsAmount() >= price)

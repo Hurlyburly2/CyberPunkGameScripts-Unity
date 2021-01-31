@@ -365,17 +365,20 @@ public class ShopMenu : MonoBehaviour
 
     public void BuyButtonClick()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.BuyItem);
         buyButton.interactable = false;
         BuyItem();
     }
 
     public void SellButtonClick()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.BuyItem);
         Debug.Log("Clicked Sell Button");
     }
 
     public void UpgradeButtonClick()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.UpgradeItem);
         Item selectedItem = inventoryList.GetSelectedItem();
         playerData.CreditsSpend(GetPrice(selectedItem));
         selectedItem.UpgradeItem();
