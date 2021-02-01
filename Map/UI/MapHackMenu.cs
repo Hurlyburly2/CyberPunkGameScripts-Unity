@@ -87,6 +87,9 @@ public class MapHackMenu : MonoBehaviour
         // TODO
         // ADD THE HACK OBJECT HERE
         FindObjectOfType<SceneLoader>().LoadHackFromMap(mapSquare, hackTarget);
+
+        FindObjectOfType<CurrentNodeMenu>().gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void CloseMapMenu()
