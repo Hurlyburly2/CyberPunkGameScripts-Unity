@@ -17,6 +17,8 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] MapData mapData;
     [SerializeField] MusicPlayer musicPlayer;
     [SerializeField] PlayerData playerData;
+    [SerializeField] Transitioner transitioner;
+    float transitionTime;
 
     // Scene names
     [SerializeField] string battleSceneName = "Battle";
@@ -31,6 +33,7 @@ public class SceneLoader : MonoBehaviour
     private void Awake()
     {
         musicPlayer = FindObjectOfType<MusicPlayer>();
+        transitionTime = transitioner._transitionTime;
 
         // TODO: THIS MAY BE REDUNDANT AND WRONG, MAY BREAK STUFF WHEN EVERYTHING'S TIED TOGETHER
         int count = FindObjectsOfType<BattleData>().Length;
@@ -80,7 +83,9 @@ public class SceneLoader : MonoBehaviour
         currentMap.SetMapData(currentRunner, currentHacker, mapType, 10, mapSize, job);
         ChangeMusicTrack(job.GetJobArea());
 
-        SceneManager.LoadScene(mapSceneName);
+        //SceneManager.LoadScene(mapSceneName);
+        transitioner.gameObject.SetActive(true);
+        Transitioner.Instance.TransitionToScene(mapSceneName);
 
         StartCoroutine(WaitForMapLoad(mapSceneName));
     }
@@ -88,7 +93,10 @@ public class SceneLoader : MonoBehaviour
     public void LoadMapFromBattle()
     {
         MapGrid mapGrid = FindObjectOfType<BattleData>().GetMapGrid();
-        SceneManager.LoadScene(mapSceneName);
+
+        //SceneManager.LoadScene(mapSceneName);
+        Transitioner.Instance.TransitionToScene(mapSceneName);
+
         BattleData previousBattle = FindObjectOfType<BattleData>();
 
         currentMap = FindObjectOfType<MapData>();
@@ -143,10 +151,11 @@ public class SceneLoader : MonoBehaviour
 
     private IEnumerator WaitForMapLoad(string mapName)
     {
-        while (SceneManager.GetActiveScene().name != mapSceneName)
+        while (SceneManager.GetActiveScene().name != mapSceneName && !Transitioner.Instance.CanTransition())
         {
             yield return null;
         }
+
         currentMap.SetUpMap();
     }
 
@@ -161,7 +170,8 @@ public class SceneLoader : MonoBehaviour
         currentBattle.SetMapGrid(mapGrid);
         currentBattle.LoadModifiersFromMap(currentBattle.GetMapSquare().GetPackageOfModifiers());
 
-        SceneManager.LoadScene(battleSceneName);
+        //SceneManager.LoadScene(battleSceneName);
+        Transitioner.Instance.TransitionToScene(battleSceneName);
 
         StartCoroutine(WaitForBattleLoad(battleSceneName));
     }
@@ -171,7 +181,8 @@ public class SceneLoader : MonoBehaviour
         currentBattle = Instantiate(battleData);
         currentBattle.SetCharacterData(currentRunner, currentHacker);
 
-        SceneManager.LoadScene(battleSceneName);
+        //SceneManager.LoadScene(battleSceneName);
+        Transitioner.Instance.TransitionToScene(battleSceneName);
 
         StartCoroutine(WaitForBattleLoad(battleSceneName));
     }
@@ -213,7 +224,8 @@ public class SceneLoader : MonoBehaviour
         currentHack = Instantiate(hackBattleData);
         currentHack.SetCharacterData(currentRunner, currentHacker);
 
-        SceneManager.LoadScene(hackSceneName);
+        //SceneManager.LoadScene(hackSceneName);
+        Transitioner.Instance.TransitionToScene(hackSceneName);
         StartCoroutine(WaitForHackLoad());
     }
 
@@ -235,8 +247,9 @@ public class SceneLoader : MonoBehaviour
         currentHack.SetCharacterData(currentRunner, currentHacker);
         currentHack.SetMapData(mapGrid, mapSqare, hackTarget);
 
-        Destroy(FindObjectOfType<MapGrid>());
-        SceneManager.LoadScene(hackSceneName);
+        //Destroy(FindObjectOfType<MapGrid>());
+        //SceneManager.LoadScene(hackSceneName);
+        Transitioner.Instance.TransitionToScene(hackSceneName);
         StartCoroutine(WaitForHackToLoadFromMap());
     }
 
@@ -252,7 +265,8 @@ public class SceneLoader : MonoBehaviour
     public void LoadMapFromHack(int redPoints, int bluePoints, int greenPoints, MapSquare currentSquare, HackTarget currentHackTarget)
     {
         MapGrid mapGrid = FindObjectOfType<HackBattleData>().GetMapGrid();
-        SceneManager.LoadScene(mapSceneName);
+        //SceneManager.LoadScene(mapSceneName);
+        Transitioner.Instance.TransitionToScene(mapSceneName);
 
         currentMap = FindObjectOfType<MapData>();
         currentMap.TrackCompletedHack();
@@ -280,13 +294,15 @@ public class SceneLoader : MonoBehaviour
     public void LoadHubFromCompletedMap(Job job, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted)
     {
         // TODO: THIS
-        SceneManager.LoadScene(hubSceneName);
+        //SceneManager.LoadScene(hubSceneName);
+        Transitioner.Instance.TransitionToScene(hubSceneName);
         StartCoroutine(WaitForHubToLoadFromMap(job, creditsEarned, goalModifier, enemiesDefeated, hacksCompleted));
     }
 
     public void LoadHubFromAbandonedMap(Job job, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted)
     {
-        SceneManager.LoadScene(hubSceneName);
+        //SceneManager.LoadScene(hubSceneName);
+        Transitioner.Instance.TransitionToScene(hubSceneName);
         StartCoroutine(WaitForHubToLoadFromMap(job, creditsEarned, goalModifier, enemiesDefeated, hacksCompleted, false));
     }
 

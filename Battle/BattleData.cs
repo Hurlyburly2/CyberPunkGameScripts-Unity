@@ -80,6 +80,7 @@ public class BattleData : MonoBehaviour
 
     public void SetUpBattle()
     {
+        mapGrid.gameObject.SetActive(false);
         // Set this to 0 so it doesn't carry over from battle to battle if unconsumed
         character.SetExtraDamageMultiplier(0);
 
@@ -315,7 +316,6 @@ public class BattleData : MonoBehaviour
     public void SetMapGrid(MapGrid newMapGrid)
     {
         mapGrid = newMapGrid;
-        mapGrid.gameObject.SetActive(false);
     }
 
     public void LoadModifiersFromMap(List<int> loadedMapSquareEffects)

@@ -69,6 +69,7 @@ public class HackBattleData : MonoBehaviour
 
     public void SetupHack(int safeSize, string newSecurityType)
     {
+        mapGrid.gameObject.SetActive(false);
         hackDeck = FindObjectOfType<HackDeck>();
         hackDiscard = FindObjectOfType<HackDiscard>();
         allHackCards = FindObjectOfType<AllHackCards>();
@@ -384,7 +385,6 @@ public class HackBattleData : MonoBehaviour
     public void SetMapData(MapGrid newMapGrid, MapSquare mapSquare, HackTarget newHackTarget)
     {
         mapGrid = newMapGrid;
-        mapGrid.gameObject.SetActive(false);
         currentMapSquare = mapSquare;
         hackTarget = newHackTarget;
         trapType = mapSquare.GetTriggeredTrapType();
