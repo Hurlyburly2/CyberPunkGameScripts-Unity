@@ -24,6 +24,12 @@ public class NeighboringNodeMenu : MonoBehaviour
     int enemyScoutLevel;
 
     Enemy enemy;
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
 
     public void InitializeMenu(MapSquare mapSquare)
     {
@@ -169,12 +175,15 @@ public class NeighboringNodeMenu : MonoBehaviour
 
     public void MovePlayer()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.PlayerMove);
         FindObjectOfType<MapData>().MovePlayer(playerLocation, square);
         CloseMenu();
     }
 
     public void CloseMenu()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         square = null;
         locationImage = null;
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);
@@ -183,6 +192,7 @@ public class NeighboringNodeMenu : MonoBehaviour
 
     public void ClickEffectsButton()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         if (!effectsListOpen)
         {
             effectsListControl.gameObject.SetActive(true);
