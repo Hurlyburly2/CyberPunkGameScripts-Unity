@@ -8,9 +8,15 @@ public class MapSFX : MonoBehaviour
 
     [SerializeField] List<AudioClip> buttonSounds;
     [SerializeField] List<AudioClip> playerMove;
+    [SerializeField] AudioClip gainReward;
+    [SerializeField] AudioClip powerUp;
+    [SerializeField] AudioClip upgrade;
+    [SerializeField] AudioClip firstAid;
+    [SerializeField] AudioClip trap;
 
     int soundsCurrentlyPlaying = 0;
-    public enum MapSoundEffect { ButtonPress, PlayerMove };
+    public enum MapSoundEffect { ButtonPress, PlayerMove, GainReward, PowerUp, Upgrade,
+        FirstAid, Trap };
 
     public void PlayMapSoundSFX(MapSoundEffect soundEffect)
     {
@@ -25,6 +31,21 @@ public class MapSFX : MonoBehaviour
                 case MapSoundEffect.PlayerMove:
                     randomIndex = Random.Range(0, playerMove.Count);
                     PlaySound(playerMove[randomIndex]);
+                    break;
+                case MapSoundEffect.GainReward:
+                    PlaySound(gainReward);
+                    break;
+                case MapSoundEffect.PowerUp:
+                    PlaySound(powerUp);
+                    break;
+                case MapSoundEffect.Upgrade:
+                    PlaySound(upgrade);
+                    break;
+                case MapSoundEffect.FirstAid:
+                    PlaySound(firstAid);
+                    break;
+                case MapSoundEffect.Trap:
+                    PlaySound(trap);
                     break;
             }
         }

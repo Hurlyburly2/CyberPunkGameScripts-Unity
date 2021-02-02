@@ -14,6 +14,13 @@ public class CurrentNodeMenu : MonoBehaviour
     [SerializeField] EffectsListControl effectsListControl;
     bool effectsListOpen;
 
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
+
     public void InitializeMenu(MapSquare newSquare)
     {
         gameObject.SetActive(true);
@@ -59,6 +66,7 @@ public class CurrentNodeMenu : MonoBehaviour
 
     public void CloseMenu()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         square = null;
         locationImage = null;
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);
@@ -72,6 +80,7 @@ public class CurrentNodeMenu : MonoBehaviour
 
     public void ClickEffectsButton()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         if (!effectsListOpen)
         {
             effectsListControl.gameObject.SetActive(true);

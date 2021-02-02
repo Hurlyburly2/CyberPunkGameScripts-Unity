@@ -9,8 +9,34 @@ public class MenuPOIButton : MonoBehaviour
     [SerializeField] TextMeshProUGUI textField;
     MapObject mapObject;
 
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
+
     public void OpenMenu()
     {
+        switch (mapObject.GetObjectType())
+        {
+            case "Trap":
+                //mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.Trap);
+                // Trap sfx should only happen when trap is sprung
+                break;
+            case "Reward":
+                mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.GainReward);
+                break;
+            case "PowerUp":
+                mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.PowerUp);
+                break;
+            case "Upgrade":
+                mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.Upgrade);
+                break;
+            case "First Aid Station":
+                mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.FirstAid);
+                break;
+        }
         FindObjectOfType<MapConfig>().GetObjectNotificationMenu().OpenMenu(mapObject);
     }
 

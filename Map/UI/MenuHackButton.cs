@@ -9,6 +9,13 @@ public class MenuHackButton : MonoBehaviour
     [SerializeField] TextMeshProUGUI hackName;
     HackTarget hackTarget;
 
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
+
     public void SetupButton(HackTarget newHackTarget)
     {
         hackTarget = newHackTarget;
@@ -40,6 +47,7 @@ public class MenuHackButton : MonoBehaviour
 
     public void OpenHackMenu()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         MapHackMenu hackMenu = FindObjectOfType<MapConfig>().GetMapHackMenu();
         hackMenu.gameObject.SetActive(true);
         hackMenu.InitializeMapHackMenu(hackTarget);
