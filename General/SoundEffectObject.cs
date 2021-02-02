@@ -9,6 +9,11 @@ public class SoundEffectObject : MonoBehaviour
     bool startedPlaying;
     HubWorldSFX parent;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(transform.gameObject);
+    }
+
     public void PlaySound(AudioClip audioClip, bool loop, HubWorldSFX newParent)
     {
         parent = newParent;

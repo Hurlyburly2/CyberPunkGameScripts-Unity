@@ -45,9 +45,14 @@ public class MenuHackButton : MonoBehaviour
         image.sprite = FindObjectOfType<MapSquareImageHolder>().GetButtonImageByName("none", false);
     }
 
-    public void OpenHackMenu()
+    public void OpenHackMenuClick()
     {
         mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
+        OpenHackMenu();
+    }
+
+    public void OpenHackMenu()
+    {
         MapHackMenu hackMenu = FindObjectOfType<MapConfig>().GetMapHackMenu();
         hackMenu.gameObject.SetActive(true);
         hackMenu.InitializeMapHackMenu(hackTarget);
