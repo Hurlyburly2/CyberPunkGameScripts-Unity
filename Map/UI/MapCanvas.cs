@@ -8,6 +8,13 @@ public class MapCanvas : MonoBehaviour
     [SerializeField] PreBossGoalWindow preBossGoalWindow;
     [SerializeField] PowerUpsMenu powerUpsMenu;
 
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
+
     public MissionStartMenu GetMissionStartMenu()
     {
         return missionStartMenu;
@@ -20,6 +27,7 @@ public class MapCanvas : MonoBehaviour
 
     public void OpenPowerUpsMenu()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(true);
         powerUpsMenu.gameObject.SetActive(true);
         powerUpsMenu.SetupPowerUpsMenu();

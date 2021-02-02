@@ -6,6 +6,13 @@ public class MapMenuButtons : MonoBehaviour
 {
     [SerializeField] GameObject mainMenu;
 
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
+
     public void BackToTitleButtonClick()
     {
         Debug.Log("Back to Title Click");
@@ -13,6 +20,7 @@ public class MapMenuButtons : MonoBehaviour
 
     public void AbandonRunButtonClick()
     {
+        // TODO: play a fail sound here!
         MapData mapData = FindObjectOfType<MapData>();
         Job job = mapData.GetJob();
         int creditsEarned = mapData.GetEarnedMoneyAmount();
@@ -25,27 +33,32 @@ public class MapMenuButtons : MonoBehaviour
 
     public void OpenSettingsWindow()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         Debug.Log("Open Settings Window");
     }
 
     public void OpenLoadoutWindow()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         Debug.Log("Open Loadout Window");
     }
 
     public void OpenStatusWindow()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         Debug.Log("Open Status Window");
     }
 
     public void CloseMenu()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);
         mainMenu.SetActive(false);
     }
 
     public void OpenMenu()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(true);
         mainMenu.SetActive(true);
     }
