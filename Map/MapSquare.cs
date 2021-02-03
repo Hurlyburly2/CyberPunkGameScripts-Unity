@@ -79,11 +79,13 @@ public class MapSquare : MonoBehaviour
             if (playerPresent)
             {
                 mapConfig.SetIsAMenuOpen(true);
+                FindObjectOfType<MapSFX>().PlayMapSoundSFX(MapSFX.MapSoundEffect.MapSquarePress);
                 CurrentNodeMenu menu = mapConfig.GetCurrentNodeMenu();
                 menu.InitializeMenu(this);
             } else
             {
                 mapConfig.SetIsAMenuOpen(true);
+                FindObjectOfType<MapSFX>().PlayMapSoundSFX(MapSFX.MapSoundEffect.MapSquarePress);
                 NeighboringNodeMenu menu = mapConfig.GetNeighboringNodeMenu();
                 menu.InitializeMenu(this);
             }

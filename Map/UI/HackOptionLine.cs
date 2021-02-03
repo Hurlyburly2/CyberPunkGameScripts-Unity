@@ -20,6 +20,13 @@ public class HackOptionLine : MonoBehaviour
     string description;
     string popupHelperDescription;
 
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
+
     public void InitializeHackOptionsLine(string newColor, int newCost, string newDescription, HackTarget newHackTarget, string newPopupHelperDescription)
     {
         popupHelperDescription = newPopupHelperDescription;
@@ -52,6 +59,7 @@ public class HackOptionLine : MonoBehaviour
 
     public void UseAbility()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.DoHack);
         MapSquare currentMapSquare = mapHackMenu.GetMapSquare();
         hackTarget.UseAbility(currentMapSquare, description, color, cost);
         mapHackMenu.SetPointsTextFields();

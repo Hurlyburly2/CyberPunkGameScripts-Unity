@@ -7,8 +7,17 @@ public class ExtractionWindow : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI extractionText;
 
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
+
     public void PressExtractionButton()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
+
         MapData mapData = FindObjectOfType<MapData>();
         Job job = mapData.GetJob();
         int creditsEarned = mapData.GetEarnedMoneyAmount();

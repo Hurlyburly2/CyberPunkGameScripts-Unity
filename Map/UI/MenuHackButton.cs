@@ -9,6 +9,13 @@ public class MenuHackButton : MonoBehaviour
     [SerializeField] TextMeshProUGUI hackName;
     HackTarget hackTarget;
 
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
+
     public void SetupButton(HackTarget newHackTarget)
     {
         hackTarget = newHackTarget;
@@ -36,6 +43,12 @@ public class MenuHackButton : MonoBehaviour
         image.enabled = false;
         GetComponent<Button>().enabled = false;
         image.sprite = FindObjectOfType<MapSquareImageHolder>().GetButtonImageByName("none", false);
+    }
+
+    public void OpenHackMenuClick()
+    {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
+        OpenHackMenu();
     }
 
     public void OpenHackMenu()

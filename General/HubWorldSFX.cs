@@ -13,9 +13,10 @@ public class HubWorldSFX : MonoBehaviour
     [SerializeField] List<AudioClip> equipItemSounds;
     [SerializeField] AudioClip buyItemSound;
     [SerializeField] AudioClip upgradeItemSound;
+    [SerializeField] AudioClip transitionToMissionSound;
 
     int soundsCurrentlyPlaying = 0;
-    public enum HubSoundeffect { StartButton, ButtonPress, Selecting, SelectingInventorySlot, EquipItem, BuyItem, UpgradeItem };
+    public enum HubSoundeffect { StartButton, ButtonPress, Selecting, SelectingInventorySlot, EquipItem, BuyItem, UpgradeItem, TransitionToMission };
 
     public void PlayHubSoundEffect(HubSoundeffect soundEffect)
     {
@@ -48,6 +49,9 @@ public class HubWorldSFX : MonoBehaviour
                 case HubSoundeffect.UpgradeItem:
                     PlaySound(upgradeItemSound);
                     break;
+                case HubSoundeffect.TransitionToMission:
+                    PlaySound(transitionToMissionSound);
+                    break;
             }
         }
     }
@@ -56,7 +60,6 @@ public class HubWorldSFX : MonoBehaviour
     {
         // By default, play without a loop
         SoundEffectObject newSound = Instantiate(soundEffectObject);
-        newSound.transform.SetParent(this.transform);
         soundsCurrentlyPlaying++;
         newSound.PlaySound(soundToPlay, loop, this);
     }

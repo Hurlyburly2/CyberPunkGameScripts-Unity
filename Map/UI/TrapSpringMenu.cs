@@ -14,9 +14,17 @@ public class TrapSpringMenu : MonoBehaviour
     bool goalAfterTrap = false;
     bool extractAfterTrap = false;
 
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
+
     public void OpenMenu(MapSquare newSquare, bool isGoalReady, bool isExtractionReady)
     {
         gameObject.SetActive(true);
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.Trap);
 
         currentSquare = newSquare;
         mapConfig = FindObjectOfType<MapConfig>();
@@ -47,6 +55,7 @@ public class TrapSpringMenu : MonoBehaviour
 
     public void OkButtonClicked()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         MapData mapData = FindObjectOfType<MapData>();
         if (currentSquare.GetIsGoal() && !mapData.GetHasGoalBeenReached())
         {

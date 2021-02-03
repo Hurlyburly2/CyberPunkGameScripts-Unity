@@ -9,6 +9,11 @@ public class MapSoundEffectObject : MonoBehaviour
     bool startedPlaying;
     MapSFX parent;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(transform.gameObject);
+    }
+
     public void PlaySound(AudioClip audioClip, bool loop, MapSFX newParent)
     {
         parent = newParent;

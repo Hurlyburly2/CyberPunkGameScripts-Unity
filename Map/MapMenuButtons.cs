@@ -28,6 +28,7 @@ public class MapMenuButtons : MonoBehaviour
         int enemiesDefeated = mapData.GetDefeatedEnemyCount();
         int hacksCompleted = mapData.GetCompletedHackCount();
 
+        mainMenu.SetActive(false);
         FindObjectOfType<SceneLoader>().LoadHubFromAbandonedMap(job, creditsEarned, goalModifier, enemiesDefeated, hacksCompleted);
     }
 

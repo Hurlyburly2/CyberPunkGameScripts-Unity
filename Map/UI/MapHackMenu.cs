@@ -19,6 +19,13 @@ public class MapHackMenu : MonoBehaviour
     HackTarget hackTarget;
     MapSquare mapSquare;
 
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
+
     public void InitializeMapHackMenu(HackTarget newHackTarget)
     {
         mapSquare = currentNodeMenu.GetMapSquare();
@@ -84,8 +91,7 @@ public class MapHackMenu : MonoBehaviour
 
     public void StartHack()
     {
-        // TODO
-        // ADD THE HACK OBJECT HERE
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.TransitionToHack);
         FindObjectOfType<SceneLoader>().LoadHackFromMap(mapSquare, hackTarget);
 
         FindObjectOfType<CurrentNodeMenu>().gameObject.SetActive(false);
@@ -94,6 +100,7 @@ public class MapHackMenu : MonoBehaviour
 
     public void CloseMapMenu()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         CheckHackCosts();
         Debug.Log("is hack still active: " + hackTarget.GetIsActive());
         List<HackTarget> hackTargets = FindObjectOfType<CurrentNodeMenu>().GetMapSquare().GetHackTargets();

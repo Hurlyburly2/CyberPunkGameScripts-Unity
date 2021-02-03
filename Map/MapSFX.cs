@@ -7,9 +7,20 @@ public class MapSFX : MonoBehaviour
     [SerializeField] MapSoundEffectObject soundEffectObject;
 
     [SerializeField] List<AudioClip> buttonSounds;
+    [SerializeField] List<AudioClip> playerMove;
+    [SerializeField] AudioClip gainReward;
+    [SerializeField] AudioClip powerUp;
+    [SerializeField] AudioClip upgrade;
+    [SerializeField] AudioClip firstAid;
+    [SerializeField] AudioClip trap;
+    [SerializeField] List<AudioClip> doHack;
+    [SerializeField] AudioClip transitionToHack;
+    [SerializeField] AudioClip transitionToBattle;
+    [SerializeField] List<AudioClip> mapSquarePress;
 
     int soundsCurrentlyPlaying = 0;
-    public enum MapSoundEffect { ButtonPress };
+    public enum MapSoundEffect { ButtonPress, PlayerMove, GainReward, PowerUp, Upgrade,
+        FirstAid, Trap, DoHack, TransitionToHack, TransitionToBattle, MapSquarePress };
 
     public void PlayMapSoundSFX(MapSoundEffect soundEffect)
     {
@@ -21,6 +32,39 @@ public class MapSFX : MonoBehaviour
                     int randomIndex = Random.Range(0, buttonSounds.Count);
                     PlaySound(buttonSounds[randomIndex]);
                     break;
+                case MapSoundEffect.PlayerMove:
+                    randomIndex = Random.Range(0, playerMove.Count);
+                    PlaySound(playerMove[randomIndex]);
+                    break;
+                case MapSoundEffect.GainReward:
+                    PlaySound(gainReward);
+                    break;
+                case MapSoundEffect.PowerUp:
+                    PlaySound(powerUp);
+                    break;
+                case MapSoundEffect.Upgrade:
+                    PlaySound(upgrade);
+                    break;
+                case MapSoundEffect.FirstAid:
+                    PlaySound(firstAid);
+                    break;
+                case MapSoundEffect.Trap:
+                    PlaySound(trap);
+                    break;
+                case MapSoundEffect.DoHack:
+                    randomIndex = Random.Range(0, doHack.Count);
+                    PlaySound(doHack[randomIndex]);
+                    break;
+                case MapSoundEffect.TransitionToHack:
+                    PlaySound(transitionToHack);
+                    break;
+                case MapSoundEffect.TransitionToBattle:
+                    PlaySound(transitionToBattle);
+                    break;
+                case MapSoundEffect.MapSquarePress:
+                    randomIndex = Random.Range(0, mapSquarePress.Count);
+                    PlaySound(mapSquarePress[randomIndex]);
+                    break;
             }
         }
     }
@@ -29,7 +73,6 @@ public class MapSFX : MonoBehaviour
     {
         // By default, play without a loop
         MapSoundEffectObject newSound = Instantiate(soundEffectObject);
-        newSound.transform.SetParent(this.transform);
         soundsCurrentlyPlaying++;
         newSound.PlaySound(soundToPlay, loop, this);
     }

@@ -143,6 +143,7 @@ public class MapData : MonoBehaviour
 
     public void StartBattle(MapSquare currentSquare)
     {
+        FindObjectOfType<MapSFX>().PlayMapSoundSFX(MapSFX.MapSoundEffect.TransitionToBattle);
         FindObjectOfType<SceneLoader>().LoadBattleFromMap(currentSquare);
     }
 
