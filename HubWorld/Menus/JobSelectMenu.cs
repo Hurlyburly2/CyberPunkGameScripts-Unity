@@ -43,6 +43,7 @@ public class JobSelectMenu : MonoBehaviour
 
     public void LaunchMission()
     {
+        hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.ButtonPress);
         hubWorldSFX.PlayHubSoundEffect(HubWorldSFX.HubSoundeffect.TransitionToMission);
         SceneLoader sceneLoader = FindObjectOfType<SceneLoader>();
         Job selectedJob = GetSelectedJob();

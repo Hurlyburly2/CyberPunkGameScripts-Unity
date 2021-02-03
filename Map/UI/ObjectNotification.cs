@@ -13,6 +13,13 @@ public class ObjectNotification : MonoBehaviour
     MapConfig mapConfig;
     MapObject currentObject;
 
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
+
     public void OpenMenu(MapObject newObject)
     {
         gameObject.SetActive(true);
@@ -29,6 +36,7 @@ public class ObjectNotification : MonoBehaviour
 
     public void CloseMenu()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         MapSquare currentSquare = FindObjectOfType<CurrentNodeMenu>().GetMapSquare();
         FindObjectOfType<CurrentNodeMenu>().InitializeMenu(currentSquare);
 

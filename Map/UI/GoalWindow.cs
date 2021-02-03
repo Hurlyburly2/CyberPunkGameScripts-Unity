@@ -8,6 +8,13 @@ public class GoalWindow : MonoBehaviour
     [SerializeField] TextMeshProUGUI descriptionText;
     MapSquare currentSquare;
 
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
+
     public void OpenGoalWindow(MapSquare newSquare)
     {
         gameObject.SetActive(true);
@@ -23,6 +30,7 @@ public class GoalWindow : MonoBehaviour
 
     public void CloseGoalWindow()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);
         FindObjectOfType<MapData>().SetHasGoalBeenReached(true);
 

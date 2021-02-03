@@ -7,6 +7,13 @@ public class PreBossGoalWindow : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI textField;
 
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
+
     public void OpenPreBossGoalWindow(Job job)
     {
         gameObject.SetActive(true);
@@ -15,6 +22,7 @@ public class PreBossGoalWindow : MonoBehaviour
 
     public void ClosePreBossGoalWindow()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         gameObject.SetActive(false);
         FindObjectOfType<MapData>().StartBattleIfEnemyExists(FindObjectOfType<PlayerMarker>().GetCurrentSquare());
     }

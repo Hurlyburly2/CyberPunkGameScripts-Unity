@@ -7,6 +7,13 @@ public class PowerUpsMenu : MonoBehaviour
     List<PowerUp> powerUps;
     [SerializeField] PowerUpListControl powerUpListControl;
 
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
+
     public void SetupPowerUpsMenu()
     {
         powerUps = new List<PowerUp>();
@@ -16,6 +23,7 @@ public class PowerUpsMenu : MonoBehaviour
 
     public void ClosePowerUpsMenu()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);
         powerUpListControl.ClearList();
         gameObject.SetActive(false);

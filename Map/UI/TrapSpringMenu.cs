@@ -55,6 +55,7 @@ public class TrapSpringMenu : MonoBehaviour
 
     public void OkButtonClicked()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         MapData mapData = FindObjectOfType<MapData>();
         if (currentSquare.GetIsGoal() && !mapData.GetHasGoalBeenReached())
         {

@@ -7,6 +7,13 @@ public class MissionStartMenu : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI textField;
 
+    MapSFX mapSFX;
+
+    private void Awake()
+    {
+        mapSFX = FindObjectOfType<MapSFX>();
+    }
+
     public void SetupMissionStartMenu()
     {
         gameObject.SetActive(true);
@@ -16,6 +23,7 @@ public class MissionStartMenu : MonoBehaviour
 
     public void CloseMissionStartWindow()
     {
+        mapSFX.PlayMapSoundSFX(MapSFX.MapSoundEffect.ButtonPress);
         gameObject.SetActive(false);
         FindObjectOfType<MapConfig>().SetIsAMenuOpen(false);
     }

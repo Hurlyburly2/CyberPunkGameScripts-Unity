@@ -15,10 +15,12 @@ public class MapSFX : MonoBehaviour
     [SerializeField] AudioClip trap;
     [SerializeField] List<AudioClip> doHack;
     [SerializeField] AudioClip transitionToHack;
+    [SerializeField] AudioClip transitionToBattle;
+    [SerializeField] List<AudioClip> mapSquarePress;
 
     int soundsCurrentlyPlaying = 0;
     public enum MapSoundEffect { ButtonPress, PlayerMove, GainReward, PowerUp, Upgrade,
-        FirstAid, Trap, DoHack, TransitionToHack };
+        FirstAid, Trap, DoHack, TransitionToHack, TransitionToBattle, MapSquarePress };
 
     public void PlayMapSoundSFX(MapSoundEffect soundEffect)
     {
@@ -55,6 +57,13 @@ public class MapSFX : MonoBehaviour
                     break;
                 case MapSoundEffect.TransitionToHack:
                     PlaySound(transitionToHack);
+                    break;
+                case MapSoundEffect.TransitionToBattle:
+                    PlaySound(transitionToBattle);
+                    break;
+                case MapSoundEffect.MapSquarePress:
+                    randomIndex = Random.Range(0, mapSquarePress.Count);
+                    PlaySound(mapSquarePress[randomIndex]);
                     break;
             }
         }
