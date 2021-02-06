@@ -161,7 +161,7 @@ public class PlayerHand : MonoBehaviour
 
     public void DrawCard()
     {
-        battleSFX.PlayMapSoundSFX(BattleSFX.BattleSoundEffect.DrawCard);
+        battleSFX.PlayBattleSFX(BattleSFX.BattleSoundEffect.DrawCard);
         battleData.AddToDrawnCardCount(1);
         if (deck.GetCardCount() > 0)
         {

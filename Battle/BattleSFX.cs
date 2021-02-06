@@ -7,22 +7,80 @@ public class BattleSFX : MonoBehaviour
     [SerializeField] BattleSoundObject battleSoundObject;
 
     [SerializeField] List<AudioClip> drawCardSounds;
+    [SerializeField] List<AudioClip> buttonSounds;
+    [SerializeField] AudioClip punchNormal;
+    [SerializeField] List<AudioClip> playCardSounds;
+    [SerializeField] AudioClip wooshCyber;
+    [SerializeField] AudioClip powerUpBuff;
+    [SerializeField] AudioClip powerUpHeal;
+    [SerializeField] AudioClip weaknessOne;
+    [SerializeField] AudioClip powerUpUpgrade;
+    [SerializeField] AudioClip wooshFast;
+    [SerializeField] AudioClip hitBludgeon;
+    [SerializeField] AudioClip cyberOne;
+    [SerializeField] AudioClip cyberGlitch;
+    [SerializeField] AudioClip cyberTwo;
 
     int soundsCurrentlyPlaying = 0;
     public enum BattleSoundEffect
     {
-        DrawCard
+        None, DrawCard, ButtonSound, PunchNormal, PlayCard, WooshCyber, PowerUpBuff, PowerUpHeal,
+        WeaknessOne, PowerUpUpgrade, WooshFast, HitBludgeon, CyberOne, CyberGlitch, CyberTwo
     };
 
-    public void PlayMapSoundSFX(BattleSoundEffect soundEffect)
+    public void PlayBattleSFX(BattleSoundEffect soundEffect)
     {
         if (soundsCurrentlyPlaying < 15)
         {
             switch (soundEffect)
             {
+                case BattleSoundEffect.None:
+                    Debug.Log("Used for cards with no sound effect...");
+                    break;
+                case BattleSoundEffect.ButtonSound:
+                    int randomIndex = Random.Range(0, buttonSounds.Count);
+                    PlaySound(buttonSounds[randomIndex]);
+                    break;
+                case BattleSoundEffect.CyberOne:
+                    PlaySound(cyberOne);
+                    break;
+                case BattleSoundEffect.CyberTwo:
+                    PlaySound(cyberTwo);
+                    break;
+                case BattleSoundEffect.CyberGlitch:
+                    PlaySound(cyberGlitch);
+                    break;
                 case BattleSoundEffect.DrawCard:
-                    int randomIndex = Random.Range(0, drawCardSounds.Count);
+                    randomIndex = Random.Range(0, drawCardSounds.Count);
                     PlaySound(drawCardSounds[randomIndex]);
+                    break;
+                case BattleSoundEffect.HitBludgeon:
+                    PlaySound(hitBludgeon);
+                    break;
+                case BattleSoundEffect.PowerUpBuff:
+                    PlaySound(powerUpBuff);
+                    break;
+                case BattleSoundEffect.PowerUpHeal:
+                    PlaySound(powerUpHeal);
+                    break;
+                case BattleSoundEffect.PunchNormal:
+                    PlaySound(punchNormal);
+                    break;
+                case BattleSoundEffect.PlayCard:
+                    randomIndex = Random.Range(0, playCardSounds.Count);
+                    PlaySound(playCardSounds[randomIndex]);
+                    break;
+                case BattleSoundEffect.PowerUpUpgrade:
+                    PlaySound(powerUpUpgrade);
+                    break;
+                case BattleSoundEffect.WeaknessOne:
+                    PlaySound(weaknessOne);
+                    break;
+                case BattleSoundEffect.WooshCyber:
+                    PlaySound(wooshCyber);
+                    break;
+                case BattleSoundEffect.WooshFast:
+                    PlaySound(wooshFast);
                     break;
             }
         }
