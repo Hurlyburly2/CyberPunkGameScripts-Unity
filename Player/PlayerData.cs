@@ -488,6 +488,7 @@ public class PlayerData : MonoBehaviour
         }
 
         // General Player Data
+        playerLevel = saveObject.playerLevel;
         currentCredits = saveObject.playerCredits;
         generatedItemId = saveObject.currentItemId;
         saveSlot = saveObject.saveSlot;

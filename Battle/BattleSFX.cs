@@ -6,6 +6,7 @@ public class BattleSFX : MonoBehaviour
 {
     [SerializeField] BattleSoundObject battleSoundObject;
 
+    [SerializeField] AudioClip airHiss;
     [SerializeField] List<AudioClip> drawCardSounds;
     [SerializeField] List<AudioClip> buttonSounds;
     [SerializeField] AudioClip punchNormal;
@@ -20,12 +21,14 @@ public class BattleSFX : MonoBehaviour
     [SerializeField] AudioClip cyberOne;
     [SerializeField] AudioClip cyberGlitch;
     [SerializeField] AudioClip cyberTwo;
+    [SerializeField] AudioClip cyberThree;
 
     int soundsCurrentlyPlaying = 0;
     public enum BattleSoundEffect
     {
         None, DrawCard, ButtonSound, PunchNormal, PlayCard, WooshCyber, PowerUpBuff, PowerUpHeal,
-        WeaknessOne, PowerUpUpgrade, WooshFast, HitBludgeon, CyberOne, CyberGlitch, CyberTwo
+        WeaknessOne, PowerUpUpgrade, WooshFast, HitBludgeon, CyberOne, CyberGlitch, CyberTwo, CyberThree,
+        AirHiss
     };
 
     public void PlayBattleSFX(BattleSoundEffect soundEffect)
@@ -37,6 +40,9 @@ public class BattleSFX : MonoBehaviour
                 case BattleSoundEffect.None:
                     Debug.Log("Used for cards with no sound effect...");
                     break;
+                case BattleSoundEffect.AirHiss:
+                    PlaySound(airHiss);
+                    break;
                 case BattleSoundEffect.ButtonSound:
                     int randomIndex = Random.Range(0, buttonSounds.Count);
                     PlaySound(buttonSounds[randomIndex]);
@@ -46,6 +52,9 @@ public class BattleSFX : MonoBehaviour
                     break;
                 case BattleSoundEffect.CyberTwo:
                     PlaySound(cyberTwo);
+                    break;
+                case BattleSoundEffect.CyberThree:
+                    PlaySound(cyberThree);
                     break;
                 case BattleSoundEffect.CyberGlitch:
                     PlaySound(cyberGlitch);

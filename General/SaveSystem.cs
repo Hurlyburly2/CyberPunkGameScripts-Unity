@@ -215,6 +215,7 @@ public static class SaveSystem
 
         SaveObject saveObject = new SaveObject
         {
+            playerLevel = playerData.GetPlayerLevel(),
             playerCredits = playerData.GetCreditsAmount(),
             currentRunner = playerData.GetCurrentRunner().GetRunnerId(),
             currentHacker = playerData.GetCurrentHacker().GetHackerId(),
@@ -322,6 +323,7 @@ public class SaveHacker
 
 public class SaveObject
 {
+    public int playerLevel;
     public int playerCredits;
     public int currentRunner;
     public int currentHacker;
