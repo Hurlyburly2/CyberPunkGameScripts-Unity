@@ -294,7 +294,7 @@ public class SceneLoader : MonoBehaviour
     public void LoadHubFromCompletedMap(Job job, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted)
     {
         // TODO: THIS
-        //SceneManager.LoadScene(hubSceneName);
+        //SceneManager.LoadScene(hubSceneName);        
         Transitioner.Instance.TransitionToScene(hubSceneName);
         StartCoroutine(WaitForHubToLoadFromMap(job, creditsEarned, goalModifier, enemiesDefeated, hacksCompleted));
     }
@@ -318,6 +318,7 @@ public class SceneLoader : MonoBehaviour
 
     private void ReturnToHubWorld(Job job, int creditsEarned, int goalModifier, int enemiesDefeated, int hacksCompleted, bool victory)
     {
+        FindObjectOfType<PlayerData>().SavePlayer();
         musicPlayer.ChangeTrack(Job.JobArea.HomeBase);
 
         Destroy(FindObjectOfType<MapGrid>().gameObject);
