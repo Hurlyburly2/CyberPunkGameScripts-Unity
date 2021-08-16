@@ -90,6 +90,7 @@ public static class SavePrefs
                 PlayerPrefs.SetInt(SAVE_SLOT_3_CURRENTHACKER_ID, currentHackerId);
                 break;
         }
+        PlayerPrefs.Save();
     }
 
     public static void DeleteSavePrefsForSaveSlot(int saveSlot)

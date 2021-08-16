@@ -27,6 +27,13 @@ public class PlayerHand : MonoBehaviour
     Discard discard;
     CharacterData character;
 
+    BattleSFX battleSFX;
+
+    private void Awake()
+    {
+        battleSFX = FindObjectOfType<BattleSFX>();
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -154,6 +161,7 @@ public class PlayerHand : MonoBehaviour
 
     public void DrawCard()
     {
+        battleSFX.PlayBattleSFX(BattleSFX.BattleSoundEffect.DrawCard);
         battleData.AddToDrawnCardCount(1);
         if (deck.GetCardCount() > 0)
         {

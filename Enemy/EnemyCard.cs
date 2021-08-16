@@ -14,7 +14,8 @@ public class EnemyCard : MonoBehaviour
 
     public enum EnemyCardKeyword { Bio, Tech, Mech, Cyber, Virus };
     [SerializeField] List<EnemyCardKeyword> enemyCardKeywords;
-
+    [SerializeField] AudioClip soundEffect;
+        
     Sprite cardImage;
     SpriteRenderer cardBackImage;
     StatusEffectHolder playerCurrentStatusEffects;

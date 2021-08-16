@@ -24,6 +24,8 @@ public class Card : MonoBehaviour
     [SerializeField] SpriteRenderer rightCircuit;
     [SerializeField] SpriteRenderer bottomCircuit;
 
+    [SerializeField] BattleSFX.BattleSoundEffect soundEffectType;
+
     float xPos;
     float yPos;
     float zPos;
@@ -44,9 +46,11 @@ public class Card : MonoBehaviour
         // tracks if the player or enemy is using the card, used for status effects
 
     bool destroyOnPlay = false;
-        // Destroy this card when it's played, preventing it from entering discard
-        // Temporary cards can be permanently destroyed with a call to battledata, which
-        // will inform the map of removal when the battle is over
+    // Destroy this card when it's played, preventing it from entering discard
+    // Temporary cards can be permanently destroyed with a call to battledata, which
+    // will inform the map of removal when the battle is over
+
+    BattleSFX battleSFX;
 
     // Start is called before the first frame update
     void Awake()
@@ -56,6 +60,7 @@ public class Card : MonoBehaviour
         configData = FindObjectOfType<ConfigData>();
         battleData = FindObjectOfType<BattleData>();
         playerHand = FindObjectOfType<PlayerHand>();
+        battleSFX = FindObjectOfType<BattleSFX>();
         discard = FindObjectOfType<Discard>();
         deck = FindObjectOfType<Deck>();
         playerCurrentStatusEffects = configData.GetPlayerStatusEffects();
@@ -184,6 +189,9 @@ public class Card : MonoBehaviour
             battleData.SetPlayedStance();
 
         CheckPlayCardEffects(); // For example, powerups
+
+        battleSFX.PlayBattleSFX(BattleSFX.BattleSoundEffect.PlayCard);
+        battleSFX.PlayBattleSFX(soundEffectType);
 
         bool furtherAction = PlayCardActions();
         if (!destroyOnPlay)

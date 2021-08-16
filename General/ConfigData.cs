@@ -148,6 +148,7 @@ public class ConfigData : MonoBehaviour
 
     public void EndTurn()
     {
+        FindObjectOfType<BattleSFX>().PlayBattleSFX(BattleSFX.BattleSoundEffect.ButtonSound);
         BattleData battleData = FindObjectOfType<BattleData>();
         if (battleData)
         {
